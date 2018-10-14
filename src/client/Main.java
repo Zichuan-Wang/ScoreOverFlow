@@ -1,7 +1,4 @@
-/*
- @author: Cindy L
- @Version: 2018_10_14_10
- */
+package client;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
@@ -19,6 +16,7 @@ import javax.swing.JLabel;
 public class Main extends JFrame {
 
 	private JPanel contentPane;
+	private JButton btnSubmit;
 
 	/**
 	 * Create the frame.
@@ -57,7 +55,7 @@ public class Main extends JFrame {
 		List list_out = new List();
 		scrollPane_4.setViewportView(list_out);
 		
-		JButton btnSubmit = new JButton("Submit");
+		btnSubmit = new JButton("Submit");
 		btnSubmit.setBounds(281, 275, 128, 29);
 		contentPane.add(btnSubmit);
 		
@@ -73,7 +71,7 @@ public class Main extends JFrame {
 		listenButton(btnSubmit);
     }
 	
-	private void listenButton(JButton button){
+	private void listenButton(JButton button) {
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -82,23 +80,21 @@ public class Main extends JFrame {
 		});
 	}
 	
+	public JButton getSubmitButton() {
+		return this.btnSubmit;
+	}
+	
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] ar)
-	{
-		EventQueue.invokeLater(new Runnable() 
-		{
-			public void run() 
-			{
-				try 
-				{
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
 					Main frame = new Main();
 					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
