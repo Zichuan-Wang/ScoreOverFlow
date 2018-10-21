@@ -9,8 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JSplitPane;
 
-import dao.UserDAO;
-
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -24,10 +22,7 @@ public class Main extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Main() {
-		
-		System.out.print(new UserDAO().findUserByUNI("xl2738").getPassword());
-		
+	public Main() {		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
