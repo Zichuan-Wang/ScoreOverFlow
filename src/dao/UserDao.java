@@ -7,12 +7,12 @@ import javax.persistence.Query;
 
 import entity.User;
 
-public class UserDAO {
+public class UserDao {
 	
 	private EntityManager manager;
 	
-	public UserDAO() {
-		manager = DAOUtils.factory.createEntityManager();
+	public UserDao() {
+		manager = DaoUtils.factory.createEntityManager();
 	}
 	
 	/*
