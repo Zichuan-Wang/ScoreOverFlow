@@ -40,47 +40,53 @@ public class Reservation {
 		return id;
 	}
 
-	public void setId(int id) {
+	public Reservation setId(int id) {
 		this.id = id;
+		return this;
 	}
 
 	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public Reservation setUserId(int userId) {
 		this.userId = userId;
+		return this;
 	}
 	
 	public Time getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Time startTime) {
+	public Reservation setStartTime(Time startTime) {
 		this.startTime = startTime;
+		return this;
 	}
 	
 	public Time getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Time endTime) {
+	public Reservation setEndTime(Time endTime) {
 		this.endTime = endTime;
+		return this;
 	}
 	
 	public Timestamp getCreated() {
 		return created;
 	}
 
-	public void setCreated(Timestamp created) {
+	public Reservation setCreated(Timestamp created) {
 		this.created = created;
+		return this;
 	}
 	
 	public Timestamp getModified() {
 		return modified;
 	}
 
-	public void setModified(Timestamp modified) {
+	public Reservation setModified(Timestamp modified) {
 		this.modified = modified;
+		return this;
 	}
 }

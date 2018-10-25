@@ -25,23 +25,26 @@ public class Room {
 		return id;
 	}
 
-	public void setId(int id) {
+	public Room setId(int id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public Room setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	public int getCapacity() {
 		return capacity;
 	}
 
-	public void setCapacity(int capacity) {
+	public Room setCapacity(int capacity) {
 		this.capacity = capacity;
+		return this;
 	}
 }
