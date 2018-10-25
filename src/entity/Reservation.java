@@ -54,6 +54,15 @@ public class Reservation {
 		return this;
 	}
 	
+	public Date getEventDate() {
+		return eventDate;
+	}
+
+	public Reservation setEventDate(Date eventDate) {
+		this.eventDate = eventDate;
+		return this;
+	}
+	
 	public Time getStartTime() {
 		return startTime;
 	}
