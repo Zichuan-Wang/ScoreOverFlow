@@ -16,9 +16,9 @@ public class UserDao {
 	}
 	
 	/*
-	 * Find the user by uni, return null if not found
+	 * Find the user by UNI, return null if not found
 	 */
-	public User findUserByUNI(String uni) {
+	public User findUserByUni(String uni) {
 		Query query = manager.createQuery("SELECT u FROM User u WHERE u.uni = :uni").setParameter("uni", uni);
 		try {
 			return (User) query.getSingleResult();
