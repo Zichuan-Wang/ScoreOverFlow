@@ -6,13 +6,20 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import entity.User;
+import exception.DBConnectionException;
 
 public class UserDAO {
 	
 	private EntityManager manager;
 	
-	public UserDAO() {
-		manager = DAOUtils.factory.createEntityManager();
+	public UserDAO() throws DBConnectionException {
+		try {
+			manager = DAOUtils.factory.createEntityManager();
+		} catch (Exception exception) {
+			// Unable to connect to database, e.g., due to 
+			// network issue
+			throw new DBConnectionException();
+		}
 	}
 	
 	/*
