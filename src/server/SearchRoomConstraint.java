@@ -3,14 +3,14 @@ package server;
 import java.sql.Date;
 import java.sql.Time;
 
-public class SearchConstraint {
+public class SearchRoomConstraint {
 	Date eventDate;
 	Time startTime;
 	Time endTime;
 	String roomName;
 	int capacity;
 	
-	public SearchConstraint() {
+	public SearchRoomConstraint() {
 		this.eventDate = new Date(0);
 		this.startTime = new Time(0);
 		this.endTime = new Time(0);
@@ -22,7 +22,7 @@ public class SearchConstraint {
 		return eventDate;
 	}
 	
-	public SearchConstraint setEventDate(Date eventDate) {
+	public SearchRoomConstraint setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
 		return this;
 	}
@@ -31,7 +31,7 @@ public class SearchConstraint {
 		return startTime;
 	}
 	
-	public SearchConstraint setStartTime(Time startTime) {
+	public SearchRoomConstraint setStartTime(Time startTime) {
 		this.startTime = startTime;
 		return this;
 	}
@@ -40,7 +40,7 @@ public class SearchConstraint {
 		return endTime;
 	}
 	
-	public SearchConstraint setEndTime(Time endTime) {
+	public SearchRoomConstraint setEndTime(Time endTime) {
 		this.endTime = endTime;
 		return this;
 	}
@@ -49,7 +49,7 @@ public class SearchConstraint {
 		return this.roomName;
 	}
 	
-	public SearchConstraint setRoomName(String roomName) {
+	public SearchRoomConstraint setRoomName(String roomName) {
 		this.roomName = roomName;
 		return this;
 	}
@@ -58,7 +58,7 @@ public class SearchConstraint {
 		return this.capacity;
 	}
 	
-	public SearchConstraint setCapacity(int capacity) {
+	public SearchRoomConstraint setCapacity(int capacity) {
 		this.capacity = capacity;
 		return this;
 	}

@@ -1,7 +1,7 @@
 package test;
 
 import org.junit.jupiter.api.Test;
-import server.SearchConstraint;
+import server.SearchRoomConstraint;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.sql.Date;
 import java.sql.Time;
 
-public class SearchConstraintTest {
+public class SearchRoomConstraintTest {
 	private static final Date DEFAULT_EVENT_DATE = new Date(1234567);
 	private static final Time DEFAULT_START_TIME = new Time(12345);
 	private static final Time DEFAULT_END_TIME = new Time(54321);
@@ -18,7 +18,7 @@ public class SearchConstraintTest {
 	
 	@Test
 	public void createAndChangeSearchConstraint() {
-		SearchConstraint constraint = new SearchConstraint();
+		SearchRoomConstraint constraint = new SearchRoomConstraint();
 		assertNotNull(constraint);
 		
 		constraint.setCapacity(DEFAULT_CAPACITY)
