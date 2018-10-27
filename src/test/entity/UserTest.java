@@ -6,6 +6,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.eq;
 import org.mockito.stubbing.Answer;
 
 import dao.UserDao;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 //The JUnit tests for User
 public class UserTest {
@@ -59,9 +61,15 @@ public class UserTest {
 	
 		EntityManager manager = mock(EntityManager.class);
 		EntityTransaction transaction = mock(EntityTransaction.class);
+		Query query = mock(Query.class);
 		
 		when(manager.getTransaction()).thenReturn(transaction);
 		when(manager.find(User.class, DEFAULT_ID)).thenReturn(user);
+		when(manager.createQuery(any(String.class))).thenReturn(query);
+		when(query.setParameter(any(String.class), eq(DEFAULT_UNI))).thenReturn(query);
+		when(query.setParameter(any(String.class), eq(DEFAULT_EMAIL))).thenReturn(query);
+		when(query.getSingleResult()).thenReturn(user);
+		
 		doAnswer(new Answer<User>() {
             public User answer(InvocationOnMock invocation) {
                 User user = invocation.getArgument(0);
@@ -76,8 +84,11 @@ public class UserTest {
 		dao.remove(newUser);
 		
 		assertEquals(user, dao.findById(DEFAULT_ID));
+		assertEquals(user, dao.findUserByUni(DEFAULT_UNI));
+		assertEquals(user, dao.findUserByEmail(DEFAULT_EMAIL));
 		assertEquals(newUser.getId(), NEW_ID);
+		verify(query, times(1)).setParameter(any(String.class), eq(DEFAULT_UNI));
+		verify(query, times(1)).setParameter(any(String.class), eq(DEFAULT_EMAIL));
 		verify(manager, times(1)).remove(newUser);
-		
 	}
 }
