@@ -1,10 +1,10 @@
-package main.dao;
+package dao;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import main.entity.User;
-import main.exception.DBConnectionException;
+import entity.User;
+import exception.DBConnectionException;
 
 public class UserDao extends BaseDao<User>{
 	

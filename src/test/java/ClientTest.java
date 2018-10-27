@@ -1,10 +1,10 @@
-package test.java;
+package java;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
-import main.client.Main;
+import client.Main;
 
 import javax.swing.JButton;
 

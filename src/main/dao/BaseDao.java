@@ -1,10 +1,10 @@
-package main.dao;
+package dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 
-import main.exception.DBConnectionException;
+import exception.DBConnectionException;
 
 public abstract class BaseDao<T> {
 

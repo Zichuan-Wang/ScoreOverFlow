@@ -1,14 +1,16 @@
-package test.java;
+package java;
 
-import org.mockito.Mockito.*;
+import static org.mockito.Mockito.*;
 
-import main.entity.User;
+import entity.User;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 //The JUnit tests for User
 public class UserTest {
@@ -18,6 +20,12 @@ public class UserTest {
 	private static final String DEFAULT_UNI = "x";
 	private static final boolean DEFAULT_ADMIN = true;
 	private static final int DEFAULT_USER_GROUP = 0;
+	
+	@Mock
+	private EntityManager entityManager;
+	
+	@Mock
+    private EntityTransaction transaction;
 	
 	@Test
 	public void createAndUpdateUser() {
@@ -37,18 +45,17 @@ public class UserTest {
 	}
 	
 	@Test
-    public void happyPathScenario(){
-        User user = new User();
-        user.setId(DEFAULT_ID)
-	    	.setEmail(DEFAULT_EMAIL)
-	    	.setPassword(DEFAULT_PASSWORD)
-	    	.setUni(DEFAULT_UNI)
-	    	.setIsAdmin(DEFAULT_ADMIN)
-	    	.setUserGroup(DEFAULT_USER_GROUP);
-    }
-
-	private EntityManager mock(Class<EntityManager> class1) {
-		// TODO Auto-generated method stub
-		return null;
+	public void userDatabaseTest() {
+		User user = new User();
+		user.setId(DEFAULT_ID)
+		    .setEmail(DEFAULT_EMAIL)
+		    .setPassword(DEFAULT_PASSWORD)
+		    .setUni(DEFAULT_UNI)
+		    .setIsAdmin(DEFAULT_ADMIN)
+		    .setUserGroup(DEFAULT_USER_GROUP);
+		
+		when(entityManager.getTransaction()).thenReturn(transaction);
+		when(entityManager.find(User.class, 1L)).thenReturn(user);
+		
 	}
 }

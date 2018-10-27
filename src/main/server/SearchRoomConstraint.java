@@ -1,4 +1,4 @@
-package main.server;
+package server;
 
 import java.sql.Date;
 import java.sql.Time;

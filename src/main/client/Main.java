@@ -1,4 +1,4 @@
-package main.client;
+package client;
 
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;

@@ -1,8 +1,8 @@
-package test.java;
+package java;
 
 import org.junit.jupiter.api.Test;
 
-import main.entity.Reservation;
+import entity.Reservation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

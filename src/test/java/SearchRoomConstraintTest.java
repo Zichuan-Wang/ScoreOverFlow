@@ -1,8 +1,8 @@
-package test.java;
+package java;
 
 import org.junit.jupiter.api.Test;
 
-import main.server.SearchRoomConstraint;
+import server.SearchRoomConstraint;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

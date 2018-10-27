@@ -1,7 +1,7 @@
-package main.dao;
+package dao;
 
-import main.entity.Reservation;
-import main.exception.DBConnectionException;
+import entity.Reservation;
+import exception.DBConnectionException;
 
 public class ReservationDao extends BaseDao<Reservation> {
 	

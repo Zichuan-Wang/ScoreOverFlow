@@ -1,10 +1,10 @@
-package main.dao;
+package dao;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import main.entity.Room;
-import main.exception.DBConnectionException;
+import entity.Room;
+import exception.DBConnectionException;
 
 public class RoomDao extends BaseDao<Room> {
 	
