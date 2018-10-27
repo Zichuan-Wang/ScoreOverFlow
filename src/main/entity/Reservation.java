@@ -20,6 +20,9 @@ public class Reservation {
 	@Column(name = "user_id")
 	private int userId;
 	
+	@Column(name = "room_id")
+	private int roomId;
+	
 	@Column(name = "event_date")
 	private Date eventDate;
 	
@@ -51,6 +54,15 @@ public class Reservation {
 
 	public Reservation setUserId(int userId) {
 		this.userId = userId;
+		return this;
+	}
+	
+	public int getRoomId() {
+		return roomId;
+	}
+
+	public Reservation setRoomId(int roomId) {
+		this.roomId = roomId;
 		return this;
 	}
 	
