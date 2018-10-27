@@ -1,14 +1,15 @@
-package test;
+package test.java;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+
+import main.client.Main;
+
 import javax.swing.JButton;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import client.Main;
 
 // The JUnit tests for GUI
 public class ClientTest {

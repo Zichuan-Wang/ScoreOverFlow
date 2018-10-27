@@ -1,18 +1,20 @@
-package dao;
+package main.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 
-import exception.DBConnectionException;
+import main.exception.DBConnectionException;
 
 public abstract class BaseDao<T> {
 
+	@PersistenceContext
 	protected EntityManager manager;
+	
 	protected final Class<T> paramClass;
 	
 	public BaseDao(Class<T> paramClass) throws DBConnectionException {
 		this.paramClass = paramClass;
-		manager = DaoUtils.factory.createEntityManager();
 	}
 	
 	public T findById(int id) {

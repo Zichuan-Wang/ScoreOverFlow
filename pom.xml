@@ -4,7 +4,8 @@
   <artifactId>ScoreOverFlow</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <build>
-    <sourceDirectory>src</sourceDirectory>
+    <sourceDirectory>src/main</sourceDirectory>
+    <testSourceDirectory>src/test</testSourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -14,6 +15,11 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.22.1</version>
+        </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -34,5 +40,31 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.27</version>
         </dependency>
-    </dependencies>
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-engine</artifactId>
+		    <version>5.1.0</version>
+		    <scope>test</scope>
+		</dependency>
+
+        <dependency>
+    		<groupId>org.mockito</groupId>
+    		<artifactId>mockito-core</artifactId>
+    		<version>2.7.22</version>
+		</dependency>
+  </dependencies>
 </project>

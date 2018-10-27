@@ -1,9 +1,14 @@
-package test;
+package test.java;
+
+import org.mockito.Mockito.*;
+
+import main.entity.User;
 
 import org.junit.jupiter.api.Test;
-import entity.User;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import javax.persistence.EntityManager;
 
 //The JUnit tests for User
 public class UserTest {
@@ -29,5 +34,21 @@ public class UserTest {
 		assertEquals(user.getUni(), DEFAULT_UNI);
 		assertEquals(user.getIsAdmin(), DEFAULT_ADMIN);
 		assertEquals(user.getUserGroup(), DEFAULT_USER_GROUP);
+	}
+	
+	@Test
+    public void happyPathScenario(){
+        User user = new User();
+        user.setId(DEFAULT_ID)
+	    	.setEmail(DEFAULT_EMAIL)
+	    	.setPassword(DEFAULT_PASSWORD)
+	    	.setUni(DEFAULT_UNI)
+	    	.setIsAdmin(DEFAULT_ADMIN)
+	    	.setUserGroup(DEFAULT_USER_GROUP);
+    }
+
+	private EntityManager mock(Class<EntityManager> class1) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
