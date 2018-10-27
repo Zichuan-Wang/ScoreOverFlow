@@ -1,4 +1,4 @@
-package java;
+package entity;
 
 import static org.mockito.Mockito.*;
 
