@@ -32,47 +32,53 @@ public class User {
 		return id;
 	}
 
-	public void setId(int id) {
+	public User setId(int id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getUni() {
 		return uni;
 	}
 
-	public void setUni(String uni) {
+	public User setUni(String uni) {
 		this.uni = uni;
+		return this;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public User setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 
-	public boolean isAdmin() {
+	public boolean getIsAdmin() {
 		return isAdmin;
 	}
 
-	public void setAdmin(boolean isAdmin) {
+	public User setIsAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+		return this;
 	}
 
 	public int getUserGroup() {
 		return userGroup;
 	}
 
-	public void setUserGroup(int userGroup) {
+	public User setUserGroup(int userGroup) {
 		this.userGroup = userGroup;
+		return this;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public User setEmail(String email) {
 		this.email = email;
+		return this;
 	}
 }

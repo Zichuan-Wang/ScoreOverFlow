@@ -7,9 +7,13 @@ public class DAOTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		UserDAO dao = new UserDAO();
-		User user = dao.findUserByUNI("hx2209");
-		System.out.print(user.getEmail());
+		try {
+			UserDAO dao = new UserDAO();
+			User user = dao.findUserByUni("hx2209");
+			System.out.print(user.getEmail());
+		} catch (Exception exception) {
+			
+		}
 	}
 
 }
