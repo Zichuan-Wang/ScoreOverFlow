@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import entity.Room;
 import exception.DBConnectionException;
@@ -27,22 +28,35 @@ public class RoomDao extends BaseDao<Room> {
 		}
 	}
 	
+	/**
+	 * Search the rooms by the constraint criteria provided. The result
+	 * contains rooms that
+	 * 	1. Contains the room name string in its name
+	 * 	2. Have larger capacity than the constraint
+	 * 	3. Does not have an existing reservation that overlaps with the
+	 * 		requested interval 
+	 * 
+	 * @param constraint
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Room> searchRooms(SearchRoomConstraint constraint) {
+		System.out.println(constraint.getEventDate());
 		Query query = manager.createQuery(
 			"SELECT u FROM Room u " +
-			"INNER JOIN Reservation r " +
-			"ON r.roomId = u.id " +
-			"WHERE u.name = :name " +
-			"AND u.capacity >= :capacity" +
-			"AND (r.eventDate != :eventDate" + 
-			"OR r.startTime > :endTime" +
-			"OR r.endTime < :startTime)")
-			.setParameter("name", constraint.getRoomName())
+			"WHERE (u.name LIKE :name) " +
+			"AND (u.capacity >= :capacity) " +
+			"AND NOT EXISTS " +
+			"(SELECT r FROM Reservation r " +
+			"WHERE r.roomId = u.id " +
+			"AND r.eventDate = :eventDate " + 
+			"AND r.startTime < :endTime " +
+			"AND r.endTime > :startTime)")
+			.setParameter("name", "%" + constraint.getRoomName() + "%")
 			.setParameter("capacity", constraint.getCapacity())
-			.setParameter("eventDate", constraint.getEventDate())
-			.setParameter("startTime", constraint.getStartTime())
-			.setParameter("endTime", constraint.getEndTime());
+			.setParameter("eventDate", constraint.getEventDate(), TemporalType.DATE)
+			.setParameter("startTime", constraint.getStartTime(), TemporalType.TIME)
+			.setParameter("endTime", constraint.getEndTime(), TemporalType.TIME);
 		return query.getResultList();
 				
 	}
