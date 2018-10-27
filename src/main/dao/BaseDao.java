@@ -13,6 +13,10 @@ public abstract class BaseDao<T> {
 	
 	protected final Class<T> paramClass;
 	
+	public void setEntityManager(EntityManager manager) {
+		this.manager = manager;
+	}
+	
 	public BaseDao(Class<T> paramClass) throws DBConnectionException {
 		this.paramClass = paramClass;
 	}
