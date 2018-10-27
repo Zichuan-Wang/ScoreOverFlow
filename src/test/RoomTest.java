@@ -12,7 +12,7 @@ public class RoomTest {
 	private static final int DEFAULT_CAPACITY = 15;
 	
 	@Test
-	public void createAndUpdateUser() {
+	public void createAndUpdateRoom() {
 		Room room = new Room();
 		room.setId(DEFAULT_ID).setName(DEFAULT_NAME).setCapacity(DEFAULT_CAPACITY);
 		

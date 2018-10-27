@@ -1,18 +1,15 @@
 package dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import entity.Room;
+import exception.DBConnectionException;
 
-public class RoomDao {
+public class RoomDao extends BaseDao<Room> {
 	
-	private EntityManager manager;
-	
-	public RoomDao() {
-		manager = DaoUtils.factory.createEntityManager();
+	public RoomDao() throws DBConnectionException {
+		super(Room.class);
 	}
 	
 	/*
@@ -25,28 +22,5 @@ public class RoomDao {
 		} catch (NoResultException exception) {
 			return null;
 		}
-	}
-	
-	/*
-	 * Save the room or update its fields, returns the managed entity
-	 */
-	public Room saveOrUpdateRoom(Room room) {
-		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
-		Room saved = manager.merge(room);
-		transaction.commit();
-		return saved;
-	}
-	
-	/*
-	 * Remove the room
-	 * 
-	 * @param room managed room entity 
-	 */
-	public void removeUser(Room room) {
-		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
-		manager.remove(room);
-		transaction.commit();
 	}
 }

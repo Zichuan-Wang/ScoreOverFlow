@@ -20,7 +20,7 @@ public class ReservationTest {
 	private static final Timestamp DEFAULT_MODIFIED = new Timestamp(321);
 	
 	@Test
-	public void createAndUpdateUser() {
+	public void createAndUpdateReservation() {
 		Reservation reservation = new Reservation();
 		reservation.setId(DEFAULT_ID)
 		    .setUserId(DEFAULT_USER_ID)
