@@ -18,7 +18,8 @@ public abstract class BaseDao<T> {
 	}
 	
 	public BaseDao(Class<T> paramClass) throws DBConnectionException {
-		this.paramClass = paramClass;
+		this.paramClass = paramClass;	
+		manager = DaoUtils.factory.createEntityManager();
 	}
 	
 	public T findById(int id) {
