@@ -1,20 +1,17 @@
 package dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import entity.User;
+import exception.DBConnectionException;
 
-public class UserDao {
+public class UserDao extends BaseDao<User>{
 	
-	private EntityManager manager;
-	
-	public UserDao() {
-		manager = DaoUtils.factory.createEntityManager();
+	public UserDao() throws DBConnectionException {
+		super(User.class);
 	}
-	
+
 	/*
 	 * Find the user by UNI, return null if not found
 	 */
@@ -37,28 +34,5 @@ public class UserDao {
 		} catch (NoResultException exception) {
 			return null;
 		}
-	}
-	
-	/*
-	 * Save the user or update its fields, returns the managed entity
-	 */
-	public User saveOrUpdateUser(User user) {
-		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
-		User saved = manager.merge(user);
-		transaction.commit();
-		return saved;
-	}
-	
-	/*
-	 * Remove the user
-	 * 
-	 * @param user managed user entity 
-	 */
-	public void removeUser(User user) {
-		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
-		manager.remove(user);
-		transaction.commit();
 	}
 }
