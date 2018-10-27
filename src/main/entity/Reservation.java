@@ -1,13 +1,13 @@
 package entity;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "reservation")
@@ -23,21 +23,26 @@ public class Reservation {
 	@Column(name = "room_id")
 	private int roomId;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "event_date")
 	private Date eventDate;
 	
+	@Temporal(TemporalType.TIME)
 	@Column(name = "start_time")
-	private Time startTime;
+	private Date startTime;
 	
+	@Temporal(TemporalType.TIME)
 	@Column(name = "end_time")
-	private Time endTime;
+	private Date endTime;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created")
-	private Timestamp created;
+	private Date created;
 	
 	// TODO: discuss the data type of modified
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modified")
-	private Timestamp modified;
+	private Date modified;
 
 	public int getId() {
 		return id;
@@ -75,38 +80,38 @@ public class Reservation {
 		return this;
 	}
 	
-	public Time getStartTime() {
+	public Date getStartTime() {
 		return startTime;
 	}
 
-	public Reservation setStartTime(Time startTime) {
+	public Reservation setStartTime(Date startTime) {
 		this.startTime = startTime;
 		return this;
 	}
 	
-	public Time getEndTime() {
+	public Date getEndTime() {
 		return endTime;
 	}
 
-	public Reservation setEndTime(Time endTime) {
+	public Reservation setEndTime(Date endTime) {
 		this.endTime = endTime;
 		return this;
 	}
 	
-	public Timestamp getCreated() {
+	public Date getCreated() {
 		return created;
 	}
 
-	public Reservation setCreated(Timestamp created) {
+	public Reservation setCreated(Date created) {
 		this.created = created;
 		return this;
 	}
 	
-	public Timestamp getModified() {
+	public Date getModified() {
 		return modified;
 	}
 
-	public Reservation setModified(Timestamp modified) {
+	public Reservation setModified(Date modified) {
 		this.modified = modified;
 		return this;
 	}

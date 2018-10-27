@@ -1,19 +1,18 @@
 package server.constraint;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
 
 public class SearchRoomConstraint {
 	Date eventDate;
-	Time startTime;
-	Time endTime;
+	Date startTime;
+	Date endTime;
 	String roomName;
 	int capacity;
 	
 	public SearchRoomConstraint() {
 		this.eventDate = new Date(0);
-		this.startTime = new Time(0);
-		this.endTime = new Time(0);
+		this.startTime = new Date(0);
+		this.endTime = new Date(0);
 		roomName = "";
 		this.capacity = 0;
 	}
@@ -27,20 +26,20 @@ public class SearchRoomConstraint {
 		return this;
 	}
 	
-	public Time getStartTime() {
+	public Date getStartTime() {
 		return startTime;
 	}
 	
-	public SearchRoomConstraint setStartTime(Time startTime) {
+	public SearchRoomConstraint setStartTime(Date startTime) {
 		this.startTime = startTime;
 		return this;
 	}
 	
-	public Time getEndTime() {
+	public Date getEndTime() {
 		return endTime;
 	}
 	
-	public SearchRoomConstraint setEndTime(Time endTime) {
+	public SearchRoomConstraint setEndTime(Date endTime) {
 		this.endTime = endTime;
 		return this;
 	}
