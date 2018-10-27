@@ -6,8 +6,8 @@ import org.mockito.stubbing.Answer;
 
 import dao.ReservationDao;
 import entity.Reservation;
-import testUtils.TestUtils;
 import exception.DBConnectionException;
+import utils.TestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,7 +48,7 @@ public class ReservationTest {
 		doAnswer(new Answer<Reservation>() {
             public Reservation answer(InvocationOnMock invocation) {
             	Reservation reservation = invocation.getArgument(0);
-            	reservation.setId(12321); // to be changed
+            	reservation.setId(TestUtils.NEW_RESERVATION_ID);
                 return reservation;
             }
         }).when(manager).merge(any(Reservation.class));
@@ -59,7 +59,7 @@ public class ReservationTest {
 		dao.remove(newReservation);
 		
 		assertEquals(reservation, dao.findById(TestUtils.DEFAULT_RESERVATION_ID));
-		assertEquals(newReservation.getId(), 12321);
+		assertEquals(newReservation.getId(), TestUtils.NEW_RESERVATION_ID);
 		verify(manager, times(1)).remove(newReservation);
 	}
 }

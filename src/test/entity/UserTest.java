@@ -11,8 +11,8 @@ import org.mockito.stubbing.Answer;
 
 import dao.UserDao;
 import entity.User;
-import testUtils.TestUtils;
 import exception.DBConnectionException;
+import utils.TestUtils;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -61,7 +61,7 @@ public class UserTest {
 		doAnswer(new Answer<User>() {
             public User answer(InvocationOnMock invocation) {
                 User user = invocation.getArgument(0);
-                user.setId(12321);
+                user.setId(TestUtils.NEW_USER_ID);
                 return user;
             }
         }).when(manager).merge(any(User.class));
@@ -74,7 +74,7 @@ public class UserTest {
 		assertEquals(user, dao.findById(TestUtils.DEFAULT_USER_ID));
 		assertEquals(user, dao.findUserByUni(TestUtils.DEFAULT_UNI));
 		assertEquals(user, dao.findUserByEmail(TestUtils.DEFAULT_EMAIL));
-		assertEquals(newUser.getId(), 12321);
+		assertEquals(newUser.getId(), TestUtils.NEW_USER_ID);
 		verify(query, times(1)).setParameter(any(String.class), eq(TestUtils.DEFAULT_UNI));
 		verify(query, times(1)).setParameter(any(String.class), eq(TestUtils.DEFAULT_EMAIL));
 		verify(manager, times(1)).remove(newUser);

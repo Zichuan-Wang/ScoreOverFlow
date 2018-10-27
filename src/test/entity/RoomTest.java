@@ -6,8 +6,8 @@ import org.mockito.stubbing.Answer;
 
 import dao.RoomDao;
 import entity.Room;
-import testUtils.TestUtils;
 import exception.DBConnectionException;
+import utils.TestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -50,7 +50,7 @@ public class RoomTest {
 		doAnswer(new Answer<Room>() {
             public Room answer(InvocationOnMock invocation) {
                 Room room = invocation.getArgument(0);
-                room.setId(12321);
+                room.setId(TestUtils.NEW_ROOM_ID);
                 return room;
             }
         }).when(manager).merge(any(Room.class));
@@ -62,7 +62,7 @@ public class RoomTest {
 		
 		assertEquals(room, dao.findById(TestUtils.DEFAULT_ROOM_ID));
 		assertEquals(room, dao.findRoomByName(TestUtils.DEFAULT_NAME));
-		assertEquals(newRoom.getId(), 12321);
+		assertEquals(newRoom.getId(), TestUtils.NEW_ROOM_ID);
 		verify(query, times(1)).setParameter(any(String.class), eq(TestUtils.DEFAULT_NAME));
 		verify(manager, times(1)).remove(newRoom);
 	}

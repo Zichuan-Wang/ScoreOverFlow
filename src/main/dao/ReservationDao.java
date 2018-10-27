@@ -7,7 +7,7 @@ import javax.persistence.Query;
 import entity.Reservation;
 
 import exception.DBConnectionException;
-import server.SearchReservationConstraint;
+import server.constraint.SearchReservationConstraint;
 
 public class ReservationDao extends BaseDao<Reservation> {
 	

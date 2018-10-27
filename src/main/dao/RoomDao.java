@@ -7,7 +7,7 @@ import javax.persistence.Query;
 
 import entity.Room;
 import exception.DBConnectionException;
-import server.SearchRoomConstraint;
+import server.constraint.SearchRoomConstraint;
 
 public class RoomDao extends BaseDao<Room> {
 	
