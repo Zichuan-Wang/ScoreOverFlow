@@ -1,21 +1,31 @@
 package entity;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.eq;
+import org.mockito.stubbing.Answer;
 
+import dao.UserDao;
 import entity.User;
 import testUtils.TestUtils;
+import exception.DBConnectionException;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 //The JUnit tests for User
 public class UserTest {
-
 	@Mock
 	private EntityManager entityManager;
 	
@@ -34,11 +44,39 @@ public class UserTest {
 	}
 	
 	@Test
-	public void userDatabaseTest() {
+	public void userDatabaseTest() throws DBConnectionException {
 		User user = TestUtils.getDefaultUser();
+	
+		EntityManager manager = mock(EntityManager.class);
+		EntityTransaction transaction = mock(EntityTransaction.class);
+		Query query = mock(Query.class);
 		
-		when(entityManager.getTransaction()).thenReturn(transaction);
-		when(entityManager.find(User.class, 1L)).thenReturn(user);
+		when(manager.getTransaction()).thenReturn(transaction);
+		when(manager.find(User.class, TestUtils.DEFAULT_USER_ID)).thenReturn(user);
+		when(manager.createQuery(any(String.class))).thenReturn(query);
+		when(query.setParameter(any(String.class), eq(TestUtils.DEFAULT_UNI))).thenReturn(query);
+		when(query.setParameter(any(String.class), eq(TestUtils.DEFAULT_EMAIL))).thenReturn(query);
+		when(query.getSingleResult()).thenReturn(user);
 		
+		doAnswer(new Answer<User>() {
+            public User answer(InvocationOnMock invocation) {
+                User user = invocation.getArgument(0);
+                user.setId(12321);
+                return user;
+            }
+        }).when(manager).merge(any(User.class));
+
+		UserDao dao = new UserDao();
+		dao.setEntityManager(manager);
+		User newUser = dao.saveOrUpdate(user);
+		dao.remove(newUser);
+		
+		assertEquals(user, dao.findById(TestUtils.DEFAULT_USER_ID));
+		assertEquals(user, dao.findUserByUni(TestUtils.DEFAULT_UNI));
+		assertEquals(user, dao.findUserByEmail(TestUtils.DEFAULT_EMAIL));
+		assertEquals(newUser.getId(), 12321);
+		verify(query, times(1)).setParameter(any(String.class), eq(TestUtils.DEFAULT_UNI));
+		verify(query, times(1)).setParameter(any(String.class), eq(TestUtils.DEFAULT_EMAIL));
+		verify(manager, times(1)).remove(newUser);
 	}
 }
