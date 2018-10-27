@@ -1,4 +1,4 @@
-package server;
+package server.constraint;
 
 import java.sql.Date;
 import java.sql.Time;

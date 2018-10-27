@@ -11,9 +11,11 @@ import org.mockito.stubbing.Answer;
 
 import dao.UserDao;
 import entity.User;
+import testUtils.TestUtils;
 import exception.DBConnectionException;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,71 +26,57 @@ import javax.persistence.Query;
 
 //The JUnit tests for User
 public class UserTest {
-	private static final int DEFAULT_ID = 1;
-	private static final int NEW_ID = 2;
-	private static final String DEFAULT_EMAIL = "x@columbia.edu";
-	private static final String DEFAULT_PASSWORD = "***";
-	private static final String DEFAULT_UNI = "x";
-	private static final boolean DEFAULT_ADMIN = true;
-	private static final int DEFAULT_USER_GROUP = 0;
+	@Mock
+	private EntityManager entityManager;
+	
+	@Mock
+    private EntityTransaction transaction;
 	
 	@Test
 	public void createAndUpdateUser() {
-		User user = new User();
-		user.setId(DEFAULT_ID)
-		    .setEmail(DEFAULT_EMAIL)
-		    .setPassword(DEFAULT_PASSWORD)
-		    .setUni(DEFAULT_UNI)
-		    .setIsAdmin(DEFAULT_ADMIN)
-		    .setUserGroup(DEFAULT_USER_GROUP);
+		User user = TestUtils.getDefaultUser();
 		
-		assertEquals(user.getId(), DEFAULT_ID);
-		assertEquals(user.getPassword(), DEFAULT_PASSWORD);
-		assertEquals(user.getUni(), DEFAULT_UNI);
-		assertEquals(user.getIsAdmin(), DEFAULT_ADMIN);
-		assertEquals(user.getUserGroup(), DEFAULT_USER_GROUP);
+		assertEquals(user.getId(), TestUtils.DEFAULT_USER_ID);
+		assertEquals(user.getPassword(), TestUtils.DEFAULT_PASSWORD);
+		assertEquals(user.getUni(), TestUtils.DEFAULT_UNI);
+		assertEquals(user.getIsAdmin(), TestUtils.DEFAULT_ADMIN);
+		assertEquals(user.getUserGroup(), TestUtils.DEFAULT_USER_GROUP);
 	}
 	
 	@Test
 	public void userDatabaseTest() throws DBConnectionException {
-		User user = new User();
-		user.setId(DEFAULT_ID)
-		    .setEmail(DEFAULT_EMAIL)
-		    .setPassword(DEFAULT_PASSWORD)
-		    .setUni(DEFAULT_UNI)
-		    .setIsAdmin(DEFAULT_ADMIN)
-		    .setUserGroup(DEFAULT_USER_GROUP);
+		User user = TestUtils.getDefaultUser();
 	
 		EntityManager manager = mock(EntityManager.class);
 		EntityTransaction transaction = mock(EntityTransaction.class);
 		Query query = mock(Query.class);
 		
 		when(manager.getTransaction()).thenReturn(transaction);
-		when(manager.find(User.class, DEFAULT_ID)).thenReturn(user);
+		when(manager.find(User.class, TestUtils.DEFAULT_USER_ID)).thenReturn(user);
 		when(manager.createQuery(any(String.class))).thenReturn(query);
-		when(query.setParameter(any(String.class), eq(DEFAULT_UNI))).thenReturn(query);
-		when(query.setParameter(any(String.class), eq(DEFAULT_EMAIL))).thenReturn(query);
+		when(query.setParameter(any(String.class), eq(TestUtils.DEFAULT_UNI))).thenReturn(query);
+		when(query.setParameter(any(String.class), eq(TestUtils.DEFAULT_EMAIL))).thenReturn(query);
 		when(query.getSingleResult()).thenReturn(user);
 		
 		doAnswer(new Answer<User>() {
             public User answer(InvocationOnMock invocation) {
                 User user = invocation.getArgument(0);
-                user.setId(NEW_ID);
+                user.setId(12321);
                 return user;
             }
         }).when(manager).merge(any(User.class));
-		
+
 		UserDao dao = new UserDao();
 		dao.setEntityManager(manager);
 		User newUser = dao.saveOrUpdate(user);
 		dao.remove(newUser);
 		
-		assertEquals(user, dao.findById(DEFAULT_ID));
-		assertEquals(user, dao.findUserByUni(DEFAULT_UNI));
-		assertEquals(user, dao.findUserByEmail(DEFAULT_EMAIL));
-		assertEquals(newUser.getId(), NEW_ID);
-		verify(query, times(1)).setParameter(any(String.class), eq(DEFAULT_UNI));
-		verify(query, times(1)).setParameter(any(String.class), eq(DEFAULT_EMAIL));
+		assertEquals(user, dao.findById(TestUtils.DEFAULT_USER_ID));
+		assertEquals(user, dao.findUserByUni(TestUtils.DEFAULT_UNI));
+		assertEquals(user, dao.findUserByEmail(TestUtils.DEFAULT_EMAIL));
+		assertEquals(newUser.getId(), 12321);
+		verify(query, times(1)).setParameter(any(String.class), eq(TestUtils.DEFAULT_UNI));
+		verify(query, times(1)).setParameter(any(String.class), eq(TestUtils.DEFAULT_EMAIL));
 		verify(manager, times(1)).remove(newUser);
 	}
 }

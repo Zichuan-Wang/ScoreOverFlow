@@ -1,4 +1,4 @@
-package server;
+package server.constraint;
 
 public class SearchReservationConstraint {
 	int userId;

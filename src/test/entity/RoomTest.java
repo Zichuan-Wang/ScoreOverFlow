@@ -6,6 +6,7 @@ import org.mockito.stubbing.Answer;
 
 import dao.RoomDao;
 import entity.Room;
+import testUtils.TestUtils;
 import exception.DBConnectionException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,40 +24,33 @@ import javax.persistence.Query;
 
 //The JUnit tests for Room
 public class RoomTest {
-	private static final int DEFAULT_ID = 1;
-	private static final int NEW_ID = 2;
-	private static final String DEFAULT_NAME = "Mudd 282";
-	private static final int DEFAULT_CAPACITY = 15;
-	
 	@Test
 	public void createAndUpdateRoom() {
-		Room room = new Room();
-		room.setId(DEFAULT_ID).setName(DEFAULT_NAME).setCapacity(DEFAULT_CAPACITY);
+		Room room = TestUtils.getDefaultRoom();
 		
-		assertEquals(room.getId(), DEFAULT_ID);
-		assertEquals(room.getName(), DEFAULT_NAME);
-		assertEquals(room.getCapacity(), DEFAULT_CAPACITY);
+		assertEquals(room.getId(), TestUtils.DEFAULT_ROOM_ID);
+		assertEquals(room.getName(), TestUtils.DEFAULT_NAME);
+		assertEquals(room.getCapacity(), TestUtils.DEFAULT_CAPACITY);
 	}
 	
 	@Test
 	public void roomDatabaseTest() throws DBConnectionException {
-		Room room = new Room();
-		room.setId(DEFAULT_ID).setName(DEFAULT_NAME).setCapacity(DEFAULT_CAPACITY);
+		Room room = TestUtils.getDefaultRoom();
 	
 		EntityManager manager = mock(EntityManager.class);
 		EntityTransaction transaction = mock(EntityTransaction.class);
 		Query query = mock(Query.class);
 		
 		when(manager.getTransaction()).thenReturn(transaction);
-		when(manager.find(Room.class, DEFAULT_ID)).thenReturn(room);
+		when(manager.find(Room.class, TestUtils.DEFAULT_ROOM_ID)).thenReturn(room);
 		when(manager.createQuery(any(String.class))).thenReturn(query);
-		when(query.setParameter(any(String.class), eq(DEFAULT_NAME))).thenReturn(query);
+		when(query.setParameter(any(String.class), eq(TestUtils.DEFAULT_NAME))).thenReturn(query);
 		when(query.getSingleResult()).thenReturn(room);
 		
 		doAnswer(new Answer<Room>() {
             public Room answer(InvocationOnMock invocation) {
                 Room room = invocation.getArgument(0);
-                room.setId(NEW_ID);
+                room.setId(12321);
                 return room;
             }
         }).when(manager).merge(any(Room.class));
@@ -66,10 +60,10 @@ public class RoomTest {
 		Room newRoom = dao.saveOrUpdate(room);
 		dao.remove(newRoom);
 		
-		assertEquals(room, dao.findById(DEFAULT_ID));
-		assertEquals(room, dao.findRoomByName(DEFAULT_NAME));
-		assertEquals(newRoom.getId(), NEW_ID);
-		verify(query, times(1)).setParameter(any(String.class), eq(DEFAULT_NAME));
+		assertEquals(room, dao.findById(TestUtils.DEFAULT_ROOM_ID));
+		assertEquals(room, dao.findRoomByName(TestUtils.DEFAULT_NAME));
+		assertEquals(newRoom.getId(), 12321);
+		verify(query, times(1)).setParameter(any(String.class), eq(TestUtils.DEFAULT_NAME));
 		verify(manager, times(1)).remove(newRoom);
 	}
 }

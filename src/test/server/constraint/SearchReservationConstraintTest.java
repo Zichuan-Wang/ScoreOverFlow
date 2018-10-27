@@ -1,8 +1,8 @@
-package server;
+package server.constraint;
 
 import org.junit.jupiter.api.Test;
 
-import server.SearchReservationConstraint;
+import server.constraint.SearchReservationConstraint;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
