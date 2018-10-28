@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import dao.factory.ReservationDaoFactory;
 import entity.Reservation;
 import exception.DBConnectionException;
 import utils.TestUtils;
@@ -38,7 +39,7 @@ public class ReservationDaoTest {
             }
         }).when(manager).merge(any(Reservation.class));
 		
-		ReservationDao dao = new ReservationDao();
+		ReservationDao dao = ReservationDaoFactory.getInstance();
 		dao.setEntityManager(manager);
 		Reservation newReservation = dao.saveOrUpdate(reservation);
 		dao.remove(newReservation);

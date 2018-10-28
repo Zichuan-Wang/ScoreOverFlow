@@ -7,7 +7,7 @@ public class RoomDaoFactory {
 
 	private static RoomDao dao;
 	
-	public RoomDao getInstance() throws DBConnectionException {
+	public static RoomDao getInstance() throws DBConnectionException {
 		if (dao == null) {
 			dao = new RoomDao();
 		}

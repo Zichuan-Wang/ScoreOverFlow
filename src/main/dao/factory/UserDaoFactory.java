@@ -7,7 +7,7 @@ public class UserDaoFactory {
 
 	private static UserDao dao;
 	
-	public UserDao getInstance() throws DBConnectionException {
+	public static UserDao getInstance() throws DBConnectionException {
 		if (dao == null) {
 			dao = new UserDao();
 		}

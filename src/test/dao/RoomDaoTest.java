@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import dao.factory.RoomDaoFactory;
 import entity.Room;
 import exception.DBConnectionException;
 import utils.TestUtils;
@@ -44,7 +45,7 @@ public class RoomDaoTest {
             }
         }).when(manager).merge(any(Room.class));
 		
-		RoomDao dao = new RoomDao();
+		RoomDao dao = RoomDaoFactory.getInstance();
 		dao.setEntityManager(manager);
 		Room newRoom = dao.saveOrUpdate(room);
 		dao.remove(newRoom);

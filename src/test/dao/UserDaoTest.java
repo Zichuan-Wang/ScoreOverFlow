@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import dao.factory.UserDaoFactory;
 import entity.User;
 import exception.DBConnectionException;
 import utils.TestUtils;
@@ -52,7 +53,7 @@ public class UserDaoTest {
             }
         }).when(manager).merge(any(User.class));
 
-		UserDao dao = new UserDao();
+		UserDao dao = UserDaoFactory.getInstance();
 		dao.setEntityManager(manager);
 		User newUser = dao.saveOrUpdate(user);
 		dao.remove(newUser);
