@@ -1,41 +1,30 @@
 package ui;
 
-import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Properties;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.text.NumberFormatter;
 
-import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 
-import dao.ReservationDao;
 import dao.RoomDao;
-import entity.Reservation;
 import entity.Room;
 import exception.DBConnectionException;
-import server.constraint.SearchReservationConstraint;
 import server.constraint.SearchRoomConstraint;
 
 public class ReservePanel extends JPanel{
@@ -47,11 +36,8 @@ public class ReservePanel extends JPanel{
 	private JFormattedTextField capacity;
 	private JTextField nameField;
 	private JButton searchButton,backButton;
-	private TablePanel roomPane = new TablePanel();
+	private TablePanel roomPane;
 	
-	public ReservePanel() {
-		
-	}
 	public ReservePanel(JPanel contentPane) {
 		initTimeString();
 		
@@ -62,43 +48,109 @@ public class ReservePanel extends JPanel{
 			e1.printStackTrace();
 		}
 		
-		JLabel dateLabel = new JLabel("Date");
-		add(dateLabel);
+		setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 		
+        JPanel searchPane = createSearchPanel();
+        searchPane.add(searchButton);
+        
+        
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+        add(searchPane,c);
+        
+        
+		c.fill = GridBagConstraints.BOTH;
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 3;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		roomPane = new TablePanel();
+        JScrollPane scrollRoomPane = new JScrollPane(roomPane,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollRoomPane.setPreferredSize(new Dimension(600, 200));
+		add(scrollRoomPane,c);
+        
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		c.weightx = 0.0;
+		c.weighty = 1.0;
+		backButton = GUIUtil.getJumpCardButton(contentPane, "back","main");
+		backButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				reset();
+			}
+		});
+		add(backButton,c);
+	}
+
+	// Reset when exit
+	public void reset() {
+		startTime.setSelectedIndex(0);
+		endTime.setSelectedIndex(0);
+		capacity.setValue(100);
+		nameField.setText("");
+		
+	}
+	
+	private void initTimeString() {
+        int i = 0;
+        for(int hour=0;hour<24;hour++) {
+        	for (int minute=0;minute<60;minute+=10) {
+        		timeString[i++] = LocalTime.of(hour, minute).toString();
+        	}
+        }
+	}
+	
+	private JPanel createSearchPanel() {
+		// Date
+		JPanel searchPane = new JPanel();
+		JLabel dateLabel = new JLabel("Date");
+		searchPane.add(dateLabel);
 		
 		datePicker = GUIUtil.getDatePicker();
-		add(datePicker);
+		searchPane.add(datePicker);
 
-        add(Box.createRigidArea(new Dimension(6, 0)));
+		searchPane.add(Box.createRigidArea(new Dimension(6, 0)));
         
+		// Time
         JLabel startTimeLabel = new JLabel("Start Time");
-		add(startTimeLabel);
+        searchPane.add(startTimeLabel);
         startTime = new JComboBox<>(timeString);
-        add(startTime);
+        searchPane.add(startTime);
         
         JLabel endTimeLabel = new JLabel("End Time");
-		add(endTimeLabel);
+        searchPane.add(endTimeLabel);
         endTime = new JComboBox<>(timeString);
-        add(endTime);
+        searchPane.add(endTime);
         
+        // Capacity
         JLabel capacityLabel = new JLabel("Capacity");
-        add(capacityLabel);
+        searchPane.add(capacityLabel);
             
         capacity = new JFormattedTextField(GUIUtil.getNumberFormatter());
         capacity.setValue(new Integer(100));
-        add(capacity);
+        searchPane.add(capacity);
         
+        // Name
         JLabel nameLabel = new JLabel("Name");
-        add(nameLabel);
+        searchPane.add(nameLabel);
         nameField = new JTextField(10);
-        add(nameField);
+        searchPane.add(nameField);
         
+        // Search Button
         searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				roomPane.clear();
 				SearchRoomConstraint src = new SearchRoomConstraint();
-				//TRY CATCH
+				//@TODO TRY CATCH
 				src.setCapacity(Integer.parseInt(capacity.getText()));
 				
 				String selectedDate = datePicker.getJFormattedTextField().getText();
@@ -120,39 +172,8 @@ public class ReservePanel extends JPanel{
 					roomNameList.add(room.getName());
 				}
 				roomPane.displayList(roomNameList,"Reserve");
-				revalidate();
-				repaint();
 			}
 		});
-        
-        add(searchButton);
-        
-        add(Box.createRigidArea(new Dimension(1080, 2)));
-        
-        roomPane = new TablePanel();
-        JScrollPane scroll = new JScrollPane(roomPane);
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.
-		                                   VERTICAL_SCROLLBAR_ALWAYS);
-		add(scroll);
-        
-		backButton = GUIUtil.getJumpCardButton(contentPane, "back","main");
-		add(backButton);
+		return searchPane;
 	}
-
-	public void reset() {
-		startTime.setSelectedIndex(0);
-		endTime.setSelectedIndex(0);
-		capacity.setValue(100);
-		nameField.setText("");
-		roomPane.clear();
-	}
-	private void initTimeString() {
-        int i = 0;
-        for(int hour=0;hour<24;hour++) {
-        	for (int minute=0;minute<60;minute+=10) {
-        		timeString[i++] = LocalTime.of(hour, minute).toString();
-        	}
-        }
-	}
-	
 }
