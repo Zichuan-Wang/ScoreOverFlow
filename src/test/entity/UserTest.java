@@ -1,28 +1,11 @@
 package entity;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.eq;
-import org.mockito.stubbing.Answer;
-
-import dao.UserDao;
 import entity.User;
-import exception.DBConnectionException;
 import utils.TestUtils;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 
 //The JUnit tests for User
 public class UserTest {
