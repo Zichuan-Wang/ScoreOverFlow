@@ -39,7 +39,6 @@ public class Reservation {
 	@Column(name = "created")
 	private Date created;
 	
-	// TODO: discuss the data type of modified
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modified")
 	private Date modified;
