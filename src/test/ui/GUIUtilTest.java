@@ -1,4 +1,5 @@
-package ui;
+package UI;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,6 +9,7 @@ import javax.swing.text.NumberFormatter;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.junit.jupiter.api.Test;
 
+import UI.GUIUtil;
 import server.constraint.SearchReservationConstraint;
 
 public class GUIUtilTest {
