@@ -1,7 +1,5 @@
 package server.action;
 
-import java.sql.Timestamp;
-
 import dao.ReservationDao;
 import entity.Reservation;
 import exception.DBConnectionException;
