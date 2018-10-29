@@ -18,9 +18,6 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-import entity.Reservation;
-import entity.Room;
-
 public class GuiUtils {
 
 	public static JDatePickerImpl getDatePicker() {
