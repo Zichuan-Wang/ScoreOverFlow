@@ -20,22 +20,22 @@ public class MainWindowTest {
 	
 	@Test
 	protected void buttonsPresentAndClickable() {
-		window.button(UiUtils.MatchButtonByName("Reserve a Room"));
-		window.button(UiUtils.MatchButtonByName("View booked Rooms"));
+		window.button(UITestUtil.MatchButtonByName("Reserve a Room"));
+		window.button(UITestUtil.MatchButtonByName("View booked Rooms"));
 	}
 	
 	@Test
 	protected void reserveButtonNavigatesToCorrectPanel() {
-		window.panel(UiUtils.MatchPanelByName("Main"));
-		window.button(UiUtils.MatchButtonByName("Reserve a Room")).click();
-		window.panel(UiUtils.MatchPanelByName("Reserve a Room"));
+		window.panel(UITestUtil.MatchPanelByName("Main"));
+		window.button(UITestUtil.MatchButtonByName("Reserve a Room")).click();
+		window.panel(UITestUtil.MatchPanelByName("Reserve a Room"));
 	}
 	
 	@Test
 	protected void viewButtonNavigatesToCorrectPanel() {
-		window.panel(UiUtils.MatchPanelByName("Main"));
-		window.button(UiUtils.MatchButtonByName("View booked Rooms")).click();
-		window.panel(UiUtils.MatchPanelByName("Booked Rooms"));
+		window.panel(UITestUtil.MatchPanelByName("Main"));
+		window.button(UITestUtil.MatchButtonByName("View booked Rooms")).click();
+		window.panel(UITestUtil.MatchPanelByName("Booked Rooms"));
 	}
 	
 	
