@@ -1,4 +1,4 @@
-package ui;
+package UI;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
@@ -18,6 +18,8 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import entity.Reservation;
+import entity.Room;
 
 public class GUIUtil {
 
@@ -41,7 +43,7 @@ public class GUIUtil {
 
 				return "";
 			}
-		}	
+		}
 
 		Properties p = new Properties();
 		p.put("text.today", "Today");
@@ -58,13 +60,13 @@ public class GUIUtil {
 		numberFormatter.setValueClass(Integer.class);
 		numberFormatter.setMinimum(0);
 		numberFormatter.setMaximum(Integer.MAX_VALUE);
-		numberFormatter.setAllowsInvalid(false);    
+		numberFormatter.setAllowsInvalid(false);
 		return numberFormatter;
 	}
-	
+
 	public static JButton getJumpCardButton(JPanel cards, String buttonName, String id) {
 		JButton backButton = new JButton(buttonName);
-		backButton.addActionListener(new ActionListener(){
+		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) cards.getLayout();
 				cl.show(cards, id);
@@ -72,4 +74,5 @@ public class GUIUtil {
 		});
 		return backButton;
 	}
-}		
+
+}

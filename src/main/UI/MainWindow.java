@@ -1,4 +1,4 @@
-package ui;
+package UI;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;
@@ -6,7 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class MainWindow extends JFrame{
+public class MainWindow extends JFrame {
 	private JPanel cards;
 	final int SCREEN_WIDTH = 600;
 	final int SCREEN_HEIGHT = 800;
@@ -14,26 +14,26 @@ public class MainWindow extends JFrame{
 	public MainWindow() {
 		// Initialization
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Scheduler++");
-		setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
+		setTitle("Schedule++");
+		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		// Create a cardlayout for switching between the panels
 		cards = new JPanel(new CardLayout());
 
 		// Create three panels
-		JPanel mainPane = new BasePanel("Main",new MainPanel(cards));
-		JPanel reservePane = new BasePanel("Reserve a Room",new ReservePanel(cards));
-		JPanel viewRoomsPane = new BasePanel("Booked Rooms",new ViewRoomsPanel(cards));
+		ReservePanel reservePane = new ReservePanel(cards);
+		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards);
+		MainPanel mainPane = new MainPanel(cards, reservePane, viewRoomsPane);
 
-		//add panels to card, add cards to JFrame
-		cards.add(mainPane,"main");
-		cards.add(reservePane,"reserve");
-		cards.add(viewRoomsPane,"view rooms");
+		// add panels to card, add cards to JFrame
+		cards.add(mainPane, "main");
+		cards.add(reservePane, "reserve");
+		cards.add(viewRoomsPane, "view rooms");
 		add(cards);
 
-		//Display the window.
-		//pack();
-		//setVisible(true);
+		// Display the window.
+		// pack();
+		// setVisible(true);
 	}
 
 	/**
