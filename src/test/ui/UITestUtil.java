@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.assertj.swing.core.GenericTypeMatcher;
+import org.assertj.swing.fixture.FrameFixture;
 
 public class UITestUtil {
 	
@@ -32,6 +33,21 @@ public class UITestUtil {
 			  return false;
 		      }
 		  };
+		
+	}
+	static void EnsureClciked (FrameFixture frame, String buttonName) {
+		frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
+		try {
+			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
+			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
+			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
+			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
+			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
+			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
+		}
+		catch (Exception e) {
+			
+		}
 		
 	}
 

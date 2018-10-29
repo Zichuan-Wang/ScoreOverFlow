@@ -29,14 +29,14 @@ private FrameFixture window;
 	@Test
 	protected void reserveButtonNavigatesToCorrectPanel() {
 		window.panel(UITestUtil.MatchPanelByName("Main"));
-		window.button(UITestUtil.MatchButtonByName("Reserve a Room")).click();
+		UITestUtil.EnsureClciked(window, "Reserve a Room");
 		window.panel(UITestUtil.MatchPanelByName("Reserve a Room"));
 	}
 	
 	@Test
 	protected void viewButtonNavigatesToCorrectPanel() {
 		window.panel(UITestUtil.MatchPanelByName("Main"));
-		window.button(UITestUtil.MatchButtonByName("View booked Rooms")).click();
+		UITestUtil.EnsureClciked(window, "View booked Rooms");
 		window.panel(UITestUtil.MatchPanelByName("Booked Rooms"));
 	}
 	
