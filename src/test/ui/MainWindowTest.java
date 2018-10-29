@@ -13,30 +13,16 @@ public class MainWindowTest {
 	
 	@BeforeEach
 	protected void onSetUp() {
-		  MainWindow frame = GuiActionRunner.execute(() -> new MainWindow());	
-		  window = new FrameFixture(frame);
-		  window.show(); // shows the frame to test
+		MainWindow frame = GuiActionRunner.execute(() -> new MainWindow());	
+		window = new FrameFixture(frame);
+		window.show(); // shows the frame to test
 	}
 	
 	@Test
-	protected void buttonsPresentAndClickable() {
-		window.button(UITestUtil.MatchButtonByName("Reserve a Room"));
-		window.button(UITestUtil.MatchButtonByName("View booked Rooms"));
+	protected void titleIsCorrect() {
+		window.requireTitle("Schedule++");
 	}
 	
-	@Test
-	protected void reserveButtonNavigatesToCorrectPanel() {
-		window.panel(UITestUtil.MatchPanelByName("Main"));
-		window.button(UITestUtil.MatchButtonByName("Reserve a Room")).click();
-		window.panel(UITestUtil.MatchPanelByName("Reserve a Room"));
-	}
-	
-	@Test
-	protected void viewButtonNavigatesToCorrectPanel() {
-		window.panel(UITestUtil.MatchPanelByName("Main"));
-		window.button(UITestUtil.MatchButtonByName("View booked Rooms")).click();
-		window.panel(UITestUtil.MatchPanelByName("Booked Rooms"));
-	}
 	
 	
 	
