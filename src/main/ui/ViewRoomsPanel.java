@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import dao.ReservationDao;
+import dao.factory.ReservationDaoFactory;
 import entity.EntityUtils;
 import entity.Reservation;
 import exception.DBConnectionException;
@@ -29,7 +30,7 @@ public class ViewRoomsPanel extends BasePanel {
 		super(TITLE);
 
 		try {
-			myDao = new ReservationDao();
+			myDao = ReservationDaoFactory.getInstance();
 		} catch (DBConnectionException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
