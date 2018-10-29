@@ -94,6 +94,8 @@ public class ViewRoomsPanel extends BasePanel {
 						e1.printStackTrace();
 					}
 					// @TODO failure and success handling
+					
+					reset();
 				}
 			});
 			row[1] = cancelButton;

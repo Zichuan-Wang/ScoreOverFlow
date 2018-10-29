@@ -53,7 +53,7 @@ public abstract class BaseDao<T> {
 	public void remove(T t) {
 		EntityTransaction transaction = manager.getTransaction();
 		transaction.begin();
-		manager.remove(t);
+		manager.remove(manager.contains(t)? t: manager.merge(t));
 		transaction.commit();
 	}
 	

@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import dao.RoomDao;
+import dao.factory.RoomDaoFactory;
 import entity.EntityUtils;
 import entity.Reservation;
 import entity.Room;
@@ -49,7 +50,7 @@ public class ReservePanel extends BasePanel {
 		initTimeString();
 
 		try {
-			myDao = new RoomDao();
+			myDao = RoomDaoFactory.getInstance();
 		} catch (DBConnectionException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -181,8 +182,8 @@ public class ReservePanel extends BasePanel {
 				for (Room room : roomList) {
 					Object[] row = new Object[2];
 					row[0] = room.getName();
-					JButton cancelButton = new JButton("Reserve");
-					cancelButton.addActionListener(new ActionListener() {
+					JButton reserveButton = new JButton("Reserve");
+					reserveButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							// convert room to reservation
 							Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(),
@@ -196,7 +197,7 @@ public class ReservePanel extends BasePanel {
 							// @TODO failure and success handling
 						}
 					});
-					row[1] = cancelButton;
+					row[1] = reserveButton;
 					rows.add(row);
 				}
 				roomPane.populateList(rows);
