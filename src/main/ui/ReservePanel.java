@@ -49,13 +49,6 @@ public class ReservePanel extends BasePanel {
 
 		initTimeString();
 
-		try {
-			myDao = RoomDaoFactory.getInstance();
-		} catch (DBConnectionException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		// middle Panel
 		JPanel middlePane = new JPanel();
 
@@ -176,6 +169,12 @@ public class ReservePanel extends BasePanel {
 				}
 				src.setRoomName(nameField.getText());
 				// search from database
+				try {
+					myDao = RoomDaoFactory.getInstance();
+				} catch (DBConnectionException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				List<Room> roomList = myDao.searchRooms(src);
 
 				List<Object[]> rows = new ArrayList<>();

@@ -29,13 +29,6 @@ public class ViewRoomsPanel extends BasePanel {
 	public ViewRoomsPanel(JPanel cards) {
 		super(TITLE);
 
-		try {
-			myDao = ReservationDaoFactory.getInstance();
-		} catch (DBConnectionException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		// middle Panel
 		JPanel middlePane = new JPanel();
 
@@ -79,6 +72,13 @@ public class ViewRoomsPanel extends BasePanel {
 
 	public void printList() {
 		SearchReservationConstraint src = new SearchReservationConstraint(); // @TODO need ID
+		
+		try {
+			myDao = ReservationDaoFactory.getInstance();
+		} catch (DBConnectionException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		List<Reservation> reservationList = myDao.findReservationsByUserId(src);
 		List<Object[]> rows = new ArrayList<>();
 		for (Reservation reservation : reservationList) {
