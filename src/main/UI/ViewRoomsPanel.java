@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import dao.ReservationDao;
-import entity.EntityUtil;
+import entity.EntityUtils;
 import entity.Reservation;
 import exception.DBConnectionException;
 import server.action.CancelReservationAction;

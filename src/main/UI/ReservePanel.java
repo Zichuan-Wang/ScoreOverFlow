@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import dao.RoomDao;
-import entity.EntityUtil;
+import entity.EntityUtils;
 import entity.Reservation;
 import entity.Room;
 import exception.DBConnectionException;
@@ -185,7 +185,7 @@ public class ReservePanel extends BasePanel {
 					cancelButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							// convert room to reservation
-							Reservation reservation = EntityUtil.roomToReservation(room, src.getEventDate(),
+							Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(),
 									src.getStartTime(), src.getEndTime(), 0);
 							try {
 								boolean success = ReserveRoomAction.reserveRoom(reservation);
