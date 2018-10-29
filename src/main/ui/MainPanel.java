@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -25,14 +25,14 @@ public class MainPanel extends BasePanel {
 		middlePane.add(Box.createVerticalGlue());
 
 		// Reserve
-		reserveButton = GUIUtil.getJumpCardButton(cards, "Reserve a Room", "reserve");
+		reserveButton = GuiUtils.getJumpCardButton(cards, "Reserve a Room", "reserve");
 		reserveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(reserveButton);
 
 		middlePane.add(Box.createVerticalGlue());
 
 		// See Booked Rooms
-		viewRoomsButton = GUIUtil.getJumpCardButton(cards, "View booked Rooms", "view rooms");
+		viewRoomsButton = GuiUtils.getJumpCardButton(cards, "View booked Rooms", "view rooms");
 		viewRoomsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				viewRoomsPane.printList();

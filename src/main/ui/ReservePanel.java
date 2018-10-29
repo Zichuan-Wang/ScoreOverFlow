@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -90,7 +90,7 @@ public class ReservePanel extends BasePanel {
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		backButton = GUIUtil.getJumpCardButton(cards, "back", "main");
+		backButton = GuiUtils.getJumpCardButton(cards, "back", "main");
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				reset();
@@ -125,7 +125,7 @@ public class ReservePanel extends BasePanel {
 		JLabel dateLabel = new JLabel("Date");
 		searchPane.add(dateLabel);
 
-		datePicker = GUIUtil.getDatePicker();
+		datePicker = GuiUtils.getDatePicker();
 		searchPane.add(datePicker);
 
 		searchPane.add(Box.createRigidArea(new Dimension(6, 0)));
@@ -145,7 +145,7 @@ public class ReservePanel extends BasePanel {
 		JLabel capacityLabel = new JLabel("Capacity");
 		searchPane.add(capacityLabel);
 
-		capacity = new JFormattedTextField(GUIUtil.getNumberFormatter());
+		capacity = new JFormattedTextField(GuiUtils.getNumberFormatter());
 		capacity.setValue(new Integer(100));
 		searchPane.add(capacity);
 

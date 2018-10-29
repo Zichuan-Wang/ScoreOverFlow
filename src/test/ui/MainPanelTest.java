@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import UI.MainWindow;
+import ui.MainWindow;
 
 
 public class MainPanelTest extends AssertJSwingJUnitTestCase {
@@ -22,7 +22,7 @@ public class MainPanelTest extends AssertJSwingJUnitTestCase {
 	
 		  window = new FrameFixture(frame);
 		  window.show(); // shows the frame to test
-		  window.button(UIUtil.MatchButtonByName("Reserve a Room")).click();
+		  window.button(UiUtils.MatchButtonByName("Reserve a Room")).click();
 		  //window.button("Reserve a Room").click();
 	}
 

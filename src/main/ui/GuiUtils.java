@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
@@ -21,7 +21,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import entity.Reservation;
 import entity.Room;
 
-public class GUIUtil {
+public class GuiUtils {
 
 	public static JDatePickerImpl getDatePicker() {
 		class DateLabelFormatter extends AbstractFormatter {

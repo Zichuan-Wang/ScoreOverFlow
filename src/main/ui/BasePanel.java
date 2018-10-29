@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;

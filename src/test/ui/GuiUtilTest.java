@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,19 +9,18 @@ import javax.swing.text.NumberFormatter;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.junit.jupiter.api.Test;
 
-import UI.GUIUtil;
-import server.constraint.SearchReservationConstraint;
+import ui.GuiUtils;
 
-public class GUIUtilTest {
+public class GuiUtilTest {
 	@Test
 	public void createDatePicker() {
-		JDatePickerImpl datepicker = GUIUtil.getDatePicker();
+		JDatePickerImpl datepicker = GuiUtils.getDatePicker();
 		assertNotNull(datepicker);
 	}
 	
 	@Test
 	public void createNumberFormatter() {
-		NumberFormatter nf = GUIUtil.getNumberFormatter();
+		NumberFormatter nf = GuiUtils.getNumberFormatter();
 		assertNotNull(nf);
 		assertEquals(nf.getValueClass(),Integer.class);
 	}

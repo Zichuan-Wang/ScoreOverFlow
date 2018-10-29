@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 import java.awt.CardLayout;
 import java.awt.EventQueue;

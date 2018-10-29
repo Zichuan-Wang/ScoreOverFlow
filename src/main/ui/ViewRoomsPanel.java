@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -61,7 +61,7 @@ public class ViewRoomsPanel extends BasePanel {
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		JButton backButton = GUIUtil.getJumpCardButton(cards, "back", "main");
+		JButton backButton = GuiUtils.getJumpCardButton(cards, "back", "main");
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				reset();
