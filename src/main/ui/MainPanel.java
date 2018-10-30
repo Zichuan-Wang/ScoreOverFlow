@@ -13,10 +13,15 @@ public class MainPanel extends BasePanel {
 	private final static String TITLE = "Main";
 	private JButton reserveButton;
 	private JButton viewRoomsButton;
-	
-	public MainPanel(JPanel cards, ReservePanel reservePane, ViewRoomsPanel viewRoomsPane) {
-		super(TITLE);
 
+	public MainPanel(JPanel cards, ReservePanel reservePane, ViewRoomsPanel viewRoomsPane) {
+		super(TITLE,cards);
+		reserveButton.addActionListener(e->reservePane.showPanel());
+		viewRoomsButton.addActionListener(e->viewRoomsPane.showPanel());
+	}
+
+	@Override
+	public JPanel getMiddlePanel() {
 		// middle Panel
 		JPanel middlePane = new JPanel();
 
@@ -25,23 +30,21 @@ public class MainPanel extends BasePanel {
 		middlePane.add(Box.createVerticalGlue());
 
 		// Reserve
-		reserveButton = GuiUtils.getJumpCardButton(cards, "Reserve a Room", "reserve");
+		reserveButton = GuiUtils.createButton("Reserve a Room",
+				GuiUtils.getJumpCardActionListener(cards, "reserve"));
 		reserveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(reserveButton);
 
 		middlePane.add(Box.createVerticalGlue());
 
 		// See Booked Rooms
-		viewRoomsButton = GuiUtils.getJumpCardButton(cards, "View booked Rooms", "view rooms");
-		viewRoomsButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				viewRoomsPane.printList();
-			}
-		});
+		viewRoomsButton = GuiUtils.createButton("View Reservations",
+				GuiUtils.getJumpCardActionListener(cards, "view rooms"));
 		viewRoomsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(viewRoomsButton);
 
 		middlePane.add(Box.createVerticalGlue());
-		setMiddlePanel(middlePane);
+		return middlePane;
 	}
+
 }

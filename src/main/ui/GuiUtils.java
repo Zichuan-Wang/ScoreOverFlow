@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -22,7 +21,10 @@ public class GuiUtils {
 
 	public static JDatePickerImpl getDatePicker() {
 		class DateLabelFormatter extends AbstractFormatter {
-
+			/**
+			 * Default serial version id
+			 */
+			private static final long serialVersionUID = 1L;
 			private String datePattern = "yyyy-MM-dd";
 			private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
@@ -61,14 +63,24 @@ public class GuiUtils {
 		return numberFormatter;
 	}
 
-	public static JButton getJumpCardButton(JPanel cards, String buttonName, String id) {
-		JButton backButton = new JButton(buttonName);
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout) cards.getLayout();
-				cl.show(cards, id);
-			}
-		});
+	public static JButton createButton(String buttonName, ActionListener... actions) {
+		JButton button = new JButton(buttonName);
+		for (ActionListener action: actions) {
+			button.addActionListener(action);
+		}
+		return button;
+	}
+
+	public static ActionListener getJumpCardActionListener(JPanel cards, String id) {
+		return e -> {
+			CardLayout cl = (CardLayout) cards.getLayout();
+			cl.show(cards, id);
+		};
+	}
+	
+	public static JButton getBackButton(BasePanel pane, JPanel cards) {
+		ActionListener initAction = e -> pane.reset();
+		JButton backButton = createButton("Back", getJumpCardActionListener(cards,"main"),initAction);
 		return backButton;
 	}
 

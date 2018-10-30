@@ -3,13 +3,10 @@ package ui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.Box;
@@ -23,7 +20,6 @@ import javax.swing.JTextField;
 
 import org.jdatepicker.impl.JDatePickerImpl;
 
-import dao.RoomDao;
 import dao.factory.RoomDaoFactory;
 import entity.EntityUtils;
 import entity.Reservation;
@@ -33,10 +29,11 @@ import server.action.ReserveRoomAction;
 import server.constraint.SearchRoomConstraint;
 
 public class ReservePanel extends BasePanel {
+	/**
+	 * Default serial version id
+	 */
+	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Reserve a Room";
-	private String[] timeString = new String[6 * 24];
-	private RoomDao myDao;
-
 	private JDatePickerImpl datePicker;
 	private JComboBox<String> startTime, endTime;
 	private JFormattedTextField capacity;
@@ -45,10 +42,11 @@ public class ReservePanel extends BasePanel {
 	private TablePanel roomPane;
 
 	public ReservePanel(JPanel cards) {
-		super(TITLE);
+		super(TITLE,cards);
+	}
 
-		initTimeString();
-
+	@Override
+	public JPanel getMiddlePanel() {
 		// middle Panel
 		JPanel middlePane = new JPanel();
 
@@ -84,33 +82,9 @@ public class ReservePanel extends BasePanel {
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		backButton = GuiUtils.getJumpCardButton(cards, "back", "main");
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				reset();
-			}
-		});
+		backButton = GuiUtils.getBackButton(this,cards);
 		middlePane.add(backButton, c);
-
-		setMiddlePanel(middlePane);
-	}
-
-	// Reset when exit
-	public void reset() {
-		startTime.setSelectedIndex(0);
-		endTime.setSelectedIndex(0);
-		capacity.setValue(100);
-		nameField.setText("");
-
-	}
-
-	private void initTimeString() {
-		int i = 0;
-		for (int hour = 0; hour < 24; hour++) {
-			for (int minute = 0; minute < 60; minute += 10) {
-				timeString[i++] = LocalTime.of(hour, minute).toString();
-			}
-		}
+		return middlePane;
 	}
 
 	private JPanel createSearchPanel() {
@@ -122,9 +96,11 @@ public class ReservePanel extends BasePanel {
 		datePicker = GuiUtils.getDatePicker();
 		searchPane.add(datePicker);
 
-		searchPane.add(Box.createRigidArea(new Dimension(6, 0)));
+		searchPane.add(Box.createRigidArea(new Dimension(5, 0)));
 
 		// Time
+
+		String[] timeString = getTimeString();
 		JLabel startTimeLabel = new JLabel("Start Time");
 		searchPane.add(startTimeLabel);
 		startTime = new JComboBox<>(timeString);
@@ -150,58 +126,96 @@ public class ReservePanel extends BasePanel {
 		searchPane.add(nameField);
 
 		// Search Button
-		searchButton = new JButton("Search");
-		searchButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SearchRoomConstraint src = new SearchRoomConstraint();
-				// @TODO TRY CATCH
-				src.setCapacity(Integer.parseInt(capacity.getText()));
+		searchButton = getSearchButton();
+		searchPane.add(searchButton);
+		return searchPane;
+	}
 
-				String selectedDate = datePicker.getJFormattedTextField().getText();
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	@Override
+	// Reset when exit
+	public void reset() {
+		startTime.setSelectedIndex(0);
+		endTime.setSelectedIndex(0);
+		capacity.setValue(100);
+		nameField.setText("");
+	}
+
+	@Override
+	public void showPanel() {
+	}
+
+	private JButton getSearchButton() {
+		JButton searchButton = new JButton("Search");
+		searchButton.addActionListener(e -> {
+			SearchRoomConstraint src = new SearchRoomConstraint();
+
+			String selectedDate = datePicker.getJFormattedTextField().getText();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+			// Parse
+			try {
+				src.setCapacity(Integer.parseInt(capacity.getText()));
+				src.setEventDate(new SimpleDateFormat("yyyy-MM-dd").parse(selectedDate));
+				src.setStartTime(sdf.parse(selectedDate + " " + startTime.getSelectedItem()));
+				src.setEndTime(sdf.parse(selectedDate + " " + endTime.getSelectedItem()));
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			src.setRoomName(nameField.getText());
+			// search from database
+			List<Room> roomList = new ArrayList<>();
+			try {
+				roomList = RoomDaoFactory.getInstance().searchRooms(src);
+			} catch (DBConnectionException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			// Get the name and populate the list
+			List<Object[]> rows = new ArrayList<>();
+			for (Room room : roomList) {
+				Object[] row = new Object[2];
+				row[0] = room.getName();
+				JButton reserveButton = getReserveButton(room, src);
+				row[1] = reserveButton;
+				rows.add(row);
+			}
+			roomPane.populateList(rows);
+		});
+		return searchButton;
+	}
+
+	private JButton getReserveButton(Room room, SearchRoomConstraint src) {
+		JButton reserveButton = new JButton("Reserve");
+		reserveButton.addActionListener(e -> {
+				// convert room to reservation
+				Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(),
+						src.getStartTime(), src.getEndTime(), 0);
+				// reserve
 				try {
-					src.setEventDate(new SimpleDateFormat("yyyy-MM-dd").parse(selectedDate));
-					src.setStartTime(sdf.parse(selectedDate + " " + startTime.getSelectedItem()));
-					src.setEndTime(sdf.parse(selectedDate + " " + endTime.getSelectedItem()));
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				src.setRoomName(nameField.getText());
-				// search from database
-				try {
-					myDao = RoomDaoFactory.getInstance();
+					boolean success = ReserveRoomAction.reserveRoom(reservation);
+					//@TODO handling success and failure
+					if (success) {
+						
+					}else {
+						
+					}
 				} catch (DBConnectionException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				List<Room> roomList = myDao.searchRooms(src);
-
-				List<Object[]> rows = new ArrayList<>();
-				for (Room room : roomList) {
-					Object[] row = new Object[2];
-					row[0] = room.getName();
-					JButton reserveButton = new JButton("Reserve");
-					reserveButton.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							// convert room to reservation
-							Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(),
-									src.getStartTime(), src.getEndTime(), 0);
-							try {
-								boolean success = ReserveRoomAction.reserveRoom(reservation);
-							} catch (DBConnectionException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							// @TODO failure and success handling
-						}
-					});
-					row[1] = reserveButton;
-					rows.add(row);
-				}
-				roomPane.populateList(rows);
+			});
+		return reserveButton;
+	}
+	
+	private String[] getTimeString() {
+		String[] timeString = new String[6 * 24];
+		int i = 0;
+		for (int hour = 0; hour < 24; hour++) {
+			for (int minute = 0; minute < 60; minute += 10) {
+				timeString[i++] = LocalTime.of(hour, minute).toString();
 			}
-		});
-		return searchPane;
+		}
+		return timeString;
 	}
 }

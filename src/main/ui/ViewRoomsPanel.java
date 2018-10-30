@@ -3,8 +3,6 @@ package ui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,23 +10,26 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import dao.ReservationDao;
 import dao.factory.ReservationDaoFactory;
-import entity.EntityUtils;
 import entity.Reservation;
 import exception.DBConnectionException;
 import server.action.CancelReservationAction;
-import server.action.ReserveRoomAction;
 import server.constraint.SearchReservationConstraint;
 
 public class ViewRoomsPanel extends BasePanel {
-	private final static String TITLE = "Booked Rooms";
-	private ReservationDao myDao;
+	/**
+	 * Default serial version id
+	 */
+	private static final long serialVersionUID = 1L;
+	private final static String TITLE = "My Reservations";
 	private TablePanel reservationPane;
 
 	public ViewRoomsPanel(JPanel cards) {
-		super(TITLE);
+		super(TITLE,cards);
+	}
 
+	@Override
+	public JPanel getMiddlePanel() {
 		// middle Panel
 		JPanel middlePane = new JPanel();
 
@@ -55,53 +56,59 @@ public class ViewRoomsPanel extends BasePanel {
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		JButton backButton = GuiUtils.getJumpCardButton(cards, "back", "main");
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				reset();
-			}
-		});
+		JButton backButton = GuiUtils.getBackButton(this,cards);
 		middlePane.add(backButton, c);
-
-		setMiddlePanel(middlePane);
+		return middlePane;
 	}
-
+	
+	@Override
+	public void showPanel() {
+		showReservationList();
+	}
+	
+	@Override
 	public void reset() {
-		reservationPane.reset();
+		reservationPane.removeAll();
+		reservationPane.revalidate();
+		reservationPane.repaint();
 	}
 
-	public void printList() {
+	public void showReservationList() {
 		SearchReservationConstraint src = new SearchReservationConstraint(); // @TODO need ID
-		
+
 		try {
-			myDao = ReservationDaoFactory.getInstance();
+			List<Reservation> reservationList =ReservationDaoFactory.getInstance().findReservationsByUserId(src);
+			List<Object[]> rows = new ArrayList<>();
+			for (Reservation reservation : reservationList) {
+				Object[] row = new Object[2];
+				row[0] = Integer.toString(reservation.getRoomId()); // @TODO need name
+				row[1] = getCancelButton(reservation);
+				rows.add(row);
+			}
+			reservationPane.populateList(rows);
 		} catch (DBConnectionException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
-		List<Reservation> reservationList = myDao.findReservationsByUserId(src);
-		List<Object[]> rows = new ArrayList<>();
-		for (Reservation reservation : reservationList) {
-			Object[] row = new Object[2];
-			row[0] = Integer.toString(reservation.getRoomId()); // @TODO need name
-			JButton cancelButton = new JButton("Cancel");
-			cancelButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					try {
-						boolean success = CancelReservationAction.cancelReservation(reservation);
-					} catch (DBConnectionException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					// @TODO failure and success handling
-					
-					reset();
-				}
-			});
-			row[1] = cancelButton;
-			rows.add(row);
-		}
-		reservationPane.populateList(rows);
+		}	
 	}
+	private JButton getCancelButton(Reservation reservation) {
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(e -> {
+			try {
+				boolean success = CancelReservationAction.cancelReservation(reservation);
+				if (success) {
+					reset();
+				} else {
+
+				}
+			} catch (DBConnectionException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+		});
+		return cancelButton;
+	}
+	
 
 }

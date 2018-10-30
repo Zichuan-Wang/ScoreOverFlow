@@ -23,7 +23,7 @@ private FrameFixture window;
 	@Test
 	protected void buttonsPresentAndClickable() {
 		window.button(UiTestUtils.matchButtonByName("Reserve a Room"));
-		window.button(UiTestUtils.matchButtonByName("View booked Rooms"));
+		window.button(UiTestUtils.matchButtonByName("View Reservations"));
 	}
 	
 	@Test
@@ -36,8 +36,8 @@ private FrameFixture window;
 	@Test
 	protected void viewButtonNavigatesToCorrectPanel() {
 		window.panel(UiTestUtils.matchPanelByName("Main"));
-		UiTestUtils.ensureClicked(window, "View booked Rooms");
-		window.panel(UiTestUtils.matchPanelByName("Booked Rooms"));
+		UiTestUtils.ensureClicked(window, "View Reservations");
+		window.panel(UiTestUtils.matchPanelByName("My Reservations"));
 	}
 	
 	
