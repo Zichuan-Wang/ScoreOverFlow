@@ -6,6 +6,7 @@ import javax.persistence.Query;
 
 import entity.User;
 
+// DAO for User
 public class UserDao extends BaseDao<User>{
 	
 	public UserDao(EntityManager manager) {

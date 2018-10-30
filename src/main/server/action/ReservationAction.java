@@ -7,6 +7,7 @@ import dao.ReservationDao;
 import entity.Reservation;
 import server.constraint.SearchReservationConstraint;
 
+// Handle all actions related to Reservation
 public class ReservationAction {
 
 	private ReservationDao dao;

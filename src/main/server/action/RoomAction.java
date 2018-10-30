@@ -6,6 +6,7 @@ import dao.RoomDao;
 import entity.Room;
 import server.constraint.SearchRoomConstraint;
 
+// Handle all actions related to Room
 public class RoomAction {
 	
 	private RoomDao dao;

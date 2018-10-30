@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 
+// The parent class of all DAO classes
 public abstract class BaseDao<T> {
 
 	@PersistenceContext

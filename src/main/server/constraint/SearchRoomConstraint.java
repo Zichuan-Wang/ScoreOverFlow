@@ -2,6 +2,7 @@ package server.constraint;
 
 import java.util.Date;
 
+// Java object for specify search constraint for Room
 public class SearchRoomConstraint {
 	Date eventDate;
 	Date startTime;
