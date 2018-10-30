@@ -11,6 +11,8 @@ setup_git() {
 
 commit_logs() {
   cat maven_log
+  cat **/*PMD.html
+  cat *PMD.html
   git checkout -b master
   git add maven_log
   git commit --message "Azure CI log"
