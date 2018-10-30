@@ -15,7 +15,7 @@ commit_logs() {
   cat *PMD.html
   git checkout -b master
   git add maven_log
-  git commit --message "Azure CI log"
+  git commit --message "Azure CI log ***NO_CI***"
 }
 
 
