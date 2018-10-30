@@ -34,10 +34,6 @@ public class MainWindow extends JFrame {
 		cards.add(reservePane, "reserve");
 		cards.add(viewRoomsPane, "view rooms");
 		add(cards);
-
-		// Display the window.
-		// pack();
-		// setVisible(true);
 	}
 
 	/**

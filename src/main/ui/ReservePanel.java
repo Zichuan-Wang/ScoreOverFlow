@@ -159,7 +159,6 @@ public class ReservePanel extends BasePanel {
 				src.setStartTime(sdf.parse(selectedDate + " " + startTime.getSelectedItem()));
 				src.setEndTime(sdf.parse(selectedDate + " " + endTime.getSelectedItem()));
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			src.setRoomName(nameField.getText());
@@ -168,7 +167,6 @@ public class ReservePanel extends BasePanel {
 			try {
 				roomList = RoomDaoFactory.getInstance().searchRooms(src);
 			} catch (DBConnectionException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
 			// Get the name and populate the list
