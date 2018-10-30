@@ -8,7 +8,7 @@ import entity.Reservation;
 import entity.Room;
 import entity.User;
 
-public class TestUtils {
+public class DaoTestUtils {
 	// Reservation
 	public static final int DEFAULT_RESERVATION_ID = 1;
 	public static final int NEW_RESERVATION_ID = 2;

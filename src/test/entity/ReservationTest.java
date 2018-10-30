@@ -3,7 +3,7 @@ package entity;
 import org.junit.jupiter.api.Test;
 
 import entity.Reservation;
-import utils.TestUtils;
+import utils.DaoTestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ReservationTest {
 	@Test
 	public void createAndUpdateReservation() {
-		Reservation reservation = TestUtils.getDefaultReservation();
+		Reservation reservation = DaoTestUtils.getDefaultReservation();
 		
-		assertEquals(reservation.getId(), TestUtils.DEFAULT_RESERVATION_ID);
-		assertEquals(reservation.getUserId(), TestUtils.DEFAULT_USER_ID);
-		assertEquals(reservation.getEventDate(), TestUtils.DEFAULT_EVENT_DATE);
-		assertEquals(reservation.getStartTime(), TestUtils.DEFAULT_START_TIME);
-		assertEquals(reservation.getEndTime(), TestUtils.DEFAULT_END_TIME);
-		assertEquals(reservation.getCreated(), TestUtils.DEFAULT_CREATED);
-		assertEquals(reservation.getModified(), TestUtils.DEFAULT_MODIFIED);
+		assertEquals(reservation.getId(), DaoTestUtils.DEFAULT_RESERVATION_ID);
+		assertEquals(reservation.getUserId(), DaoTestUtils.DEFAULT_USER_ID);
+		assertEquals(reservation.getEventDate(), DaoTestUtils.DEFAULT_EVENT_DATE);
+		assertEquals(reservation.getStartTime(), DaoTestUtils.DEFAULT_START_TIME);
+		assertEquals(reservation.getEndTime(), DaoTestUtils.DEFAULT_END_TIME);
+		assertEquals(reservation.getCreated(), DaoTestUtils.DEFAULT_CREATED);
+		assertEquals(reservation.getModified(), DaoTestUtils.DEFAULT_MODIFIED);
 	}
 }
