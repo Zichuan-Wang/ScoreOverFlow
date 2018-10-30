@@ -3,6 +3,7 @@ package utils;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,7 +38,7 @@ public class ReservationDaoTestUtils {
 				return EntityTestUtils.getDefaultReservation().setId(id);
 				
 			}
-		}).when(manager).find(Reservation.class, anyInt());
+		}).when(manager).find(eq(Reservation.class), anyInt());
 		
 		List<Reservation> reservations = new ArrayList<>();
 		for (int id : RESERVATION_IDS) {

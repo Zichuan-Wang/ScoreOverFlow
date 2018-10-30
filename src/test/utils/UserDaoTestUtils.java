@@ -33,7 +33,7 @@ public class UserDaoTestUtils {
 				return EntityTestUtils.getDefaultUser().setId(id);
 				
 			}
-		}).when(manager).find(User.class, anyInt());
+		}).when(manager).find(eq(User.class), anyInt());
 		
 		when(manager.createQuery(any(String.class))).thenReturn(query);
 		

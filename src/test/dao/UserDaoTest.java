@@ -21,8 +21,8 @@ public class UserDaoTest {
 		dao.remove(user);
 		
 		assertEquals(user.getId(), EntityTestUtils.DEFAULT_USER_ID);
-		assertEquals(dao.findUserByUni(EntityTestUtils.DEFAULT_UNI), EntityTestUtils.DEFAULT_UNI);
-		assertEquals(dao.findUserByEmail(EntityTestUtils.DEFAULT_EMAIL), EntityTestUtils.DEFAULT_EMAIL);
+		assertEquals(dao.findUserByUni(EntityTestUtils.DEFAULT_UNI).getUni(), EntityTestUtils.DEFAULT_UNI);
+		assertEquals(dao.findUserByEmail(EntityTestUtils.DEFAULT_EMAIL).getEmail(), EntityTestUtils.DEFAULT_EMAIL);
 		verify(dao.manager, times(1)).remove(user);
 	}
 }

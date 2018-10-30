@@ -3,15 +3,19 @@ package utils;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -37,7 +41,7 @@ public class RoomDaoTestUtils {
 				return EntityTestUtils.getDefaultRoom().setId(id);
 				
 			}
-		}).when(manager).find(Room.class, anyInt());
+		}).when(manager).find(eq(Room.class), anyInt());
 		
 		List<Room> rooms = new ArrayList<>();
 		for (int id : ROOM_IDS) {
@@ -45,7 +49,9 @@ public class RoomDaoTestUtils {
 		}
 		
 		when(manager.createQuery(any(String.class))).thenReturn(query);
-		when(query.setParameter(any(String.class), any())).thenReturn(query);
+		when(query.setParameter(any(String.class), any(String.class))).thenReturn(query);
+		when(query.setParameter(any(String.class), anyInt())).thenReturn(query);
+		when(query.setParameter(any(String.class), any(Date.class), any(TemporalType.class))).thenReturn(query);
 		when(query.getSingleResult()).thenReturn(EntityTestUtils.getDefaultRoom());
 		when(query.getResultList()).thenReturn(rooms);
 		

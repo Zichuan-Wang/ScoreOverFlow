@@ -20,12 +20,11 @@ import javax.swing.JTextField;
 
 import org.jdatepicker.impl.JDatePickerImpl;
 
-import dao.factory.RoomDaoFactory;
 import entity.EntityUtils;
 import entity.Reservation;
 import entity.Room;
-import exception.DBConnectionException;
-import server.action.ReserveRoomAction;
+import server.action.ReservationAction;
+import server.action.RoomAction;
 import server.constraint.SearchRoomConstraint;
 
 public class ReservePanel extends BasePanel {
@@ -40,9 +39,14 @@ public class ReservePanel extends BasePanel {
 	private JTextField nameField;
 	private JButton searchButton, backButton;
 	private TablePanel roomPane;
+	
+	private ReservationAction reservationAction;
+	private RoomAction roomAction;
 
-	public ReservePanel(JPanel cards) {
+	public ReservePanel(JPanel cards, ReservationAction reservationAction, RoomAction roomAction) {
 		super(TITLE,cards);
+		this.reservationAction = reservationAction;
+		this.roomAction = roomAction;
 	}
 
 	@Override
@@ -162,12 +166,8 @@ public class ReservePanel extends BasePanel {
 			}
 			src.setRoomName(nameField.getText());
 			// search from database
-			List<Room> roomList = new ArrayList<>();
-			try {
-				roomList = RoomDaoFactory.getInstance().searchRooms(src);
-			} catch (DBConnectionException e2) {
-				e2.printStackTrace();
-			}
+			List<Room> roomList = roomAction.searchRoom(src);
+			
 			// Get the name and populate the list
 			List<Object[]> rows = new ArrayList<>();
 			for (Room room : roomList) {
@@ -189,17 +189,12 @@ public class ReservePanel extends BasePanel {
 				Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(),
 						src.getStartTime(), src.getEndTime(), 0);
 				// reserve
-				try {
-					boolean success = ReserveRoomAction.reserveRoom(reservation);
-					//@TODO handling success and failure
-					if (success) {
-						
-					}else {
-						
-					}
-				} catch (DBConnectionException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				boolean success = reservationAction.reserveRoom(reservation);
+				//@TODO handling success and failure
+				if (success) {
+					
+				}else {
+					
 				}
 			});
 		return reserveButton;

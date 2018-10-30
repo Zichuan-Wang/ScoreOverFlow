@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ui.MainWindow;
+import utils.MainWindowTestUtils;
 import utils.UiTestUtils;
 
 
@@ -14,7 +15,7 @@ public class MainPanelTest {
 private FrameFixture window;
 	@BeforeEach
 	protected void onSetUp() {
-		MainWindow frame = GuiActionRunner.execute(() -> new MainWindow());	
+		MainWindow frame = GuiActionRunner.execute(() -> MainWindowTestUtils.getMainWindow());	
 		window = new FrameFixture(frame);
 		window.show(); // shows the frame to test
 	}
