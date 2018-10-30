@@ -10,14 +10,12 @@ import org.assertj.swing.core.GenericTypeMatcher;
 import org.assertj.swing.fixture.FrameFixture;
 
 public class UiTestUtils {
-	
 	static GenericTypeMatcher<JButton> matchButtonByName(String name){
 		return new GenericTypeMatcher<JButton>(JButton.class) {
 			  protected boolean isMatching(JButton button) {
 				    return name.equals(button.getText());
 				  }
 		  };
-		
 	}
 	
 	static GenericTypeMatcher<JPanel> matchPanelByName(String name){
@@ -25,21 +23,19 @@ public class UiTestUtils {
 			  protected boolean isMatching(JPanel panel) {
 				  Component[] components = panel.getComponents();
 				  for (int i =0;i<components.length;i++) {
-					if(components[i] instanceof JLabel && name.equals(((JLabel)components[i]).getText())&&components[i].isShowing()) {
+					if(components[i] instanceof JLabel && name.equals(((JLabel)components[i]).getText()) 
+							&& components[i].isShowing()) {
 						return true;
 					}
-				
 				  }
 			  return false;
 		      }
 		  };
-		
 	}
+	
 	static void ensureClicked(FrameFixture frame, String buttonName) {
-		
 		while (true) {
 			try {
-				
 				frame.button(UiTestUtils.matchButtonByName(buttonName)).click();
 				Thread.sleep(200);
 				frame.button(UiTestUtils.matchButtonByName(buttonName));
@@ -48,7 +44,6 @@ public class UiTestUtils {
 				break;
 			}
 		}
-		
 	}
 
 }

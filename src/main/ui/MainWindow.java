@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MainWindow extends JFrame {
+	/**
+	 * Default serial version id
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel cards;
 	final int SCREEN_WIDTH = 600;
 	final int SCREEN_HEIGHT = 800;
@@ -17,7 +21,7 @@ public class MainWindow extends JFrame {
 		setTitle("Schedule++");
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-		// Create a cardlayout for switching between the panels
+		// Create a cardLayout for switching between the panels
 		cards = new JPanel(new CardLayout());
 
 		// Create three panels

@@ -22,7 +22,10 @@ public class GuiUtils {
 
 	public static JDatePickerImpl getDatePicker() {
 		class DateLabelFormatter extends AbstractFormatter {
-
+			/**
+			 * Default serial version id
+			 */
+			private static final long serialVersionUID = 1L;
 			private String datePattern = "yyyy-MM-dd";
 			private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
@@ -37,7 +40,6 @@ public class GuiUtils {
 					Calendar cal = (Calendar) value;
 					return dateFormatter.format(cal.getTime());
 				}
-
 				return "";
 			}
 		}

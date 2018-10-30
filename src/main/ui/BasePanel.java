@@ -9,6 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class BasePanel extends JPanel {
+	/**
+	 * Default serial version id
+	 */
+	private static final long serialVersionUID = 1L;
 	private GridBagConstraints c;
 
 	// Initialize a page without the middle panel

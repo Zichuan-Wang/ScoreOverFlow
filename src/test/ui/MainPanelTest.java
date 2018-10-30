@@ -12,7 +12,6 @@ import ui.MainWindow;
 
 public class MainPanelTest {
 private FrameFixture window;
-	
 	@BeforeEach
 	protected void onSetUp() {
 		MainWindow frame = GuiActionRunner.execute(() -> new MainWindow());	
@@ -39,8 +38,6 @@ private FrameFixture window;
 		UiTestUtils.ensureClicked(window, "View booked Rooms");
 		window.panel(UiTestUtils.matchPanelByName("Booked Rooms"));
 	}
-	
-	
 	
 	@AfterEach
 	protected void cleanUp() {

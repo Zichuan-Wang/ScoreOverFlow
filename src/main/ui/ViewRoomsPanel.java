@@ -14,14 +14,16 @@ import javax.swing.JScrollPane;
 
 import dao.ReservationDao;
 import dao.factory.ReservationDaoFactory;
-import entity.EntityUtils;
 import entity.Reservation;
 import exception.DBConnectionException;
 import server.action.CancelReservationAction;
-import server.action.ReserveRoomAction;
 import server.constraint.SearchReservationConstraint;
 
 public class ViewRoomsPanel extends BasePanel {
+	/**
+	 * Default serial version id
+	 */
+	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Booked Rooms";
 	private ReservationDao myDao;
 	private TablePanel reservationPane;

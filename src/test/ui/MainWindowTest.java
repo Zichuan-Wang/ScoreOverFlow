@@ -23,9 +23,6 @@ public class MainWindowTest {
 		window.requireTitle("Schedule++");
 	}
 	
-	
-	
-	
 	@AfterEach
 	protected void cleanUp() {
 		window.cleanUp();

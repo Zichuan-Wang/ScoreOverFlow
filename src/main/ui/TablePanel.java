@@ -1,8 +1,5 @@
 package ui;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.util.List;
 
 import javax.swing.Box;
@@ -10,10 +7,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 public class TablePanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	final int MAX_LISTING = 10;
 
 	public TablePanel() {

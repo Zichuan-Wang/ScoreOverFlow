@@ -9,7 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.Box;
@@ -33,6 +32,10 @@ import server.action.ReserveRoomAction;
 import server.constraint.SearchRoomConstraint;
 
 public class ReservePanel extends BasePanel {
+	/**
+	 * Default serial version id
+	 */
+	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Reserve a Room";
 	private String[] timeString = new String[6 * 24];
 	private RoomDao myDao;
