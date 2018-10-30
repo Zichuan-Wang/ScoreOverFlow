@@ -8,12 +8,6 @@ pool:
 
 steps:
 
-- task: Bash@3
-  inputs:
-    targetType: 'filePath'
-    filePath: push.sh
-    failOnStderr: true # Optional
-
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -24,3 +18,9 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     goals: 'clean test'
+
+- task: Bash@3
+  inputs:
+    targetType: 'filePath'
+    filePath: push.sh
+    failOnStderr: true # Optional
