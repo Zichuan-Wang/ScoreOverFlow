@@ -6,6 +6,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import dao.ReservationDao;
+import dao.RoomDao;
+import dao.factory.ReservationDaoFactory;
+import dao.factory.RoomDaoFactory;
+import server.action.ReservationAction;
+import server.action.RoomAction;
+
 public class MainWindow extends JFrame {
 	/**
 	 * Default serial version id
@@ -15,7 +22,7 @@ public class MainWindow extends JFrame {
 	final int SCREEN_WIDTH = 600;
 	final int SCREEN_HEIGHT = 800;
 
-	public MainWindow() {
+	public MainWindow(ReservationAction reservationAction, RoomAction roomAction) {
 		// Initialization
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Schedule++");
@@ -25,8 +32,8 @@ public class MainWindow extends JFrame {
 		cards = new JPanel(new CardLayout());
 		
 		// Create three panels
-		ReservePanel reservePane = new ReservePanel(cards);
-		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards);
+		ReservePanel reservePane = new ReservePanel(cards, reservationAction, roomAction);
+		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards, reservationAction);
 		MainPanel mainPane = new MainPanel(cards, reservePane, viewRoomsPane);
 
 		// add panels to card, add cards to JFrame
@@ -43,7 +50,11 @@ public class MainWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow frame = new MainWindow();
+					ReservationDao reservationDao = ReservationDaoFactory.getInstance();
+					RoomDao roomDao = RoomDaoFactory.getInstance();
+					ReservationAction reservationAction = new ReservationAction(reservationDao);
+					RoomAction roomAction = new RoomAction(roomDao);
+					MainWindow frame = new MainWindow(reservationAction, roomAction);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

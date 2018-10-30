@@ -25,12 +25,11 @@ import com.github.lgooddatepicker.components.TimePicker;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
-import dao.factory.RoomDaoFactory;
 import entity.EntityUtils;
 import entity.Reservation;
 import entity.Room;
-import exception.DBConnectionException;
-import server.action.ReserveRoomAction;
+import server.action.ReservationAction;
+import server.action.RoomAction;
 import server.constraint.SearchRoomConstraint;
 
 public class ReservePanel extends BasePanel {
@@ -55,9 +54,14 @@ public class ReservePanel extends BasePanel {
 	private JTextField nameField;
 	private JButton searchButton, backButton;
 	private TablePanel roomPane;
+	
+	private ReservationAction reservationAction;
+	private RoomAction roomAction;
 
-	public ReservePanel(JPanel cards) {
+	public ReservePanel(JPanel cards, ReservationAction reservationAction, RoomAction roomAction) {
 		super(TITLE,cards);
+		this.reservationAction = reservationAction;
+		this.roomAction = roomAction;
 	}
 
 	@Override
@@ -211,25 +215,20 @@ public class ReservePanel extends BasePanel {
 			}
 			src.setRoomName(nameField.getText());
 			// search from database
-			List<Room> roomList = new ArrayList<>();
-			try {
-				roomList = RoomDaoFactory.getInstance().searchRooms(src);
-				if (roomList.isEmpty())
-					JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
-				else {
-					// Get the name and populate the list
-					List<Object[]> rows = new ArrayList<>();
-					for (Room room : roomList) {
-						Object[] row = new Object[2];
-						row[0] = room.getName();
-						JButton reserveButton = getReserveButton(room, src);
-						row[1] = reserveButton;
-						rows.add(row);
-					}
-					roomPane.populateList(rows);
+			List<Room> roomList = roomAction.searchRoom(src);
+			if (roomList.isEmpty())
+				JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
+			else {
+				// Get the name and populate the list
+				List<Object[]> rows = new ArrayList<>();
+				for (Room room : roomList) {
+					Object[] row = new Object[2];
+					row[0] = room.getName();
+					JButton reserveButton = getReserveButton(room, src);
+					row[1] = reserveButton;
+					rows.add(row);
 				}
-			} catch (DBConnectionException e2) {
-				e2.printStackTrace();
+				roomPane.populateList(rows);
 			}
 		});
 		return searchButton;
@@ -242,18 +241,13 @@ public class ReservePanel extends BasePanel {
 			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(),
 					src.getStartTime(), src.getEndTime(), 0);
 			// reserve
-			try {
-				boolean success = ReserveRoomAction.reserveRoom(reservation);
-				//@TODO handling success and failure
-				if (success) {
-					JOptionPane.showMessageDialog(null, "Success!");
-					reserveButton.setEnabled(false);
-				}else {
-					JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
-				}
-			} catch (DBConnectionException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			boolean success = reservationAction.reserveRoom(reservation);
+			//@TODO handling success and failure
+			if (success) {
+				JOptionPane.showMessageDialog(null, "Success!");
+				reserveButton.setEnabled(false);
+			}else {
+				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
 			}
 		});
 		return reserveButton;

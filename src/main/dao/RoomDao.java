@@ -2,18 +2,18 @@ package dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
 import entity.Room;
-import exception.DBConnectionException;
 import server.constraint.SearchRoomConstraint;
 
 public class RoomDao extends BaseDao<Room> {
 	
-	public RoomDao() throws DBConnectionException {
-		super(Room.class);
+	public RoomDao(EntityManager manager) {
+		super(Room.class, manager);
 	}
 	
 	/*
@@ -41,7 +41,6 @@ public class RoomDao extends BaseDao<Room> {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Room> searchRooms(SearchRoomConstraint constraint) {
-		System.out.println(constraint.getEventDate());
 		Query query = manager.createQuery(
 			"SELECT u FROM Room u " +
 			"WHERE (u.name LIKE :name) " +

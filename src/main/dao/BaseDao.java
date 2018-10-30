@@ -4,10 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.service.spi.ServiceException;
-
-import exception.DBConnectionException;
-
 public abstract class BaseDao<T> {
 
 	@PersistenceContext
@@ -19,14 +15,9 @@ public abstract class BaseDao<T> {
 		this.manager = manager;
 	}
 	
-	public BaseDao(Class<T> paramClass) throws DBConnectionException {
-		this.paramClass = paramClass;	
-		try {
-			manager = DaoUtils.factory.createEntityManager();
-		} catch (ServiceException e) {
-			throw new DBConnectionException(e);
-		}
-		
+	public BaseDao(Class<T> paramClass, EntityManager manager) {
+		this.paramClass = paramClass;
+		this.manager = manager;
 	}
 	
 	public T findById(int id) {

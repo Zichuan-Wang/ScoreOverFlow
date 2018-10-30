@@ -1,15 +1,15 @@
 package dao;
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import entity.User;
-import exception.DBConnectionException;
 
 public class UserDao extends BaseDao<User>{
 	
-	public UserDao() throws DBConnectionException {
-		super(User.class);
+	public UserDao(EntityManager manager) {
+		super(User.class, manager);
 	}
 
 	/*

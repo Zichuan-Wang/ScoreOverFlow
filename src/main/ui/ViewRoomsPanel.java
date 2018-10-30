@@ -11,10 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import dao.factory.ReservationDaoFactory;
 import entity.Reservation;
-import exception.DBConnectionException;
-import server.action.CancelReservationAction;
+import server.action.ReservationAction;
 import server.constraint.SearchReservationConstraint;
 
 public class ViewRoomsPanel extends BasePanel {
@@ -24,9 +22,12 @@ public class ViewRoomsPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "My Reservations";
 	private TablePanel reservationPane;
+	
+	private ReservationAction reservationAction;
 
-	public ViewRoomsPanel(JPanel cards) {
+	public ViewRoomsPanel(JPanel cards, ReservationAction reservationAction) {
 		super(TITLE,cards);
+		this.reservationAction = reservationAction;
 	}
 
 	@Override
@@ -75,39 +76,27 @@ public class ViewRoomsPanel extends BasePanel {
 
 	public void showReservationList() {
 		SearchReservationConstraint src = new SearchReservationConstraint(); // @TODO need ID
-
-		try {
-			List<Reservation> reservationList =ReservationDaoFactory.getInstance().findReservationsByUserId(src);
-			List<Object[]> rows = new ArrayList<>();
-			for (Reservation reservation : reservationList) {
-				Object[] row = new Object[2];
-				row[0] = Integer.toString(reservation.getRoomId()); // @TODO need name
-				row[1] = getCancelButton(reservation);
-				rows.add(row);
-			}
-			reservationPane.populateList(rows);
-		} catch (DBConnectionException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}	
+		List<Reservation> reservationList = reservationAction.searchReservations(src);
+		List<Object[]> rows = new ArrayList<>();
+		for (Reservation reservation : reservationList) {
+			Object[] row = new Object[2];
+			row[0] = Integer.toString(reservation.getRoomId()); // @TODO need name
+			row[1] = getCancelButton(reservation);
+			rows.add(row);
+		}
+		reservationPane.populateList(rows);	
 	}
 	private JButton getCancelButton(Reservation reservation) {
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(e -> {
-			try {
-				boolean success = CancelReservationAction.cancelReservation(reservation);
-				if (success) {
-					JOptionPane.showMessageDialog(null, "Success!");
-					showReservationList();
-				} else {
-					JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
-				}
-				reset();
-			} catch (DBConnectionException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			boolean success = reservationAction.cancelReservation(reservation);
+			if (success) {
+				JOptionPane.showMessageDialog(null, "Success!");
+				showReservationList();
+			} else {
+				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
 			}
-
+			reset();
 		});
 		return cancelButton;
 	}
