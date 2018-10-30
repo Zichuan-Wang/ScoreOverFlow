@@ -1,10 +1,12 @@
 package ui;
 
+
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +16,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import entity.EntityUtils;
 import entity.Reservation;
@@ -34,7 +38,8 @@ public class ReservePanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Reserve a Room";
 	private JDatePickerImpl datePicker;
-	private JComboBox<String> startTime, endTime;
+	private JComboBox<String> startTime;
+	private DisableBoxModel endTime;
 	private JFormattedTextField capacity;
 	private JTextField nameField;
 	private JButton searchButton, backButton;
@@ -96,12 +101,17 @@ public class ReservePanel extends BasePanel {
 		JLabel dateLabel = new JLabel("Date");
 		searchPane.add(dateLabel);
 
+		//set default date to today
+		LocalDate today = LocalDate.now();
 		datePicker = GuiUtils.getDatePicker();
+		UtilDateModel model = (UtilDateModel) datePicker.getModel();
+		// MonthValue -1 ?
+		model.setDate(today.getYear(),today.getMonthValue()-1,today.getDayOfMonth());
+		model.setSelected(true);
 		searchPane.add(datePicker);
-
 		searchPane.add(Box.createRigidArea(new Dimension(5, 0)));
 
-		// Time
+		// Start Time and EndTime
 
 		String[] timeString = getTimeString();
 		JLabel startTimeLabel = new JLabel("Start Time");
@@ -111,15 +121,26 @@ public class ReservePanel extends BasePanel {
 
 		JLabel endTimeLabel = new JLabel("End Time");
 		searchPane.add(endTimeLabel);
-		endTime = new JComboBox<>(timeString);
+		endTime = new DisableBoxModel(timeString);
 		searchPane.add(endTime);
+
+		// If a start time is selected, disable all previous entries from end time
+		startTime.addActionListener(e->{
+			int i = startTime.getSelectedIndex();
+			endTime.removeAllItems();
+			for (int j =0; j<timeString.length;j++) {
+				endTime.addItem(timeString[j],j<=i);
+			}
+			endTime.setSelectedIndex(i+1);
+		});
 
 		// Capacity
 		JLabel capacityLabel = new JLabel("Capacity");
 		searchPane.add(capacityLabel);
 
-		capacity = new JFormattedTextField(GuiUtils.getNumberFormatter());
-		capacity.setValue(new Integer(100));
+		capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0,1000));
+		capacity.setValue(new Integer(1));
+		capacity.setColumns(3);
 		searchPane.add(capacity);
 
 		// Name
@@ -167,17 +188,20 @@ public class ReservePanel extends BasePanel {
 			src.setRoomName(nameField.getText());
 			// search from database
 			List<Room> roomList = roomAction.searchRoom(src);
-			
-			// Get the name and populate the list
-			List<Object[]> rows = new ArrayList<>();
-			for (Room room : roomList) {
-				Object[] row = new Object[2];
-				row[0] = room.getName();
-				JButton reserveButton = getReserveButton(room, src);
-				row[1] = reserveButton;
-				rows.add(row);
+			if (roomList.isEmpty())
+				JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
+			else {
+				// Get the name and populate the list
+				List<Object[]> rows = new ArrayList<>();
+				for (Room room : roomList) {
+					Object[] row = new Object[2];
+					row[0] = room.getName();
+					JButton reserveButton = getReserveButton(room, src);
+					row[1] = reserveButton;
+					rows.add(row);
+				}
+				roomPane.populateList(rows);
 			}
-			roomPane.populateList(rows);
 		});
 		return searchButton;
 	}
@@ -185,21 +209,22 @@ public class ReservePanel extends BasePanel {
 	private JButton getReserveButton(Room room, SearchRoomConstraint src) {
 		JButton reserveButton = new JButton("Reserve");
 		reserveButton.addActionListener(e -> {
-				// convert room to reservation
-				Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(),
-						src.getStartTime(), src.getEndTime(), 0);
-				// reserve
-				boolean success = reservationAction.reserveRoom(reservation);
-				//@TODO handling success and failure
-				if (success) {
-					
-				}else {
-					
-				}
-			});
+			// convert room to reservation
+			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(),
+					src.getStartTime(), src.getEndTime(), 0);
+			// reserve
+			boolean success = reservationAction.reserveRoom(reservation);
+			//@TODO handling success and failure
+			if (success) {
+				JOptionPane.showMessageDialog(null, "Success!");
+				reserveButton.setEnabled(false);
+			}else {
+				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
+			}
+		});
 		return reserveButton;
 	}
-	
+
 	private String[] getTimeString() {
 		String[] timeString = new String[6 * 24];
 		int i = 0;
@@ -210,4 +235,5 @@ public class ReservePanel extends BasePanel {
 		}
 		return timeString;
 	}
+
 }

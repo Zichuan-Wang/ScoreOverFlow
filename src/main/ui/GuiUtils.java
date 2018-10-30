@@ -53,11 +53,11 @@ public class GuiUtils {
 		return datePicker;
 	}
 
-	public static NumberFormatter getNumberFormatter() {
+	public static NumberFormatter getNumberFormatter(int minimum, int maximum) {
 		NumberFormatter numberFormatter = new NumberFormatter(NumberFormat.getInstance());
 		numberFormatter.setValueClass(Integer.class);
-		numberFormatter.setMinimum(0);
-		numberFormatter.setMaximum(Integer.MAX_VALUE);
+		numberFormatter.setMinimum(minimum);
+		numberFormatter.setMaximum(maximum);
 		numberFormatter.setAllowsInvalid(false);
 		return numberFormatter;
 	}

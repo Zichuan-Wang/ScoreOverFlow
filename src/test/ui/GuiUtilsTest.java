@@ -24,7 +24,7 @@ public class GuiUtilsTest {
 	
 	@Test
 	public void createNumberFormatter() {
-		NumberFormatter nf = GuiUtils.getNumberFormatter();
+		NumberFormatter nf = GuiUtils.getNumberFormatter(0, 100);
 		assertNotNull(nf);
 		assertEquals(nf.getValueClass(),Integer.class);
 	}

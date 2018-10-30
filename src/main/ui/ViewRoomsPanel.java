@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -69,7 +70,6 @@ public class ViewRoomsPanel extends BasePanel {
 	
 	@Override
 	public void reset() {
-		reservationPane.removeAll();
 		reservationPane.revalidate();
 		reservationPane.repaint();
 	}
@@ -91,8 +91,11 @@ public class ViewRoomsPanel extends BasePanel {
 		cancelButton.addActionListener(e -> {
 			boolean success = reservationAction.cancelReservation(reservation);
 			if (success) {
+				JOptionPane.showMessageDialog(null, "Success!");
+				showReservationList();
 				reset();
 			} else {
+				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
 			}
 		});
 		return cancelButton;
