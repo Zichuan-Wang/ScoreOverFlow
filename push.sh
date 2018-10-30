@@ -21,7 +21,7 @@ commit_logs() {
 
 
 upload_files() {
-  #git remote add origin https://${GH_TOKEN}@github.com/HengruiX/ScoreOverFlow.git
+  git remote set-url origin https://${9cade35bf393291c9ac26f3397fdf232437c7d14}@github.com/HengruiX/ScoreOverFlow.git
   git push --quiet --set-upstream origin master
 }
 
