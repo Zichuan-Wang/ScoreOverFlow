@@ -22,22 +22,22 @@ private FrameFixture window;
 	
 	@Test
 	protected void buttonsPresentAndClickable() {
-		window.button(UITestUtil.MatchButtonByName("Reserve a Room"));
-		window.button(UITestUtil.MatchButtonByName("View booked Rooms"));
+		window.button(UiTestUtils.matchButtonByName("Reserve a Room"));
+		window.button(UiTestUtils.matchButtonByName("View booked Rooms"));
 	}
 	
 	@Test
 	protected void reserveButtonNavigatesToCorrectPanel() {
-		window.panel(UITestUtil.MatchPanelByName("Main"));
-		UITestUtil.EnsureClciked(window, "Reserve a Room");
-		window.panel(UITestUtil.MatchPanelByName("Reserve a Room"));
+		window.panel(UiTestUtils.matchPanelByName("Main"));
+		UiTestUtils.ensureClicked(window, "Reserve a Room");
+		window.panel(UiTestUtils.matchPanelByName("Reserve a Room"));
 	}
 	
 	@Test
 	protected void viewButtonNavigatesToCorrectPanel() {
-		window.panel(UITestUtil.MatchPanelByName("Main"));
-		UITestUtil.EnsureClciked(window, "View booked Rooms");
-		window.panel(UITestUtil.MatchPanelByName("Booked Rooms"));
+		window.panel(UiTestUtils.matchPanelByName("Main"));
+		UiTestUtils.ensureClicked(window, "View booked Rooms");
+		window.panel(UiTestUtils.matchPanelByName("Booked Rooms"));
 	}
 	
 	

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import ui.GuiUtils;
 
-public class GuiUtilTest {
+public class GuiTestUtils {
 	@Test
 	public void createDatePicker() {
 		JDatePickerImpl datepicker = GuiUtils.getDatePicker();
