@@ -4,8 +4,6 @@ package ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -36,12 +34,6 @@ public class GuiTestUtils {
 		JButton button = GuiUtils.createButton("Test",e->System.out.println("Test"));
 		assertNotNull(button);
 		assertEquals(button.getText(),"Test");
-		assertEquals(button.getActionListeners(),new ActionListener() {
-		    public void actionPerformed(ActionEvent evt) {
-		        System.out.println("Test");
-		    }
-		}
-		);
 	}
 		
 	@Test

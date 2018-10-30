@@ -10,11 +10,7 @@ import javax.swing.JPanel;
 
 public class TablePanel extends JPanel {
 	/**
-<<<<<<< HEAD
 	 * Default serial version id
-=======
-	 * 
->>>>>>> 76f01e90acb967386f74f4a7f7aaf568f56aac40
 	 */
 	private static final long serialVersionUID = 1L;
 	final int MAX_LISTING = 10;

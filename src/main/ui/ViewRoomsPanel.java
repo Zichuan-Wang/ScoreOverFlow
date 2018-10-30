@@ -21,12 +21,7 @@ public class ViewRoomsPanel extends BasePanel {
 	 * Default serial version id
 	 */
 	private static final long serialVersionUID = 1L;
-<<<<<<< HEAD
 	private final static String TITLE = "My Reservations";
-=======
-	private final static String TITLE = "Booked Rooms";
-	private ReservationDao myDao;
->>>>>>> 76f01e90acb967386f74f4a7f7aaf568f56aac40
 	private TablePanel reservationPane;
 
 	public ViewRoomsPanel(JPanel cards) {

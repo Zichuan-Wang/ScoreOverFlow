@@ -61,21 +61,6 @@ public class BasePanel extends JPanel {
 		c.ipady = 0;
 		add(lowerPane, c);
 	}
-
-	/*
-	protected void getMiddlePanel(JPanel middlePane) {
-		// middle pane uses JPanel from other classes
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 3;
-		c.weightx = 1.0;
-		c.weighty = 1.0;
-		c.fill = GridBagConstraints.BOTH;
-		c.ipady = 10;
-		middlePane.setBorder(BorderFactory.createLineBorder(Color.black));
-		add(middlePane, c);
-	}
-	*/
 	
 	public JPanel getMiddlePanel() {
 		return new JPanel();
