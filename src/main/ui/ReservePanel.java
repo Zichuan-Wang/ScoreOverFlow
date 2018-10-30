@@ -54,7 +54,6 @@ public class ReservePanel extends BasePanel {
 		GridBagConstraints c = new GridBagConstraints();
 
 		JPanel searchPane = createSearchPanel();
-		searchPane.add(searchButton);
 
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;

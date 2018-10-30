@@ -3,7 +3,7 @@ package entity;
 import org.junit.jupiter.api.Test;
 
 import entity.Room;
-import utils.TestUtils;
+import utils.DaoTestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class RoomTest {
 	@Test
 	public void createAndUpdateRoom() {
-		Room room = TestUtils.getDefaultRoom();
+		Room room = DaoTestUtils.getDefaultRoom();
 		
-		assertEquals(room.getId(), TestUtils.DEFAULT_ROOM_ID);
-		assertEquals(room.getName(), TestUtils.DEFAULT_NAME);
-		assertEquals(room.getCapacity(), TestUtils.DEFAULT_CAPACITY);
+		assertEquals(room.getId(), DaoTestUtils.DEFAULT_ROOM_ID);
+		assertEquals(room.getName(), DaoTestUtils.DEFAULT_NAME);
+		assertEquals(room.getCapacity(), DaoTestUtils.DEFAULT_CAPACITY);
 	}
 }

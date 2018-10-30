@@ -73,7 +73,6 @@ public class BasePanel extends JPanel {
 	}
 
 	public void showPanel() {
-		// TODO Auto-generated method stub
 		System.out.println("show");
 	}
 }

@@ -8,9 +8,9 @@ public class ReservationDaoFactory {
 	private static ReservationDao dao;
 	
 	public static ReservationDao getInstance() throws DBConnectionException {
-		//if (dao == null) {
+		if (dao == null) {
 			dao = new ReservationDao();
-		//}
+		}
 		return dao;
 	}
 	
