@@ -10,17 +10,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.text.NumberFormatter;
 
-import org.jdatepicker.impl.JDatePickerImpl;
 import org.junit.jupiter.api.Test;
 
 import ui.GuiUtils;
 
 public class GuiUtilsTest {
-	@Test
-	public void createDatePicker() {
-		JDatePickerImpl datepicker = GuiUtils.getDatePicker();
-		assertNotNull(datepicker);
-	}
 	
 	@Test
 	public void createNumberFormatter() {
