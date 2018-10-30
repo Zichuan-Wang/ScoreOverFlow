@@ -11,7 +11,7 @@ steps:
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
-    mavenOptions: '--log-file maven_log -Xmx3072m'
+    mavenOptions: '--log-file maven_log'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.8'
     jdkArchitectureOption: 'x64'
