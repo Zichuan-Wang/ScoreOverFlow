@@ -36,17 +36,17 @@ public class UITestUtil {
 		
 	}
 	static void EnsureClciked (FrameFixture frame, String buttonName) {
-		frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
-		try {
-			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
-			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
-			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
-			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
-			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
-			frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
-		}
-		catch (Exception e) {
-			
+		
+		while (true) {
+			try {
+				
+				frame.button(UITestUtil.MatchButtonByName(buttonName)).click();
+				Thread.sleep(200);
+				frame.button(UITestUtil.MatchButtonByName(buttonName));
+			}
+			catch (Exception e) {
+				break;
+			}
 		}
 		
 	}
