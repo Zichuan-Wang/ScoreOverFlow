@@ -10,7 +10,7 @@ setup_git() {
 
 
 commit_logs() {
-  ls -a
+  ls -ld **/*.xml
   git checkout -b master
   git add **/TEST-*.xml
   git commit --message "Azure CI log"
