@@ -1,2 +1,4 @@
 /bin/
 /target/
+/ScoreOverFlow/target/
+/src/main/resources/META-INF/persistence.xml
