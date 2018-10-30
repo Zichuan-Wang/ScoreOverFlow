@@ -10,9 +10,9 @@ setup_git() {
 
 
 commit_logs() {
-  find . -name *.class -print0 | xargs -0 -n1 dirname | sort --unique
+  find . -name **/maven_log -print0 | xargs -0 -n1 dirname | sort --unique
   git checkout -b master
-  git add **/TEST-*.xml
+  git add **/maven_log
   git commit --message "Azure CI log"
 }
 
