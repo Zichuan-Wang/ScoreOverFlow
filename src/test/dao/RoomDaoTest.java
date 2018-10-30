@@ -1,59 +1,33 @@
 package dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
-import dao.factory.RoomDaoFactory;
 import entity.Room;
 import exception.DBConnectionException;
-import utils.DaoTestUtils;
+import server.constraint.SearchRoomConstraint;
+import utils.EntityTestUtils;
+import utils.RoomDaoTestUtils;
 
 public class RoomDaoTest {
 	@Test
 	public void roomDatabaseTest() throws DBConnectionException {
-		Room room = DaoTestUtils.getDefaultRoom();
-	
-		EntityManager manager = mock(EntityManager.class);
-		EntityTransaction transaction = mock(EntityTransaction.class);
-		Query query = mock(Query.class);
+		RoomDao dao = RoomDaoTestUtils.getRoomDao();
+		Room room = dao.findById(EntityTestUtils.DEFAULT_ROOM_ID);
+		dao.saveOrUpdate(room);
+		dao.remove(room);
+		List<Room> rooms = dao.searchRooms(new SearchRoomConstraint());
 		
-		when(manager.getTransaction()).thenReturn(transaction);
-		when(manager.find(Room.class, DaoTestUtils.DEFAULT_ROOM_ID)).thenReturn(room);
-		when(manager.createQuery(any(String.class))).thenReturn(query);
-		when(query.setParameter(any(String.class), eq(DaoTestUtils.DEFAULT_NAME))).thenReturn(query);
-		when(query.getSingleResult()).thenReturn(room);
-		
-		doAnswer(new Answer<Room>() {
-            public Room answer(InvocationOnMock invocation) {
-                Room room = invocation.getArgument(0);
-                room.setId(DaoTestUtils.NEW_ROOM_ID);
-                return room;
-            }
-        }).when(manager).merge(any(Room.class));
-		
-		RoomDao dao = RoomDaoFactory.getInstance();
-		dao.setEntityManager(manager);
-		Room newRoom = dao.saveOrUpdate(room);
-		dao.remove(newRoom);
-		
-		assertEquals(room, dao.findById(DaoTestUtils.DEFAULT_ROOM_ID));
-		assertEquals(room, dao.findRoomByName(DaoTestUtils.DEFAULT_NAME));
-		assertEquals(newRoom.getId(), DaoTestUtils.NEW_ROOM_ID);
-		verify(query, times(1)).setParameter(any(String.class), eq(DaoTestUtils.DEFAULT_NAME));
-		verify(manager, times(1)).remove(newRoom);
+		assertEquals(room.getId(), EntityTestUtils.DEFAULT_ROOM_ID);
+		assertEquals(dao.findRoomByName(EntityTestUtils.DEFAULT_NAME), EntityTestUtils.DEFAULT_NAME);
+		for (int i = 0; i < rooms.size(); i++) {
+			assertEquals(rooms.get(i).getId(), RoomDaoTestUtils.ROOM_IDS[i]);
+		}
+		verify(dao.manager, times(1)).remove(room);
 	}
 }
