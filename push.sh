@@ -10,7 +10,7 @@ setup_git() {
 
 
 commit_logs() {
-  ls -ld **/*.xml
+  find . -name *.class -print0 | xargs -0 -n1 dirname | sort --unique
   git checkout -b master
   git add **/TEST-*.xml
   git commit --message "Azure CI log"
