@@ -25,3 +25,8 @@ Java 8, Mockito, Maven
 
 ## How to run
 
+1) Install MySQL and create database based on the schema provided.
+
+2) Install the tools/technologies in the dependencies section.
+
+3) In Eclipse, select MainWindow.java and run as a Java Application.
