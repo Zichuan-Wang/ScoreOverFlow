@@ -31,6 +31,9 @@
 				<version>3.11.0</version>
 				<configuration>
 					<skipEmptyReport>false</skipEmptyReport>
+					<linkXref>true</linkXref>
+				        <sourceEncoding>utf-8</sourceEncoding>
+				        <targetJdk>1.8</targetJdk>
 			        </configuration>
 			</plugin>
 		</plugins>
