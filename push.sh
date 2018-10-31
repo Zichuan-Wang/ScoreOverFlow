@@ -8,10 +8,19 @@ setup_git() {
 commit_logs() {
   mvn pmd:pmd pmd:cpd
   git checkout master
-  git add -f ./target/cpd.xml
-  git add -f ./target/pmd.xml
-  git add -f ./target/surefire-reports/*.txt
-  git add -f maven.log
+  mkdir -p reports/maven
+  mkdir -p reports/pmd
+  mkdir -p reports/test
+  mv ./target/surefire-reports/*.txt reports/test
+  mv ./target/cpd.xml reports/pmd
+  mv ./target/pmd.xml reports/pmd
+  mv maven_phase1.log reports/maven
+  mv maven_phase2.log reports/maven
+  git add reports/pmd/cpd.xml
+  git add reports/pmd/pmd.xml
+  git add reports/test/*.txt
+  git add reports/maven/maven_phase1.log
+  git add reports/maven/maven_phase2.log
   git commit -m "Travis CI log [skip ci]"
 }
 
