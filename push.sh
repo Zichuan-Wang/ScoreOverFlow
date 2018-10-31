@@ -11,6 +11,7 @@ commit_logs() {
   git add -f ./target/cpd.xml
   git add -f ./target/pmd.xml
   git add -f ./target/surefire-reports/*.txt
+  git add -f maven.log
   git commit -m "Travis CI log [skip ci]"
 }
 
