@@ -16,10 +16,6 @@ public class GuiUtils {
 		numberFormatter.setMinimum(minimum);
 		numberFormatter.setMaximum(maximum);
 		numberFormatter.setAllowsInvalid(false);
-		int x=0;
-		if(x==0) {
-			
-		}
 		return numberFormatter;
 	}
 
