@@ -3,4 +3,4 @@
 # pre-commit script for building the project and running the
 # test suite
 
-mvn pmd:check clean test
+mvn pmd:check clean test --quiet
