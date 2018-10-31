@@ -10,7 +10,9 @@ setup_git() {
 
 
 commit_logs() {
+  ls -a
   mvn pmd:pmd pmd:cpd
+  ls -a
   cat ./target/pmd.html
   find . -name **/*.html -print0 | xargs -0 -n1 dirname | sort --unique
   find . -name *.html -print0 | xargs -0 -n1 dirname | sort --unique
