@@ -10,7 +10,7 @@ setup_git() {
 
 
 commit_logs() {
-  ls target
+  ls -R
   mvn pmd:pmd pmd:cpd
   ls target
   cat ./target/pmd.html
