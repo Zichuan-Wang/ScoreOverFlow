@@ -6,7 +6,7 @@ setup_git() {
 }
 
 commit_logs() {
-  mvn pmd:pmd pmd:cpd
+  ls target -R
   git checkout master
   mkdir -p reports/maven
   mkdir -p reports/pmd
