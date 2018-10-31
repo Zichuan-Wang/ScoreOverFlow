@@ -1,5 +1,6 @@
 package server.constraint;
 
+// Java object for specify search constraint for Reservation
 public class SearchReservationConstraint {
 	int userId;
 	
