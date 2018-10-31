@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.GuiUtilsTest
 -------------------------------------------------------------------------------
-<<<<<<< HEAD:target/surefire-reports/ui.GuiUtilsTest.txt
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.354 s - in ui.GuiUtilsTest
-=======
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.64 s - in ui.GuiUtilsTest
->>>>>>> 58f62df8cfd2d1d99595373da7d2a256b4afa0fc:reports/test/ui.GuiUtilsTest.txt
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.799 s - in ui.GuiUtilsTest

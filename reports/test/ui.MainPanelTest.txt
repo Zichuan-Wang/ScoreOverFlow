@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.MainPanelTest
 -------------------------------------------------------------------------------
-<<<<<<< HEAD:target/surefire-reports/ui.MainPanelTest.txt
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.492 s - in ui.MainPanelTest
-=======
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.92 s - in ui.MainPanelTest
->>>>>>> 58f62df8cfd2d1d99595373da7d2a256b4afa0fc:reports/test/ui.MainPanelTest.txt
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.474 s - in ui.MainPanelTest

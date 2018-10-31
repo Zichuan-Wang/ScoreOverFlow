@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.MainWindowTest
 -------------------------------------------------------------------------------
-<<<<<<< HEAD:target/surefire-reports/ui.MainWindowTest.txt
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.738 s - in ui.MainWindowTest
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.838 s - in ui.MainWindowTest
->>>>>>> 58f62df8cfd2d1d99595373da7d2a256b4afa0fc:reports/test/ui.MainWindowTest.txt
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.839 s - in ui.MainWindowTest

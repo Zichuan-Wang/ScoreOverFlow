@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: dao.ReservationDaoTest
 -------------------------------------------------------------------------------
-<<<<<<< HEAD:target/surefire-reports/dao.ReservationDaoTest.txt
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.871 s - in dao.ReservationDaoTest
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.866 s - in dao.ReservationDaoTest
->>>>>>> 58f62df8cfd2d1d99595373da7d2a256b4afa0fc:reports/test/dao.ReservationDaoTest.txt
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.787 s - in dao.ReservationDaoTest

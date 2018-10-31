@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: dao.UserDaoTest
 -------------------------------------------------------------------------------
-<<<<<<< HEAD:target/surefire-reports/dao.UserDaoTest.txt
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in dao.UserDaoTest
-=======
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s - in dao.UserDaoTest
->>>>>>> 58f62df8cfd2d1d99595373da7d2a256b4afa0fc:reports/test/dao.UserDaoTest.txt
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s - in dao.UserDaoTest
