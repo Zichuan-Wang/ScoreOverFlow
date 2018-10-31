@@ -93,10 +93,10 @@ public class ViewRoomsPanel extends BasePanel {
 			if (success) {
 				JOptionPane.showMessageDialog(null, "Success!");
 				showReservationList();
-				reset();
 			} else {
 				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
 			}
+			reset();
 		});
 		return cancelButton;
 	}

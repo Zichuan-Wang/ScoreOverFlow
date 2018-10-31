@@ -11,10 +11,10 @@ setup_git() {
 
 commit_logs() {
   cat maven_log
-  cat **/*PMD.html
-  cat *PMD.html
-  find . -name *PMD* -print0 | xargs -0 -n1 dirname | sort --unique
-  find . -name **/*PMD* -print0 | xargs -0 -n1 dirname | sort --unique
+  cat **/*.html
+  cat *.html
+  find . -name **/*.html -print0 | xargs -0 -n1 dirname | sort --unique
+  find . -name *.html -print0 | xargs -0 -n1 dirname | sort --unique
   git checkout -b master
   git add maven_log
   git commit -m "Azure CI log ***NO_CI***"

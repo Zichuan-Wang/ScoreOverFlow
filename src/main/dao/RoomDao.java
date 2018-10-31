@@ -10,6 +10,7 @@ import javax.persistence.TemporalType;
 import entity.Room;
 import server.constraint.SearchRoomConstraint;
 
+// DAO for Room
 public class RoomDao extends BaseDao<Room> {
 	
 	public RoomDao(EntityManager manager) {

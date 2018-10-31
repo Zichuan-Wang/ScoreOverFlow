@@ -11,9 +11,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,8 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.components.TimePicker;
+import com.github.lgooddatepicker.components.TimePickerSettings;
+import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
 import entity.EntityUtils;
 import entity.Reservation;
@@ -37,9 +38,18 @@ public class ReservePanel extends BasePanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Reserve a Room";
-	private JDatePickerImpl datePicker;
-	private JComboBox<String> startTime;
-	private DisableBoxModel endTime;
+	
+	private final LocalTime DEFAULTSTARTTIME = LocalTime.of(0, 0);
+	private final LocalTime DEFAULTENDTIME = LocalTime.of(0, 10);
+	private final int DEFAULTCAPACITY = 1;
+	private final int DEFAULTDATEYEARRANGE = 1;
+	
+	private DatePickerSettings dateSettings;
+	private DatePicker datePicker;
+	private TimePickerSettings startTimeSettings;
+	private TimePicker startTimePicker;
+	private TimePickerSettings endTimeSettings;
+	private TimePicker endTimePicker;
 	private JFormattedTextField capacity;
 	private JTextField nameField;
 	private JButton searchButton, backButton;
@@ -96,50 +106,66 @@ public class ReservePanel extends BasePanel {
 	}
 
 	private JPanel createSearchPanel() {
-		// Date
+		//set default date to today
+		LocalDate today = LocalDate.now();
+				
 		JPanel searchPane = new JPanel();
+		
+		// Date Picker
 		JLabel dateLabel = new JLabel("Date");
 		searchPane.add(dateLabel);
 
-		//set default date to today
-		LocalDate today = LocalDate.now();
-		datePicker = GuiUtils.getDatePicker();
-		UtilDateModel model = (UtilDateModel) datePicker.getModel();
-		// MonthValue -1 ?
-		model.setDate(today.getYear(),today.getMonthValue()-1,today.getDayOfMonth());
-		model.setSelected(true);
-		searchPane.add(datePicker);
-		searchPane.add(Box.createRigidArea(new Dimension(5, 0)));
-
-		// Start Time and EndTime
-
-		String[] timeString = getTimeString();
+		dateSettings = new DatePickerSettings();
+	    datePicker = new DatePicker(dateSettings);
+	    dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));
+	    dateSettings.setAllowEmptyDates(false);
+	    searchPane.add(datePicker);
+		
+	    // Time Picker
+	    
+	    // Start Time
 		JLabel startTimeLabel = new JLabel("Start Time");
 		searchPane.add(startTimeLabel);
-		startTime = new JComboBox<>(timeString);
-		searchPane.add(startTime);
-
-		JLabel endTimeLabel = new JLabel("End Time");
+		
+	    startTimeSettings = new TimePickerSettings();
+	    startTimeSettings.use24HourClockFormat();
+	    startTimeSettings.setAllowEmptyTimes(false);
+	    startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
+	    startTimeSettings.initialTime = LocalTime.of(0, 0);
+	    
+	    startTimePicker = new TimePicker(startTimeSettings);
+	    searchPane.add(startTimePicker);
+	    
+	    // End Time
+	    JLabel endTimeLabel = new JLabel("End Time");
 		searchPane.add(endTimeLabel);
-		endTime = new DisableBoxModel(timeString);
-		searchPane.add(endTime);
-
-		// If a start time is selected, disable all previous entries from end time
-		startTime.addActionListener(e->{
-			int i = startTime.getSelectedIndex();
-			endTime.removeAllItems();
-			for (int j =0; j<timeString.length;j++) {
-				endTime.addItem(timeString[j],j<=i);
-			}
-			endTime.setSelectedIndex(i+1);
-		});
+		
+	    endTimeSettings = new TimePickerSettings();
+	    endTimeSettings.use24HourClockFormat();
+	    endTimeSettings.setAllowEmptyTimes(false);
+	    endTimeSettings.initialTime = DEFAULTENDTIME;
+	    endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
+	    endTimeSettings.initialTime = LocalTime.of(0, 10);
+	    
+	    endTimePicker = new TimePicker(endTimeSettings);
+	    searchPane.add(endTimePicker);
+	    
+	    // Setting action listener for adjusting end time based on start time
+	    startTimePicker.addTimeChangeListener(e->{
+	    	LocalTime selectedTime = startTimePicker.getTime().plusMinutes(10);
+	    	endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, selectedTime, null);
+	    	if (endTimePicker.getTime().isBefore(startTimePicker.getTime())) {
+	    		endTimePicker.setTime(selectedTime);
+	    	}
+	    });
+		
 
 		// Capacity
 		JLabel capacityLabel = new JLabel("Capacity");
 		searchPane.add(capacityLabel);
 
 		capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0,1000));
-		capacity.setValue(new Integer(1));
+		capacity.setValue(DEFAULTCAPACITY);
 		capacity.setColumns(3);
 		searchPane.add(capacity);
 
@@ -158,9 +184,12 @@ public class ReservePanel extends BasePanel {
 	@Override
 	// Reset when exit
 	public void reset() {
-		startTime.setSelectedIndex(0);
-		endTime.setSelectedIndex(0);
-		capacity.setValue(100);
+		LocalDate today = LocalDate.now();
+		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));
+		datePicker.setDateToToday();
+		startTimePicker.setTime(DEFAULTSTARTTIME);
+		endTimePicker.setTime(DEFAULTENDTIME);
+		capacity.setValue(DEFAULTCAPACITY);
 		nameField.setText("");
 	}
 
@@ -173,15 +202,17 @@ public class ReservePanel extends BasePanel {
 		searchButton.addActionListener(e -> {
 			SearchRoomConstraint src = new SearchRoomConstraint();
 
-			String selectedDate = datePicker.getJFormattedTextField().getText();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			String selectedDate = datePicker.getDateStringOrEmptyString();
+			String startTime = startTimePicker.getTimeStringOrEmptyString();
+			String endTime = endTimePicker.getTimeStringOrEmptyString();
 
 			// Parse
 			try {
 				src.setCapacity(Integer.parseInt(capacity.getText()));
 				src.setEventDate(new SimpleDateFormat("yyyy-MM-dd").parse(selectedDate));
-				src.setStartTime(sdf.parse(selectedDate + " " + startTime.getSelectedItem()));
-				src.setEndTime(sdf.parse(selectedDate + " " + endTime.getSelectedItem()));
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				src.setStartTime(sdf.parse(selectedDate + " " + startTime));
+				src.setEndTime(sdf.parse(selectedDate + " " + endTime));
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -224,16 +255,6 @@ public class ReservePanel extends BasePanel {
 		});
 		return reserveButton;
 	}
-
-	private String[] getTimeString() {
-		String[] timeString = new String[6 * 24];
-		int i = 0;
-		for (int hour = 0; hour < 24; hour++) {
-			for (int minute = 0; minute < 60; minute += 10) {
-				timeString[i++] = LocalTime.of(hour, minute).toString();
-			}
-		}
-		return timeString;
-	}
+	
 
 }
