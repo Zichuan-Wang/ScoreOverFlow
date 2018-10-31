@@ -12,7 +12,7 @@ setup_git() {
 commit_logs() {
   cat maven_log
   cat **/*PMD.html
-  cat *PMD.html
+  cat *PMD*
   find . -name *PMD* -print0 | xargs -0 -n1 dirname | sort --unique
   find . -name **/*PMD* -print0 | xargs -0 -n1 dirname | sort --unique
   git checkout -b master
