@@ -35,8 +35,7 @@ private FrameFixture window;
 	
 	@Test
 	protected void viewButtonNavigatesToCorrectPanel() {
-		window.panel(UiTestUtils.matchPanelByName("Main"));
-		UiTestUtils.ensureClicked(window, "View Reservations");
+		UiTestUtils.ensureClicked(window, "Search");
 		window.panel(UiTestUtils.matchPanelByName("My Reservations"));
 	}
 	
