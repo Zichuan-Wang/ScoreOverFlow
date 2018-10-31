@@ -2,7 +2,7 @@
 Test set: ui.Testing
 -------------------------------------------------------------------------------
 Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.055 s <<< FAILURE! - in ui.Testing
-titleIsCorrect  Time elapsed: 0.055 s  <<< ERROR!
+titleIsCorrect  Time elapsed: 0.054 s  <<< ERROR!
 java.lang.NullPointerException
-	at ui.Testing.onSetUp(Testing.java:34)
+	at ui.Testing.onSetUp(Testing.java:29)
 
