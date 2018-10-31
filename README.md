@@ -25,11 +25,11 @@ Java 8, Maven (JPA, Hibernate, JDBC, JUnit, Mockito, PMD), MySQL
 
 ## How to run
 
-1) Install MySQL and create database based on db_schema/scoreoverflowdb.sql.
+1) Install MySQL and create database based on ```db_schema/scoreoverflowdb.sql```.
 
 2) Install Maven and build the dependencies using ```mvn clean```
 
-3) In Eclipse, select MainWindow.java and run as a Java Application.
+3) In Eclipse, select ```MainWindow.java``` and run as a Java Application.
 
 ## Pre-Commit
 
