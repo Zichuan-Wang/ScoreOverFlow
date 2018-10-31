@@ -2,7 +2,7 @@
 <pmd xmlns="http://pmd.sourceforge.net/report/2.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd"
-    version="6.8.0" timestamp="2018-10-31T03:41:01.025">
+    version="6.8.0" timestamp="2018-10-31T03:51:05.553">
 <file name="/Users/travis/build/Zichuan-Wang/ScoreOverFlow/src/main/ui/MainWindow.java">
 <violation beginline="45" endline="47" begincolumn="26" endcolumn="17" rule="EmptyIfStmt" ruleset="Error Prone" package="ui" class="MainWindow" method="MainWindow" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_errorprone.html#emptyifstmt" priority="3">
 Avoid empty if statements
