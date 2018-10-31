@@ -21,9 +21,7 @@ public class RoomDaoTest {
 		Room room = dao.findById(EntityTestUtils.DEFAULT_ROOM_ID);
 		dao.saveOrUpdate(room);
 		dao.remove(room);
-		System.out.println(dao);
 		List<Room> rooms = dao.searchRooms(new SearchRoomConstraint());
-		System.out.println(rooms);
 		
 		assertEquals(room.getId(), EntityTestUtils.DEFAULT_ROOM_ID);
 		assertEquals(dao.findRoomByName(EntityTestUtils.DEFAULT_NAME).getName(), EntityTestUtils.DEFAULT_NAME);
