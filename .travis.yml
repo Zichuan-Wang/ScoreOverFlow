@@ -1,8 +1,10 @@
 language: java
 os: osx
 osx_image: xcode9.3
+install:
+- mvn clean > maven_phase1.log
 script:
-- mvn test -B > maven.log
+- mvn test -B > maven_phase2.log
 after_success: 
 - chmod ugo+x push.sh
 - ./push.sh
