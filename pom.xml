@@ -35,6 +35,13 @@
 				        <sourceEncoding>utf-8</sourceEncoding>
 				        <targetJdk>1.8</targetJdk>
 			        </configuration>
+				<executions>
+				  <execution>
+				    <goals>
+				      <goal>check</goal>
+				    </goals>
+				  </execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
