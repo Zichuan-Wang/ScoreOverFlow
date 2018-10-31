@@ -41,6 +41,10 @@ public class MainWindow extends JFrame {
 		cards.add(reservePane, "reserve");
 		cards.add(viewRoomsPane, "view rooms");
 		add(cards);
+		int x = 0;
+		if(x==0) {
+			
+		}
 	}
 
 	/**
