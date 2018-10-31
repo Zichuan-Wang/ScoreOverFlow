@@ -128,9 +128,10 @@ public class ReservePanel extends BasePanel {
 		searchPane.add(startTimeLabel);
 		
 	    startTimeSettings = new TimePickerSettings();
-	    startTimeSettings.initialTime = DEFAULTSTARTTIME;
 	    startTimeSettings.use24HourClockFormat();
+	    startTimeSettings.setAllowEmptyTimes(false);
 	    startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
+	    startTimeSettings.initialTime = LocalTime.of(0, 0);
 	    
 	    startTimePicker = new TimePicker(startTimeSettings);
 	    searchPane.add(startTimePicker);
@@ -140,9 +141,11 @@ public class ReservePanel extends BasePanel {
 		searchPane.add(endTimeLabel);
 		
 	    endTimeSettings = new TimePickerSettings();
-	    endTimeSettings.initialTime = DEFAULTENDTIME;
-	    endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, DEFAULTENDTIME, null);
 	    endTimeSettings.use24HourClockFormat();
+	    endTimeSettings.setAllowEmptyTimes(false);
+	    endTimeSettings.initialTime = DEFAULTENDTIME;
+	    endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
+	    endTimeSettings.initialTime = LocalTime.of(0, 10);
 	    
 	    endTimePicker = new TimePicker(endTimeSettings);
 	    searchPane.add(endTimePicker);
