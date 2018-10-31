@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: entity.UserTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD:target/surefire-reports/entity.UserTest.txt
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s - in entity.UserTest
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s - in entity.UserTest
+>>>>>>> 58f62df8cfd2d1d99595373da7d2a256b4afa0fc:reports/test/entity.UserTest.txt

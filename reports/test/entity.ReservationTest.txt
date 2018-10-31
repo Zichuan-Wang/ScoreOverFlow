@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: entity.ReservationTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD:target/surefire-reports/entity.ReservationTest.txt
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s - in entity.ReservationTest
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in entity.ReservationTest
+>>>>>>> 58f62df8cfd2d1d99595373da7d2a256b4afa0fc:reports/test/entity.ReservationTest.txt

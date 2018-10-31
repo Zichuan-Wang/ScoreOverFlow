@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: dao.RoomDaoTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD:target/surefire-reports/dao.RoomDaoTest.txt
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in dao.RoomDaoTest
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s - in dao.RoomDaoTest
+>>>>>>> 58f62df8cfd2d1d99595373da7d2a256b4afa0fc:reports/test/dao.RoomDaoTest.txt
