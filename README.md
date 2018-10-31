@@ -25,7 +25,7 @@ Java 8, Mockito, Maven
 
 ## How to run
 
-1) Install MySQL and create database based on the schema provided.
+1) Install MySQL and create the database based on scoreoverflowdb.sql.
 
 2) Install the tools/technologies in the dependencies section.
 
