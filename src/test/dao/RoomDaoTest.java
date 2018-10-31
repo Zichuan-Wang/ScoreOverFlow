@@ -28,7 +28,7 @@ public class RoomDaoTest {
 		assertEquals(room.getId(), EntityTestUtils.DEFAULT_ROOM_ID);
 		assertEquals(dao.findRoomByName(EntityTestUtils.DEFAULT_NAME).getName(), EntityTestUtils.DEFAULT_NAME);
 		for (int i = 0; i < rooms.size(); i++) {
-			assertEquals(rooms.get(i).getId(), RoomDaoTestUtils.ROOM_IDS[i]);
+			assertEquals(rooms.get(i).getId(), RoomDaoTestUtils.ROOM_IDS[0]);
 		}
 		verify(dao.manager, times(1)).remove(room);
 	}
