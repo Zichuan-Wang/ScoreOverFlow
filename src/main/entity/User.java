@@ -8,23 +8,23 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 public class User {
-	
+
 	@Id
-    @Column(name = "id", unique = true)
+	@Column(name = "id", unique = true)
 	private int id;
-	
+
 	@Column(name = "uni", nullable = false, unique = true)
 	private String uni;
-	
+
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@Column(name = "is_admin")
 	private boolean isAdmin;
-	
+
 	@Column(name = "user_group")
 	private int userGroup;
-	
+
 	@Column(name = "email")
 	private String email;
 

@@ -1,6 +1,5 @@
 package ui;
 
-
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -38,12 +37,12 @@ public class ReservePanel extends BasePanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Reserve a Room";
-	
+
 	private final LocalTime DEFAULTSTARTTIME = LocalTime.of(0, 0);
 	private final LocalTime DEFAULTENDTIME = LocalTime.of(0, 10);
 	private final int DEFAULTCAPACITY = 1;
 	private final int DEFAULTDATEYEARRANGE = 1;
-	
+
 	private DatePickerSettings dateSettings;
 	private DatePicker datePicker;
 	private TimePickerSettings startTimeSettings;
@@ -54,12 +53,12 @@ public class ReservePanel extends BasePanel {
 	private JTextField nameField;
 	private JButton searchButton, backButton;
 	private TablePanel roomPane;
-	
+
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 
 	public ReservePanel(JPanel cards, ReservationAction reservationAction, RoomAction roomAction) {
-		super(TITLE,cards);
+		super(TITLE, cards);
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
 	}
@@ -100,71 +99,70 @@ public class ReservePanel extends BasePanel {
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		backButton = GuiUtils.getBackButton(this,cards);
+		backButton = GuiUtils.getBackButton(this, cards);
 		middlePane.add(backButton, c);
 		return middlePane;
 	}
 
 	private JPanel createSearchPanel() {
-		//set default date to today
+		// set default date to today
 		LocalDate today = LocalDate.now();
-				
+
 		JPanel searchPane = new JPanel();
-		
+
 		// Date Picker
 		JLabel dateLabel = new JLabel("Date");
 		searchPane.add(dateLabel);
 
 		dateSettings = new DatePickerSettings();
-	    datePicker = new DatePicker(dateSettings);
-	    dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));
-	    dateSettings.setAllowEmptyDates(false);
-	    searchPane.add(datePicker);
-		
-	    // Time Picker
-	    
-	    // Start Time
+		datePicker = new DatePicker(dateSettings);
+		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));
+		dateSettings.setAllowEmptyDates(false);
+		searchPane.add(datePicker);
+
+		// Time Picker
+
+		// Start Time
 		JLabel startTimeLabel = new JLabel("Start Time");
 		searchPane.add(startTimeLabel);
-		
-	    startTimeSettings = new TimePickerSettings();
-	    startTimeSettings.use24HourClockFormat();
-	    startTimeSettings.setAllowEmptyTimes(false);
-	    startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
-	    startTimeSettings.initialTime = LocalTime.of(0, 0);
-	    
-	    startTimePicker = new TimePicker(startTimeSettings);
-	    searchPane.add(startTimePicker);
-	    
-	    // End Time
-	    JLabel endTimeLabel = new JLabel("End Time");
+
+		startTimeSettings = new TimePickerSettings();
+		startTimeSettings.use24HourClockFormat();
+		startTimeSettings.setAllowEmptyTimes(false);
+		startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
+		startTimeSettings.initialTime = LocalTime.of(0, 0);
+
+		startTimePicker = new TimePicker(startTimeSettings);
+		searchPane.add(startTimePicker);
+
+		// End Time
+		JLabel endTimeLabel = new JLabel("End Time");
 		searchPane.add(endTimeLabel);
-		
-	    endTimeSettings = new TimePickerSettings();
-	    endTimeSettings.use24HourClockFormat();
-	    endTimeSettings.setAllowEmptyTimes(false);
-	    endTimeSettings.initialTime = DEFAULTENDTIME;
-	    endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
-	    endTimeSettings.initialTime = LocalTime.of(0, 10);
-	    
-	    endTimePicker = new TimePicker(endTimeSettings);
-	    searchPane.add(endTimePicker);
-	    
-	    // Setting action listener for adjusting end time based on start time
-	    startTimePicker.addTimeChangeListener(e->{
-	    	LocalTime selectedTime = startTimePicker.getTime().plusMinutes(10);
-	    	endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, selectedTime, null);
-	    	if (endTimePicker.getTime().isBefore(startTimePicker.getTime())) {
-	    		endTimePicker.setTime(selectedTime);
-	    	}
-	    });
-		
+
+		endTimeSettings = new TimePickerSettings();
+		endTimeSettings.use24HourClockFormat();
+		endTimeSettings.setAllowEmptyTimes(false);
+		endTimeSettings.initialTime = DEFAULTENDTIME;
+		endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
+		endTimeSettings.initialTime = LocalTime.of(0, 10);
+
+		endTimePicker = new TimePicker(endTimeSettings);
+		searchPane.add(endTimePicker);
+
+		// Setting action listener for adjusting end time based on start time
+		startTimePicker.addTimeChangeListener(e -> {
+			LocalTime selectedTime = startTimePicker.getTime().plusMinutes(10);
+			endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, selectedTime, null);
+			if (endTimePicker.getTime().isBefore(startTimePicker.getTime())) {
+				endTimePicker.setTime(selectedTime);
+			}
+		});
 
 		// Capacity
 		JLabel capacityLabel = new JLabel("Capacity");
 		searchPane.add(capacityLabel);
 
-		capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0,1000));
+		capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0, 1000));
 		capacity.setValue(DEFAULTCAPACITY);
 		capacity.setColumns(3);
 		searchPane.add(capacity);
@@ -241,20 +239,19 @@ public class ReservePanel extends BasePanel {
 		JButton reserveButton = new JButton("Reserve");
 		reserveButton.addActionListener(e -> {
 			// convert room to reservation
-			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(),
-					src.getStartTime(), src.getEndTime(), 0);
+			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(), src.getStartTime(),
+					src.getEndTime(), 0);
 			// reserve
 			boolean success = reservationAction.reserveRoom(reservation);
-			//@TODO handling success and failure
+			// @TODO handling success and failure
 			if (success) {
 				JOptionPane.showMessageDialog(null, "Success!");
 				reserveButton.setEnabled(false);
-			}else {
+			} else {
 				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
 			}
 		});
 		return reserveButton;
 	}
-	
 
 }

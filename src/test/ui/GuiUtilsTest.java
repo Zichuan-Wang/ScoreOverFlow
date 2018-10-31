@@ -1,6 +1,5 @@
 package ui;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -12,34 +11,32 @@ import javax.swing.text.NumberFormatter;
 
 import org.junit.jupiter.api.Test;
 
-import ui.GuiUtils;
-
 public class GuiUtilsTest {
-	
+
 	@Test
 	public void createNumberFormatter() {
 		NumberFormatter nf = GuiUtils.getNumberFormatter(0, 100);
 		assertNotNull(nf);
-		assertEquals(nf.getValueClass(),Integer.class);
+		assertEquals(nf.getValueClass(), Integer.class);
 	}
-	
+
 	@Test
 	public void createButtonTest() {
-		JButton button = GuiUtils.createButton("Test",e->System.out.println("Test"));
+		JButton button = GuiUtils.createButton("Test", e -> System.out.println("Test"));
 		assertNotNull(button);
-		assertEquals(button.getText(),"Test");
+		assertEquals(button.getText(), "Test");
 	}
-		
+
 	@Test
 	public void getJumpCardActionListenerTest() {
-		ActionListener actionListener = GuiUtils.getJumpCardActionListener(new JPanel(),"test");
+		ActionListener actionListener = GuiUtils.getJumpCardActionListener(new JPanel(), "test");
 		assertNotNull(actionListener);
 	}
-	
+
 	@Test
 	public void getBackButtonTest() {
-		JButton button = GuiUtils.getBackButton(new BasePanel("Test", new JPanel()),new JPanel());
+		JButton button = GuiUtils.getBackButton(new BasePanel("Test", new JPanel()), new JPanel());
 		assertNotNull(button);
-		assertEquals(button.getText(),"Back");
+		assertEquals(button.getText(), "Back");
 	}
 }

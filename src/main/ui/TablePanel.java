@@ -37,5 +37,4 @@ public class TablePanel extends JPanel {
 		repaint();
 	}
 
-
 }

@@ -1,18 +1,17 @@
 package entity;
 
-import entity.User;
-import utils.EntityTestUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import utils.EntityTestUtils;
 
 //The JUnit tests for User
 public class UserTest {
 	@Test
 	public void createAndUpdateUser() {
 		User user = EntityTestUtils.getDefaultUser();
-		
+
 		assertEquals(user.getId(), EntityTestUtils.DEFAULT_USER_ID);
 		assertEquals(user.getPassword(), EntityTestUtils.DEFAULT_PASSWORD);
 		assertEquals(user.getUni(), EntityTestUtils.DEFAULT_UNI);

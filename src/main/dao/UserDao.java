@@ -7,8 +7,8 @@ import javax.persistence.Query;
 import entity.User;
 
 // DAO for User
-public class UserDao extends BaseDao<User>{
-	
+public class UserDao extends BaseDao<User> {
+
 	public UserDao(EntityManager manager) {
 		super(User.class, manager);
 	}
@@ -24,7 +24,7 @@ public class UserDao extends BaseDao<User>{
 			return null;
 		}
 	}
-	
+
 	/*
 	 * Find the user by email, return null if not found
 	 */

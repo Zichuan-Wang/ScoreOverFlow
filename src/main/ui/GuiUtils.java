@@ -21,7 +21,7 @@ public class GuiUtils {
 
 	public static JButton createButton(String buttonName, ActionListener... actions) {
 		JButton button = new JButton(buttonName);
-		for (ActionListener action: actions) {
+		for (ActionListener action : actions) {
 			button.addActionListener(action);
 		}
 		return button;
@@ -33,10 +33,10 @@ public class GuiUtils {
 			cl.show(cards, id);
 		};
 	}
-	
+
 	public static JButton getBackButton(BasePanel pane, JPanel cards) {
 		ActionListener initAction = e -> pane.reset();
-		JButton backButton = createButton("Back", getJumpCardActionListener(cards,"main"),initAction);
+		JButton backButton = createButton("Back", getJumpCardActionListener(cards, "main"), initAction);
 		return backButton;
 	}
 

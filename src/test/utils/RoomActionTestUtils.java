@@ -7,5 +7,5 @@ public class RoomActionTestUtils {
 	public static RoomAction getRoomAction() {
 		return new RoomAction(RoomDaoTestUtils.getRoomDao());
 	}
-	
+
 }

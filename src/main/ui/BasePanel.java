@@ -15,11 +15,11 @@ public class BasePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private GridBagConstraints c;
 	protected JPanel cards;
-	
+
 	// Initialize a page without the middle panel
 	public BasePanel(String title, JPanel cards) {
 		this.cards = cards;
-		
+
 		setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
 
@@ -36,7 +36,7 @@ public class BasePanel extends JPanel {
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 
 		add(upperPane, c);
-		
+
 		JPanel middlePane = getMiddlePanel();
 		c.gridx = 0;
 		c.gridy = 1;
@@ -47,8 +47,7 @@ public class BasePanel extends JPanel {
 		c.ipady = 10;
 		middlePane.setBorder(BorderFactory.createLineBorder(Color.black));
 		add(middlePane, c);
-		
-		
+
 		JPanel lowerPane = new JPanel();
 		JLabel emptyLabel = new JLabel(" ");
 		lowerPane.add(emptyLabel);
@@ -61,11 +60,11 @@ public class BasePanel extends JPanel {
 		c.ipady = 0;
 		add(lowerPane, c);
 	}
-	
+
 	public JPanel getMiddlePanel() {
 		return new JPanel();
 	}
-	
+
 	public void reset() {
 		removeAll();
 		revalidate();

@@ -22,7 +22,7 @@ public class RoomDaoTest {
 		dao.saveOrUpdate(room);
 		dao.remove(room);
 		List<Room> rooms = dao.searchRooms(new SearchRoomConstraint());
-		
+
 		assertEquals(room.getId(), EntityTestUtils.DEFAULT_ROOM_ID);
 		assertEquals(dao.findRoomByName(EntityTestUtils.DEFAULT_NAME).getName(), EntityTestUtils.DEFAULT_NAME);
 		for (int i = 0; i < rooms.size(); i++) {

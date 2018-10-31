@@ -17,9 +17,9 @@ public class MainPanel extends BasePanel {
 	private JButton viewRoomsButton;
 
 	public MainPanel(JPanel cards, ReservePanel reservePane, ViewRoomsPanel viewRoomsPane) {
-		super(TITLE,cards);
-		reserveButton.addActionListener(e->reservePane.showPanel());
-		viewRoomsButton.addActionListener(e->viewRoomsPane.showPanel());
+		super(TITLE, cards);
+		reserveButton.addActionListener(e -> reservePane.showPanel());
+		viewRoomsButton.addActionListener(e -> viewRoomsPane.showPanel());
 	}
 
 	@Override
@@ -32,8 +32,7 @@ public class MainPanel extends BasePanel {
 		middlePane.add(Box.createVerticalGlue());
 
 		// Reserve
-		reserveButton = GuiUtils.createButton("Reserve a Room",
-				GuiUtils.getJumpCardActionListener(cards, "reserve"));
+		reserveButton = GuiUtils.createButton("Reserve a Room", GuiUtils.getJumpCardActionListener(cards, "reserve"));
 		reserveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(reserveButton);
 

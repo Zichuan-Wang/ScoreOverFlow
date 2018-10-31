@@ -12,33 +12,33 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "reservation")
 public class Reservation {
-	
+
 	@Id
-    @Column(name = "id", unique = true)
+	@Column(name = "id", unique = true)
 	private int id;
-	
+
 	@Column(name = "user_id")
 	private int userId;
-	
+
 	@Column(name = "room_id")
 	private int roomId;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "event_date")
 	private Date eventDate;
-	
+
 	@Temporal(TemporalType.TIME)
 	@Column(name = "start_time")
 	private Date startTime;
-	
+
 	@Temporal(TemporalType.TIME)
 	@Column(name = "end_time")
 	private Date endTime;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created")
 	private Date created;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modified")
 	private Date modified;
@@ -60,7 +60,7 @@ public class Reservation {
 		this.userId = userId;
 		return this;
 	}
-	
+
 	public int getRoomId() {
 		return roomId;
 	}
@@ -69,7 +69,7 @@ public class Reservation {
 		this.roomId = roomId;
 		return this;
 	}
-	
+
 	public Date getEventDate() {
 		return eventDate;
 	}
@@ -78,7 +78,7 @@ public class Reservation {
 		this.eventDate = eventDate;
 		return this;
 	}
-	
+
 	public Date getStartTime() {
 		return startTime;
 	}
@@ -87,7 +87,7 @@ public class Reservation {
 		this.startTime = startTime;
 		return this;
 	}
-	
+
 	public Date getEndTime() {
 		return endTime;
 	}
@@ -96,7 +96,7 @@ public class Reservation {
 		this.endTime = endTime;
 		return this;
 	}
-	
+
 	public Date getCreated() {
 		return created;
 	}
@@ -105,7 +105,7 @@ public class Reservation {
 		this.created = created;
 		return this;
 	}
-	
+
 	public Date getModified() {
 		return modified;
 	}

@@ -3,25 +3,25 @@ package ui;
 import java.awt.Component;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class DisableBoxModel extends JComboBox{
+public class DisableBoxModel extends JComboBox {
 	/**
 	 * Default serial version id
 	 */
 	private static final long serialVersionUID = 1L;
 	private Set<Integer> disabled_items = new HashSet<>();
-	
-	
+
 	public DisableBoxModel() {
 		super();
 		super.setRenderer(new DisabledItemsRenderer());
 	}
-	
+
 	public DisableBoxModel(String[] items) {
 		super(items);
 		super.setRenderer(new DisabledItemsRenderer());
@@ -55,10 +55,7 @@ public class DisableBoxModel extends JComboBox{
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public Component getListCellRendererComponent(JList list,
-				Object value,
-				int index,
-				boolean isSelected,
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 
 			if (isSelected) {

@@ -11,7 +11,7 @@ import exception.DBConnectionException;
 public class UserDaoFactory {
 
 	private static UserDao dao;
-	
+
 	public static UserDao getInstance() throws DBConnectionException {
 		if (dao == null) {
 			try {
@@ -24,5 +24,5 @@ public class UserDaoFactory {
 		}
 		return dao;
 	}
-	
+
 }

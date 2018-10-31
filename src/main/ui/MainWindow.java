@@ -30,7 +30,7 @@ public class MainWindow extends JFrame {
 
 		// Create a cardLayout for switching between the panels
 		cards = new JPanel(new CardLayout());
-		
+
 		// Create three panels
 		ReservePanel reservePane = new ReservePanel(cards, reservationAction, roomAction);
 		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards, reservationAction);

@@ -22,11 +22,11 @@ public class ViewRoomsPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "My Reservations";
 	private TablePanel reservationPane;
-	
+
 	private ReservationAction reservationAction;
 
 	public ViewRoomsPanel(JPanel cards, ReservationAction reservationAction) {
-		super(TITLE,cards);
+		super(TITLE, cards);
 		this.reservationAction = reservationAction;
 	}
 
@@ -58,16 +58,16 @@ public class ViewRoomsPanel extends BasePanel {
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		JButton backButton = GuiUtils.getBackButton(this,cards);
+		JButton backButton = GuiUtils.getBackButton(this, cards);
 		middlePane.add(backButton, c);
 		return middlePane;
 	}
-	
+
 	@Override
 	public void showPanel() {
 		showReservationList();
 	}
-	
+
 	@Override
 	public void reset() {
 		reservationPane.revalidate();
@@ -84,8 +84,9 @@ public class ViewRoomsPanel extends BasePanel {
 			row[1] = getCancelButton(reservation);
 			rows.add(row);
 		}
-		reservationPane.populateList(rows);	
+		reservationPane.populateList(rows);
 	}
+
 	private JButton getCancelButton(Reservation reservation) {
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(e -> {
@@ -100,6 +101,5 @@ public class ViewRoomsPanel extends BasePanel {
 		});
 		return cancelButton;
 	}
-	
 
 }

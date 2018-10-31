@@ -11,7 +11,7 @@ import exception.DBConnectionException;
 public class ReservationDaoFactory {
 
 	private static ReservationDao dao;
-	
+
 	public static ReservationDao getInstance() throws DBConnectionException {
 		if (dao == null) {
 			try {
@@ -24,5 +24,5 @@ public class ReservationDaoFactory {
 		}
 		return dao;
 	}
-	
+
 }
