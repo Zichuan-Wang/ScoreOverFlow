@@ -21,12 +21,12 @@ On the user panel, a list of all booked rooms will be shown.
 For the list of booked rooms on the user panel, there is a button after each reservation item. Click the one that you want to cancel the reservation.
 
 ## Dependencies
-Java 8, Mockito, Maven
+Java 8, Maven (JPA, Hibernate, JDBC, JUnit, Mockito), MySQL
 
 ## How to run
 
-1) Install MySQL and create the database based on scoreoverflowdb.sql.
+1) Install MySQL and create database based on the schema provided.
 
-2) Install the tools/technologies in the dependencies section.
+2) Install Maven and build the dependencies using ```mvn clean```
 
 3) In Eclipse, select MainWindow.java and run as a Java Application.
