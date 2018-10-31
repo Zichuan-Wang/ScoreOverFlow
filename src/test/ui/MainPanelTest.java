@@ -24,6 +24,10 @@ private FrameFixture window;
 	protected void buttonsPresentAndClickable() {
 		window.button(UiTestUtils.matchButtonByName("Reserve a Room"));
 		window.button(UiTestUtils.matchButtonByName("View Reservations"));
+		int x=0;
+		if(x==0) {
+			
+		}
 	}
 	
 	@Test

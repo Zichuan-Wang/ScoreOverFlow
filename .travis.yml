@@ -1,5 +1,14 @@
 language: java
 os: osx
 osx_image: xcode9.3
-after_success: ./push.sh
-after_failure: ./push.sh
+install:
+- mvn clean > maven_phase1.log
+script:
+- mvn test -B > maven_phase2.log
+- mvn pmd:check pmd:cpd-check
+after_success: 
+- chmod ugo+x push.sh
+- ./push.sh
+after_failure:
+- chmod ugo+x push.sh
+- ./push.sh

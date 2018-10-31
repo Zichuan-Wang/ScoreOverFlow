@@ -1,29 +1,31 @@
 #!/bin/sh
 
-
-
 setup_git() {
-  git config --global user.email "ci@azure.com"
-  git config --global user.name "Azure CI"
+  git config --global user.email "ci@travis-ci.org"
+  git config --global user.name "Travis CI"
 }
-
-
 
 commit_logs() {
-  cat maven_log
-  cat **/*.html
-  cat *.html
-  find . -name **/*.html -print0 | xargs -0 -n1 dirname | sort --unique
-  find . -name *.html -print0 | xargs -0 -n1 dirname | sort --unique
-  git checkout -b master
-  git add maven_log
-  git commit -m "Azure CI log ***NO_CI***"
+  ls target -R
+  git checkout master
+  mkdir -p reports/maven
+  mkdir -p reports/pmd
+  mkdir -p reports/test
+  mv ./target/surefire-reports/*.txt reports/test
+  mv ./target/cpd.xml reports/pmd
+  mv ./target/pmd.xml reports/pmd
+  mv maven_phase1.log reports/maven
+  mv maven_phase2.log reports/maven
+  git add reports/pmd/cpd.xml
+  git add reports/pmd/pmd.xml
+  git add reports/test/*.txt
+  git add reports/maven/maven_phase1.log
+  git add reports/maven/maven_phase2.log
+  git commit -m "Travis CI log [skip ci]"
 }
 
-
-
 upload_files() {
-  git remote set-url origin https://Zichuan-Wang:1e8af7f8ec67794a6e41d8b90123f15da0e361da@github.com/HengruiX/ScoreOverFlow.git
+  git remote set-url origin https://Zichuan-Wang:$AccessKey@github.com/Zichuan-Wang/ScoreOverFlow.git
   git push --quiet --set-upstream origin master
 }
 

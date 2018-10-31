@@ -21,12 +21,16 @@ On the user panel, a list of all booked rooms will be shown.
 For the list of booked rooms on the user panel, there is a button after each reservation item. Click the one that you want to cancel the reservation.
 
 ## Dependencies
-Java 8, Mockito, Maven
+Java 8, Maven (JPA, Hibernate, JDBC, JUnit, Mockito, PMD), MySQL
 
 ## How to run
 
-1) Install MySQL and create database based on the schema provided.
+1) Install MySQL and create database based on ```db_schema/scoreoverflowdb.sql```.
 
-2) Install the tools/technologies in the dependencies section.
+2) Install Maven and build the dependencies using ```mvn clean```
 
-3) In Eclipse, select MainWindow.java and run as a Java Application.
+3) In Eclipse, select ```MainWindow.java``` and run as a Java Application.
+
+## Pre-Commit
+
+You can configure this repository to set up pre-commit testing. Run ```scripts/git-hooks/hook-setup.sh``` to incorporate pre-commit. Before each commit, the static code analyzer/style checker PMD is automatically run. The unit test suites are also run by Maven. If there are static bugs or failed unit tests, the system would not allowed the commit go through.

@@ -34,6 +34,7 @@ public abstract class BaseDao<T> {
 		transaction.begin();
 		T saved = manager.merge(t);
 		transaction.commit();
+		manager.clear();
 		return saved;
 	}
 	
