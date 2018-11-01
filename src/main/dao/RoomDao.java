@@ -40,12 +40,15 @@ public class RoomDao extends BaseDao<Room> {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Room> searchRooms(SearchRoomConstraint constraint) {
-		Query query = manager
-				.createQuery("SELECT u FROM Room u " + "WHERE (u.name LIKE :name) " + "AND (u.capacity >= :capacity) "
-						+ "AND NOT EXISTS " + "(SELECT r FROM Reservation r " + "WHERE r.roomId = u.id "
-						+ "AND r.eventDate = :eventDate " + "AND r.startTime < :endTime "
-						+ "AND r.endTime > :startTime)")
-				.setParameter("name", "%" + constraint.getRoomName() + "%")
+		Query query = manager.createQuery("SELECT u FROM Room u "//
+				+ "WHERE (u.name LIKE :name) "//
+				+ "AND (u.capacity >= :capacity) "//
+				+ "AND NOT EXISTS "//
+				+ "(SELECT r FROM Reservation r "//
+				+ "WHERE r.roomId = u.id "//
+				+ "AND r.eventDate = :eventDate "//
+				+ "AND r.startTime < :endTime "//
+				+ "AND r.endTime > :startTime)").setParameter("name", "%" + constraint.getRoomName() + "%")
 				.setParameter("capacity", constraint.getCapacity())
 				.setParameter("eventDate", constraint.getEventDate(), TemporalType.DATE)
 				.setParameter("startTime", constraint.getStartTime(), TemporalType.TIME)
