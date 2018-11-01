@@ -1,16 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.ReservePanelTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.004 s <<< FAILURE! - in ui.ReservePanelTest
-reserveButtonsPresentAndClickable  Time elapsed: 0 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.DaoUtils
-	at ui.ReservePanelTest.onSetUp(ReservePanelTest.java:21)
-
-fieldsTest  Time elapsed: 0.001 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.DaoUtils
-	at ui.ReservePanelTest.onSetUp(ReservePanelTest.java:21)
-
-backButtonsPresentAndClickable  Time elapsed: 0 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.DaoUtils
-	at ui.ReservePanelTest.onSetUp(ReservePanelTest.java:21)
-
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.214 s - in ui.ReservePanelTest
