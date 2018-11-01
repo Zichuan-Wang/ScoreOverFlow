@@ -1,4 +1,4 @@
-package utils;
+package security;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -10,7 +10,7 @@ import javax.crypto.spec.PBEKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
-public class PasswordUtils {
+public class PasswordHasing {
 
 	private static final int ITERATIONS = 20000;
 	private static final int SALT_LEN = 32;

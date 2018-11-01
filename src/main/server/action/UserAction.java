@@ -5,7 +5,7 @@ import java.security.spec.InvalidKeySpecException;
 
 import dao.UserDao;
 import entity.User;
-import utils.PasswordUtils;
+import security.PasswordHasing;
 
 public class UserAction {
 
@@ -21,7 +21,7 @@ public class UserAction {
 	
 	public boolean verifyPassword(User user, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		try {
-			return PasswordUtils.check(password, user.getPassword());
+			return PasswordHasing.check(password, user.getPassword());
 		} catch (IllegalArgumentException e) {
 			return false;
 		}
