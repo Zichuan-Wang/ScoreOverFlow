@@ -1,77 +1,16 @@
 -------------------------------------------------------------------------------
 Test set: ui.ReservePanelTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 3.197 s <<< FAILURE! - in ui.ReservePanelTest
-fieldsTest  Time elapsed: 0.836 s  <<< ERROR!
-org.assertj.swing.exception.ComponentLookupException: 
-Unable to find component using matcher utils.UiTestUtils$3@2f40e5db.
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.004 s <<< FAILURE! - in ui.ReservePanelTest
+reserveButtonsPresentAndClickable  Time elapsed: 0 s  <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class dao.DaoUtils
+	at ui.ReservePanelTest.onSetUp(ReservePanelTest.java:21)
 
-Component hierarchy:
-ui.MainWindow[name='frame0', title='Schedule++', enabled=true, visible=true, showing=true]
-  javax.swing.JRootPane[]
-    javax.swing.JPanel[name='null.glassPane']
-    javax.swing.JLayeredPane[]
-      javax.swing.JPanel[name='null.contentPane']
-        javax.swing.JPanel[name=null]
-          ui.MainPanel[name=null]
-            javax.swing.JPanel[name=null]
-              javax.swing.JLabel[name=null, text='Main', enabled=true, visible=true, showing=true]
-            javax.swing.JPanel[name=null]
-              javax.swing.Box$Filler[,515,1,0x73,alignmentX=0.0,alignmentY=0.0,border=,flags=0,maximumSize=java.awt.Dimension[width=0,height=32767],minimumSize=java.awt.Dimension[width=0,height=0],preferredSize=java.awt.Dimension[width=0,height=0]]
-              javax.swing.JButton[name=null, text='Reserve a Room', enabled=true, visible=true, showing=true]
-              javax.swing.Box$Filler[,515,103,0x73,alignmentX=0.0,alignmentY=0.0,border=,flags=0,maximumSize=java.awt.Dimension[width=0,height=32767],minimumSize=java.awt.Dimension[width=0,height=0],preferredSize=java.awt.Dimension[width=0,height=0]]
-              javax.swing.JButton[name=null, text='View Reservations', enabled=true, visible=true, showing=true]
-              javax.swing.Box$Filler[,515,205,0x73,alignmentX=0.0,alignmentY=0.0,border=,flags=0,maximumSize=java.awt.Dimension[width=0,height=32767],minimumSize=java.awt.Dimension[width=0,height=0],preferredSize=java.awt.Dimension[width=0,height=0]]
-            javax.swing.JPanel[name=null]
-              javax.swing.JLabel[name=null, text=' ', enabled=true, visible=true, showing=true]
-          ui.ReservePanel[name=null]
-            javax.swing.JPanel[name=null]
-              javax.swing.JLabel[name=null, text='Reserve a Room', enabled=true, visible=true, showing=false]
-            javax.swing.JPanel[name=null]
-              javax.swing.JPanel[name=null]
-                javax.swing.JLabel[name=null, text='Date', enabled=true, visible=true, showing=false]
-                com.github.lgooddatepicker.components.DatePicker[name=null]
-                  javax.swing.JTextField[name=null, text='November 1, 2018', enabled=true, visible=true, showing=false]
-                  javax.swing.JButton[name=null, text='...', enabled=true, visible=true, showing=false]
-                javax.swing.JLabel[name=null, text='Start Time', enabled=true, visible=true, showing=false]
-                com.github.lgooddatepicker.components.TimePicker[name=null]
-                  javax.swing.JTextField[name=null, text='00:00', enabled=true, visible=true, showing=false]
-                  javax.swing.JButton[name=null, text='▼', enabled=true, visible=true, showing=false]
-                  javax.swing.JPanel[name=null]
-                    javax.swing.JButton[name=null, text='+', enabled=false, visible=false, showing=false]
-                    javax.swing.JButton[name=null, text='-', enabled=false, visible=false, showing=false]
-                javax.swing.JLabel[name=null, text='End Time', enabled=true, visible=true, showing=false]
-                com.github.lgooddatepicker.components.TimePicker[name=null]
-                  javax.swing.JTextField[name=null, text='00:10', enabled=true, visible=true, showing=false]
-                  javax.swing.JButton[name=null, text='▼', enabled=true, visible=true, showing=false]
-                  javax.swing.JPanel[name=null]
-                    javax.swing.JButton[name=null, text='+', enabled=false, visible=false, showing=false]
-                    javax.swing.JButton[name=null, text='-', enabled=false, visible=false, showing=false]
-                javax.swing.JLabel[name=null, text='Capacity', enabled=true, visible=true, showing=false]
-                javax.swing.JFormattedTextField[name=null, text='1', enabled=true, visible=true, showing=false]
-                javax.swing.JLabel[name=null, text='Name', enabled=true, visible=true, showing=false]
-                javax.swing.JTextField[name=null, text='', enabled=true, visible=true, showing=false]
-                javax.swing.JButton[name=null, text='Search', enabled=true, visible=true, showing=false]
-              javax.swing.JScrollPane[name=null, enabled=true, visible=true, showing=false]
-                javax.swing.JViewport[,2,2,1032x199,invalid,layout=javax.swing.ViewportLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=25165832,maximumSize=,minimumSize=,preferredSize=,isViewSizeSet=true,lastPaintPosition=,scrollUnderway=false]
-                  ui.TablePanel[name=null]
-                javax.swing.JScrollPane$ScrollBar[name=null, value=0, blockIncrement=10, minimum=0, maximum=199, enabled=true, visible=false, showing=false]
-                javax.swing.JScrollPane$ScrollBar[name=null, value=0, blockIncrement=10, minimum=0, maximum=1032, enabled=true, visible=false, showing=false]
-              javax.swing.JButton[name=null, text='Back', enabled=true, visible=true, showing=false]
-            javax.swing.JPanel[name=null]
-              javax.swing.JLabel[name=null, text=' ', enabled=true, visible=true, showing=false]
-          ui.ViewRoomsPanel[name=null]
-            javax.swing.JPanel[name=null]
-              javax.swing.JLabel[name=null, text='My Reservations', enabled=true, visible=true, showing=false]
-            javax.swing.JPanel[name=null]
-              javax.swing.JScrollPane[name=null, enabled=true, visible=true, showing=false]
-                javax.swing.JViewport[,2,2,1032x220,invalid,layout=javax.swing.ViewportLayout,alignmentX=0.0,alignmentY=0.0,border=,flags=25165832,maximumSize=,minimumSize=,preferredSize=,isViewSizeSet=true,lastPaintPosition=,scrollUnderway=false]
-                  ui.TablePanel[name=null]
-                javax.swing.JScrollPane$ScrollBar[name=null, value=0, blockIncrement=10, minimum=0, maximum=220, enabled=true, visible=false, showing=false]
-                javax.swing.JScrollPane$ScrollBar[name=null, value=0, blockIncrement=10, minimum=0, maximum=1032, enabled=true, visible=false, showing=false]
-              javax.swing.JButton[name=null, text='Back', enabled=true, visible=true, showing=false]
-            javax.swing.JPanel[name=null]
-              javax.swing.JLabel[name=null, text=' ', enabled=true, visible=true, showing=false]
+fieldsTest  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class dao.DaoUtils
+	at ui.ReservePanelTest.onSetUp(ReservePanelTest.java:21)
 
-	at ui.ReservePanelTest.fieldsTest(ReservePanelTest.java:36)
+backButtonsPresentAndClickable  Time elapsed: 0 s  <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class dao.DaoUtils
+	at ui.ReservePanelTest.onSetUp(ReservePanelTest.java:21)
 
