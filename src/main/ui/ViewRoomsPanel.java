@@ -11,12 +11,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import dao.factory.ReservationDaoFactory;
-import dao.factory.RoomDaoFactory;
 import entity.Reservation;
 import entity.Room;
 import entity.User;
-import exception.DBConnectionException;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.constraint.SearchReservationConstraint;
@@ -34,16 +31,11 @@ public class ViewRoomsPanel extends BasePanel {
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 
-	public ViewRoomsPanel(JPanel cards, User user) {
+	public ViewRoomsPanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction) {
 		super(TITLE, cards);
 		this.user = user;
-		try {
-			this.reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
-			this.roomAction = new RoomAction(RoomDaoFactory.getInstance());
-		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.reservationAction = reservationAction;
+		this.roomAction = roomAction;
 	}
 
 	@Override
@@ -95,8 +87,8 @@ public class ViewRoomsPanel extends BasePanel {
 		src.setUserId(user.getId());
 		List<Reservation> reservationList = reservationAction.searchReservations(src);
 		List<Object[]> rows = new ArrayList<>();
-		//Room name, date, start time, end time, cancel button
-		Object[] rowName = new Object[] {"Room Name","Date","Start Time","End Time","Cancel"};
+		// Room name, date, start time, end time, cancel button
+		Object[] rowName = new Object[] { "Room Name", "Date", "Start Time", "End Time", "Cancel" };
 		for (Reservation reservation : reservationList) {
 			Room room = roomAction.getRoomById(reservation.getRoomId());
 			Object[] row = new Object[5];
@@ -107,7 +99,7 @@ public class ViewRoomsPanel extends BasePanel {
 			row[4] = getCancelButton(reservation);
 			rows.add(row);
 		}
-		reservationPane.populateList(rowName,rows,"Cancel");
+		reservationPane.populateList(rowName, rows, "Cancel");
 	}
 
 	private JButton getCancelButton(Reservation reservation) {

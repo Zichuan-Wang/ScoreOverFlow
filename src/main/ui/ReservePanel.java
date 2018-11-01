@@ -24,13 +24,10 @@ import com.github.lgooddatepicker.components.TimePicker;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
-import dao.factory.ReservationDaoFactory;
-import dao.factory.RoomDaoFactory;
 import entity.EntityUtils;
 import entity.Reservation;
 import entity.Room;
 import entity.User;
-import exception.DBConnectionException;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.constraint.SearchRoomConstraint;
@@ -40,7 +37,7 @@ public class ReservePanel extends BasePanel {
 	 * Default serial version id
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private final static String TITLE = "Reserve a Room";
 
 	private final LocalTime DEFAULTSTARTTIME = LocalTime.of(0, 0);
@@ -63,16 +60,11 @@ public class ReservePanel extends BasePanel {
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 
-	public ReservePanel(JPanel cards, User user) {
+	public ReservePanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction) {
 		super(TITLE, cards);
 		this.user = user;
-		try {
-			this.reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
-			this.roomAction = new RoomAction(RoomDaoFactory.getInstance());
-		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.reservationAction = reservationAction;
+		this.roomAction = roomAction;
 	}
 
 	@Override
@@ -173,9 +165,9 @@ public class ReservePanel extends BasePanel {
 		// Capacity
 		JLabel capacityLabel = new JLabel("Capacity");
 		searchPane.add(capacityLabel);
-		
+
 		capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0, 1000));
-		//capacity.setValue(DEFAULTCAPACITY);
+		// capacity.setValue(DEFAULTCAPACITY);
 		capacity.setColumns(3);
 		searchPane.add(capacity);
 
@@ -217,7 +209,10 @@ public class ReservePanel extends BasePanel {
 
 			// Parse
 			try {
-				src.setCapacity(capacity.getText().length() == 0? 0 : Integer.parseInt(capacity.getText())); // if no string specified, set 0
+				src.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText())); // if no
+																												// string
+																												// specified,
+																												// set 0
 				src.setEventDate(new SimpleDateFormat("yyyy-MM-dd").parse(selectedDate));
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 				src.setStartTime(sdf.parse(startTime));
@@ -233,8 +228,8 @@ public class ReservePanel extends BasePanel {
 			else {
 				// Get the name and populate the list
 				List<Object[]> rows = new ArrayList<>();
-				//Room name, Reserve button
-				Object[] rowName = new Object[] {"Room Name","Reserve"};
+				// Room name, Reserve button
+				Object[] rowName = new Object[] { "Room Name", "Reserve" };
 				for (Room room : roomList) {
 					Object[] row = new Object[2];
 					row[0] = room.getName();
@@ -242,7 +237,7 @@ public class ReservePanel extends BasePanel {
 					row[1] = reserveButton;
 					rows.add(row);
 				}
-				roomPane.populateList(rowName,rows,"Reserve");
+				roomPane.populateList(rowName, rows, "Reserve");
 			}
 		});
 		return searchButton;
