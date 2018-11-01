@@ -16,7 +16,7 @@ public class ViewRoomsPanelTest {
 	protected void onSetUp() {
 		MainWindow frame = GuiActionRunner.execute(() -> MainWindowTestUtils.getMainWindow());	
 		window = new FrameFixture(frame);
-		UiTestUtils.ensureClicked(window, "Reserve a Room");
+		UiTestUtils.ensureClicked(window, "My Reservations");
 		window.show(); // shows the frame to test
 	}
 	
@@ -24,8 +24,8 @@ public class ViewRoomsPanelTest {
 	protected void backButtonsPresentAndClickable() {
 		UiTestUtils.ensureClicked(window, "Back");
 		window.panel(UiTestUtils.matchPanelByName("Main"));
-		UiTestUtils.ensureClicked(window, "Reserve a Room");
-		window.panel(UiTestUtils.matchPanelByName("Reserve a Room"));
+		UiTestUtils.ensureClicked(window, "View Reservations");
+		window.panel(UiTestUtils.matchPanelByName("My Reservations"));
 	}
 	
 	

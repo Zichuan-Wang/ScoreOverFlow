@@ -24,9 +24,13 @@ import com.github.lgooddatepicker.components.TimePicker;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
+import dao.factory.ReservationDaoFactory;
+import dao.factory.RoomDaoFactory;
 import entity.EntityUtils;
 import entity.Reservation;
 import entity.Room;
+import entity.User;
+import exception.DBConnectionException;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.constraint.SearchRoomConstraint;
@@ -36,6 +40,7 @@ public class ReservePanel extends BasePanel {
 	 * Default serial version id
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private final static String TITLE = "Reserve a Room";
 
 	private final LocalTime DEFAULTSTARTTIME = LocalTime.of(0, 0);
@@ -43,6 +48,7 @@ public class ReservePanel extends BasePanel {
 	private final int DEFAULTCAPACITY = 1;
 	private final int DEFAULTDATEYEARRANGE = 1;
 
+	private User user;
 	private DatePickerSettings dateSettings;
 	private DatePicker datePicker;
 	private TimePickerSettings startTimeSettings;
@@ -57,10 +63,16 @@ public class ReservePanel extends BasePanel {
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 
-	public ReservePanel(JPanel cards, ReservationAction reservationAction, RoomAction roomAction) {
+	public ReservePanel(JPanel cards, User user) {
 		super(TITLE, cards);
-		this.reservationAction = reservationAction;
-		this.roomAction = roomAction;
+		this.user = user;
+		try {
+			this.reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
+			this.roomAction = new RoomAction(RoomDaoFactory.getInstance());
+		} catch (DBConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -161,9 +173,9 @@ public class ReservePanel extends BasePanel {
 		// Capacity
 		JLabel capacityLabel = new JLabel("Capacity");
 		searchPane.add(capacityLabel);
-
+		
 		capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0, 1000));
-		capacity.setValue(DEFAULTCAPACITY);
+		//capacity.setValue(DEFAULTCAPACITY);
 		capacity.setColumns(3);
 		searchPane.add(capacity);
 
@@ -199,18 +211,17 @@ public class ReservePanel extends BasePanel {
 		JButton searchButton = new JButton("Search");
 		searchButton.addActionListener(e -> {
 			SearchRoomConstraint src = new SearchRoomConstraint();
-
 			String selectedDate = datePicker.getDateStringOrEmptyString();
 			String startTime = startTimePicker.getTimeStringOrEmptyString();
 			String endTime = endTimePicker.getTimeStringOrEmptyString();
 
 			// Parse
 			try {
-				src.setCapacity(Integer.parseInt(capacity.getText()));
+				src.setCapacity(capacity.getText().length() == 0? 0 : Integer.parseInt(capacity.getText())); // if no string specified, set 0
 				src.setEventDate(new SimpleDateFormat("yyyy-MM-dd").parse(selectedDate));
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				src.setStartTime(sdf.parse(selectedDate + " " + startTime));
-				src.setEndTime(sdf.parse(selectedDate + " " + endTime));
+				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+				src.setStartTime(sdf.parse(startTime));
+				src.setEndTime(sdf.parse(endTime));
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -222,6 +233,8 @@ public class ReservePanel extends BasePanel {
 			else {
 				// Get the name and populate the list
 				List<Object[]> rows = new ArrayList<>();
+				//Room name, Reserve button
+				Object[] rowName = new Object[] {"Room Name","Reserve"};
 				for (Room room : roomList) {
 					Object[] row = new Object[2];
 					row[0] = room.getName();
@@ -229,7 +242,7 @@ public class ReservePanel extends BasePanel {
 					row[1] = reserveButton;
 					rows.add(row);
 				}
-				roomPane.populateList(rows);
+				roomPane.populateList(rowName,rows,"Reserve");
 			}
 		});
 		return searchButton;
@@ -240,7 +253,7 @@ public class ReservePanel extends BasePanel {
 		reserveButton.addActionListener(e -> {
 			// convert room to reservation
 			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(), src.getStartTime(),
-					src.getEndTime(), 0);
+					src.getEndTime(), user.getId());
 			// reserve
 			boolean success = reservationAction.reserveRoom(reservation);
 			// @TODO handling success and failure

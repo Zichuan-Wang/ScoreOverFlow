@@ -26,15 +26,12 @@ public class ReservePanelTest {
 
 	@Test
 	protected void fieldsTest() {
-		// Name
-		window.textBox(UiTestUtils.matchTextFieldByName(""));
 		// Time
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
 		window.textBox(UiTestUtils.matchTextFieldByName(LocalTime.of(0, 0).format(dtf)));
 		window.textBox(UiTestUtils.matchTextFieldByName(LocalTime.of(0, 10).format(dtf)));
 		// Date
-		window.textBox(
-				UiTestUtils.matchTextFieldByName(LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM dd, YYYY"))));
+		window.textBox(UiTestUtils.matchTextFieldByName(LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM d, YYYY"))));
 	}
 
 	@Test

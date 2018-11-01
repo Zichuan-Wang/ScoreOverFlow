@@ -11,8 +11,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import dao.factory.ReservationDaoFactory;
+import dao.factory.RoomDaoFactory;
 import entity.Reservation;
+import entity.Room;
+import entity.User;
+import exception.DBConnectionException;
 import server.action.ReservationAction;
+import server.action.RoomAction;
 import server.constraint.SearchReservationConstraint;
 
 public class ViewRoomsPanel extends BasePanel {
@@ -21,13 +27,23 @@ public class ViewRoomsPanel extends BasePanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "My Reservations";
+	private User user;
+
 	private TablePanel reservationPane;
 
 	private ReservationAction reservationAction;
+	private RoomAction roomAction;
 
-	public ViewRoomsPanel(JPanel cards, ReservationAction reservationAction) {
+	public ViewRoomsPanel(JPanel cards, User user) {
 		super(TITLE, cards);
-		this.reservationAction = reservationAction;
+		this.user = user;
+		try {
+			this.reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
+			this.roomAction = new RoomAction(RoomDaoFactory.getInstance());
+		} catch (DBConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -75,16 +91,23 @@ public class ViewRoomsPanel extends BasePanel {
 	}
 
 	public void showReservationList() {
-		SearchReservationConstraint src = new SearchReservationConstraint(); // @TODO need ID
+		SearchReservationConstraint src = new SearchReservationConstraint();
+		src.setUserId(user.getId());
 		List<Reservation> reservationList = reservationAction.searchReservations(src);
 		List<Object[]> rows = new ArrayList<>();
+		//Room name, date, start time, end time, cancel button
+		Object[] rowName = new Object[] {"Room Name","Date","Start Time","End Time","Cancel"};
 		for (Reservation reservation : reservationList) {
-			Object[] row = new Object[2];
-			row[0] = Integer.toString(reservation.getRoomId()); // @TODO need name
-			row[1] = getCancelButton(reservation);
+			Room room = roomAction.getRoomById(reservation.getRoomId());
+			Object[] row = new Object[5];
+			row[0] = room.getName();
+			row[1] = reservation.getEventDate().toString();
+			row[2] = reservation.getStartTime().toString();
+			row[3] = reservation.getEndTime().toString();
+			row[4] = getCancelButton(reservation);
 			rows.add(row);
 		}
-		reservationPane.populateList(rows);
+		reservationPane.populateList(rowName,rows,"Cancel");
 	}
 
 	private JButton getCancelButton(Reservation reservation) {

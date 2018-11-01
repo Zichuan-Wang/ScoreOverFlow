@@ -1,15 +1,21 @@
 package utils;
 
-import server.action.ReservationAction;
-import server.action.RoomAction;
+import dao.factory.UserDaoFactory;
+import entity.User;
+import exception.DBConnectionException;
 import ui.MainWindow;
 
 public class MainWindowTestUtils {
 
 	public static MainWindow getMainWindow() {
-		ReservationAction reservationAction = ReservationActionTestUtils.getReservationAction();
-		RoomAction roomAction = RoomActionTestUtils.getRoomAction();
-		return new MainWindow(reservationAction, roomAction);
+		User user = null;
+		try {
+			user = UserDaoFactory.getInstance().findById(1);
+		} catch (DBConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new MainWindow(user);
 	}
 
 }

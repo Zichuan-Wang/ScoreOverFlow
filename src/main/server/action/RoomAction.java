@@ -18,4 +18,8 @@ public class RoomAction {
 	public List<Room> searchRoom(SearchRoomConstraint constraint) {
 		return dao.searchRooms(constraint);
 	}
+	
+	public Room getRoomById(int id) {
+		return dao.getRoomById(id);
+	}
 }

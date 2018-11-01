@@ -53,4 +53,13 @@ public class RoomDao extends BaseDao<Room> {
 		return query.getResultList();
 
 	}
+
+	public Room getRoomById(int id) {
+		Query query = manager.createQuery("SELECT u FROM Room u WHERE u.id = :id").setParameter("id", id);
+		try {
+			return (Room) query.getSingleResult();
+		} catch (NoResultException exception) {
+			return null;
+		}
+	}
 }
