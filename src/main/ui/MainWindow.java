@@ -6,13 +6,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import dao.UserDao;
 import dao.factory.ReservationDaoFactory;
 import dao.factory.RoomDaoFactory;
 import dao.factory.UserDaoFactory;
 import entity.User;
 import server.action.ReservationAction;
 import server.action.RoomAction;
+import server.action.UserAction;
 
 public class MainWindow extends JFrame {
 	/**
@@ -50,11 +50,11 @@ public class MainWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UserDao userDao = UserDaoFactory.getInstance();
-					// TODO: replace by actual user
-					User user = userDao.findUserByUni("hx2209");
+					UserAction userAction = new UserAction(UserDaoFactory.getInstance());
 					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
 					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
+					// TODO: replace by actual user
+					User user = userAction.findUserByUni("hx2209");
 					MainWindow frame = new MainWindow(user, reservationAction, roomAction);
 					frame.setVisible(true);
 				} catch (Exception e) {
