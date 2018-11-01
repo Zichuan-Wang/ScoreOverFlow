@@ -51,11 +51,10 @@ public class MainWindow extends JFrame {
 			public void run() {
 				try {
 					UserDao userDao = UserDaoFactory.getInstance();
+					// TODO: replace by actual user
 					User user = userDao.findUserByUni("hx2209");
-
 					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
 					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
-
 					MainWindow frame = new MainWindow(user, reservationAction, roomAction);
 					frame.setVisible(true);
 				} catch (Exception e) {
