@@ -8,9 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class MainPanel extends BasePanel {
-	/**
-	 * Default serial version id
-	 */
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Main";
 	private JButton reserveButton;

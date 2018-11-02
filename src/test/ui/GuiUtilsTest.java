@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 public class GuiUtilsTest {
 
 	@Test
-	public void createNumberFormatter() {
+	public void createNumberFormatterTest() {
 		NumberFormatter nf = GuiUtils.getNumberFormatter(0, 100);
 		assertNotNull(nf);
 		assertEquals(nf.getValueClass(), Integer.class);

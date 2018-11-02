@@ -1,36 +1,51 @@
 package ui;
 
 
-import org.assertj.swing.edt.GuiActionRunner;
-import org.assertj.swing.fixture.FrameFixture;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import utils.MainWindowTestUtils;
-import utils.UiTestUtils;
 
 public class ViewRoomsPanelTest {
-	private FrameFixture window;
+	private ViewRoomsPanel viewRoomsPane;
+	private final String VIEW_ROOMS_PANEL_LABEL = "My Reservations";
+	private JPanel topPane,middlePane,bottomPane;
+	
 	@BeforeEach
 	protected void onSetUp() {
-		MainWindow frame = GuiActionRunner.execute(() -> MainWindowTestUtils.getMainWindow());	
-		window = new FrameFixture(frame);
-		UiTestUtils.ensureClicked(window, "My Reservations");
-		window.show(); // shows the frame to test
+		viewRoomsPane = new ViewRoomsPanel(null, null, null, null);
+		topPane = (JPanel)viewRoomsPane.getComponent(0);
+		middlePane = (JPanel)viewRoomsPane.getComponent(1);  // 0: JscrollPane with TablePanel inside 1:Back Button
+		bottomPane = (JPanel)viewRoomsPane.getComponent(2);
 	}
 	
 	@Test
-	protected void backButtonsPresentAndClickable() {
-		UiTestUtils.ensureClicked(window, "Back");
-		window.panel(UiTestUtils.matchPanelByName("Main"));
-		UiTestUtils.ensureClicked(window, "View Reservations");
-		window.panel(UiTestUtils.matchPanelByName("My Reservations"));
+	protected void checkTitle() {
+		assertEquals(VIEW_ROOMS_PANEL_LABEL,((JLabel)topPane.getComponent(0)).getText());
 	}
 	
+	@Test
+	protected void middlePanelHasTablePanel() {
+		assertTrue(middlePane.getComponent(0) instanceof JScrollPane);
+	}
 	
+	@Test
+	protected void middlePanelHasBackButton() {
+		assertTrue(middlePane.getComponent(1) instanceof JButton);
+		JButton backButton = (JButton) middlePane.getComponent(1);
+		assertEquals("Back",backButton.getText());
+	}
+	
+
 	@AfterEach
 	protected void cleanUp() {
-		window.cleanUp();
 	}
 }

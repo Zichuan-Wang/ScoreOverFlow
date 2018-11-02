@@ -15,9 +15,6 @@ import server.action.ReservationAction;
 import server.action.RoomAction;
 
 public class MainWindow extends JFrame {
-	/**
-	 * Default serial version id
-	 */
 	private static final long serialVersionUID = 1L;
 	final int SCREEN_WIDTH = 600;
 	final int SCREEN_HEIGHT = 800;
