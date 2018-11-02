@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: security.PasswordHashingTest
+Test set: ui.BasePanelTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.783 s - in security.PasswordHashingTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.827 s - in ui.BasePanelTest
