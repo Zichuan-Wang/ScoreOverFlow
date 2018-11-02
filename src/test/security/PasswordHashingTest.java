@@ -19,8 +19,8 @@ public class PasswordHashingTest {
 		for (int i = 0; i < ITERATIONS; i++) {
 			int length = new Random().nextInt(MAX_LEN)+1;
 			String password = generateRandomString(length);
-			String hashed = PasswordHasing.getHash(password);
-			assertTrue(PasswordHasing.check(password, hashed));
+			String hashed = PasswordHashing.getHash(password);
+			assertTrue(PasswordHashing.check(password, hashed));
 		}
 	}
 

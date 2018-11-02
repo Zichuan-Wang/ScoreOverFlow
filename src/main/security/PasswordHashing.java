@@ -10,7 +10,7 @@ import javax.crypto.spec.PBEKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
-public class PasswordHasing {
+public class PasswordHashing {
 
 	private static final int ITERATIONS = 20000;
 	private static final int SALT_LEN = 32;
