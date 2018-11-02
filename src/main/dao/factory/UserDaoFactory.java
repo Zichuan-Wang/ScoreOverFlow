@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.service.spi.ServiceException;
 
-import dao.DaoUtils;
+import dao.DaoFactory;
 import dao.UserDao;
 import exception.DBConnectionException;
 
@@ -15,7 +15,7 @@ public class UserDaoFactory {
 	public static UserDao getInstance() throws DBConnectionException {
 		if (dao == null) {
 			try {
-				EntityManager manager = DaoUtils.factory.createEntityManager();
+				EntityManager manager = DaoFactory.factory.createEntityManager();
 				dao = new UserDao(manager);
 			} catch (ServiceException e) {
 				// Unable to connect to database
