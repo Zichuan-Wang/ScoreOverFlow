@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.MainWindowTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 s <<< FAILURE! - in ui.MainWindowTest
-titleIsCorrect  Time elapsed: 0 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.DaoUtils
-	at ui.MainWindowTest.onSetUp(MainWindowTest.java:17)
-
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.835 s - in ui.MainWindowTest

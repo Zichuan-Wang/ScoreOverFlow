@@ -1,18 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.MainPanelTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.112 s <<< FAILURE! - in ui.MainPanelTest
-buttonsPresentAndClickable  Time elapsed: 0.111 s  <<< ERROR!
-java.lang.ExceptionInInitializerError
-	at ui.MainPanelTest.onSetUp(MainPanelTest.java:17)
-Caused by: javax.persistence.PersistenceException: No Persistence provider for EntityManager named ScoreOverFlowPU
-	at ui.MainPanelTest.lambda$onSetUp$0(MainPanelTest.java:17)
-
-reserveButtonNavigatesToCorrectPanel  Time elapsed: 0 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.DaoUtils
-	at ui.MainPanelTest.onSetUp(MainPanelTest.java:17)
-
-viewButtonNavigatesToCorrectPanel  Time elapsed: 0 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.DaoUtils
-	at ui.MainPanelTest.onSetUp(MainPanelTest.java:17)
-
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.482 s - in ui.MainPanelTest
