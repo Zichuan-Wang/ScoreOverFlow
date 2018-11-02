@@ -154,7 +154,6 @@ public class ReservePanel extends BasePanel {
 			}
 		});
 
-		//@TODO Bug when entering 1000, since it changes to "1,000", testing on this not working atm
 		// Capacity
 		JLabel capacityLabel = new JLabel("Capacity");
 		searchPane.add(capacityLabel);
@@ -186,6 +185,7 @@ public class ReservePanel extends BasePanel {
 		endTimePicker.setTime(getCurTime().plusMinutes(10));
 		capacity.setValue(DEFAULTCAPACITY);
 		nameField.setText("");
+		roomPane.reset();
 	}
 
 	@Override
@@ -244,7 +244,6 @@ public class ReservePanel extends BasePanel {
 					src.getEndTime(), user.getId());
 			// reserve
 			boolean success = reservationAction.reserveRoom(reservation);
-			// @TODO handling success and failure
 			if (success) {
 				JOptionPane.showMessageDialog(null, "Success!");
 				reserveButton.setEnabled(false);
