@@ -4,7 +4,6 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.service.spi.ServiceException;
 
-import dao.DaoFactory;
 import dao.UserDao;
 import exception.DBConnectionException;
 

@@ -1,4 +1,4 @@
-package dao;
+package dao.factory;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
