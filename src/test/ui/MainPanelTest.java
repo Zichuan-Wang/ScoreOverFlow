@@ -16,15 +16,15 @@ public class MainPanelTest {
 	private final String MAIN_PANEL_RESERVE_BUTTON_TEXT = "Reserve a Room";
 	private final String MAIN_PANEL_VIEW_ROOMS_BUTTON_TEXT = "View Reservations";
 	
-	private MainPanel mainPanel;
+	private MainPanel mainPane;
 	private JPanel topPane,middlePane,bottomPane;
 	
 	@BeforeEach
 	protected void onSetUp() {
-		mainPanel = new MainPanel(null, null, null);
-		topPane = (JPanel)mainPanel.getComponent(0);
-		middlePane = (JPanel)mainPanel.getComponent(1); // 1: Search Button, 3ÅF View Rooms Button; 0, 2, and 4 are fillers
-		bottomPane = (JPanel)mainPanel.getComponent(2);
+		mainPane = new MainPanel(null, null, null);
+		topPane = (JPanel) mainPane.getComponent(0);
+		middlePane = (JPanel)mainPane.getComponent(1); // 1: Search Button 3: View Rooms Button; 0,2,4 are fillers
+		bottomPane = (JPanel)mainPane.getComponent(2);
 	}
 	
 	@Test
