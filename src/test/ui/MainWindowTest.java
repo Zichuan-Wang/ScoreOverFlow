@@ -18,7 +18,7 @@ import utils.UiTestUtils;
 
 public class MainWindowTest {
 	private final String DEFAULT_MAIN_WINDOW_TITLE = "Schedule++";
-	private final int CARDS_COMPONENT_COUNT = 3;
+	private final int CARDS_COMPONENT_COUNT = 4;
 	
 	private MainWindow mainWindow;
 	
@@ -44,9 +44,9 @@ public class MainWindowTest {
 		//Assuming order is correct
 		assertEquals(CARDS_COMPONENT_COUNT,cards.getComponentCount());
 		
-		JPanel mainPane = (JPanel) cards.getComponent(0);
-		JPanel reservePane = (JPanel) cards.getComponent(1);
-		JPanel viewRoomsPane = (JPanel) cards.getComponent(2);
+		JPanel mainPane = (JPanel) cards.getComponent(1);
+		JPanel reservePane = (JPanel) cards.getComponent(2);
+		JPanel viewRoomsPane = (JPanel) cards.getComponent(3);
 		
 		assertNotNull(mainPane);
 		assertNotNull(reservePane);

@@ -10,6 +10,7 @@ import dao.factory.ReservationDaoFactory;
 import dao.factory.RoomDaoFactory;
 import dao.factory.UserDaoFactory;
 import entity.User;
+import security.SecurityService;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.action.UserAction;
@@ -32,8 +33,10 @@ public class MainWindow extends JFrame {
 		ReservePanel reservePane = new ReservePanel(cards, user, reservationAction, roomAction);
 		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards, user, reservationAction, roomAction);
 		MainPanel mainPane = new MainPanel(cards, reservePane, viewRoomsPane);
+		LoginPanel loginPane = new LoginPanel(cards, mainPane);
 
 		// add panels to card, add cards to JFrame
+		cards.add(loginPane, "login");
 		cards.add(mainPane, "main");
 		cards.add(reservePane, "reserve");
 		cards.add(viewRoomsPane, "view rooms");
@@ -47,11 +50,13 @@ public class MainWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					SecurityService.initialize();
 					UserAction userAction = new UserAction(UserDaoFactory.getInstance());
 					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
 					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
 					// TODO: replace by actual user
 					User user = userAction.findUserByUni("hx2209");
+					
 					MainWindow frame = new MainWindow(user, reservationAction, roomAction);
 					frame.setVisible(true);
 				} catch (Exception e) {
