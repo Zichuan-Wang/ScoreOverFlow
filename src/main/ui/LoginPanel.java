@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import security.SecurityService;
+
 public class LoginPanel extends BasePanel{
 	
 	private static final long serialVersionUID = 1L;
@@ -24,6 +26,14 @@ public class LoginPanel extends BasePanel{
 	public LoginPanel(JPanel cards, MainPanel mainPane) {
 		super(TITLE, cards);
 		loginButton.addActionListener(e -> mainPane.showPanel()); //TODO
+		loginButton.addActionListener(e -> {
+			try {
+				System.out.println(SecurityService.Login("hx2209", "123456"));
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 	}
 	
 	

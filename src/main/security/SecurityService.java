@@ -9,18 +9,21 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.realm.Realm;
-import org.apache.shiro.realm.SimpleAccountRealm;
 import org.apache.shiro.subject.Subject;
 
 public class SecurityService {
+	
 	public static Subject currentUser; 
+	private static final int ITERATIONS = 20000;
 	
 	public static void initialize() {
 		//Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
 	    DefaultSecurityManager securityManager = new DefaultSecurityManager();
-	    Realm realm = new SimpleAccountRealm();
+	    Realm realm = new SecureRealm();
 	    CredentialsMatcher matcher = new HashedCredentialsMatcher();
 	    ((HashedCredentialsMatcher)matcher).setHashAlgorithmName("SHA-256");
+	    ((HashedCredentialsMatcher)matcher).setStoredCredentialsHexEncoded(false);
+	    ((HashedCredentialsMatcher)matcher).setHashIterations(ITERATIONS);
 	    ((AuthenticatingRealm)realm).setCredentialsMatcher(matcher); 
 	    securityManager.setRealm(realm);
 	    SecurityUtils.setSecurityManager(securityManager);  

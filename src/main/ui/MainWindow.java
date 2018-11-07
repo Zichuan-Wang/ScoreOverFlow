@@ -50,15 +50,15 @@ public class MainWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SecurityService.initialize();
 					UserAction userAction = new UserAction(UserDaoFactory.getInstance());
 					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
 					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
 					// TODO: replace by actual user
 					User user = userAction.findUserByUni("hx2209");
 					
-					MainWindow frame = new MainWindow(user, reservationAction, roomAction);
+					MainWindow frame = new MainWindow(user, reservationAction, roomAction);				
 					frame.setVisible(true);
+					SecurityService.initialize();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
