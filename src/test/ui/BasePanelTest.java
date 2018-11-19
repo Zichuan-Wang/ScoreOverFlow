@@ -18,6 +18,7 @@ public class BasePanelTest {
 	@BeforeEach
 	protected void onSetUp() {
 		basePane = new BasePanel(BASEPANEL_TEST_TITLE, null);
+		basePane.initPanels();
 	}
 	
 	@Test

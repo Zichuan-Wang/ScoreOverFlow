@@ -11,7 +11,6 @@ public class RoomTest {
 	@Test
 	public void createAndUpdateRoom() {
 		Room room = EntityTestUtils.getDefaultRoom();
-
 		assertEquals(room.getId(), EntityTestUtils.DEFAULT_ROOM_ID);
 		assertEquals(room.getName(), EntityTestUtils.DEFAULT_ROOM_NAME);
 		assertEquals(room.getCapacity(), EntityTestUtils.DEFAULT_CAPACITY);

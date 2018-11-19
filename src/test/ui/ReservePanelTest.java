@@ -3,6 +3,7 @@ package ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.awt.Label;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -10,6 +11,7 @@ import java.time.temporal.ChronoUnit;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -79,9 +81,15 @@ public class ReservePanelTest {
 		assertTrue(searchPane.getComponent(8) instanceof JLabel);
 		assertEquals("Name", ((JLabel) searchPane.getComponent(8)).getText());
 		assertTrue(searchPane.getComponent(9) instanceof JTextField);
+		
+		// Facility
+		assertTrue(searchPane.getComponent(10) instanceof JLabel);
+		assertEquals("Facility", ((JLabel) searchPane.getComponent(10)).getText());
+		assertTrue(searchPane.getComponent(11) instanceof JList<?>);
+		
 		// Search Button
-		assertTrue(searchPane.getComponent(10) instanceof JButton);
-		assertEquals("Search", ((JButton) searchPane.getComponent(10)).getText());
+		assertTrue(searchPane.getComponent(12) instanceof JButton);
+		assertEquals("Search", ((JButton) searchPane.getComponent(12)).getText());
 	}
 
 	@Test

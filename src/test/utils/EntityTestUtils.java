@@ -47,7 +47,7 @@ public class EntityTestUtils {
 
 	public static Room getDefaultRoom() {
 		return new Room().setId(DEFAULT_ROOM_ID)//
-				.setName(DEFAULT_FACILITY_NAME)//
+				.setName(DEFAULT_ROOM_NAME)//
 				.setCapacity(DEFAULT_CAPACITY);
 	}
 	

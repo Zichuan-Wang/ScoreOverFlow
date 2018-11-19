@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -51,6 +52,8 @@ public class RoomDaoTestUtils {
 		when(query.setParameter(any(String.class), any(String.class))).thenReturn(query);
 		when(query.setParameter(any(String.class), anyInt())).thenReturn(query);
 		when(query.setParameter(any(String.class), any(Date.class), any(TemporalType.class))).thenReturn(query);
+		when(query.setParameter(any(String.class), any(Set.class))).thenReturn(query);
+		when(query.setParameter(any(String.class), any(long.class))).thenReturn(query);
 		when(query.getSingleResult()).thenReturn(EntityTestUtils.getDefaultRoom());
 		when(query.getResultList()).thenReturn(rooms);
 
