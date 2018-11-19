@@ -1,8 +1,15 @@
 package entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,10 +26,26 @@ public class Room {
 	@Column(name = "capacity")
 	private int capacity;
 	
-	// TODO: discuss representation for room technology
+	@ManyToMany(cascade = {
+		CascadeType.PERSIST, 
+		CascadeType.MERGE
+	})
+	@JoinTable(name = "room_facility",
+	    joinColumns = @JoinColumn(name = "room_id"),
+	    inverseJoinColumns = @JoinColumn(name = "facility_id")
+	)
+	private Set<Facility> facilities = new HashSet<>();
 
 	public int getId() {
 		return id;
+	}
+
+	public Set<Facility> getFacilities() {
+		return facilities;
+	}
+
+	public void setFacilities(Set<Facility> facilities) {
+		this.facilities = facilities;
 	}
 
 	public Room setId(int id) {
