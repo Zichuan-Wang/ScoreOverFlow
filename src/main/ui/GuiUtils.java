@@ -11,12 +11,14 @@ import javax.swing.text.NumberFormatter;
 public class GuiUtils {
 
 	public static NumberFormatter getNumberFormatter(int minimum, int maximum) {
-		NumberFormatter numberFormatter = new NumberFormatter(NumberFormat.getInstance());
-		numberFormatter.setValueClass(Integer.class);
-		numberFormatter.setMinimum(minimum);
-		numberFormatter.setMaximum(maximum);
-		numberFormatter.setAllowsInvalid(false);
-		return numberFormatter;
+		NumberFormat integerFormat = NumberFormat.getIntegerInstance();
+		integerFormat.setGroupingUsed(false);
+		NumberFormatter integerFormatter = new NumberFormatter(integerFormat);
+		integerFormatter.setValueClass(Integer.class);
+		integerFormatter.setMinimum(minimum);
+		integerFormatter.setMaximum(maximum);
+		integerFormatter.setAllowsInvalid(false);
+		return integerFormatter;
 	}
 
 	public static JButton createButton(String buttonName, ActionListener... actions) {

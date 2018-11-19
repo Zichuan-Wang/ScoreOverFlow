@@ -10,14 +10,12 @@ import dao.factory.ReservationDaoFactory;
 import dao.factory.RoomDaoFactory;
 import dao.factory.UserDaoFactory;
 import entity.User;
+import security.SecurityService;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.action.UserAction;
 
 public class MainWindow extends JFrame {
-	/**
-	 * Default serial version id
-	 */
 	private static final long serialVersionUID = 1L;
 	final int SCREEN_WIDTH = 600;
 	final int SCREEN_HEIGHT = 800;
@@ -35,8 +33,10 @@ public class MainWindow extends JFrame {
 		ReservePanel reservePane = new ReservePanel(cards, user, reservationAction, roomAction);
 		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards, user, reservationAction, roomAction);
 		MainPanel mainPane = new MainPanel(cards, reservePane, viewRoomsPane);
+		LoginPanel loginPane = new LoginPanel(cards, mainPane);
 
 		// add panels to card, add cards to JFrame
+		cards.add(loginPane, "login");
 		cards.add(mainPane, "main");
 		cards.add(reservePane, "reserve");
 		cards.add(viewRoomsPane, "view rooms");
@@ -55,8 +55,10 @@ public class MainWindow extends JFrame {
 					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
 					// TODO: replace by actual user
 					User user = userAction.findUserByUni("hx2209");
-					MainWindow frame = new MainWindow(user, reservationAction, roomAction);
+					
+					MainWindow frame = new MainWindow(user, reservationAction, roomAction);				
 					frame.setVisible(true);
+					SecurityService.initialize();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -9,9 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class BasePanel extends JPanel {
-	/**
-	 * Default serial version id
-	 */
 	private static final long serialVersionUID = 1L;
 	private GridBagConstraints c;
 	protected JPanel cards;
@@ -72,6 +69,5 @@ public class BasePanel extends JPanel {
 	}
 
 	public void showPanel() {
-		System.out.println("show");
 	}
 }

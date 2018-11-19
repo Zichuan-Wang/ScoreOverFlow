@@ -33,15 +33,9 @@ import server.action.RoomAction;
 import server.constraint.SearchRoomConstraint;
 
 public class ReservePanel extends BasePanel {
-	/**
-	 * Default serial version id
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private final static String TITLE = "Reserve a Room";
-
-	private final LocalTime DEFAULTSTARTTIME = LocalTime.of(0, 0);
-	private final LocalTime DEFAULTENDTIME = LocalTime.of(0, 10);
 	private final int DEFAULTCAPACITY = 1;
 	private final int DEFAULTDATEYEARRANGE = 1;
 
@@ -125,7 +119,6 @@ public class ReservePanel extends BasePanel {
 		searchPane.add(datePicker);
 
 		// Time Picker
-
 		// Start Time
 		JLabel startTimeLabel = new JLabel("Start Time");
 		searchPane.add(startTimeLabel);
@@ -134,8 +127,8 @@ public class ReservePanel extends BasePanel {
 		startTimeSettings.use24HourClockFormat();
 		startTimeSettings.setAllowEmptyTimes(false);
 		startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
-		startTimeSettings.initialTime = LocalTime.of(0, 0);
-
+		startTimeSettings.initialTime = getCurTime();
+		
 		startTimePicker = new TimePicker(startTimeSettings);
 		searchPane.add(startTimePicker);
 
@@ -146,9 +139,8 @@ public class ReservePanel extends BasePanel {
 		endTimeSettings = new TimePickerSettings();
 		endTimeSettings.use24HourClockFormat();
 		endTimeSettings.setAllowEmptyTimes(false);
-		endTimeSettings.initialTime = DEFAULTENDTIME;
 		endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
-		endTimeSettings.initialTime = LocalTime.of(0, 10);
+		endTimeSettings.initialTime = getCurTime().plusMinutes(10);
 
 		endTimePicker = new TimePicker(endTimeSettings);
 		searchPane.add(endTimePicker);
@@ -189,10 +181,11 @@ public class ReservePanel extends BasePanel {
 		LocalDate today = LocalDate.now();
 		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));
 		datePicker.setDateToToday();
-		startTimePicker.setTime(DEFAULTSTARTTIME);
-		endTimePicker.setTime(DEFAULTENDTIME);
+		startTimePicker.setTime(getCurTime());
+		endTimePicker.setTime(getCurTime().plusMinutes(10));
 		capacity.setValue(DEFAULTCAPACITY);
 		nameField.setText("");
+		roomPane.reset();
 	}
 
 	@Override
@@ -251,7 +244,6 @@ public class ReservePanel extends BasePanel {
 					src.getEndTime(), user.getId());
 			// reserve
 			boolean success = reservationAction.reserveRoom(reservation);
-			// @TODO handling success and failure
 			if (success) {
 				JOptionPane.showMessageDialog(null, "Success!");
 				reserveButton.setEnabled(false);
@@ -260,6 +252,12 @@ public class ReservePanel extends BasePanel {
 			}
 		});
 		return reserveButton;
+	}
+	
+	private LocalTime getCurTime() {
+		LocalTime now = LocalTime.now();
+		int minuteDiff = now.getMinute()%10 == 0? 0: 10 - now.getMinute()%10;
+		return now.plusMinutes(minuteDiff);
 	}
 
 }

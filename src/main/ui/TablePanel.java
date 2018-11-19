@@ -25,16 +25,22 @@ public class TablePanel extends JPanel {
 	// Print objects (Strings and one button) in a table
 	public void populateList(Object[] columnNames,List<Object[]> rows, String buttonName) {
 		removeAll();
-
+		int columnLength = columnNames.length;
 		int rowLength = Math.min(rows.size(), MAX_LISTING);
-		DefaultTableModel dm = new DefaultTableModel(columnNames,rowLength);
+		// anonymous class dm to disable editing
+		DefaultTableModel dm = new DefaultTableModel(columnNames,rowLength) {
+			private static final long serialVersionUID = 1L;
+			// button needs editable to be clicked
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+			    return columnIndex == columnLength-1;
+			}
+		};
 		JTable table = new JTable(dm);
 		table.getColumn(buttonName).setCellRenderer(new ButtonRenderer());
         table.getColumn(buttonName).setCellEditor(new ButtonEditor());
         	
 		for (int i = 0; i < rowLength; i++) {
 			Object[] column = rows.get(i);
-			int columnLength = column.length;
 			for (int j =0; j<columnLength -1; j++) {
 				dm.setValueAt(column[j], i, j);
 			}
@@ -45,11 +51,18 @@ public class TablePanel extends JPanel {
 		revalidate();
 		repaint();
 	}
+	
+	public void reset() {
+		removeAll();
+		revalidate();
+		repaint();
+		
+	}
 
 	// Renderer class for Buttons in JTabel
 	private class ButtonRenderer extends JButton implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
-
+		
 		public ButtonRenderer() {
 		}
 
@@ -63,20 +76,23 @@ public class TablePanel extends JPanel {
 	// Editor class for Buttons in JTabel
 	private class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
 		private static final long serialVersionUID = 1L;
+		JButton editorValue;
 		
 		public ButtonEditor() {
 		}
 
 		@Override
 		public Object getCellEditorValue() {
-			return null;
+			return editorValue;
 		}
 
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 				int column) {
-			return (JButton) value;
+			this.editorValue = (JButton) value;
+			return editorValue;
 		}
+		
 	}
 
 }
