@@ -36,6 +36,7 @@ public class ViewRoomsPanel extends BasePanel {
 		this.user = user;
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
+		initPanels();
 	}
 
 	@Override

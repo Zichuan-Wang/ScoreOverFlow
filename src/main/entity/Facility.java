@@ -17,6 +17,12 @@ public class Facility {
     @Column(name = "id", unique = true)
 	private int id;
 	
+	@Column(name = "name", unique = true)
+	private String name;
+	
+	@ManyToMany(mappedBy = "facilities")
+	private Set<Room> rooms = new HashSet<>();
+	
 	public int getId() {
 		return id;
 	}
@@ -40,11 +46,10 @@ public class Facility {
 	public void setRooms(Set<Room> rooms) {
 		this.rooms = rooms;
 	}
-
-	@Column(name = "name", unique = true)
-	private String name;
 	
-	@ManyToMany(mappedBy = "facilities")
-	private Set<Room> rooms = new HashSet<>();
+	@Override
+	public String toString() {
+		return name;
+	}
 
 }

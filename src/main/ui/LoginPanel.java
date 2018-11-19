@@ -25,6 +25,7 @@ public class LoginPanel extends BasePanel{
 
 	public LoginPanel(JPanel cards, MainPanel mainPane) {
 		super(TITLE, cards);
+		initPanels();
 		loginButton.addActionListener(e -> mainPane.showPanel()); //TODO
 		loginButton.addActionListener(e -> {
 			try {

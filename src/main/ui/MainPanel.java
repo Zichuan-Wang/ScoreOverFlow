@@ -15,6 +15,7 @@ public class MainPanel extends BasePanel {
 
 	public MainPanel(JPanel cards, ReservePanel reservePane, ViewRoomsPanel viewRoomsPane) {
 		super(TITLE, cards);
+		initPanels();
 		reserveButton.addActionListener(e -> reservePane.showPanel());
 		viewRoomsButton.addActionListener(e -> viewRoomsPane.showPanel());
 	}

@@ -10,13 +10,16 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
@@ -25,9 +28,11 @@ import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
 import entity.EntityUtils;
+import entity.Facility;
 import entity.Reservation;
 import entity.Room;
 import entity.User;
+import server.action.FacilityAction;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.constraint.SearchRoomConstraint;
@@ -53,12 +58,15 @@ public class ReservePanel extends BasePanel {
 
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
+	private FacilityAction facilityAction;
 
-	public ReservePanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction) {
+	public ReservePanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction, FacilityAction facilityAction) {
 		super(TITLE, cards);
 		this.user = user;
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
+		this.facilityAction = facilityAction;
+		initPanels();
 	}
 
 	@Override
@@ -168,6 +176,16 @@ public class ReservePanel extends BasePanel {
 		searchPane.add(nameLabel);
 		nameField = new JTextField(10);
 		searchPane.add(nameField);
+		
+		// Facility
+		List<Facility> facilities = facilityAction.findAllFacilities();
+		DefaultListModel<Facility> model = new DefaultListModel<>();
+		for (Facility facility : facilities) {
+			model.addElement(facility);
+		}
+		JList<Facility> facilitiesList = new JList<>(model);
+		facilitiesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		searchPane.add(facilitiesList);
 
 		// Search Button
 		searchButton = getSearchButton();

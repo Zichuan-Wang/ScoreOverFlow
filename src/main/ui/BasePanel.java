@@ -11,15 +11,18 @@ import javax.swing.JPanel;
 public class BasePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private GridBagConstraints c;
+	private String title;
 	protected JPanel cards;
 
 	// Initialize a page without the middle panel
 	public BasePanel(String title, JPanel cards) {
 		this.cards = cards;
-
+		this.title = title;
 		setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
-
+	}
+	
+	public void initPanels() {
 		JPanel upperPane = new JPanel();
 		JLabel titleLabel = new JLabel(title);
 		upperPane.add(titleLabel);
