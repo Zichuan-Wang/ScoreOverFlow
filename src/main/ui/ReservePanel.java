@@ -53,6 +53,7 @@ public class ReservePanel extends BasePanel {
 	private TimePicker endTimePicker;
 	private JFormattedTextField capacity;
 	private JTextField nameField;
+	private JList<Facility> facilityList;
 	private JButton searchButton, backButton;
 	private TablePanel roomPane;
 
@@ -185,9 +186,9 @@ public class ReservePanel extends BasePanel {
 		for (Facility facility : facilities) {
 			model.addElement(facility);
 		}
-		JList<Facility> facilitiesList = new JList<>(model);
-		facilitiesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		searchPane.add(facilitiesList);
+		facilityList = new JList<>(model);
+		facilityList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		searchPane.add(facilityList);
 
 		// Search Button
 		searchButton = getSearchButton();
@@ -205,6 +206,7 @@ public class ReservePanel extends BasePanel {
 		endTimePicker.setTime(getCurTime().plusMinutes(10));
 		capacity.setValue(DEFAULTCAPACITY);
 		nameField.setText("");
+		facilityList.clearSelection();
 		roomPane.reset();
 	}
 
@@ -234,6 +236,8 @@ public class ReservePanel extends BasePanel {
 				e1.printStackTrace();
 			}
 			src.setRoomName(nameField.getText());
+			src.getFacilities().addAll(facilityList.getSelectedValuesList());
+			
 			// search from database
 			List<Room> roomList = roomAction.searchRoom(src);
 			if (roomList.isEmpty())
