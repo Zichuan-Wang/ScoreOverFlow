@@ -2,4 +2,5 @@
 /target/
 /ScoreOverFlow/target/
 /src/main/resources/META-INF/persistence.xml
+/src/main/resources/email.properties
 /ScoreOverFlow/
