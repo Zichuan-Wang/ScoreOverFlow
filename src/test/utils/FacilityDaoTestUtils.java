@@ -8,20 +8,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import javax.persistence.TemporalType;
 
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import dao.FacilityDao;
 import entity.Facility;
-import entity.Room;
 
 public class FacilityDaoTestUtils {
 
@@ -41,7 +38,7 @@ public class FacilityDaoTestUtils {
 				return EntityTestUtils.getDefaultFacility().setId(id);
 
 			}
-		}).when(manager).find(eq(Room.class), anyInt());
+		}).when(manager).find(eq(Facility.class), anyInt());
 
 		List<Facility> facilities = new ArrayList<>();
 		for (int id : FACILITY_IDS) {
@@ -50,8 +47,6 @@ public class FacilityDaoTestUtils {
 
 		when(manager.createQuery(any(String.class))).thenReturn(query);
 		when(query.setParameter(any(String.class), any(String.class))).thenReturn(query);
-		when(query.setParameter(any(String.class), anyInt())).thenReturn(query);
-		when(query.setParameter(any(String.class), any(Date.class), any(TemporalType.class))).thenReturn(query);
 		when(query.getSingleResult()).thenReturn(EntityTestUtils.getDefaultFacility());
 		when(query.getResultList()).thenReturn(facilities);
 
