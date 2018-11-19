@@ -33,7 +33,8 @@ public class RoomDao extends BaseDao<Room> {
 	 * Search the rooms by the constraint criteria provided. The result contains
 	 * rooms that 1. Contains the room name string in its name 2. Have larger
 	 * capacity than the constraint 3. Does not have an existing reservation that
-	 * overlaps with the requested interval
+	 * overlaps with the requested interval 4. Have all the facilities in the
+	 * requested set
 	 * 
 	 * @param constraint
 	 * @return
@@ -48,11 +49,19 @@ public class RoomDao extends BaseDao<Room> {
 				+ "WHERE r.roomId = u.id "//
 				+ "AND r.eventDate = :eventDate "//
 				+ "AND r.startTime < :endTime "//
-				+ "AND r.endTime > :startTime)").setParameter("name", "%" + constraint.getRoomName() + "%")
+				+ "AND r.endTime > :startTime) "//
+				+ "AND :facilityCount = "
+				+ "(SELECT COUNT(f.id) FROM Room r "
+				+ "INNER JOIN r.facilities f "
+				+ "WHERE r.id = u.id "
+				+ "AND f in :facilities)")//
+				.setParameter("name", "%" + constraint.getRoomName() + "%")
 				.setParameter("capacity", constraint.getCapacity())
 				.setParameter("eventDate", constraint.getEventDate(), TemporalType.DATE)
 				.setParameter("startTime", constraint.getStartTime(), TemporalType.TIME)
-				.setParameter("endTime", constraint.getEndTime(), TemporalType.TIME);
+				.setParameter("endTime", constraint.getEndTime(), TemporalType.TIME)
+				.setParameter("facilities", constraint.getFacilities())
+				.setParameter("facilityCount", (long) constraint.getFacilities().size());
 		return query.getResultList();
 
 	}

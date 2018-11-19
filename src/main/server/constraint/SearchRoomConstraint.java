@@ -1,6 +1,10 @@
 package server.constraint;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import entity.Facility;
 
 // Java object for specify search constraint for Room
 public class SearchRoomConstraint {
@@ -9,13 +13,23 @@ public class SearchRoomConstraint {
 	Date endTime;
 	String roomName;
 	int capacity;
+	Set<Facility> facilities;
 
 	public SearchRoomConstraint() {
-		this.eventDate = new Date(0);
-		this.startTime = new Date(0);
-		this.endTime = new Date(0);
-		roomName = "";
-		this.capacity = 0;
+		eventDate = new Date(0);
+		startTime = new Date(0);
+		endTime = new Date(0);
+		this.roomName = "";
+		capacity = 0;
+		facilities = new HashSet<>();
+	}
+
+	public Set<Facility> getFacilities() {
+		return facilities;
+	}
+
+	public void setFacilities(Set<Facility> facilities) {
+		this.facilities = facilities;
 	}
 
 	public Date getEventDate() {
