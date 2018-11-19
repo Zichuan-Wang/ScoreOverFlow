@@ -27,24 +27,27 @@ public class Facility {
 		return id;
 	}
 
-	public void setId(int id) {
+	public Facility setId(int id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public Facility setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	public Set<Room> getRooms() {
 		return rooms;
 	}
 
-	public void setRooms(Set<Room> rooms) {
+	public Facility setRooms(Set<Room> rooms) {
 		this.rooms = rooms;
+		return this;
 	}
 	
 	@Override

@@ -44,8 +44,9 @@ public class Room {
 		return facilities;
 	}
 
-	public void setFacilities(Set<Facility> facilities) {
+	public Room setFacilities(Set<Facility> facilities) {
 		this.facilities = facilities;
+		return this;
 	}
 
 	public Room setId(int id) {

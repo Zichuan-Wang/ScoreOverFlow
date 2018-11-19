@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
+import entity.Facility;
 import entity.Reservation;
 import entity.Room;
 import entity.User;
@@ -19,8 +20,12 @@ public class EntityTestUtils {
 
 	// Room
 	public static final int DEFAULT_ROOM_ID = 1;
-	public static final String DEFAULT_NAME = "Mudd 282";
+	public static final String DEFAULT_ROOM_NAME = "Mudd 282";
 	public static final int DEFAULT_CAPACITY = 15;
+	
+	// Facility
+	public static final int DEFAULT_FACILITY_ID = 1;
+	public static final String DEFAULT_FACILITY_NAME = "projector";
 
 	// User
 	public static final int DEFAULT_USER_ID = 27;
@@ -42,8 +47,13 @@ public class EntityTestUtils {
 
 	public static Room getDefaultRoom() {
 		return new Room().setId(DEFAULT_ROOM_ID)//
-				.setName(DEFAULT_NAME)//
+				.setName(DEFAULT_FACILITY_NAME)//
 				.setCapacity(DEFAULT_CAPACITY);
+	}
+	
+	public static Facility getDefaultFacility() {
+		return new Facility().setId(DEFAULT_FACILITY_ID)//
+				.setName(DEFAULT_FACILITY_NAME);
 	}
 
 	public static User getDefaultUser() {

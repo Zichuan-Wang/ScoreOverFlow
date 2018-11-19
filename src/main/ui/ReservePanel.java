@@ -178,6 +178,8 @@ public class ReservePanel extends BasePanel {
 		searchPane.add(nameField);
 		
 		// Facility
+		JLabel facilityLabel = new JLabel("Facility");
+		searchPane.add(facilityLabel);
 		List<Facility> facilities = facilityAction.findAllFacilities();
 		DefaultListModel<Facility> model = new DefaultListModel<>();
 		for (Facility facility : facilities) {

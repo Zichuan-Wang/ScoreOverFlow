@@ -13,6 +13,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import utils.PanelTestUtils;
+
 
 public class ViewRoomsPanelTest {
 	private ViewRoomsPanel viewRoomsPane;
@@ -21,7 +23,7 @@ public class ViewRoomsPanelTest {
 	
 	@BeforeEach
 	protected void onSetUp() {
-		viewRoomsPane = new ViewRoomsPanel(null, null, null, null);
+		viewRoomsPane = PanelTestUtils.getViewRoomsPanel();
 		topPane = (JPanel)viewRoomsPane.getComponent(0);
 		middlePane = (JPanel)viewRoomsPane.getComponent(1);  // 0: JscrollPane with TablePanel inside 1:Back Button
 		bottomPane = (JPanel)viewRoomsPane.getComponent(2);

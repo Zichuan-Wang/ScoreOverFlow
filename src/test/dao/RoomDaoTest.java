@@ -24,7 +24,7 @@ public class RoomDaoTest {
 		List<Room> rooms = dao.searchRooms(new SearchRoomConstraint());
 
 		assertEquals(room.getId(), EntityTestUtils.DEFAULT_ROOM_ID);
-		assertEquals(dao.findRoomByName(EntityTestUtils.DEFAULT_NAME).getName(), EntityTestUtils.DEFAULT_NAME);
+		assertEquals(dao.findRoomByName(EntityTestUtils.DEFAULT_ROOM_NAME).getName(), EntityTestUtils.DEFAULT_ROOM_NAME);
 		for (int i = 0; i < rooms.size(); i++) {
 			assertEquals(rooms.get(i).getId(), RoomDaoTestUtils.ROOM_IDS[i]);
 		}
