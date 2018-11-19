@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 public class PasswordHashingTest {
 
 	private static final int MAX_LEN = 20;
-	private static final int ITERATIONS = 100;
+	private static final int ITERATIONS = 20;
 
 	@Test
 	public void checkPasswordConsistency()
 			throws IllegalArgumentException, NoSuchAlgorithmException, InvalidKeySpecException {
 		for (int i = 0; i < ITERATIONS; i++) {
-			int length = new Random().nextInt(MAX_LEN);
+			int length = new Random().nextInt(MAX_LEN - 1) + 1;
 			String password = generateRandomString(length);
 			String hashed = PasswordHasing.getHash(password);
 			assertTrue(PasswordHasing.check(password, hashed));
