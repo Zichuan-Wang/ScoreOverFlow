@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -22,19 +23,12 @@ public class LoginPanel extends BasePanel{
 	private JButton exitButton;
 	private JTextField userNameField;
 	private JPasswordField passwordField;
+	private MainPanel mainPane;
 
 	public LoginPanel(JPanel cards, MainPanel mainPane) {
 		super(TITLE, cards);
 		initPanels();
-		loginButton.addActionListener(e -> mainPane.showPanel()); //TODO
-		loginButton.addActionListener(e -> {
-			try {
-				System.out.println(SecurityService.Login("hx2209", "123456"));
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
+		this.mainPane = mainPane;
 	}
 	
 	
@@ -53,7 +47,7 @@ public class LoginPanel extends BasePanel{
 		passwordField = new JPasswordField();
 		passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		loginButton = GuiUtils.createButton("Login", GuiUtils.getJumpCardActionListener(cards, "main")); //TODO change to real action
+		loginButton = GuiUtils.createButton("Login", e -> login());
 		exitButton = GuiUtils.createButton("Exit", e -> System.exit(0));
 		
 		
@@ -94,6 +88,19 @@ public class LoginPanel extends BasePanel{
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.weightx = 1.0;
 			container.add(textFields[i], c);
+		}
+	}
+	
+	private void login() {
+		
+		String result = SecurityService.Login(userNameField.getText(), String.valueOf(passwordField.getPassword()));
+		if (result.equals("Success")) {
+			System.out.println(result);
+			GuiUtils.jumpCard(cards, "main");
+			mainPane.showPanel();
+		}
+		else {
+			JOptionPane.showMessageDialog(null, result);
 		}
 	}
 

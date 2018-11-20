@@ -29,7 +29,7 @@ public class SecurityService {
 	    SecurityUtils.setSecurityManager(securityManager);  
 	}
 	
-	public static String Login(String inputUserName, String inputPassword) throws Exception {
+	public static String Login(String inputUserName, String inputPassword) {
 		
 		currentUser = SecurityUtils.getSubject();
 		
@@ -43,11 +43,11 @@ public class SecurityService {
 	        } catch (IncorrectCredentialsException ice) {
 	        	return "Wrong password";
 	        } catch (Exception e) {
-	        	return e.toString();
+	        	return "Internal error";
 	        }			
 		}
 		else {
-			throw new Exception("The user is already authenticated");
+			return "The user is already authenticated";
 		}
 	}
 		
