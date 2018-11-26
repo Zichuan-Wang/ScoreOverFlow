@@ -1,6 +1,7 @@
 package server.action;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.ReservationDao;
@@ -17,6 +18,8 @@ public class ReservationAction {
 	}
 
 	public boolean reserveRoom(Reservation reservation) {
+		// TODO: check if the reservation is valid, e.g. the room is available
+		
 		reservation.setCreated(new Timestamp(System.currentTimeMillis()));
 		reservation.setModified(new Timestamp(System.currentTimeMillis()));
 		dao.saveOrUpdate(reservation);
@@ -35,5 +38,16 @@ public class ReservationAction {
 	}
 	
 	// returns all reservations that fail to process
-	// public List<Reservation> reserveMultipleRooms (List<Reservation> reservations) {}
+	public List<Reservation> reserveMultipleRooms (List<Reservation> reservations) {
+		List<Reservation> failedItems = new ArrayList<>();
+		
+		for (Reservation reservation: reservations) {
+			boolean status = reserveRoom(reservation);
+			if (!status) {
+				failedItems.add(reservation);
+			}
+		}
+		
+		return failedItems;
+	}
 }
