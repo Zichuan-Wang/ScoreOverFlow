@@ -33,4 +33,7 @@ public class ReservationAction {
 	public List<Reservation> searchReservations(SearchReservationConstraint constraint) {
 		return dao.searchReservations(constraint);
 	}
+	
+	// returns all reservations that fail to process
+	// public List<Reservation> reserveMultipleRooms (List<Reservation> reservations) {}
 }
