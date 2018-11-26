@@ -41,6 +41,8 @@ public class RoomDao extends BaseDao<Room> {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Room> searchRooms(SearchRoomConstraint constraint) {
+		// add null to set to prevent empty set error
+		constraint.getFacilities().add(null);
 		Query query = manager.createQuery("SELECT u FROM Room u "//
 				+ "WHERE (u.name LIKE :name) "//
 				+ "AND (u.capacity >= :capacity) "//
@@ -61,7 +63,7 @@ public class RoomDao extends BaseDao<Room> {
 				.setParameter("startTime", constraint.getStartTime(), TemporalType.TIME)
 				.setParameter("endTime", constraint.getEndTime(), TemporalType.TIME)
 				.setParameter("facilities", constraint.getFacilities())
-				.setParameter("facilityCount", (long) constraint.getFacilities().size());
+				.setParameter("facilityCount", (long) constraint.getFacilities().size() - 1);
 		return query.getResultList();
 
 	}
