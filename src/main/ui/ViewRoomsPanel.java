@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import entity.Reservation;
 import entity.Room;
 import entity.User;
+import security.SecurityService;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.constraint.SearchReservationConstraint;
@@ -105,17 +106,23 @@ public class ViewRoomsPanel extends BasePanel {
 
 	private JButton getCancelButton(Reservation reservation) {
 		JButton cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(e -> {
-			boolean success = reservationAction.cancelReservation(reservation);
-			if (success) {
-				JOptionPane.showMessageDialog(null, "Success!");
-				showReservationList();
-			} else {
-				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
-			}
-			reset();
-		});
+		cancelButton.addActionListener(e -> cancelReservation(reservation));
 		return cancelButton;
+	}
+	
+	private void cancelReservation(Reservation reservation) {
+		if (!SecurityService.currentUser.hasRole("Normal")) {
+			JOptionPane.showMessageDialog(null, "You do not have the right role to perform this action.");
+			return;
+		}
+		boolean success = reservationAction.cancelReservation(reservation);
+		if (success) {
+			JOptionPane.showMessageDialog(null, "Success!");
+			showReservationList();
+		} else {
+			JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
+		}
+		reset();
 	}
 
 }

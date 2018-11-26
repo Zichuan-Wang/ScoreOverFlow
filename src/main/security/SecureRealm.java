@@ -30,7 +30,7 @@ public class SecureRealm extends AuthorizingRealm {
 	private UserDao dao;
 	private final String name = "SecureRealm";
 	protected final Map<String, SimpleRole> roles; //roleName-to-SimpleRole
-	
+	private static final String[] roleNames = new String[] {"Admin", "High", "PS", "Normal"};
 
     public SecureRealm() {
         //SimpleAccountRealms are memory-only realms - no need for an additional cache mechanism since we're
@@ -58,7 +58,10 @@ public class SecureRealm extends AuthorizingRealm {
         }
         String[] saltAndHash = PasswordHashing.getSaltAndHashedPassword(currentUser.getPassword());
         SimpleAccount acc = new SimpleAccount((Object)username, (Object)(saltAndHash[1]), new SimpleByteSource(Base64.decodeBase64(saltAndHash[0])), name);
-        acc.addRole(""+currentUser.getUserGroup());
+        int currentUserGroup = currentUser.getUserGroup();
+        for (int i = currentUserGroup; i<4; i++) {
+        	acc.addRole(roleNames[i]);
+        }      
         return acc;
     }
 
