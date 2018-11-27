@@ -11,15 +11,23 @@ import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.subject.Subject;
 
+import dao.UserDao;
+
 public class SecurityService {
 	
 	public static Subject currentUser; 
 	private static final int ITERATIONS = 20000;
 	
-	public static void initialize() {
+	public static void initialize(UserDao dao) {
 		//Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
 	    DefaultSecurityManager securityManager = new DefaultSecurityManager();
-	    Realm realm = new SecureRealm();
+	    Realm realm;
+	    if (dao == null) {
+	    	realm = new SecureRealm();
+	    }
+	    else {
+	    	realm = new SecureRealm(dao);
+	    }
 	    CredentialsMatcher matcher = new HashedCredentialsMatcher();
 	    ((HashedCredentialsMatcher)matcher).setHashAlgorithmName("SHA-256");
 	    ((HashedCredentialsMatcher)matcher).setStoredCredentialsHexEncoded(false);
