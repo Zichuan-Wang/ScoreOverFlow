@@ -2,5 +2,10 @@
 <pmd xmlns="http://pmd.sourceforge.net/report/2.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd"
-    version="6.8.0" timestamp="2018-11-27T21:53:37.809">
+    version="6.8.0" timestamp="2018-11-27T22:51:35.601">
+<file name="/Users/travis/build/Zichuan-Wang/ScoreOverFlow/src/main/server/action/ReservationAction.java">
+<violation beginline="19" endline="19" begincolumn="25" endcolumn="31" rule="UnusedPrivateField" ruleset="Best Practices" package="server.action" class="ReservationAction" variable="roomDao" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'roomDao'.
+</violation>
+</file>
 </pmd>

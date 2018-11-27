@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.BasePanelTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.911 s - in ui.BasePanelTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.888 s - in ui.BasePanelTest
