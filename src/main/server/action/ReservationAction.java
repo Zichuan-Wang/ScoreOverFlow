@@ -40,7 +40,7 @@ public class ReservationAction {
 		reservation.setEndTime(endTime);
 		reservation.setUserId(userID);
 		reservation.setModified(new Timestamp(System.currentTimeMillis()));
-		dao.saveOrUpdate(reservation);
+		reservationDao.saveOrUpdate(reservation);
 		
 		return true; // for a single-user system
 	}
@@ -68,7 +68,6 @@ public class ReservationAction {
 		
 		return failedItems;
 	}
-<<<<<<< HEAD
 	
 	/*
 	private boolean isAvailable(Reservation reservation) {
@@ -86,7 +85,4 @@ public class ReservationAction {
 		
 		return false;
 	} */
-=======
-
->>>>>>> c44b4de99d2e14d75f39b04ac4bd33bf0c1a5e6c
 }

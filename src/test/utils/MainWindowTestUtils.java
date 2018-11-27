@@ -1,5 +1,6 @@
 package utils;
 
+import exception.DBConnectionException;
 import server.action.FacilityAction;
 import server.action.ReservationAction;
 import server.action.RoomAction;
@@ -8,7 +9,7 @@ import ui.MainWindow;
 
 public class MainWindowTestUtils {
 
-	public static MainWindow getMainWindow() {
+	public static MainWindow getMainWindow() throws DBConnectionException {
 		UserAction userAction = UserActionTestUtils.getUserAction();
 		ReservationAction reservationAction = ReservationActionTestUtils.getReservationAction();
 		RoomAction roomAction = RoomActionTestUtils.getRoomAction();

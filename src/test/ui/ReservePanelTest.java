@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
+import exception.DBConnectionException;
 import utils.PanelTestUtils;
 
 public class ReservePanelTest {
@@ -33,7 +34,7 @@ public class ReservePanelTest {
 	private int minuteDiff;
 
 	@BeforeEach
-	protected void onSetUp() {
+	protected void onSetUp() throws DBConnectionException {
 		reservePane = PanelTestUtils.getReservePanel();
 		topPane = (JPanel) reservePane.getComponent(0);
 		middlePane = (JPanel) reservePane.getComponent(1); // 0: SearchPanel, 1: JscrollPane with TablePanel 2:Back											// Button

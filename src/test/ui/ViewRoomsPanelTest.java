@@ -13,6 +13,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import exception.DBConnectionException;
 import utils.PanelTestUtils;
 
 
@@ -22,7 +23,7 @@ public class ViewRoomsPanelTest {
 	private JPanel topPane,middlePane,bottomPane;
 	
 	@BeforeEach
-	protected void onSetUp() {
+	protected void onSetUp() throws DBConnectionException {
 		viewRoomsPane = PanelTestUtils.getViewRoomsPanel();
 		topPane = (JPanel)viewRoomsPane.getComponent(0);
 		middlePane = (JPanel)viewRoomsPane.getComponent(1);  // 0: JscrollPane with TablePanel inside 1:Back Button

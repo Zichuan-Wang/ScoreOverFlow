@@ -13,6 +13,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import exception.DBConnectionException;
 import utils.MainWindowTestUtils;
 import utils.UiTestUtils;
 
@@ -23,7 +24,7 @@ public class MainWindowTest {
 	private MainWindow mainWindow;
 
 	@BeforeEach
-	protected void onSetUp() {
+	protected void onSetUp() throws DBConnectionException {
 		mainWindow = MainWindowTestUtils.getMainWindow();
 	}
 
