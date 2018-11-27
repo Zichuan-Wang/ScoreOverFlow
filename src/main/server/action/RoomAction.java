@@ -19,6 +19,10 @@ public class RoomAction {
 		return dao.searchRooms(constraint);
 	}
 	
+	public List<Room> searchReservedRooms(SearchRoomConstraint constraint) {
+		return dao.searchReservedRooms(constraint);
+	}
+	
 	public Room getRoomById(int id) {
 		return dao.getRoomById(id);
 	}

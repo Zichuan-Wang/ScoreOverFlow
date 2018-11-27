@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -54,6 +55,7 @@ public class ReservePanel extends BasePanel {
 	private JFormattedTextField capacity;
 	private JTextField nameField;
 	private JList<Facility> facilityList;
+	private JCheckBox showBookedRooms;
 	private JButton searchButton, backButton;
 	private TablePanel roomPane;
 
@@ -150,7 +152,6 @@ public class ReservePanel extends BasePanel {
 		endTimeSettings.setAllowEmptyTimes(false);
 		endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
 		endTimeSettings.initialTime = getCurTime().plusMinutes(10);
-
 		endTimePicker = new TimePicker(endTimeSettings);
 		searchPane.add(endTimePicker);
 
@@ -190,6 +191,11 @@ public class ReservePanel extends BasePanel {
 		facilityList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		searchPane.add(facilityList);
 
+		// Show Booked Rooms for High Priority Users
+		if(user.getUserGroup() == 1) {
+			showBookedRooms = new JCheckBox();
+			searchPane.add(showBookedRooms);
+		}
 		// Search Button
 		searchButton = getSearchButton();
 		searchPane.add(searchButton);
@@ -217,6 +223,9 @@ public class ReservePanel extends BasePanel {
 	private JButton getSearchButton() {
 		JButton searchButton = new JButton("Search");
 		searchButton.addActionListener(e -> {
+			//reset
+			roomPane.reset();
+			// build up search constraint
 			SearchRoomConstraint src = new SearchRoomConstraint();
 			String selectedDate = datePicker.getDateStringOrEmptyString();
 			String startTime = startTimePicker.getTimeStringOrEmptyString();
@@ -240,13 +249,19 @@ public class ReservePanel extends BasePanel {
 			
 			// search from database
 			List<Room> roomList = roomAction.searchRoom(src);
-			if (roomList.isEmpty())
+			
+			List<Room> reservedRoomList = new ArrayList<>();
+			if(showBookedRooms != null && showBookedRooms.isSelected()) {
+				reservedRoomList = roomAction.searchReservedRooms(src);
+			}
+			// build table
+			if (roomList.isEmpty() && reservedRoomList.isEmpty())
 				JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
 			else {
-				// Get the name and populate the list
 				List<Object[]> rows = new ArrayList<>();
+				Object[] rowName = new Object[] { "Room Name", "Action" };
+				
 				// Room name, Reserve button
-				Object[] rowName = new Object[] { "Room Name", "Reserve" };
 				for (Room room : roomList) {
 					Object[] row = new Object[2];
 					row[0] = room.getName();
@@ -254,7 +269,15 @@ public class ReservePanel extends BasePanel {
 					row[1] = reserveButton;
 					rows.add(row);
 				}
-				roomPane.populateList(rowName, rows, "Reserve");
+				// Room name, Override button
+				for (Room room : reservedRoomList) {
+					Object[] row = new Object[2];
+					row[0] = room.getName();
+					JButton overrideButton = getOverrideButton(room, src);
+					row[1] = overrideButton;
+					rows.add(row);
+				}
+				roomPane.populateList(rowName, rows, "Action");
 			}
 		});
 		return searchButton;
@@ -272,10 +295,29 @@ public class ReservePanel extends BasePanel {
 				JOptionPane.showMessageDialog(null, "Success!");
 				reserveButton.setEnabled(false);
 			} else {
-				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
+				JOptionPane.showMessageDialog(null, "There is something wrong with making the reservation. Please Try Again.");
 			}
 		});
 		return reserveButton;
+	}
+	
+	private JButton getOverrideButton(Room room, SearchRoomConstraint src) {
+		JButton overrideButton = new JButton("Override");
+		overrideButton.addActionListener(e -> {
+			// convert room to reservation
+			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(), src.getStartTime(),
+					src.getEndTime(), user.getId());
+			// reserve
+			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),
+					src.getEndTime(), user.getId());
+			if (success) {
+				JOptionPane.showMessageDialog(null, "Success!");
+				overrideButton.setEnabled(false);
+			} else {
+				JOptionPane.showMessageDialog(null, "There is something wrong with overriding the reservation. Please Try Again.");
+			}
+		});
+		return overrideButton;
 	}
 	
 	private LocalTime getCurTime() {

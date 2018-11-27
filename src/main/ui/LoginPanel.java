@@ -13,7 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import entity.User;
 import security.SecurityService;
+import server.action.FacilityAction;
+import server.action.ReservationAction;
+import server.action.RoomAction;
+import server.action.UserAction;
 
 public class LoginPanel extends BasePanel{
 	
@@ -23,12 +28,18 @@ public class LoginPanel extends BasePanel{
 	private JButton exitButton;
 	private JTextField userNameField;
 	private JPasswordField passwordField;
-	private MainPanel mainPane;
+	private UserAction userAction;
+	private ReservationAction reservationAction;
+	private RoomAction roomAction;
+	private FacilityAction facilityAction;
 
-	public LoginPanel(JPanel cards, MainPanel mainPane) {
+	public LoginPanel(JPanel cards, UserAction userAction, ReservationAction reservationAction, RoomAction roomAction, FacilityAction facilityAction) {
 		super(TITLE, cards);
 		initPanels();
-		this.mainPane = mainPane;
+		this.userAction= userAction;
+		this.reservationAction = reservationAction;
+		this.roomAction = roomAction;
+		this.facilityAction = facilityAction;
 	}
 	
 	
@@ -95,9 +106,17 @@ public class LoginPanel extends BasePanel{
 		
 		String result = SecurityService.Login(userNameField.getText(), String.valueOf(passwordField.getPassword()));
 		if (result.equals("Success")) {
-			System.out.println(result);
+			User user = userAction.findUserByUni(userNameField.getText());
+			// Create three panels
+			ReservePanel reservePane = new ReservePanel(cards, user, reservationAction, roomAction, facilityAction);
+			ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards, user, reservationAction, roomAction);
+			MainPanel mainPane = new MainPanel(cards, reservePane, viewRoomsPane);
+			
+			// add panels to card
+			cards.add(mainPane, "main");
+			cards.add(reservePane, "reserve");
+			cards.add(viewRoomsPane, "view rooms");
 			GuiUtils.jumpCard(cards, "main");
-			mainPane.showPanel();
 		}
 		else {
 			JOptionPane.showMessageDialog(null, result);

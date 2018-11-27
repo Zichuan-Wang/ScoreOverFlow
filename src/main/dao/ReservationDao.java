@@ -26,6 +26,5 @@ public class ReservationDao extends BaseDao<Reservation> {
 		Query query = manager.createQuery("SELECT u FROM Reservation u WHERE u.userId = :id").setParameter("id",
 				constraint.getUserId());
 		return query.getResultList();
-
 	}
 }

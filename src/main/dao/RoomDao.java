@@ -67,6 +67,38 @@ public class RoomDao extends BaseDao<Room> {
 		return query.getResultList();
 
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Room> searchReservedRooms(SearchRoomConstraint constraint){
+		// add null to set to prevent empty set error
+		constraint.getFacilities().add(null);
+		Query query = manager.createQuery("SELECT u FROM Room u "
+				+ "WHERE (u.name LIKE :name) "
+				+ "AND (u.capacity >= :capacity) "
+				+ "AND :facilityCount = "
+				+ "(SELECT COUNT(f.id) FROM Room r "
+				+ "INNER JOIN r.facilities f "
+				+ "WHERE r.id = u.id "
+				+ "AND f in :facilities) "
+				+ "AND EXISTS "//
+				+ "(SELECT r FROM Reservation r "//
+				+ "WHERE r.roomId = u.id "//
+				+ "AND r.eventDate = :eventDate "//
+				+ "AND r.startTime < :endTime "//
+				+ "AND r.endTime > :startTime "//
+				+ "AND EXISTS "//
+				+ "(SELECT p FROM User p "//
+				+ "WHERE p.id = r.userId "//
+				+ "AND p.userGroup = 3))")//
+				.setParameter("name", "%" + constraint.getRoomName() + "%")
+				.setParameter("capacity", constraint.getCapacity())
+				.setParameter("eventDate", constraint.getEventDate(), TemporalType.DATE)
+				.setParameter("startTime", constraint.getStartTime(), TemporalType.TIME)
+				.setParameter("endTime", constraint.getEndTime(), TemporalType.TIME)
+				.setParameter("facilities", constraint.getFacilities())
+				.setParameter("facilityCount", (long) constraint.getFacilities().size() - 1);
+		return query.getResultList();
+	}
 
 	public Room getRoomById(int id) {
 		Query query = manager.createQuery("SELECT u FROM Room u WHERE u.id = :id").setParameter("id", id);

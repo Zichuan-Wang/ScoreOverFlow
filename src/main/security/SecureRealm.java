@@ -33,16 +33,24 @@ public class SecureRealm extends AuthorizingRealm {
 	private static final String[] roleNames = new String[] {"Admin", "High", "PS", "Normal"};
 
     public SecureRealm() {
+        this((UserDao)null);
+    }
+    
+    public SecureRealm(UserDao dao) {
         //SimpleAccountRealms are memory-only realms - no need for an additional cache mechanism since we're
         //already as memory-efficient as we can be:
     	this.roles = new LinkedHashMap<String, SimpleRole>();
         setCachingEnabled(false);
-        try {
-			dao = UserDaoFactory.getInstance();
-		} catch (DBConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        if (dao == null) {
+        	try {
+    			dao = UserDaoFactory.getInstance();
+    		} catch (DBConnectionException e) {
+    			e.printStackTrace();
+    		}
+        }
+        else {
+        	this.dao = dao;
+        }      
         setName(name);
     }
 

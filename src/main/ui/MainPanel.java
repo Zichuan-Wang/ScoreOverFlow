@@ -12,7 +12,7 @@ public class MainPanel extends BasePanel {
 	private final static String TITLE = "Main";
 	private JButton reserveButton;
 	private JButton viewRoomsButton;
-
+	
 	public MainPanel(JPanel cards, ReservePanel reservePane, ViewRoomsPanel viewRoomsPane) {
 		super(TITLE, cards);
 		initPanels();

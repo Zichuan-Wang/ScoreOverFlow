@@ -1,7 +1,6 @@
 package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -19,7 +18,7 @@ import utils.UiTestUtils;
 
 public class MainWindowTest {
 	private final String DEFAULT_MAIN_WINDOW_TITLE = "Schedule++";
-	private final int CARDS_COMPONENT_COUNT = 4;
+	private final int CARDS_COMPONENT_COUNT = 1;
 
 	private MainWindow mainWindow;
 
@@ -45,28 +44,10 @@ public class MainWindowTest {
 		// Assuming order is correct
 		assertEquals(CARDS_COMPONENT_COUNT, cards.getComponentCount());
 
-		JPanel mainPane = (JPanel) cards.getComponent(1);
-		JPanel reservePane = (JPanel) cards.getComponent(2);
-		JPanel viewRoomsPane = (JPanel) cards.getComponent(3);
+		JPanel loginPane = (JPanel) cards.getComponent(0);
 
-		assertNotNull(mainPane);
-		assertNotNull(reservePane);
-		assertNotNull(viewRoomsPane);
-
-		((CardLayout) cards.getLayout()).show(cards, "main");
-		assertTrue(mainPane.isVisible());
-		assertFalse(reservePane.isVisible());
-		assertFalse(viewRoomsPane.isVisible());
-
-		((CardLayout) cards.getLayout()).show(cards, "reserve");
-		assertFalse(mainPane.isVisible());
-		assertTrue(reservePane.isVisible());
-		assertFalse(viewRoomsPane.isVisible());
-
-		((CardLayout) cards.getLayout()).show(cards, "view rooms");
-		assertFalse(mainPane.isVisible());
-		assertFalse(reservePane.isVisible());
-		assertTrue(viewRoomsPane.isVisible());
+		assertNotNull(loginPane);
+		assertTrue(loginPane.isVisible());
 	}
 
 	@AfterEach

@@ -1,2 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd-cpd/>
+<pmd-cpd>
+   <duplication lines="11" tokens="110">
+      <file line="59"
+            path="/Users/travis/build/Zichuan-Wang/ScoreOverFlow/src/main/dao/RoomDao.java"/>
+      <file line="92"
+            path="/Users/travis/build/Zichuan-Wang/ScoreOverFlow/src/main/dao/RoomDao.java"/>
+      <codefragment><![CDATA[				+ "AND f in :facilities)")//
+				.setParameter("name", "%" + constraint.getRoomName() + "%")
+				.setParameter("capacity", constraint.getCapacity())
+				.setParameter("eventDate", constraint.getEventDate(), TemporalType.DATE)
+				.setParameter("startTime", constraint.getStartTime(), TemporalType.TIME)
+				.setParameter("endTime", constraint.getEndTime(), TemporalType.TIME)
+				.setParameter("facilities", constraint.getFacilities())
+				.setParameter("facilityCount", (long) constraint.getFacilities().size() - 1);
+		return query.getResultList();
+
+	}]]></codefragment>
+   </duplication>
+</pmd-cpd>

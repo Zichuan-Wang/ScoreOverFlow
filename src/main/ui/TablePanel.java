@@ -17,7 +17,8 @@ public class TablePanel extends JPanel {
 	 * Default serial version id
 	 */
 	private static final long serialVersionUID = 1L;
-	final int MAX_LISTING = 10;
+	
+	
 	public TablePanel() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
@@ -26,7 +27,7 @@ public class TablePanel extends JPanel {
 	public void populateList(Object[] columnNames,List<Object[]> rows, String buttonName) {
 		removeAll();
 		int columnLength = columnNames.length;
-		int rowLength = Math.min(rows.size(), MAX_LISTING);
+		int rowLength = rows.size();
 		// anonymous class dm to disable editing
 		DefaultTableModel dm = new DefaultTableModel(columnNames,rowLength) {
 			private static final long serialVersionUID = 1L;
