@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">entity</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = &quot;user&quot;)
+<span class="fc" id="L10">public class User {</span>
+
+	@Id
+	@Column(name = &quot;id&quot;, unique = true)
+	private int id;
+
+	@Column(name = &quot;uni&quot;, nullable = false, unique = true)
+	private String uni;
+
+	@Column(name = &quot;password&quot;, nullable = false)
+	private String password;
+
+	@Column(name = &quot;is_admin&quot;)
+	private boolean isAdmin;
+
+	@Column(name = &quot;user_group&quot;)
+	private int userGroup;
+
+	@Column(name = &quot;email&quot;)
+	private String email;
+
+	public int getId() {
+<span class="fc" id="L32">		return id;</span>
+	}
+
+	public User setId(int id) {
+<span class="fc" id="L36">		this.id = id;</span>
+<span class="fc" id="L37">		return this;</span>
+	}
+
+	public String getUni() {
+<span class="fc" id="L41">		return uni;</span>
+	}
+
+	public User setUni(String uni) {
+<span class="fc" id="L45">		this.uni = uni;</span>
+<span class="fc" id="L46">		return this;</span>
+	}
+
+	public String getPassword() {
+<span class="fc" id="L50">		return password;</span>
+	}
+
+	public User setPassword(String password) {
+<span class="fc" id="L54">		this.password = password;</span>
+<span class="fc" id="L55">		return this;</span>
+	}
+
+	public boolean getIsAdmin() {
+<span class="fc" id="L59">		return isAdmin;</span>
+	}
+
+	public User setIsAdmin(boolean isAdmin) {
+<span class="fc" id="L63">		this.isAdmin = isAdmin;</span>
+<span class="fc" id="L64">		return this;</span>
+	}
+
+	public int getUserGroup() {
+<span class="fc" id="L68">		return userGroup;</span>
+	}
+
+	public User setUserGroup(int userGroup) {
+<span class="fc" id="L72">		this.userGroup = userGroup;</span>
+<span class="fc" id="L73">		return this;</span>
+	}
+
+	public String getEmail() {
+<span class="fc" id="L77">		return email;</span>
+	}
+
+	public User setEmail(String email) {
+<span class="fc" id="L81">		this.email = email;</span>
+<span class="fc" id="L82">		return this;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
