@@ -5,16 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.ReservationDao;
+import dao.RoomDao;
 import entity.Reservation;
+//import entity.Room;
 import server.constraint.SearchReservationConstraint;
+//import server.constraint.SearchRoomConstraint;
 
 // Handle all actions related to Reservation
 public class ReservationAction {
 
-	private ReservationDao dao;
+	private ReservationDao reservationDao;
+	private RoomDao roomDao;
 
-	public ReservationAction(ReservationDao dao) {
-		this.dao = dao;
+	public ReservationAction(ReservationDao reservationDao, RoomDao roomDao) {
+		this.reservationDao = reservationDao;
+		this.roomDao = roomDao;
 	}
 
 	public boolean reserveRoom(Reservation reservation) {
@@ -22,19 +27,19 @@ public class ReservationAction {
 		
 		reservation.setCreated(new Timestamp(System.currentTimeMillis()));
 		reservation.setModified(new Timestamp(System.currentTimeMillis()));
-		dao.saveOrUpdate(reservation);
+		reservationDao.saveOrUpdate(reservation);
 
 		return true; // for a single-user system
 	}
 
 	public boolean cancelReservation(Reservation reservation) {
-		dao.remove(reservation);
+		reservationDao.remove(reservation);
 
 		return true; // for a single-user system
 	}
 
 	public List<Reservation> searchReservations(SearchReservationConstraint constraint) {
-		return dao.searchReservations(constraint);
+		return reservationDao.searchReservations(constraint);
 	}
 	
 	// returns all reservations that fail to process
@@ -50,4 +55,21 @@ public class ReservationAction {
 		
 		return failedItems;
 	}
+	
+	/*
+	private boolean isAvailable(Reservation reservation) {
+		SearchRoomConstraint constraint = new SearchRoomConstraint()
+				.setStartTime(reservation.getStartTime())
+				.setEndTime(reservation.getEndTime())
+				.setEventDate(reservation.getEventDate());
+		
+		Room target = roomDao.getRoomById(reservation.getRoomId());
+		for (Room room: searchRoom(constraint)) {
+			if (target.getId() == room.getId()) {
+				return true;
+			}
+		}
+		
+		return false;
+	} */
 }
