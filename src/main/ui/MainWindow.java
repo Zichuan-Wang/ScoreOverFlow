@@ -48,7 +48,7 @@ public class MainWindow extends JFrame {
 					
 					MainWindow frame = new MainWindow(userAction, reservationAction, roomAction, facilityAction);				
 					frame.setVisible(true);
-					SecurityService.initialize();
+					SecurityService.initialize(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

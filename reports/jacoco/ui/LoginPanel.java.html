@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">ui</a> &gt; <span class="el_source">LoginPanel.java</span></div><h1>LoginPanel.java</h1><pre class="source lang-java linenums">package ui;
+
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import security.SecurityService;
+
+public class LoginPanel extends BasePanel{
+	
+	private static final long serialVersionUID = 1L;
+	private final static String TITLE = &quot;Login&quot;;
+	private JButton loginButton;
+	private JButton exitButton;
+	private JTextField userNameField;
+	private JPasswordField passwordField;
+	private MainPanel mainPane;
+
+	public LoginPanel(JPanel cards, MainPanel mainPane) {
+<span class="fc" id="L29">		super(TITLE, cards);</span>
+<span class="fc" id="L30">		initPanels();</span>
+<span class="fc" id="L31">		this.mainPane = mainPane;</span>
+<span class="fc" id="L32">	}</span>
+	
+	
+	// Partially based on Java Tutorials Code Sample – TextSamplerDemo.java
+	@Override
+	public JPanel getMiddlePanel() {
+		// middle Panel
+<span class="fc" id="L39">		JPanel middlePane = new JPanel();</span>
+		
+<span class="fc" id="L41">		middlePane.setLayout(new BoxLayout(middlePane, BoxLayout.Y_AXIS));</span>
+		
+<span class="fc" id="L43">		JLabel userNameLabel = new JLabel(&quot;User Name&quot;);</span>
+<span class="fc" id="L44">		userNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
+<span class="fc" id="L45">		userNameField = new JTextField();</span>
+<span class="fc" id="L46">		JLabel passwordLabel = new JLabel(&quot;Password&quot;);</span>
+<span class="fc" id="L47">		passwordField = new JPasswordField();</span>
+<span class="fc" id="L48">		passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
+		
+<span class="pc" id="L50">		loginButton = GuiUtils.createButton(&quot;Login&quot;, e -&gt; login());</span>
+<span class="pc" id="L51">		exitButton = GuiUtils.createButton(&quot;Exit&quot;, e -&gt; System.exit(0));</span>
+		
+		
+<span class="fc" id="L54">	    GridBagLayout gridbag = new GridBagLayout();</span>
+<span class="fc" id="L55">	    GridBagConstraints c = new GridBagConstraints();</span>
+	 
+<span class="fc" id="L57">	    middlePane.setLayout(gridbag);</span>
+	 
+<span class="fc" id="L59">	    JLabel[] labels = {userNameLabel, passwordLabel};</span>
+<span class="fc" id="L60">	    JTextField[] textFields = {userNameField, passwordField};</span>
+<span class="fc" id="L61">	    addLabelTextRows(labels, textFields, middlePane);</span>
+	 
+<span class="fc" id="L63">	    c.gridwidth = GridBagConstraints.REMAINDER; //last</span>
+<span class="fc" id="L64">	    c.anchor = GridBagConstraints.WEST;</span>
+<span class="fc" id="L65">	    c.weightx = 1.0;</span>
+		
+<span class="fc" id="L67">		middlePane.add(loginButton);</span>
+<span class="fc" id="L68">		middlePane.add(exitButton);</span>
+		
+<span class="fc" id="L70">		return middlePane;</span>
+		
+		
+	}
+	
+	// From Java Tutorials Code Sample – TextSamplerDemo.java
+	private void addLabelTextRows(JLabel[] labels, JTextField[] textFields, Container container) {
+<span class="fc" id="L77">		GridBagConstraints c = new GridBagConstraints();</span>
+<span class="fc" id="L78">		c.anchor = GridBagConstraints.EAST;</span>
+<span class="fc" id="L79">		int numLabels = labels.length;</span>
+		
+<span class="fc bfc" id="L81" title="All 2 branches covered.">		for (int i = 0; i &lt; numLabels; i++) {</span>
+<span class="fc" id="L82">			c.gridwidth = GridBagConstraints.RELATIVE; //next-to-last</span>
+<span class="fc" id="L83">			c.fill = GridBagConstraints.NONE;      //reset to default</span>
+<span class="fc" id="L84">			c.weightx = 0.0;                       //reset to default</span>
+<span class="fc" id="L85">			container.add(labels[i], c);</span>
+			
+<span class="fc" id="L87">			c.gridwidth = GridBagConstraints.REMAINDER;     //end row</span>
+<span class="fc" id="L88">			c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="fc" id="L89">			c.weightx = 1.0;</span>
+<span class="fc" id="L90">			container.add(textFields[i], c);</span>
+		}
+<span class="fc" id="L92">	}</span>
+	
+	private void login() {
+		
+<span class="nc" id="L96">		String result = SecurityService.Login(userNameField.getText(), String.valueOf(passwordField.getPassword()));</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">		if (result.equals(&quot;Success&quot;)) {</span>
+<span class="nc" id="L98">			System.out.println(result);</span>
+<span class="nc" id="L99">			GuiUtils.jumpCard(cards, &quot;main&quot;);</span>
+<span class="nc" id="L100">			mainPane.showPanel();</span>
+		}
+		else {
+<span class="nc" id="L103">			JOptionPane.showMessageDialog(null, result);</span>
+		}
+<span class="nc" id="L105">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
