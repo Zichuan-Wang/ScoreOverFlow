@@ -13,6 +13,7 @@ commit_logs() {
   mv ./target/surefire-reports/*.txt reports/test
   mv ./target/cpd.xml reports/pmd
   mv ./target/pmd.xml reports/pmd
+  ll -r ./target
   mv ./target/site/jacoco/* reports/jacoco
   mv maven_phase1.log reports/maven
   mv maven_phase2.log reports/maven
