@@ -21,7 +21,7 @@ public class LoginPanelTest {
 	
 	@BeforeEach
 	protected void onSetUp() {
-		loginPane = new LoginPanel(null, null);
+		loginPane = new LoginPanel(null, null, null, null, null);
 		topPane = (JPanel) loginPane.getComponent(0);
 		middlePane = (JPanel)loginPane.getComponent(1);
 		bottomPane = (JPanel)loginPane.getComponent(2);

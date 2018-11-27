@@ -2,6 +2,7 @@ package server.action;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import dao.ReservationDao;
@@ -24,6 +25,18 @@ public class ReservationAction {
 		reservation.setModified(new Timestamp(System.currentTimeMillis()));
 		dao.saveOrUpdate(reservation);
 
+		return true; // for a single-user system
+	}
+	
+	// NOT WORKING!
+	public boolean overrideRoom(Reservation reservation, Date eventDate, Date startTime, Date endTime, int userID) {
+		reservation.setEventDate(eventDate);
+		reservation.setStartTime(startTime);
+		reservation.setEndTime(endTime);
+		reservation.setUserId(userID);
+		reservation.setModified(new Timestamp(System.currentTimeMillis()));
+		dao.saveOrUpdate(reservation);
+		
 		return true; // for a single-user system
 	}
 
@@ -50,4 +63,5 @@ public class ReservationAction {
 		
 		return failedItems;
 	}
+
 }

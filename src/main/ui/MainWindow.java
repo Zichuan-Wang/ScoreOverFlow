@@ -10,7 +10,6 @@ import dao.factory.FacilityDaoFactory;
 import dao.factory.ReservationDaoFactory;
 import dao.factory.RoomDaoFactory;
 import dao.factory.UserDaoFactory;
-import entity.User;
 import security.SecurityService;
 import server.action.FacilityAction;
 import server.action.ReservationAction;
@@ -22,7 +21,7 @@ public class MainWindow extends JFrame {
 	final int SCREEN_WIDTH = 600;
 	final int SCREEN_HEIGHT = 800;
 
-	public MainWindow(User user, ReservationAction reservationAction, RoomAction roomAction, FacilityAction facilityAction) {
+	public MainWindow(UserAction userAction, ReservationAction reservationAction, RoomAction roomAction, FacilityAction facilityAction) {
 		// Initialization
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Schedule++");
@@ -30,18 +29,8 @@ public class MainWindow extends JFrame {
 
 		// Create a cardLayout for switching between the panels
 		JPanel cards = new JPanel(new CardLayout());
-
-		// Create three panels
-		ReservePanel reservePane = new ReservePanel(cards, user, reservationAction, roomAction, facilityAction);
-		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards, user, reservationAction, roomAction);
-		MainPanel mainPane = new MainPanel(cards, reservePane, viewRoomsPane);
-		LoginPanel loginPane = new LoginPanel(cards, mainPane);
-
-		// add panels to card, add cards to JFrame
+		LoginPanel loginPane = new LoginPanel(cards, userAction,reservationAction, roomAction, facilityAction);
 		cards.add(loginPane, "login");
-		cards.add(mainPane, "main");
-		cards.add(reservePane, "reserve");
-		cards.add(viewRoomsPane, "view rooms");
 		add(cards);
 	}
 
@@ -56,10 +45,8 @@ public class MainWindow extends JFrame {
 					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
 					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
 					FacilityAction facilityAction = new FacilityAction(FacilityDaoFactory.getInstance());
-					// TODO: replace by actual user
-					User user = userAction.findUserByUni("hx2209");
 					
-					MainWindow frame = new MainWindow(user, reservationAction, roomAction, facilityAction);				
+					MainWindow frame = new MainWindow(userAction, reservationAction, roomAction, facilityAction);				
 					frame.setVisible(true);
 					SecurityService.initialize();
 				} catch (Exception e) {

@@ -1,19 +1,19 @@
 package utils;
 
-import entity.User;
 import server.action.FacilityAction;
 import server.action.ReservationAction;
 import server.action.RoomAction;
+import server.action.UserAction;
 import ui.MainWindow;
 
 public class MainWindowTestUtils {
 
 	public static MainWindow getMainWindow() {
-		User user = EntityTestUtils.getDefaultUser();
+		UserAction userAction = UserActionTestUtils.getUserAction();
 		ReservationAction reservationAction = ReservationActionTestUtils.getReservationAction();
 		RoomAction roomAction = RoomActionTestUtils.getRoomAction();
 		FacilityAction facilityAction = FacilityActionTestUtils.getFacilityAction();
-		return new MainWindow(user, reservationAction, roomAction, facilityAction);
+		return new MainWindow(userAction, reservationAction, roomAction, facilityAction);
 	}
 
 }
