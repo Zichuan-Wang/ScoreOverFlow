@@ -42,7 +42,8 @@ public class MainWindow extends JFrame {
 			public void run() {
 				try {
 					UserAction userAction = new UserAction(UserDaoFactory.getInstance());
-					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance(), RoomDaoFactory.getInstance());
+					//ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance(), RoomDaoFactory.getInstance());
+					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
 					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
 					FacilityAction facilityAction = new FacilityAction(FacilityDaoFactory.getInstance());
 					
