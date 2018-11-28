@@ -18,9 +18,11 @@ public class UserActionTest {
 		UserDao dao = UserDaoFactory.getInstance();
 		UserAction action = new UserAction(dao);
 		User user = dao.saveOrUpdate(EntityTestUtils.getDefaultUser());
-		assertNotNull(action.findUserByUni(EntityTestUtils.DEFAULT_UNI));
-		assertEquals(EntityTestUtils.DEFAULT_UNI, action.findUserByUni(EntityTestUtils.DEFAULT_UNI).getUni());
+		User found = action.findUserByUni(EntityTestUtils.DEFAULT_UNI);
 		dao.remove(user);
+		assertNotNull(found);
+		assertEquals(EntityTestUtils.DEFAULT_UNI, found.getUni());
+		
 	}
 
 	@Test
