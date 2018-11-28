@@ -90,19 +90,38 @@ public class RoomActionTest {
 		Reservation reservation = reservationDao.saveOrUpdate(EntityTestUtils.getDefaultReservation());
 		
 		SearchRoomConstraint constraint = new SearchRoomConstraint();
+		
+		// reserve right after the slot (boundary)
 		List<Room> results1 = action.searchRooms(constraint
 				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
 				.setStartTime(EntityTestUtils.DEFAULT_END_TIME)
 				.setEndTime(EntityTestUtils.DEFAULT_END_TIME_NEXT));
+		
+		// reserve the exact time slot
 		List<Room> results2 = action.searchRooms(constraint
 				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
-				.setStartTime(EntityTestUtils.DEFAULT_START_TIME_PREV)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME)
 				.setEndTime(EntityTestUtils.DEFAULT_END_TIME));
+		
+		// reserve right before the slot (boundary)
+		List<Room> results3 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME_PREV)
+				.setEndTime(EntityTestUtils.DEFAULT_START_TIME));
+		
+		// reserve with time overlap
+		List<Room> results4 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME_PREV)
+				.setEndTime(EntityTestUtils.DEFAULT_START_TIME_NEXT));
 		
 		roomDao.remove(room);
 		reservationDao.remove(reservation);
 
 		assertEquals(results1.size(), 1);
 		assertEquals(results2.size(), 0);
+		assertEquals(results3.size(), 1);
+		assertEquals(results4.size(), 0);
+		
 	}
 }
