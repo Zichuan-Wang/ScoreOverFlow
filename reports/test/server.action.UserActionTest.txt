@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: server.action.UserActionTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 8.09 s <<< FAILURE! - in server.action.UserActionTest
+findUserByUni  Time elapsed: 8.089 s  <<< ERROR!
+java.lang.NullPointerException
+	at server.action.UserActionTest.findUserByUni(UserActionTest.java:19)
+
