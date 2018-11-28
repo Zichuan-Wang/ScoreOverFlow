@@ -18,18 +18,21 @@ public class EmailSenderTest {
 	public void testAddress() {
 		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, SUBJECT, BODY));
 		assertThrows(SendFailedException.class, () -> EmailSender.sendEmail(INVALID_ADDRESS, SUBJECT, BODY));
+		assertThrows(SendFailedException.class, () -> EmailSender.sendEmail(null, SUBJECT, BODY));
 	}
 	
 	@Test
 	public void testSubject() {
 		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, SUBJECT, BODY));
 		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, "", BODY));
+		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, null, BODY));
 	}
 	
 	@Test
 	public void testBody() {
 		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, SUBJECT, BODY));
 		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, SUBJECT, ""));
+		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, SUBJECT, null));
 	}
 	
 }

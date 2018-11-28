@@ -17,6 +17,10 @@ import javax.mail.internet.MimeMessage;
 public class EmailSender {
 
 	public static void sendEmail(String to, String subject, String body) throws AddressException, MessagingException {
+		to = to == null ? "" : to;
+		subject = subject == null ? "" : subject;
+		body = body == null ? "" : body;
+		
 		InputStream inputStream;
 		try {
 			inputStream = new FileInputStream("src/main/resources/email.properties");
@@ -44,4 +48,5 @@ public class EmailSender {
 			exception.printStackTrace();
 		}
 	}
+
 }
