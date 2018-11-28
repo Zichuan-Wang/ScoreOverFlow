@@ -1,8 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: server.action.RoomActionTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.453 s <<< FAILURE! - in server.action.RoomActionTest
-findRoomById_roomExists  Time elapsed: 0.352 s  <<< FAILURE!
+Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.376 s <<< FAILURE! - in server.action.RoomActionTest
+findRoomById_roomNotExist  Time elapsed: 0.084 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <null> but was: <entity.Room@18ba649>
+	at server.action.RoomActionTest.findRoomById_roomNotExist(RoomActionTest.java:32)
+
+findRoomById_roomExists  Time elapsed: 0.292 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <x> but was: <1>
 	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:23)
 
