@@ -1,14 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: server.action.FacilityActionTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 4.528 s <<< FAILURE! - in server.action.FacilityActionTest
-testFindAllFacilities  Time elapsed: 4.527 s  <<< ERROR!
-java.lang.ExceptionInInitializerError
-	at server.action.FacilityActionTest.testFindAllFacilities(FacilityActionTest.java:17)
-Caused by: org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
-	at server.action.FacilityActionTest.testFindAllFacilities(FacilityActionTest.java:17)
-Caused by: org.hibernate.exception.SQLGrammarException: Error calling Driver#connect
-	at server.action.FacilityActionTest.testFindAllFacilities(FacilityActionTest.java:17)
-Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'DBNAME'
-	at server.action.FacilityActionTest.testFindAllFacilities(FacilityActionTest.java:17)
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 7.903 s <<< FAILURE! - in server.action.FacilityActionTest
+testFindAllFacilities  Time elapsed: 7.902 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <0> but was: <1>
+	at server.action.FacilityActionTest.testFindAllFacilities(FacilityActionTest.java:19)
 
