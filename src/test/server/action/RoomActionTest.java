@@ -92,32 +92,17 @@ public class RoomActionTest {
 		SearchRoomConstraint constraint = new SearchRoomConstraint();
 		List<Room> results1 = action.searchRooms(constraint
 				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
-				.setStartTime(EntityTestUtils.DEFAULT_START_TIME)
-				.setEndTime(EntityTestUtils.DEFAULT_END_TIME));
+				.setStartTime(EntityTestUtils.DEFAULT_END_TIME)
+				.setEndTime(EntityTestUtils.DEFAULT_END_TIME_NEXT));
 		List<Room> results2 = action.searchRooms(constraint
 				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
 				.setStartTime(EntityTestUtils.DEFAULT_START_TIME_PREV)
 				.setEndTime(EntityTestUtils.DEFAULT_END_TIME));
-		List<Room> results3 = action.searchRooms(constraint
-				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
-				.setStartTime(EntityTestUtils.DEFAULT_START_TIME)
-				.setEndTime(EntityTestUtils.DEFAULT_END_TIME_NEXT));
-		List<Room> results4 = action.searchRooms(constraint
-				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
-				.setStartTime(EntityTestUtils.DEFAULT_START_TIME_NEXT)
-				.setEndTime(EntityTestUtils.DEFAULT_END_TIME));
-		List<Room> results5 = action.searchRooms(constraint
-				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
-				.setStartTime(EntityTestUtils.DEFAULT_START_TIME)
-				.setEndTime(EntityTestUtils.DEFAULT_END_TIME_PREV));
 		
 		roomDao.remove(room);
 		reservationDao.remove(reservation);
 
 		assertEquals(results1.size(), 1);
 		assertEquals(results2.size(), 0);
-		assertEquals(results3.size(), 0);
-		assertEquals(results4.size(), 1);
-		assertEquals(results5.size(), 1);
 	}
 }
