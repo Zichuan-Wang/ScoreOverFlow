@@ -119,6 +119,7 @@ public class LoginPanel extends BasePanel{
 			GuiUtils.jumpCard(cards, "main");
 		}
 		else {
+			System.out.println("fail to log in");
 			JOptionPane.showMessageDialog(null, result);
 		}
 	}
