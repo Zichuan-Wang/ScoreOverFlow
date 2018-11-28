@@ -1,20 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.ReservePanelTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.039 s <<< FAILURE! - in ui.ReservePanelTest
-middlePanelHasBackButton  Time elapsed: 0.01 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.factory.DaoFactory
-	at ui.ReservePanelTest.onSetUp(ReservePanelTest.java:38)
-
-middlePanelHasTablePanel  Time elapsed: 0.008 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.factory.DaoFactory
-	at ui.ReservePanelTest.onSetUp(ReservePanelTest.java:38)
-
-middlePanelHasSearchPanel  Time elapsed: 0.012 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.factory.DaoFactory
-	at ui.ReservePanelTest.onSetUp(ReservePanelTest.java:38)
-
-checkTitle  Time elapsed: 0.002 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.factory.DaoFactory
-	at ui.ReservePanelTest.onSetUp(ReservePanelTest.java:38)
-
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.868 s - in ui.ReservePanelTest
