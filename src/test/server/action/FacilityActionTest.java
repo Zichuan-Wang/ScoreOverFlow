@@ -2,6 +2,8 @@ package server.action;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import dao.FacilityDao;
@@ -18,9 +20,11 @@ public class FacilityActionTest {
 		FacilityAction action = new FacilityAction(dao);
 		assertEquals(0, action.findAllFacilities().size());
 
-		Facility saved = dao.saveOrUpdate(new Facility().setName(EntityTestUtils.DEFAULT_FACILITY_NAME));
-		assertEquals(1, action.findAllFacilities().size());
-		assertEquals(EntityTestUtils.DEFAULT_FACILITY_NAME, action.findAllFacilities().get(0));
-		dao.remove(saved);
+		Facility facility = dao.saveOrUpdate(EntityTestUtils.getDefaultFacility());
+		List<Facility> facilities = action.findAllFacilities();
+		dao.remove(facility);
+		assertEquals(1, facilities.size());
+		assertEquals(EntityTestUtils.DEFAULT_FACILITY_NAME, facilities.get(0));
+		
 	}
 }
