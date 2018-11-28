@@ -1,11 +1,7 @@
 package server.action;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
 import dao.UserDao;
 import entity.User;
-import security.PasswordHashing;
 
 public class UserAction {
 
@@ -17,13 +13,5 @@ public class UserAction {
 	
 	public User findUserByUni(String uni) {
 		return dao.findUserByUni(uni);
-	}
-	
-	public boolean verifyPassword(User user, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		try {
-			return PasswordHashing.check(password, user.getPassword());
-		} catch (IllegalArgumentException e) {
-			return false;
-		}
 	}
 }
