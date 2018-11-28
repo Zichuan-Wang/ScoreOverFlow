@@ -1,8 +1,7 @@
 package utils;
 
-import java.sql.Date;
 import java.sql.Time;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import entity.Facility;
 import entity.Reservation;
@@ -15,14 +14,14 @@ public class EntityTestUtils {
 	public static final Date DEFAULT_EVENT_DATE = new Date(1234567);
 	public static final Time DEFAULT_START_TIME = new Time(12345);
 	public static final Time DEFAULT_END_TIME = new Time(54321);
-	public static final Timestamp DEFAULT_CREATED = new Timestamp(123);
-	public static final Timestamp DEFAULT_MODIFIED = new Timestamp(321);
+	public static final Date DEFAULT_CREATED = new Date();
+	public static final Date DEFAULT_MODIFIED = new Date();
 
 	// Room
 	public static final int DEFAULT_ROOM_ID = 1;
 	public static final String DEFAULT_ROOM_NAME = "Mudd 282";
 	public static final int DEFAULT_CAPACITY = 15;
-	
+
 	// Facility
 	public static final int DEFAULT_FACILITY_ID = 1;
 	public static final String DEFAULT_FACILITY_NAME = "projector";
@@ -50,7 +49,7 @@ public class EntityTestUtils {
 				.setName(DEFAULT_ROOM_NAME)//
 				.setCapacity(DEFAULT_CAPACITY);
 	}
-	
+
 	public static Facility getDefaultFacility() {
 		return new Facility().setId(DEFAULT_FACILITY_ID)//
 				.setName(DEFAULT_FACILITY_NAME);
