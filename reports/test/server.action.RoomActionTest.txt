@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: server.action.RoomActionTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.184 s <<< FAILURE! - in server.action.RoomActionTest
+findRoomById_roomExists  Time elapsed: 0.079 s  <<< ERROR!
+java.lang.NullPointerException
+	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:20)
+
