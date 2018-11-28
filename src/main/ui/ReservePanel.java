@@ -56,7 +56,7 @@ public class ReservePanel extends BasePanel {
 	private JTextField nameField;
 	private JList<Facility> facilityList;
 	private JCheckBox showBookedRooms;
-	private JButton searchButton, backButton;
+	private JButton searchButton, backButton, uploadFileButton;
 	private TablePanel roomPane;
 
 	private ReservationAction reservationAction;
@@ -109,7 +109,11 @@ public class ReservePanel extends BasePanel {
 		c.weightx = 0.0;
 		c.weighty = 1.0;
 		backButton = GuiUtils.getBackButton(this, cards);
+		uploadFileButton = GuiUtils.getUploadFileButton(this, cards);
+		
 		middlePane.add(backButton, c);
+		// TODO: figure out why this button does not show up
+		middlePane.add(uploadFileButton, c);
 		return middlePane;
 	}
 
