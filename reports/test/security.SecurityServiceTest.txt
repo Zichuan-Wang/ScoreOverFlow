@@ -1,12 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: security.SecurityServiceTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 7.718 s <<< FAILURE! - in security.SecurityServiceTest
-security.SecurityServiceTest  Time elapsed: 7.717 s  <<< ERROR!
-javax.persistence.RollbackException: Error while committing the transaction
-	at security.SecurityServiceTest.prepareDAOAndUser(SecurityServiceTest.java:22)
-Caused by: javax.persistence.OptimisticLockException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1
-	at security.SecurityServiceTest.prepareDAOAndUser(SecurityServiceTest.java:22)
-Caused by: org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1
-	at security.SecurityServiceTest.prepareDAOAndUser(SecurityServiceTest.java:22)
-
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.056 s - in security.SecurityServiceTest
