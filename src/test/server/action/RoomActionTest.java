@@ -50,12 +50,13 @@ public class RoomActionTest {
 		List<Room> results1 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY)); // capacity = 15
 		List<Room> results2 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY + 1)); // capacity = 16
 		List<Room> results3 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY - 1)); // capacity = 14 
+		List<Room> results4 = action.searchRooms(constraint.setCapacity(0)); // capacity = 0
 		dao.remove(room);
 
 		assertEquals(results1.size(), 1);
-		assertEquals(results1.get(0).getCapacity(), EntityTestUtils.DEFAULT_CAPACITY);
 		assertEquals(results2.size(), 0);
 		assertEquals(results3.size(), 1);
+		assertEquals(results4.size(), 1);
 	}
 	
 	@Test
@@ -66,12 +67,16 @@ public class RoomActionTest {
 		Room room = dao.saveOrUpdate(EntityTestUtils.getDefaultRoom());
 		SearchRoomConstraint constraint = new SearchRoomConstraint();
 		List<Room> results1 = action.searchRooms(constraint.setRoomName(EntityTestUtils.DEFAULT_ROOM_NAME));
-		List<Room> results2 = action.searchRooms(constraint.setRoomName(EntityTestUtils.DEFAULT_ROOM_NAME + "=")); // non-exist
+		List<Room> results2 = action.searchRooms(constraint.setRoomName(EntityTestUtils.DEFAULT_ROOM_NAME.substring(0, EntityTestUtils.DEFAULT_ROOM_NAME.length() - 1)));
+		List<Room> results3 = action.searchRooms(constraint.setRoomName(EntityTestUtils.DEFAULT_ROOM_NAME + "=")); // non-exist
+		List<Room> results4 = action.searchRooms(constraint.setRoomName(""));
 		dao.remove(room);
 
 		assertEquals(results1.size(), 1);
 		assertEquals(results1.get(0).getName(), EntityTestUtils.DEFAULT_ROOM_NAME);
-		assertEquals(results2.size(), 0);
+		assertEquals(results2.size(), 1);
+		assertEquals(results3.size(), 0);
+		assertEquals(results4.size(), 1);
 	}
 	
 	@Test

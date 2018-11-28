@@ -14,6 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import entity.User;
+import security.LoginStatus;
 import security.SecurityService;
 import server.action.FacilityAction;
 import server.action.ReservationAction;
@@ -104,8 +105,8 @@ public class LoginPanel extends BasePanel{
 	
 	private void login() {
 		
-		String result = SecurityService.Login(userNameField.getText(), String.valueOf(passwordField.getPassword()));
-		if (result.equals("Success")) {
+		LoginStatus status = SecurityService.Login(userNameField.getText(), String.valueOf(passwordField.getPassword()));
+		if (status.isSuccess()) {
 			User user = userAction.findUserByUni(userNameField.getText());
 			// Create three panels
 			ReservePanel reservePane = new ReservePanel(cards, user, reservationAction, roomAction, facilityAction);
@@ -119,8 +120,7 @@ public class LoginPanel extends BasePanel{
 			GuiUtils.jumpCard(cards, "main");
 		}
 		else {
-			System.out.println("fail to log in");
-			JOptionPane.showMessageDialog(null, result);
+			JOptionPane.showMessageDialog(null, status.getMessage());
 		}
 	}
 

@@ -1,31 +1,45 @@
 package security;
 
 import org.apache.shiro.SecurityUtils;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.Assert;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import utils.UserDaoTestUtils;
+import dao.UserDao;
+import dao.factory.UserDaoFactory;
+import entity.User;
+import exception.DBConnectionException;
+import utils.EntityTestUtils;
 
 public class SecurityServiceTest {
-	@BeforeEach
-	public void onSetUp() {
-		SecurityService.initialize(UserDaoTestUtils.getUserDao());
+	static UserDao dao;
+	static User user;
+	@BeforeAll
+	public static void prepareDAOAndUser() throws DBConnectionException {
+		dao = UserDaoFactory.getInstance();
+		user = dao.saveOrUpdate(EntityTestUtils.getDefaultUser());
 	}
-	
+	@BeforeEach
+	public void onSetUp() throws DBConnectionException {
+		SecurityService.initialize(dao);
+	}
+
 	@Test
 	public void hasSubject() {
 		SecurityUtils.getSubject();
 	}
 
 	@Test
-	public void canLogin() {
-
-		SecurityService.Login("Test", "test");
+	public void loginWithCorrectCredentials() {
+		 Assert.assertTrue(SecurityService.Login(EntityTestUtils.DEFAULT_UNI, EntityTestUtils.DEFAULT_PASSWORD).isSuccess());
+		
 	}
-	
-	@AfterEach
-	public void cleanUp() {
+
+	@AfterAll
+	public static void cleanUp() {
+		dao.remove(user);
 	}
 
 }
