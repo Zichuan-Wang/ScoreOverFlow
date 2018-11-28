@@ -11,6 +11,7 @@ import dao.UserDao;
 import dao.factory.UserDaoFactory;
 import entity.User;
 import exception.DBConnectionException;
+import utils.EntityTestUtils;
 
 public class SecurityServiceTest {
 	static UserDao dao;
@@ -18,8 +19,7 @@ public class SecurityServiceTest {
 	@BeforeAll
 	public static void prepareDAOAndUser() throws DBConnectionException {
 		dao = UserDaoFactory.getInstance();
-		user = dao.saveOrUpdate(new User().setUni("test").setPassword(PasswordHashing.getHash("123")).setUserGroup(0));
-		dao.remove(user);
+		user = dao.saveOrUpdate(EntityTestUtils.getDefaultUser());
 	}
 	@BeforeEach
 	public void onSetUp() throws DBConnectionException {
@@ -33,13 +33,13 @@ public class SecurityServiceTest {
 
 	@Test
 	public void loginWithCorrectCredentials() {
-		 Assert.assertTrue(SecurityService.Login("test", "123").isSuccess());
+		 Assert.assertTrue(SecurityService.Login(EntityTestUtils.DEFAULT_UNI, EntityTestUtils.DEFAULT_PASSWORD).isSuccess());
 		
 	}
 
 	@AfterAll
 	public static void cleanUp() {
-		
+		dao.remove(user);
 	}
 
 }

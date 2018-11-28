@@ -7,6 +7,7 @@ import entity.Facility;
 import entity.Reservation;
 import entity.Room;
 import entity.User;
+import security.PasswordHashing;
 
 public class EntityTestUtils {
 	// Reservation
@@ -58,7 +59,7 @@ public class EntityTestUtils {
 	public static User getDefaultUser() {
 		return new User().setId(DEFAULT_USER_ID)//
 				.setEmail(DEFAULT_EMAIL)//
-				.setPassword(DEFAULT_PASSWORD)//
+				.setPassword(PasswordHashing.getHash(DEFAULT_PASSWORD))//
 				.setUni(DEFAULT_UNI)//
 				.setIsAdmin(DEFAULT_ADMIN)//
 				.setUserGroup(DEFAULT_USER_GROUP);
