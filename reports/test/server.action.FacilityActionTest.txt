@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: server.action.FacilityActionTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.771 s - in server.action.FacilityActionTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.745 s - in server.action.FacilityActionTest
