@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecureRealm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">security</a> &gt; <span class="el_source">SecureRealm.java</span></div><h1>SecureRealm.java</h1><pre class="source lang-java linenums">package security;
+
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.ExpiredCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.SimpleAccount;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleRole;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.SimpleByteSource;
+
+import dao.UserDao;
+import dao.factory.UserDaoFactory;
+import entity.User;
+import exception.DBConnectionException;
+
+public class SecureRealm extends AuthorizingRealm {
+
+	private UserDao dao;
+<span class="fc" id="L31">	private final String name = &quot;SecureRealm&quot;;</span>
+	protected final Map&lt;String, SimpleRole&gt; roles; //roleName-to-SimpleRole
+<span class="fc" id="L33">	private static final String[] roleNames = new String[] {&quot;Admin&quot;, &quot;High&quot;, &quot;PS&quot;, &quot;Normal&quot;};</span>
+
+    public SecureRealm() {
+<span class="nc" id="L36">        this((UserDao)null);</span>
+<span class="nc" id="L37">    }</span>
+    
+<span class="fc" id="L39">    public SecureRealm(UserDao dao) {</span>
+        //SimpleAccountRealms are memory-only realms - no need for an additional cache mechanism since we're
+        //already as memory-efficient as we can be:
+<span class="fc" id="L42">    	this.roles = new LinkedHashMap&lt;String, SimpleRole&gt;();</span>
+<span class="fc" id="L43">        setCachingEnabled(false);</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if (dao == null) {</span>
+        	try {
+<span class="nc" id="L46">    			this.dao = UserDaoFactory.getInstance();</span>
+<span class="nc" id="L47">    		} catch (DBConnectionException e) {</span>
+<span class="nc" id="L48">    			e.printStackTrace();</span>
+<span class="nc" id="L49">    		}</span>
+        }
+        else {
+<span class="fc" id="L52">        	this.dao = dao;</span>
+        }      
+<span class="fc" id="L54">        setName(name);</span>
+<span class="fc" id="L55">    }</span>
+
+    public SecureRealm(String name) {
+<span class="nc" id="L58">        this();</span>
+<span class="nc" id="L59">        setName(name);</span>
+<span class="nc" id="L60">    }</span>
+
+    protected SimpleAccount getUser(String username) {
+<span class="fc" id="L63">        User currentUser = dao.findUserByUni(username);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (currentUser == null) {</span>
+<span class="fc" id="L65">        	throw new UnknownAccountException(); </span>
+        }
+<span class="fc" id="L67">        String[] saltAndHash = PasswordHashing.getSaltAndHashedPassword(currentUser.getPassword());</span>
+<span class="fc" id="L68">        SimpleAccount acc = new SimpleAccount((Object)username, (Object)(saltAndHash[1]), new SimpleByteSource(Base64.decodeBase64(saltAndHash[0])), name);</span>
+<span class="fc" id="L69">        int currentUserGroup = currentUser.getUserGroup();</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        for (int i = currentUserGroup; i&lt;4; i++) {</span>
+<span class="fc" id="L71">        	acc.addRole(roleNames[i]);</span>
+        }      
+<span class="fc" id="L73">        return acc;</span>
+    }
+
+    public boolean accountExists(String username) {
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        return getUser(username) != null;</span>
+    }
+
+    protected String getUsername(SimpleAccount account) {
+<span class="nc" id="L81">        return getUsername(account.getPrincipals());</span>
+    }
+
+    protected String getUsername(PrincipalCollection principals) {
+<span class="nc" id="L85">        return getAvailablePrincipal(principals).toString();</span>
+    }
+
+    protected SimpleRole getRole(String rolename) {
+<span class="fc" id="L89">        return roles.get(rolename);</span>
+        
+    }
+
+    public boolean roleExists(String name) {
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        return getRole(name) != null;</span>
+    }
+
+    public void addRole(String name) {
+<span class="fc" id="L98">        add(new SimpleRole(name));</span>
+<span class="fc" id="L99">    }</span>
+
+    protected void add(SimpleRole role) {
+<span class="fc" id="L102">       roles.put(role.getName(), role);</span>
+       
+<span class="fc" id="L104">    }</span>
+
+    protected static Set&lt;String&gt; toSet(String delimited, String delimiter) {
+<span class="nc bnc" id="L107" title="All 4 branches missed.">        if (delimited == null || delimited.trim().equals(&quot;&quot;)) {</span>
+<span class="nc" id="L108">            return null;</span>
+        }
+
+<span class="nc" id="L111">        Set&lt;String&gt; values = new HashSet&lt;String&gt;();</span>
+<span class="nc" id="L112">        String[] rolenamesArray = delimited.split(delimiter);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        for (String s : rolenamesArray) {</span>
+<span class="nc" id="L114">            String trimmed = s.trim();</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">            if (trimmed.length() &gt; 0) {</span>
+<span class="nc" id="L116">                values.add(trimmed);</span>
+            }
+        }
+
+<span class="nc" id="L120">        return values;</span>
+    }
+
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+<span class="fc" id="L124">        UsernamePasswordToken upToken = (UsernamePasswordToken) token;</span>
+<span class="fc" id="L125">        SimpleAccount account = getUser(upToken.getUsername());</span>
+
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        if (account != null) {</span>
+
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">            if (account.isLocked()) {</span>
+<span class="nc" id="L130">                throw new LockedAccountException(&quot;Account [&quot; + account + &quot;] is locked.&quot;);</span>
+            }
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">            if (account.isCredentialsExpired()) {</span>
+<span class="nc" id="L133">                String msg = &quot;The credentials for account [&quot; + account + &quot;] are expired&quot;;</span>
+<span class="nc" id="L134">                throw new ExpiredCredentialsException(msg);</span>
+            }
+
+        }
+
+<span class="fc" id="L139">        return account;</span>
+    }
+
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+<span class="nc" id="L143">        String username = getUsername(principals);</span>
+<span class="nc" id="L144">        return getUser(username);</span>
+        
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
