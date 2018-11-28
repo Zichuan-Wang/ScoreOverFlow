@@ -15,7 +15,8 @@ public class UserActionTest {
 	@Test
 	public void findUserByUni_userExists() throws DBConnectionException {
 		UserDao dao = UserDaoFactory.getInstance();
-		User user = dao.findUserByUni("dw2735");
+		UserAction action = new UserAction(dao);
+		User user = action.findUserByUni("dw2735");
 
 		assertEquals(user.getId(), "dw2735");
 	}
@@ -23,7 +24,8 @@ public class UserActionTest {
 	@Test
 	public void findUserByUni_userNotExist() throws DBConnectionException {
 		UserDao dao = UserDaoFactory.getInstance();
-		User user = dao.findUserByUni(EntityTestUtils.DEFAULT_UNI);
+		UserAction action = new UserAction(dao);
+		User user = action.findUserByUni(EntityTestUtils.DEFAULT_UNI);
 
 		assertNull(user.getId());
 	}
