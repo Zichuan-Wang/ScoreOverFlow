@@ -17,8 +17,7 @@ public class UserActionTest {
 		UserDao dao = UserDaoFactory.getInstance();
 		UserAction action = new UserAction(dao);
 		User user = action.findUserByUni("dw2735");
-
-		assertEquals(user.getId(), "dw2735");
+		assertEquals(user.getUni(), "dw2735");
 	}
 	
 	@Test
