@@ -1,8 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: server.action.UserActionTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 8.09 s <<< FAILURE! - in server.action.UserActionTest
-findUserByUni  Time elapsed: 8.089 s  <<< ERROR!
+Tests run: 2, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 9.047 s <<< FAILURE! - in server.action.UserActionTest
+findUserByUni_userExists  Time elapsed: 8.964 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <4> but was: <dw2735>
+	at server.action.UserActionTest.findUserByUni_userExists(UserActionTest.java:20)
+
+findUserByUni_userNotExist  Time elapsed: 0.08 s  <<< ERROR!
 java.lang.NullPointerException
-	at server.action.UserActionTest.findUserByUni(UserActionTest.java:19)
+	at server.action.UserActionTest.findUserByUni_userNotExist(UserActionTest.java:28)
 
