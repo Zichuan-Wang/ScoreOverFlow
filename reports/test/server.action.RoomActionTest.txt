@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: server.action.RoomActionTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.199 s - in server.action.RoomActionTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.195 s - in server.action.RoomActionTest
