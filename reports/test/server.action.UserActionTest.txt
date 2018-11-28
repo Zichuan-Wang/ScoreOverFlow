@@ -1,12 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: server.action.UserActionTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.008 s <<< FAILURE! - in server.action.UserActionTest
-findUserByUni_userExists  Time elapsed: 0 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.factory.DaoFactory
-	at server.action.UserActionTest.findUserByUni_userExists(UserActionTest.java:17)
-
-findUserByUni_userNotExist  Time elapsed: 0 s  <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class dao.factory.DaoFactory
-	at server.action.UserActionTest.findUserByUni_userNotExist(UserActionTest.java:26)
-
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.912 s - in server.action.UserActionTest
