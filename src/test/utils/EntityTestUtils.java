@@ -16,6 +16,11 @@ public class EntityTestUtils {
 	public static final Time DEFAULT_END_TIME = new Time(54321);
 	public static final Date DEFAULT_CREATED = new Date();
 	public static final Date DEFAULT_MODIFIED = new Date();
+	
+	public static final Time DEFAULT_START_TIME_PREV = new Time(12344);
+	public static final Time DEFAULT_START_TIME_NEXT = new Time(12346);
+	public static final Time DEFAULT_END_TIME_PREV = new Time(54320);
+	public static final Time DEFAULT_END_TIME_NEXT = new Time(54322);
 
 	// Room
 	public static final int DEFAULT_ROOM_ID = 1;
@@ -36,6 +41,7 @@ public class EntityTestUtils {
 
 	public static Reservation getDefaultReservation() {
 		return new Reservation().setId(DEFAULT_RESERVATION_ID)//
+				.setRoomId(DEFAULT_ROOM_ID)
 				.setUserId(DEFAULT_USER_ID)//
 				.setEventDate(DEFAULT_EVENT_DATE)//
 				.setStartTime(DEFAULT_START_TIME)//

@@ -8,8 +8,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import dao.ReservationDao;
 import dao.RoomDao;
+import dao.factory.ReservationDaoFactory;
 import dao.factory.RoomDaoFactory;
+import entity.Reservation;
 import entity.Room;
 import exception.DBConnectionException;
 import server.constraint.SearchRoomConstraint;
@@ -46,7 +49,7 @@ public class RoomActionTest {
 		SearchRoomConstraint constraint = new SearchRoomConstraint();
 		List<Room> results1 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY)); // capacity = 15
 		List<Room> results2 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY + 1)); // capacity = 16
-		List<Room> results3 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY - 2)); // capacity = 14 
+		List<Room> results3 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY - 1)); // capacity = 14 
 		dao.remove(room);
 
 		assertEquals(results1.size(), 1);
@@ -69,5 +72,47 @@ public class RoomActionTest {
 		assertEquals(results1.size(), 1);
 		assertEquals(results1.get(0).getName(), EntityTestUtils.DEFAULT_ROOM_NAME);
 		assertEquals(results2.size(), 0);
-	}	
+	}
+	
+	@Test
+	public void searchRooms_time() throws DBConnectionException {
+		RoomDao roomDao = RoomDaoFactory.getInstance();
+		ReservationDao reservationDao = ReservationDaoFactory.getInstance();
+		
+		RoomAction action = new RoomAction(roomDao);
+
+		Room room = roomDao.saveOrUpdate(EntityTestUtils.getDefaultRoom());
+		Reservation reservation = reservationDao.saveOrUpdate(EntityTestUtils.getDefaultReservation());
+		
+		SearchRoomConstraint constraint = new SearchRoomConstraint();
+		List<Room> results1 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME)
+				.setEndTime(EntityTestUtils.DEFAULT_END_TIME));
+		List<Room> results2 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME_PREV)
+				.setEndTime(EntityTestUtils.DEFAULT_END_TIME));
+		List<Room> results3 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME)
+				.setEndTime(EntityTestUtils.DEFAULT_END_TIME_NEXT));
+		List<Room> results4 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME_NEXT)
+				.setEndTime(EntityTestUtils.DEFAULT_END_TIME));
+		List<Room> results5 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME)
+				.setEndTime(EntityTestUtils.DEFAULT_END_TIME_PREV));
+		
+		roomDao.remove(room);
+		reservationDao.remove(reservation);
+
+		assertEquals(results1.size(), 1);
+		assertEquals(results2.size(), 0);
+		assertEquals(results3.size(), 0);
+		assertEquals(results4.size(), 1);
+		assertEquals(results5.size(), 1);
+	}
 }
