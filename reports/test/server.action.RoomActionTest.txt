@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: server.action.RoomActionTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3.059 s <<< FAILURE! - in server.action.RoomActionTest
-searchRooms_time  Time elapsed: 1.078 s  <<< FAILURE!
+Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3.024 s <<< FAILURE! - in server.action.RoomActionTest
+searchRooms_time  Time elapsed: 1.073 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <1> but was: <0>
 	at server.action.RoomActionTest.searchRooms_time(RoomActionTest.java:124)
 
