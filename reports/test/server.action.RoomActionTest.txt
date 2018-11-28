@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: server.action.RoomActionTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 1.029 s <<< FAILURE! - in server.action.RoomActionTest
-searchRooms_capacity  Time elapsed: 0.498 s  <<< FAILURE!
+Tests run: 3, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 1.038 s <<< FAILURE! - in server.action.RoomActionTest
+searchRooms_capacity  Time elapsed: 0.507 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <0> but was: <1>
 	at server.action.RoomActionTest.searchRooms_capacity(RoomActionTest.java:53)
 
-findRoomById_roomExists  Time elapsed: 0.45 s  <<< FAILURE!
+findRoomById_roomExists  Time elapsed: 0.449 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: not <null>
 	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:27)
 
