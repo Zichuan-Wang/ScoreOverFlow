@@ -52,10 +52,10 @@ public class RoomDao extends BaseDao<Room> {
 				+ "AND r.eventDate = :eventDate "//
 				+ "AND r.startTime < :endTime "//
 				+ "AND r.endTime > :startTime) "//
-				+ "AND :facilityCount = "
-				+ "(SELECT COUNT(f.id) FROM Room r "
-				+ "INNER JOIN r.facilities f "
-				+ "WHERE r.id = u.id "
+				+ "AND :facilityCount = "//
+				+ "(SELECT COUNT(f.id) FROM Room r "//
+				+ "INNER JOIN r.facilities f "//
+				+ "WHERE r.id = u.id "//
 				+ "AND f in :facilities)")//
 				.setParameter("name", "%" + constraint.getRoomName() + "%")
 				.setParameter("capacity", constraint.getCapacity())
@@ -67,19 +67,19 @@ public class RoomDao extends BaseDao<Room> {
 		return query.getResultList();
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<Room> searchReservedRooms(SearchRoomConstraint constraint){
+	public List<Room> searchReservedRooms(SearchRoomConstraint constraint) {
 		// add null to set to prevent empty set error
 		constraint.getFacilities().add(null);
-		Query query = manager.createQuery("SELECT u FROM Room u "
-				+ "WHERE (u.name LIKE :name) "
-				+ "AND (u.capacity >= :capacity) "
-				+ "AND :facilityCount = "
-				+ "(SELECT COUNT(f.id) FROM Room r "
-				+ "INNER JOIN r.facilities f "
-				+ "WHERE r.id = u.id "
-				+ "AND f in :facilities) "
+		Query query = manager.createQuery("SELECT u FROM Room u "//
+				+ "WHERE (u.name LIKE :name) "//
+				+ "AND (u.capacity >= :capacity) "//
+				+ "AND :facilityCount = "//
+				+ "(SELECT COUNT(f.id) FROM Room r "//
+				+ "INNER JOIN r.facilities f "//
+				+ "WHERE r.id = u.id "//
+				+ "AND f in :facilities) "//
 				+ "AND EXISTS "//
 				+ "(SELECT r FROM Reservation r "//
 				+ "WHERE r.roomId = u.id "//

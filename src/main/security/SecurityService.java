@@ -37,7 +37,7 @@ public class SecurityService {
 	    SecurityUtils.setSecurityManager(securityManager);  
 	}
 	
-	public static String Login(String inputUserName, String inputPassword) {
+	public static LoginStatus Login(String inputUserName, String inputPassword) {
 		
 		currentUser = SecurityUtils.getSubject();
 		
@@ -45,20 +45,18 @@ public class SecurityService {
 			UsernamePasswordToken token = new UsernamePasswordToken(inputUserName, inputPassword);
 	        try {
 	            currentUser.login(token);
-	            return "Success";
+	            return new LoginStatus(true, "Success");
 	        } catch (UnknownAccountException uae) {
-	        	return "Unknown account";
+	        	return new LoginStatus(false, "Unknown account");
 	        } catch (IncorrectCredentialsException ice) {
-	        	return "Wrong password";
+	        	return new LoginStatus(false, "Wrong password");
 	        } catch (Exception e) {
-	        	return "Internal error";
+	        	return new LoginStatus(false, "Internal error");
 	        }			
 		}
 		else {
-			return "The user is already authenticated";
+			return new LoginStatus(false, "The user is already authenticated");
 		}
 	}
-		
-	
 	
 }

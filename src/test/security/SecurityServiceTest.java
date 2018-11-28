@@ -5,14 +5,15 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import utils.UserDaoTestUtils;
+import dao.factory.UserDaoFactory;
+import exception.DBConnectionException;
 
 public class SecurityServiceTest {
 	@BeforeEach
-	public void onSetUp() {
-		SecurityService.initialize(UserDaoTestUtils.getUserDao());
+	public void onSetUp() throws DBConnectionException {
+		SecurityService.initialize(UserDaoFactory.getInstance());
 	}
-	
+
 	@Test
 	public void hasSubject() {
 		SecurityUtils.getSubject();
@@ -23,7 +24,7 @@ public class SecurityServiceTest {
 
 		SecurityService.Login("Test", "test");
 	}
-	
+
 	@AfterEach
 	public void cleanUp() {
 	}
