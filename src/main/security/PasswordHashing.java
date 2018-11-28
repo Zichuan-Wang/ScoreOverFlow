@@ -36,9 +36,5 @@ public class PasswordHashing {
 		return hashed.split("\\$");
 		
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(getHash("123456"));
-	}
 
 }
