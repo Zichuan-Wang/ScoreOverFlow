@@ -1,8 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: server.action.RoomActionTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.179 s <<< FAILURE! - in server.action.RoomActionTest
-findRoomById_roomExists  Time elapsed: 0.078 s  <<< ERROR!
-java.lang.NullPointerException
-	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:20)
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.001 s <<< FAILURE! - in server.action.RoomActionTest
+findRoomById_roomNotExist  Time elapsed: 0 s  <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class dao.factory.DaoFactory
+	at server.action.RoomActionTest.findRoomById_roomNotExist(RoomActionTest.java:25)
+
+findRoomById_roomExists  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class dao.factory.DaoFactory
+	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:16)
 
