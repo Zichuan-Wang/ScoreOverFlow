@@ -30,11 +30,17 @@ public abstract class BaseDao<T> {
 	 */
 	public T saveOrUpdate(T t) {
 		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
-		T saved = manager.merge(t);
-		transaction.commit();
-		manager.clear();
-		return saved;
+		try {
+			transaction.begin();
+			T saved = manager.merge(t);
+			transaction.commit();
+			return saved;
+		} catch (Exception e) {
+			transaction.rollback();
+			throw e;
+		} finally {
+			manager.clear();
+		}
 	}
 
 	/*
@@ -44,9 +50,16 @@ public abstract class BaseDao<T> {
 	 */
 	public void remove(T t) {
 		EntityTransaction transaction = manager.getTransaction();
-		transaction.begin();
-		manager.remove(manager.contains(t) ? t : manager.merge(t));
-		transaction.commit();
+		try {
+			transaction.begin();
+			manager.remove(manager.contains(t) ? t : manager.merge(t));
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+			throw e;
+		} finally {
+			manager.clear();
+		}
 	}
 
 }
