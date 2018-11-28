@@ -10,7 +10,7 @@
             <property name="hibernate.connection.url" value="jdbc:mysql://scoreoverflowdb.cn79gq6usqq7.us-east-2.rds.amazonaws.com/scoreoverflowdb" />
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
             <property name="hibernate.connection.username" value="scoreoverflow" />
-            <property name="hibernate.connection.password" value="KEY" /> 
+            <property name="hibernate.connection.password" value="everyone4.33" /> 
             <property name="hibernate.archive.autodetection" value="class" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />

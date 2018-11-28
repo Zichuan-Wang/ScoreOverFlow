@@ -2,6 +2,7 @@ language: java
 os: osx
 osx_image: xcode9.3
 install:
+- ./configure-key.sh
 - mvn clean > maven_phase1.log
 script:
 - mvn test -B > maven_phase2.log
