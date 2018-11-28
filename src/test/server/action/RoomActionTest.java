@@ -44,9 +44,9 @@ public class RoomActionTest {
 
 		Room room = dao.saveOrUpdate(EntityTestUtils.getDefaultRoom());
 		SearchRoomConstraint constraint = new SearchRoomConstraint();
-		List<Room> results1 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY));
-		List<Room> results2 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY + 1));
-		List<Room> results3 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY - 1));
+		List<Room> results1 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY)); // capacity = 15
+		List<Room> results2 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY + 1)); // capacity = 16
+		List<Room> results3 = action.searchRooms(constraint.setCapacity(EntityTestUtils.DEFAULT_CAPACITY - 2)); // capacity = 14 
 		dao.remove(room);
 
 		assertEquals(results1.size(), 1);
