@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: server.action.RoomActionTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.182 s <<< FAILURE! - in server.action.RoomActionTest
-findRoomById_roomExists  Time elapsed: 0.076 s  <<< ERROR!
-java.lang.NullPointerException
-	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:20)
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.453 s <<< FAILURE! - in server.action.RoomActionTest
+findRoomById_roomExists  Time elapsed: 0.352 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <x> but was: <1>
+	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:23)
 
