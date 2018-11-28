@@ -43,7 +43,7 @@ public class SecureRealm extends AuthorizingRealm {
         setCachingEnabled(false);
         if (dao == null) {
         	try {
-    			dao = UserDaoFactory.getInstance();
+    			this.dao = UserDaoFactory.getInstance();
     		} catch (DBConnectionException e) {
     			e.printStackTrace();
     		}

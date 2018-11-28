@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import dao.ReservationDao;
-import dao.RoomDao;
+//import dao.RoomDao;
 import entity.Reservation;
 //import entity.Room;
 import server.constraint.SearchReservationConstraint;
@@ -16,11 +16,12 @@ import server.constraint.SearchReservationConstraint;
 public class ReservationAction {
 
 	private ReservationDao reservationDao;
-	private RoomDao roomDao;
+	//private RoomDao roomDao;
 
-	public ReservationAction(ReservationDao reservationDao, RoomDao roomDao) {
+	//public ReservationAction(ReservationDao reservationDao, RoomDao roomDao) {
+	public ReservationAction(ReservationDao reservationDao) {
 		this.reservationDao = reservationDao;
-		this.roomDao = roomDao;
+		//this.roomDao = roomDao;
 	}
 
 	public boolean reserveRoom(Reservation reservation) {
