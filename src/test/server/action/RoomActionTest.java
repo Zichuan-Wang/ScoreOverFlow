@@ -122,6 +122,50 @@ public class RoomActionTest {
 		assertEquals(results2.size(), 0);
 		assertEquals(results3.size(), 1);
 		assertEquals(results4.size(), 0);
+	}
+	
+	@Test
+	public void searchRooms_combined() throws DBConnectionException {
+		RoomDao roomDao = RoomDaoFactory.getInstance();
+		ReservationDao reservationDao = ReservationDaoFactory.getInstance();
+		
+		RoomAction action = new RoomAction(roomDao);
+
+		Room room = roomDao.saveOrUpdate(EntityTestUtils.getDefaultRoom());
+		Reservation reservation = reservationDao.saveOrUpdate(EntityTestUtils.getDefaultReservation());
+		
+		SearchRoomConstraint constraint = new SearchRoomConstraint();
+		
+		List<Room> results1 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_END_TIME)
+				.setEndTime(EntityTestUtils.DEFAULT_END_TIME_NEXT)
+				.setRoomName(EntityTestUtils.DEFAULT_ROOM_NAME));
+		
+		List<Room> results2 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME)
+				.setRoomName(EntityTestUtils.DEFAULT_ROOM_NAME));
+		
+		List<Room> results3 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME_PREV)
+				.setEndTime(EntityTestUtils.DEFAULT_START_TIME)
+				.setRoomName(""));
+		
+		List<Room> results4 = action.searchRooms(constraint
+				.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME_PREV)
+				.setEndTime(EntityTestUtils.DEFAULT_START_TIME_NEXT)
+				.setCapacity(EntityTestUtils.DEFAULT_CAPACITY - 1));
+		
+		roomDao.remove(room);
+		reservationDao.remove(reservation);
+
+		assertEquals(results1.size(), 1);
+		assertEquals(results2.size(), 0);
+		assertEquals(results3.size(), 1);
+		assertEquals(results4.size(), 0);
 		
 	}
 }
