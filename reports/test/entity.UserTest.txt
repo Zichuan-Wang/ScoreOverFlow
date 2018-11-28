@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: entity.UserTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.045 s <<< FAILURE! - in entity.UserTest
-createAndUpdateUser  Time elapsed: 0.045 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <j5lqB3L6WAFTH/EU4nfcqw==$Hk5DKt7/IdfML+DD3mMn0jOPMcQgQ1WrhvhXC6jqUT4=> but was: <***>
-	at entity.UserTest.createAndUpdateUser(UserTest.java:15)
-
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s - in entity.UserTest
