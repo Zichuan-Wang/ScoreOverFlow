@@ -18,10 +18,10 @@ public class EntityTestUtils {
 	public static final Date DEFAULT_CREATED = new Date();
 	public static final Date DEFAULT_MODIFIED = new Date();
 	
-	public static final Time DEFAULT_START_TIME_PREV = new Time(12344);
-	public static final Time DEFAULT_START_TIME_NEXT = new Time(12346);
-	public static final Time DEFAULT_END_TIME_PREV = new Time(54320);
-	public static final Time DEFAULT_END_TIME_NEXT = new Time(54322);
+	public static final Time DEFAULT_START_TIME_PREV = new Time(10000);
+	public static final Time DEFAULT_START_TIME_NEXT = new Time(13000);
+	public static final Time DEFAULT_END_TIME_PREV = new Time(53000);
+	public static final Time DEFAULT_END_TIME_NEXT = new Time(56000);
 
 	// Room
 	public static final int DEFAULT_ROOM_ID = 1;
