@@ -5,7 +5,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import dao.UserDao;
 import dao.factory.UserDaoFactory;
+import entity.User;
 import exception.DBConnectionException;
 
 public class SecurityServiceTest {
@@ -20,9 +22,9 @@ public class SecurityServiceTest {
 	}
 
 	@Test
-	public void canLogin() {
-
-		SecurityService.Login("Test", "test");
+	public void canLogin() throws DBConnectionException {
+		UserDao dao = UserDaoFactory.getInstance();
+		dao.saveOrUpdate(new User().setUni("test").setPassword(PasswordHashing.getHash("123")));
 	}
 
 	@AfterEach
