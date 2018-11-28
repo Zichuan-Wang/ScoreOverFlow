@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: dao.FacilityDaoTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.631 s - in dao.FacilityDaoTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.342 s - in dao.FacilityDaoTest
