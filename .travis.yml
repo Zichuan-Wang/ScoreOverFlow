@@ -6,7 +6,7 @@ install:
 - mvn clean > maven_phase1.log
 script:
 - mvn test -B > maven_phase2.log
-- mvn pmd:check pmd:cpd-check
+- mvn pmd:check
 after_success: 
 - chmod ugo+x push.sh
 - ./push.sh
