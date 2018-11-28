@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: server.action.UserActionTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.169 s <<< FAILURE! - in server.action.UserActionTest
-findUserByUni_userExists  Time elapsed: 0.086 s  <<< FAILURE!
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.166 s <<< FAILURE! - in server.action.UserActionTest
+findUserByUni_userExists  Time elapsed: 0.085 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <4> but was: <dw2735>
 	at server.action.UserActionTest.findUserByUni_userExists(UserActionTest.java:21)
 
