@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: server.action.FacilityActionTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 8.437 s <<< FAILURE! - in server.action.FacilityActionTest
-testFindAllFacilities  Time elapsed: 8.436 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: java.lang.String@153680ed<projector> but was: entity.Facility@6e46f6ca<projector>
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 7.868 s <<< FAILURE! - in server.action.FacilityActionTest
+testFindAllFacilities  Time elapsed: 7.867 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: java.lang.String@76dffdb0<projector> but was: entity.Facility@5009e592<projector>
 	at server.action.FacilityActionTest.testFindAllFacilities(FacilityActionTest.java:27)
 
