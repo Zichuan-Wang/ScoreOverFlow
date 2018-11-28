@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.ReservePanelTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.201 s - in ui.ReservePanelTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.178 s - in ui.ReservePanelTest
