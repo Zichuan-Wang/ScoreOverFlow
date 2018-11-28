@@ -1,6 +1,7 @@
 package server.action;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,10 +13,18 @@ import utils.EntityTestUtils;
 
 public class UserActionTest {
 	@Test
-	public void findUserByUni() throws DBConnectionException {
+	public void findUserByUni_userExists() throws DBConnectionException {
+		UserDao dao = UserDaoFactory.getInstance();
+		User user = dao.findUserByUni("dw2735");
+
+		assertEquals(user.getId(), "dw2735");
+	}
+	
+	@Test
+	public void findUserByUni_userNotExist() throws DBConnectionException {
 		UserDao dao = UserDaoFactory.getInstance();
 		User user = dao.findUserByUni(EntityTestUtils.DEFAULT_UNI);
 
-		assertEquals(user.getId(), EntityTestUtils.DEFAULT_UNI);
+		assertNull(user.getId());
 	}
 }
