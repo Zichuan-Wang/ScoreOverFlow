@@ -15,7 +15,7 @@ public class RoomAction {
 		this.dao = dao;
 	}
 
-	public List<Room> searchRoom(SearchRoomConstraint constraint) {
+	public List<Room> searchRooms(SearchRoomConstraint constraint) {
 		return dao.searchRooms(constraint);
 	}
 	

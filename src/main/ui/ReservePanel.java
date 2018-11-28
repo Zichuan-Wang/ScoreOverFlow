@@ -252,7 +252,7 @@ public class ReservePanel extends BasePanel {
 			src.getFacilities().addAll(facilityList.getSelectedValuesList());
 			
 			// search from database
-			List<Room> roomList = roomAction.searchRoom(src);
+			List<Room> roomList = roomAction.searchRooms(src);
 			
 			List<Room> reservedRoomList = new ArrayList<>();
 			if(showBookedRooms != null && showBookedRooms.isSelected()) {
