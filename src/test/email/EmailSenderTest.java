@@ -18,6 +18,7 @@ public class EmailSenderTest {
 	public void testAddress() {
 		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, SUBJECT, BODY));
 		assertThrows(SendFailedException.class, () -> EmailSender.sendEmail(INVALID_ADDRESS, SUBJECT, BODY));
+		assertThrows(SendFailedException.class, () -> EmailSender.sendEmail("", SUBJECT, BODY));
 		assertThrows(SendFailedException.class, () -> EmailSender.sendEmail(null, SUBJECT, BODY));
 	}
 	
