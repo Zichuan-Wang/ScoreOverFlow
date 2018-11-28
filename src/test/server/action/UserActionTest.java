@@ -27,6 +27,6 @@ public class UserActionTest {
 		UserAction action = new UserAction(dao);
 		User user = action.findUserByUni(EntityTestUtils.DEFAULT_UNI);
 
-		assertNull(user.getId());
+		assertNull(user);
 	}
 }
