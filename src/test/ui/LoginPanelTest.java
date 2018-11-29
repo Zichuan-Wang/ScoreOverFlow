@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,14 +16,13 @@ public class LoginPanelTest {
 	private final String MAIN_PANEL_EXIT_BUTTON_TEXT = "Exit";
 
 	private LoginPanel loginPane;
-	private JPanel topPane, middlePane, bottomPane;
+	private JPanel topPane, middlePane;
 
 	@BeforeEach
 	protected void onSetUp() {
 		loginPane = new LoginPanel(null, null, null, null, null);
 		topPane = (JPanel) loginPane.getComponent(0);
 		middlePane = (JPanel) loginPane.getComponent(1);
-		bottomPane = (JPanel) loginPane.getComponent(2);
 	}
 
 	@Test
@@ -41,9 +39,4 @@ public class LoginPanelTest {
 		assertTrue(middlePane.getComponent(5) instanceof JButton);
 		assertEquals(MAIN_PANEL_EXIT_BUTTON_TEXT, ((JButton) middlePane.getComponent(5)).getText());
 	}
-
-	@AfterEach
-	protected void cleanUp() {
-	}
-
 }

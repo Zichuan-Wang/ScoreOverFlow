@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: security.SecurityServiceTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.47 s - in security.SecurityServiceTest
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.638 s - in security.SecurityServiceTest

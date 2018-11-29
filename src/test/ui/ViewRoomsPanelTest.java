@@ -30,7 +30,7 @@ import utils.UiTestUtils;
 public class ViewRoomsPanelTest {
 	private ViewRoomsPanel viewRoomsPane;
 	private final String VIEW_ROOMS_PANEL_LABEL = "My Reservations";
-	private JPanel topPane, middlePane, bottomPane;
+	private JPanel topPane, middlePane;
 
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
@@ -38,7 +38,6 @@ public class ViewRoomsPanelTest {
 		viewRoomsPane.setAlert(false); // disable alert
 		topPane = (JPanel) viewRoomsPane.getComponent(0);
 		middlePane = (JPanel) viewRoomsPane.getComponent(1); // 0: JscrollPane with TablePanel inside 1:Back Button
-		bottomPane = (JPanel) viewRoomsPane.getComponent(2);
 	}
 
 	@Test

@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,14 +16,13 @@ public class MainPanelTest {
 	private final String MAIN_PANEL_VIEW_ROOMS_BUTTON_TEXT = "View Reservations";
 
 	private MainPanel mainPane;
-	private JPanel topPane, middlePane, bottomPane;
+	private JPanel topPane, middlePane;
 
 	@BeforeEach
 	protected void onSetUp() {
 		mainPane = new MainPanel(null, null, null);
 		topPane = (JPanel) mainPane.getComponent(0);
 		middlePane = (JPanel) mainPane.getComponent(1); // 1: Search Button 3: View Rooms Button; 0,2,4 are fillers
-		bottomPane = (JPanel) mainPane.getComponent(2);
 	}
 
 	@Test
@@ -41,9 +39,4 @@ public class MainPanelTest {
 		assertTrue(middlePane.getComponent(3) instanceof JButton);
 		assertEquals(MAIN_PANEL_VIEW_ROOMS_BUTTON_TEXT, ((JButton) middlePane.getComponent(3)).getText());
 	}
-
-	@AfterEach
-	protected void cleanUp() {
-	}
-
 }
