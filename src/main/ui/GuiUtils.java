@@ -49,7 +49,12 @@ public class GuiUtils {
 	
 	public static JButton getUploadFileButton(BasePanel pane, JPanel cards) {
 		ActionListener initAction = e -> pane.reset();
-		JButton uploadFileButton = createButton("Upload", getJumpCardActionListener(cards, "main"), initAction);
+		ActionListener sendBulkRequestActionListener = e -> sendBulkRequest();
+		JButton uploadFileButton = createButton("Upload", sendBulkRequestActionListener, initAction);
 		return uploadFileButton;
+	}
+	
+	public static void sendBulkRequest() {
+		System.out.println("A bulk request");
 	}
 }

@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -58,6 +59,7 @@ public class ReservePanel extends BasePanel {
 	private JCheckBox showBookedRooms;
 	private JButton searchButton, backButton, uploadFileButton;
 	private TablePanel roomPane;
+	private TablePanel buttonPane;
 
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
@@ -113,9 +115,15 @@ public class ReservePanel extends BasePanel {
 		backButton = GuiUtils.getBackButton(this, cards);
 		uploadFileButton = GuiUtils.getUploadFileButton(this, cards);
 		
-		middlePane.add(backButton, c);
-		// TODO: figure out why this button does not show up
-		middlePane.add(uploadFileButton, c);
+		buttonPane = new TablePanel();
+		buttonPane.setPreferredSize(new Dimension(600, 200));
+		
+		buttonPane.add(backButton, c);
+		backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonPane.add(uploadFileButton, c);
+		uploadFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		middlePane.add(buttonPane, c);
+
 		return middlePane;
 	}
 	
