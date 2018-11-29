@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.LoginPanelTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.094 s - in ui.LoginPanelTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s - in ui.LoginPanelTest
