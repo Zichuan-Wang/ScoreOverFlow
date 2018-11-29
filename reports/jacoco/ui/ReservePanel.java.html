@@ -202,9 +202,9 @@ public class ReservePanel extends BasePanel {
 <span class="fc" id="L202">		searchPane.add(facilityList);</span>
 
 		// Show Booked Rooms for High Priority Users
-<span class="pc bpc" id="L205" title="1 of 2 branches missed.">		if(user.getUserGroup() == 1) {</span>
-<span class="nc" id="L206">			showBookedRooms = new JCheckBox();</span>
-<span class="nc" id="L207">			searchPane.add(showBookedRooms);</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">		if(user.getUserGroup() == 1) {</span>
+<span class="fc" id="L206">			showBookedRooms = new JCheckBox();</span>
+<span class="fc" id="L207">			searchPane.add(showBookedRooms);</span>
 		}
 		// Search Button
 <span class="fc" id="L210">		searchButton = getSearchButton();</span>
@@ -261,7 +261,7 @@ public class ReservePanel extends BasePanel {
 <span class="fc" id="L261">			List&lt;Room&gt; roomList = roomAction.searchRooms(src);</span>
 			
 <span class="fc" id="L263">			List&lt;Room&gt; reservedRoomList = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L264" title="3 of 4 branches missed.">			if(showBookedRooms != null &amp;&amp; showBookedRooms.isSelected()) {</span>
+<span class="pc bpc" id="L264" title="1 of 4 branches missed.">			if(showBookedRooms != null &amp;&amp; showBookedRooms.isSelected()) {</span>
 <span class="nc" id="L265">				reservedRoomList = roomAction.searchReservedRooms(src);</span>
 			}
 			// build table
