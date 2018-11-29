@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,14 +17,13 @@ import utils.PanelTestUtils;
 public class ViewRoomsPanelTest {
 	private ViewRoomsPanel viewRoomsPane;
 	private final String VIEW_ROOMS_PANEL_LABEL = "My Reservations";
-	private JPanel topPane, middlePane, bottomPane;
+	private JPanel topPane, middlePane;
 
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
 		viewRoomsPane = PanelTestUtils.getViewRoomsPanel();
 		topPane = (JPanel) viewRoomsPane.getComponent(0);
 		middlePane = (JPanel) viewRoomsPane.getComponent(1); // 0: JscrollPane with TablePanel inside 1:Back Button
-		bottomPane = (JPanel) viewRoomsPane.getComponent(2);
 	}
 
 	@Test
@@ -43,9 +41,5 @@ public class ViewRoomsPanelTest {
 		assertTrue(middlePane.getComponent(1) instanceof JButton);
 		JButton backButton = (JButton) middlePane.getComponent(1);
 		assertEquals("Back", backButton.getText());
-	}
-
-	@AfterEach
-	protected void cleanUp() {
 	}
 }

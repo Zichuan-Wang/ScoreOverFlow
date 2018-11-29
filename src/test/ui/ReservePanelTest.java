@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,7 @@ import utils.PanelTestUtils;
 public class ReservePanelTest {
 	private ReservePanel reservePane;
 	private final String RESERVE_PANEL_LABEL = "Reserve a Room";
-	private JPanel topPane, middlePane, bottomPane;
+	private JPanel topPane, middlePane;
 	private LocalTime now;
 	private int minuteDiff;
 
@@ -36,8 +35,8 @@ public class ReservePanelTest {
 	protected void onSetUp() throws DBConnectionException {
 		reservePane = PanelTestUtils.getReservePanel();
 		topPane = (JPanel) reservePane.getComponent(0);
-		middlePane = (JPanel) reservePane.getComponent(1); // 0: SearchPanel, 1: JscrollPane with TablePanel 2:Back											// Button
-		bottomPane = (JPanel) reservePane.getComponent(2);
+		middlePane = (JPanel) reservePane.getComponent(1); // 0: SearchPanel, 1: JscrollPane with TablePanel 2:Back
+															// Button
 		now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
 		minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;
 	}
@@ -81,12 +80,12 @@ public class ReservePanelTest {
 		assertTrue(searchPane.getComponent(8) instanceof JLabel);
 		assertEquals("Name", ((JLabel) searchPane.getComponent(8)).getText());
 		assertTrue(searchPane.getComponent(9) instanceof JTextField);
-		
+
 		// Facility
 		assertTrue(searchPane.getComponent(10) instanceof JLabel);
 		assertEquals("Facility", ((JLabel) searchPane.getComponent(10)).getText());
 		assertTrue(searchPane.getComponent(11) instanceof JList<?>);
-		
+
 		// Search Button
 		assertTrue(searchPane.getComponent(12) instanceof JButton);
 		assertEquals("Search", ((JButton) searchPane.getComponent(12)).getText());
@@ -102,9 +101,5 @@ public class ReservePanelTest {
 		assertTrue(middlePane.getComponent(2) instanceof JButton);
 		JButton backButton = (JButton) middlePane.getComponent(2);
 		assertEquals("Back", backButton.getText());
-	}
-
-	@AfterEach
-	protected void cleanUp() {
 	}
 }
