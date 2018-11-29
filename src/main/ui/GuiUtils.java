@@ -46,15 +46,4 @@ public class GuiUtils {
 		JButton backButton = createButton("Back", getJumpCardActionListener(cards, "main"), initAction);
 		return backButton;
 	}
-	
-	public static JButton getUploadFileButton(BasePanel pane, JPanel cards) {
-		ActionListener initAction = e -> pane.reset();
-		ActionListener sendBulkRequestActionListener = e -> sendBulkRequest();
-		JButton uploadFileButton = createButton("Upload", sendBulkRequestActionListener, initAction);
-		return uploadFileButton;
-	}
-	
-	public static void sendBulkRequest() {
-		System.out.println("A bulk request");
-	}
 }

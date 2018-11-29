@@ -113,7 +113,7 @@ public class ReservePanel extends BasePanel {
 		c.weightx = 0.0;
 		c.weighty = 1.0;
 		backButton = GuiUtils.getBackButton(this, cards);
-		uploadFileButton = GuiUtils.getUploadFileButton(this, cards);
+		uploadFileButton = getUploadFileButton();
 		
 		buttonPane = new TablePanel();
 		buttonPane.setPreferredSize(new Dimension(600, 200));
@@ -123,6 +123,8 @@ public class ReservePanel extends BasePanel {
 		buttonPane.add(uploadFileButton, c);
 		uploadFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(buttonPane, c);
+		
+		
 
 		return middlePane;
 	}
@@ -341,6 +343,15 @@ public class ReservePanel extends BasePanel {
 			}
 		});
 		return overrideButton;
+	}
+	
+	private JButton getUploadFileButton() {
+		JButton button = GuiUtils.createButton("Upload");
+		button.addActionListener(e -> {
+			System.out.println("A batch request");
+		});
+		
+		return button;
 	}
 	
 	private LocalTime getCurTime() {
