@@ -13,14 +13,14 @@ ScoreOverFlow,ui,GuiUtils,27,96,0,2,7,19,5,6,5,5
 ScoreOverFlow,ui,TablePanel.ButtonRenderer,3,6,0,0,1,2,1,1,1,1
 ScoreOverFlow,ui,LoginPanel,82,186,2,2,13,42,4,4,3,3
 ScoreOverFlow,ui,BasePanel,8,161,0,0,5,41,2,3,2,3
-ScoreOverFlow,ui,TablePanel,7,98,0,4,4,20,1,4,1,2
+ScoreOverFlow,ui,TablePanel,0,105,0,4,0,24,0,5,0,3
 ScoreOverFlow,ui,TablePanel.new DefaultTableModel() {...},10,11,2,0,1,1,2,1,1,1
 ScoreOverFlow,ui,MainWindow.new Runnable() {...},41,0,0,0,12,0,2,0,2,0
-ScoreOverFlow,ui,ReservePanel,369,424,22,4,80,98,20,6,8,5
+ScoreOverFlow,ui,ReservePanel,158,657,24,12,36,150,20,12,4,10
 ScoreOverFlow,ui,TablePanel.ButtonEditor,10,6,0,0,3,2,2,1,2,1
 ScoreOverFlow,ui,MainPanel,6,86,0,0,0,18,2,2,2,2
 ScoreOverFlow,ui,MainWindow,5,43,0,0,2,11,1,1,1,1
-ScoreOverFlow,ui,ViewRoomsPanel,155,103,6,0,35,29,9,2,6,2
+ScoreOverFlow,ui,ViewRoomsPanel,19,256,7,5,8,62,6,9,1,8
 ScoreOverFlow,dao.factory,ReservationDaoFactory,9,13,0,2,3,5,1,2,1,1
 ScoreOverFlow,dao.factory,DaoFactory,3,4,0,0,1,1,1,1,1,1
 ScoreOverFlow,dao.factory,UserDaoFactory,9,13,0,2,3,5,1,2,1,1
@@ -37,5 +37,5 @@ ScoreOverFlow,email,EmailSender.new Authenticator() {...},0,17,0,0,0,2,0,2,0,2
 ScoreOverFlow,entity,Facility,11,24,0,0,4,8,3,5,3,5
 ScoreOverFlow,entity,Room,8,32,0,0,3,11,2,7,2,7
 ScoreOverFlow,entity,User,0,51,0,0,0,19,0,13,0,13
-ScoreOverFlow,entity,Reservation,3,64,0,0,1,24,1,16,1,16
-ScoreOverFlow,entity,EntityUtils,28,0,0,0,10,0,2,0,2,0
+ScoreOverFlow,entity,Reservation,0,67,0,0,0,25,0,17,0,17
+ScoreOverFlow,entity,EntityUtils,3,25,0,0,1,9,1,1,1,1
