@@ -5,7 +5,11 @@ import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -352,14 +356,47 @@ public class ReservePanel extends BasePanel {
 	
 	private JButton getUploadFileButton() {
 		JButton button = GuiUtils.createButton("Upload");
+		
 		button.addActionListener(e -> {
+			// prompt the window to choose a csv file
 			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-
 			int option = fileChooser.showOpenDialog(null);
-			if (option == JFileChooser.APPROVE_OPTION) {
-				File selectedFile = fileChooser.getSelectedFile();
-				System.out.println(selectedFile.getAbsolutePath());
+			if (option != JFileChooser.APPROVE_OPTION) {
+				return;
 			}
+			
+			File selectedFile = fileChooser.getSelectedFile();
+			System.out.println(selectedFile.getAbsolutePath());
+			
+			// start parsing from the csv file
+			// Reference: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+			String csvFile = selectedFile.getAbsolutePath();
+	        BufferedReader br = null;
+	        String line = "";
+	        //String cvsSplitBy = ",";
+	        
+	        try {
+	            br = new BufferedReader(new FileReader(csvFile));
+	            while ((line = br.readLine()) != null) {
+	            	/* Each line should contain: 
+	                 * room ID, date, start time, and end time, 
+	                 * in the exact order. */
+	                //String[] groups = line.split(cvsSplitBy);
+	                System.out.println(line);
+	            }
+	        } catch (FileNotFoundException exception) {
+	        	exception.printStackTrace();
+	        } catch (IOException exception) {
+	        	exception.printStackTrace();
+	        } finally {
+	            if (br != null) {
+	                try {
+	                    br.close();
+	                } catch (IOException exception) {
+	                	exception.printStackTrace();
+	                }
+	            }
+	        }
 		});
 		
 		return button;
