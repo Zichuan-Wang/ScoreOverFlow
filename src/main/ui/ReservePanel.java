@@ -2,18 +2,22 @@ package ui;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FileDialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -22,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.filechooser.FileSystemView;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
@@ -348,7 +353,13 @@ public class ReservePanel extends BasePanel {
 	private JButton getUploadFileButton() {
 		JButton button = GuiUtils.createButton("Upload");
 		button.addActionListener(e -> {
-			System.out.println("A batch request");
+			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+			int option = fileChooser.showOpenDialog(null);
+			if (option == JFileChooser.APPROVE_OPTION) {
+				File selectedFile = fileChooser.getSelectedFile();
+				System.out.println(selectedFile.getAbsolutePath());
+			}
 		});
 		
 		return button;
