@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import entity.Reservation;
 import entity.Room;
 import entity.User;
-import security.SecurityService;
+//import security.SecurityService;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.constraint.SearchReservationConstraint;
@@ -31,6 +31,7 @@ public class ViewRoomsPanel extends BasePanel {
 
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
+	private boolean alert = true;
 
 	public ViewRoomsPanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction) {
 		super(TITLE, cards);
@@ -83,6 +84,10 @@ public class ViewRoomsPanel extends BasePanel {
 		reservationPane.revalidate();
 		reservationPane.repaint();
 	}
+	
+	public void setAlert(boolean changedAlertState) {
+		alert = changedAlertState;
+	}
 
 	public void showReservationList() {
 		SearchReservationConstraint src = new SearchReservationConstraint();
@@ -111,16 +116,25 @@ public class ViewRoomsPanel extends BasePanel {
 	}
 	
 	private void cancelReservation(Reservation reservation) {
+		/*
 		if (!SecurityService.currentUser.hasRole("Normal")) {
 			JOptionPane.showMessageDialog(null, "You do not have the right role to perform this action.");
 			return;
 		}
+		*/
+		if (user.getUserGroup() == 3) {
+			if(alert)
+				JOptionPane.showMessageDialog(null, "You do not have the right role to perform this action.");
+			return;
+		}
 		boolean success = reservationAction.cancelReservation(reservation);
 		if (success) {
-			JOptionPane.showMessageDialog(null, "Success!");
+			if (alert)
+				JOptionPane.showMessageDialog(null, "Success!");
 			showReservationList();
 		} else {
-			JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
+			if (alert)
+				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
 		}
 		reset();
 	}

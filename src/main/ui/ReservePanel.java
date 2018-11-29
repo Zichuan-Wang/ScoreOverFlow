@@ -62,6 +62,8 @@ public class ReservePanel extends BasePanel {
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 	private FacilityAction facilityAction;
+	
+	private boolean alert = true;
 
 	public ReservePanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction, FacilityAction facilityAction) {
 		super(TITLE, cards);
@@ -115,6 +117,10 @@ public class ReservePanel extends BasePanel {
 		// TODO: figure out why this button does not show up
 		middlePane.add(uploadFileButton, c);
 		return middlePane;
+	}
+	
+	public void setAlert(boolean changedAlertState) {
+		alert = changedAlertState;
 	}
 
 	private JPanel createSearchPanel() {
@@ -259,9 +265,10 @@ public class ReservePanel extends BasePanel {
 				reservedRoomList = roomAction.searchReservedRooms(src);
 			}
 			// build table
-			if (roomList.isEmpty() && reservedRoomList.isEmpty())
-				JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
-			else {
+			if (roomList.isEmpty() && reservedRoomList.isEmpty()) {
+				if (alert)
+					JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
+			}else {
 				List<Object[]> rows = new ArrayList<>();
 				Object[] rowName = new Object[] { "Room Name", "Action" };
 				
@@ -296,10 +303,12 @@ public class ReservePanel extends BasePanel {
 			// reserve
 			boolean success = reservationAction.reserveRoom(reservation);
 			if (success) {
-				JOptionPane.showMessageDialog(null, "Success!");
+				if (alert)
+					JOptionPane.showMessageDialog(null, "Success!");
 				reserveButton.setEnabled(false);
 			} else {
-				JOptionPane.showMessageDialog(null, "There is something wrong with making the reservation. Please Try Again.");
+				if (alert)
+					JOptionPane.showMessageDialog(null, "There is something wrong with making the reservation. Please Try Again.");
 			}
 		});
 		return reserveButton;
@@ -315,10 +324,12 @@ public class ReservePanel extends BasePanel {
 			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),
 					src.getEndTime(), user.getId());
 			if (success) {
-				JOptionPane.showMessageDialog(null, "Success!");
+				if (alert)
+					JOptionPane.showMessageDialog(null, "Success!");
 				overrideButton.setEnabled(false);
 			} else {
-				JOptionPane.showMessageDialog(null, "There is something wrong with overriding the reservation. Please Try Again.");
+				if (alert)
+					JOptionPane.showMessageDialog(null, "There is something wrong with overriding the reservation. Please Try Again.");
 			}
 		});
 		return overrideButton;

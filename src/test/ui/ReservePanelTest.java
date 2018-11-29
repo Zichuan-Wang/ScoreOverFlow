@@ -1,11 +1,15 @@
 package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -13,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import org.junit.jupiter.api.AfterEach;
@@ -22,8 +27,10 @@ import org.junit.jupiter.api.Test;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
+
 import exception.DBConnectionException;
 import utils.PanelTestUtils;
+import utils.UiTestUtils;
 
 public class ReservePanelTest {
 	private ReservePanel reservePane;
@@ -35,6 +42,7 @@ public class ReservePanelTest {
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
 		reservePane = PanelTestUtils.getReservePanel();
+		reservePane.setAlert(false);
 		topPane = (JPanel) reservePane.getComponent(0);
 		middlePane = (JPanel) reservePane.getComponent(1); // 0: SearchPanel, 1: JscrollPane with TablePanel 2:Back											// Button
 		bottomPane = (JPanel) reservePane.getComponent(2);
@@ -102,6 +110,39 @@ public class ReservePanelTest {
 		assertTrue(middlePane.getComponent(2) instanceof JButton);
 		JButton backButton = (JButton) middlePane.getComponent(2);
 		assertEquals("Back", backButton.getText());
+	}
+	
+	@Test
+	protected void searchButtonWorking() {
+		JPanel searchPane = (JPanel) middlePane.getComponent(0);
+		JButton searchButton = (JButton) searchPane.getComponent(12);
+		searchButton.doClick();
+		List<Object> tables = UiTestUtils.getObjects(middlePane,JTable.class);
+		assertFalse(tables.isEmpty());
+	}
+	
+	@Test
+	protected void reserveButtonWorking() {
+		JPanel searchPane = (JPanel) middlePane.getComponent(0);
+		JButton searchButton = (JButton) searchPane.getComponent(12);
+		searchButton.doClick();
+		JTable table = (JTable) UiTestUtils.getObjects(middlePane,JTable.class).get(0);
+		JButton reserveButton = (JButton) table.getValueAt(0,1);
+		assertNotNull(reserveButton);
+		assertTrue(reserveButton.isEnabled());
+		reserveButton.doClick();
+		assertFalse(reserveButton.isEnabled());
+	}
+	
+	@Test
+	protected void resetWorking() {
+		JPanel searchPane = (JPanel) middlePane.getComponent(0);
+		DatePicker datePicker = (DatePicker)searchPane.getComponent(1);
+		LocalDate optionalDate = LocalDate.of(1966, 6, 6);
+		datePicker.setDate(optionalDate);
+		reservePane.reset();
+		assertTrue(UiTestUtils.getObjects(middlePane,JTable.class).isEmpty()); // No table
+		assertNotEquals(optionalDate,datePicker.getDate());
 	}
 
 	@AfterEach

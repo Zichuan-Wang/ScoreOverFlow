@@ -1,12 +1,23 @@
 package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +25,7 @@ import org.junit.jupiter.api.Test;
 
 import exception.DBConnectionException;
 import utils.PanelTestUtils;
+import utils.UiTestUtils;
 
 public class ViewRoomsPanelTest {
 	private ViewRoomsPanel viewRoomsPane;
@@ -23,6 +35,7 @@ public class ViewRoomsPanelTest {
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
 		viewRoomsPane = PanelTestUtils.getViewRoomsPanel();
+		viewRoomsPane.setAlert(false); // disable alert
 		topPane = (JPanel) viewRoomsPane.getComponent(0);
 		middlePane = (JPanel) viewRoomsPane.getComponent(1); // 0: JscrollPane with TablePanel inside 1:Back Button
 		bottomPane = (JPanel) viewRoomsPane.getComponent(2);
@@ -43,6 +56,37 @@ public class ViewRoomsPanelTest {
 		assertTrue(middlePane.getComponent(1) instanceof JButton);
 		JButton backButton = (JButton) middlePane.getComponent(1);
 		assertEquals("Back", backButton.getText());
+	}
+	
+	@Test
+	protected void listGeneratedWithCorrectItems() {
+		viewRoomsPane.showReservationList();
+		JTable table = null;
+		for (Component comp : UiTestUtils.getAllComponents(middlePane)) {
+			if(comp instanceof JTable) {
+				table = (JTable) comp;
+			}
+		}
+		assertNotNull(table);
+		DefaultTableModel dm = (DefaultTableModel) table.getModel();
+		assertEquals(dm.getRowCount(),2);
+		// each row length 5, first 4 strings, last button
+		assertTrue(dm.getValueAt(0, 0) instanceof String);
+		assertTrue(dm.getValueAt(1, 4) instanceof JButton);
+	}
+	// @TODO CANCEL DOES NOT WORK
+	@Test
+	protected void canCancelFromListGenerated() {
+		viewRoomsPane.showReservationList();
+		JTable table = (JTable) UiTestUtils.getObjects(middlePane,JTable.class).get(0);
+		JButton cancelButton = (JButton) table.getValueAt(0,4);
+		//System.out.println(table.getValueAt(0,1));
+		
+		cancelButton.doClick();
+		
+		table = (JTable) UiTestUtils.getObjects(middlePane,JTable.class).get(0);
+		//System.out.println(table.getValueAt(0,1));
+		// CHECK CANCEL HAS EFFECT
 	}
 
 	@AfterEach

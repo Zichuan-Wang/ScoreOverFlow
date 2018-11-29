@@ -17,5 +17,14 @@ public class UiTestUtils {
 	    }
 	    return compList;
 	}
+	
+	public static List<Object> getObjects(Container c, Class clazz) {
+		ArrayList<Object> arr = new ArrayList<>();
+		for (Component comp : getAllComponents(c)) {
+			if (clazz.isInstance(comp))
+				arr.add(clazz.cast(comp));
+		}
+		return arr;
+	}
 
 }
