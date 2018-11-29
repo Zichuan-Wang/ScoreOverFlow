@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -132,7 +134,6 @@ public class ReservePanel extends BasePanel {
 		buttonPane.add(uploadFileButton, c);
 		uploadFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(buttonPane, c);
-		
 		
 
 		return middlePane;
@@ -373,7 +374,9 @@ public class ReservePanel extends BasePanel {
 			String csvFile = selectedFile.getAbsolutePath();
 	        BufferedReader br = null;
 	        String line = "";
-	        //String cvsSplitBy = ",";
+	        String cvsSplitBy = ",";
+	        
+	        List<Reservation> reservations = new ArrayList<>();
 	        
 	        try {
 	            br = new BufferedReader(new FileReader(csvFile));
@@ -381,9 +384,17 @@ public class ReservePanel extends BasePanel {
 	            	/* Each line should contain: 
 	                 * room ID, date, start time, and end time, 
 	                 * in the exact order. */
-	                //String[] groups = line.split(cvsSplitBy);
-	                System.out.println(line);
+	                String[] groups = line.split(cvsSplitBy);
+	                Reservation reservation = new Reservation().setUserId(user.getId())
+	                		.setRoomId(Integer.parseInt(groups[0].trim()))
+	                		.setEventDate(new Date(Integer.parseInt(groups[1].trim())))
+	                		.setStartTime(new Time(Integer.parseInt(groups[2].trim())))
+	                		.setEndTime(new Time(Integer.parseInt(groups[3].trim())));
+	                reservations.add(reservation);
 	            }
+	            
+	            // make the batch reservation request
+	            reservationAction.reserveMultipleRooms(reservations);
 	        } catch (FileNotFoundException exception) {
 	        	exception.printStackTrace();
 	        } catch (IOException exception) {
