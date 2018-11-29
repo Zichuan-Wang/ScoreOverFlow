@@ -75,9 +75,9 @@ public class SecurityServiceTest {
 	
 	@Test
 	public void loginWithNoUsernameNoPassword() {
-		LoginStatus status = SecurityService.Login(EntityTestUtils.DEFAULT_UNI, "");
+		LoginStatus status = SecurityService.Login("", "");
 		Assert.assertFalse(status.isSuccess());
-		Assert.assertEquals("Wrong password", status.getMessage());
+		Assert.assertEquals("Unknown account", status.getMessage());
 		SecurityUtils.getSubject().logout();	
 	}
 	
