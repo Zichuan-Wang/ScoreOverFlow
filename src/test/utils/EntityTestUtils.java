@@ -39,6 +39,7 @@ public class EntityTestUtils {
 	public static final String DEFAULT_UNI = "x";
 	public static final boolean DEFAULT_ADMIN = true;
 	public static final int DEFAULT_USER_GROUP = 0;
+	public static final int HIGH_USER_GROUP = 1;
 
 	public static Reservation getDefaultReservation() {
 		return new Reservation().setId(DEFAULT_RESERVATION_ID)//
@@ -69,5 +70,14 @@ public class EntityTestUtils {
 				.setUni(DEFAULT_UNI)//
 				.setIsAdmin(DEFAULT_ADMIN)//
 				.setUserGroup(DEFAULT_USER_GROUP);
+	}
+	
+	public static User getHighUser() {
+		return new User().setId(DEFAULT_USER_ID)//
+				.setEmail(DEFAULT_EMAIL)//
+				.setPassword(PasswordHashing.getHash(DEFAULT_PASSWORD))//
+				.setUni(DEFAULT_UNI)//
+				.setIsAdmin(DEFAULT_ADMIN)//
+				.setUserGroup(HIGH_USER_GROUP);
 	}
 }

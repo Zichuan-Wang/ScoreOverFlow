@@ -136,6 +136,17 @@ public class ReservePanelTest {
 	}
 	
 	@Test
+	protected void overrideButtonWorking() throws DBConnectionException{
+		reservePane = PanelTestUtils.getHighUserReservePanel();
+		middlePane = (JPanel) reservePane.getComponent(1);
+		JPanel searchPane = (JPanel) middlePane.getComponent(0);
+		JButton searchButton = (JButton) searchPane.getComponent(13);
+		searchButton.doClick();
+		JTable table = (JTable) UiTestUtils.getObjects(middlePane,JTable.class).get(0);
+		//no override button
+	}
+	
+	@Test
 	protected void resetWorking() {
 		JPanel searchPane = (JPanel) middlePane.getComponent(0);
 		DatePicker datePicker = (DatePicker)searchPane.getComponent(1);

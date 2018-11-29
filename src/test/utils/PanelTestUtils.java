@@ -24,6 +24,12 @@ public class PanelTestUtils {
 		reservationAction = ReservationActionTestUtils.getReservationAction();
 		return new ReservePanel(cards, user, reservationAction, roomAction, facilityAction);
 	}
+	
+	public static ReservePanel getHighUserReservePanel() throws DBConnectionException {
+		User highUser  = EntityTestUtils.getHighUser();
+		reservationAction = ReservationActionTestUtils.getReservationAction();
+		return new ReservePanel(cards, highUser, reservationAction, roomAction, facilityAction);
+	}
 
 	public static ViewRoomsPanel getViewRoomsPanel() throws DBConnectionException {
 		reservationAction = ReservationActionTestUtils.getReservationAction();

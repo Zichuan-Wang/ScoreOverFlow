@@ -60,18 +60,13 @@ public class ViewRoomsPanelTest {
 	@Test
 	protected void listGeneratedWithCorrectItems() {
 		viewRoomsPane.showReservationList();
-		JTable table = null;
-		for (Component comp : UiTestUtils.getAllComponents(middlePane)) {
-			if(comp instanceof JTable) {
-				table = (JTable) comp;
-			}
-		}
-		assertNotNull(table);
-		DefaultTableModel dm = (DefaultTableModel) table.getModel();
-		assertEquals(dm.getRowCount(),2);
+		List<Object> objects= UiTestUtils.getObjects(middlePane,JTable.class);
+		assertFalse(objects.isEmpty());
+		JTable table = (JTable)objects.get(0);
+		assertEquals(table.getRowCount(),2);
 		// each row length 5, first 4 strings, last button
-		assertTrue(dm.getValueAt(0, 0) instanceof String);
-		assertTrue(dm.getValueAt(1, 4) instanceof JButton);
+		assertTrue(table.getValueAt(0, 0) instanceof String);
+		assertTrue(table.getValueAt(1, 4) instanceof JButton);
 	}
 	// @TODO CANCEL DOES NOT WORK
 	@Test
@@ -86,6 +81,12 @@ public class ViewRoomsPanelTest {
 		table = (JTable) UiTestUtils.getObjects(middlePane,JTable.class).get(0);
 		//System.out.println(table.getValueAt(0,1));
 		// CHECK CANCEL HAS EFFECT
+	}
+	
+	protected void showPanelShowing() {
+		viewRoomsPane.showPanel();
+		List<Object> objects= UiTestUtils.getObjects(middlePane,JTable.class);
+		assertFalse(objects.isEmpty());
 	}
 
 	@AfterEach
