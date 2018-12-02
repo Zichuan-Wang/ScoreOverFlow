@@ -1,9 +1,7 @@
 package security;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.shiro.authc.AuthenticationException;
@@ -12,7 +10,6 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAccount;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleRole;
@@ -62,7 +59,7 @@ public class SecureRealm extends AuthorizingRealm {
 	protected SimpleAccount getUser(String username) {
 		User currentUser = dao.findUserByUni(username);
 		if (currentUser == null) {
-			throw new UnknownAccountException();
+			return null;
 		}
 		String[] saltAndHash = PasswordHashing.getSaltAndHashedPassword(currentUser.getPassword());
 		SimpleAccount acc = new SimpleAccount((Object) username, (Object) (saltAndHash[1]),
@@ -76,10 +73,6 @@ public class SecureRealm extends AuthorizingRealm {
 
 	public boolean accountExists(String username) {
 		return getUser(username) != null;
-	}
-
-	protected String getUsername(SimpleAccount account) {
-		return getUsername(account.getPrincipals());
 	}
 
 	protected String getUsername(PrincipalCollection principals) {
@@ -102,23 +95,6 @@ public class SecureRealm extends AuthorizingRealm {
 	protected void add(SimpleRole role) {
 		roles.put(role.getName(), role);
 
-	}
-
-	protected static Set<String> toSet(String delimited, String delimiter) {
-		if (delimited == null || delimited.trim().equals("")) {
-			return null;
-		}
-
-		Set<String> values = new HashSet<String>();
-		String[] rolenamesArray = delimited.split(delimiter);
-		for (String s : rolenamesArray) {
-			String trimmed = s.trim();
-			if (trimmed.length() > 0) {
-				values.add(trimmed);
-			}
-		}
-
-		return values;
 	}
 
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
