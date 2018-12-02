@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">ui</a> &gt; <span class="el_source">MainPanel.java</span></div><h1>MainPanel.java</h1><pre class="source lang-java linenums">package ui;
+
+import java.awt.Component;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import entity.User;
+
+public class MainPanel extends BasePanel {
+	private static final long serialVersionUID = 1L;
+	private final static String TITLE = &quot;Main&quot;;
+	private JButton reserveButton;
+	private JButton viewRoomsButton;
+	private User user;
+
+	public MainPanel(JPanel cards, User user, ReservePanel reservePane, ViewRoomsPanel viewRoomsPane) {
+<span class="fc" id="L20">		super(TITLE, cards);</span>
+<span class="fc" id="L21">		this.user = user;</span>
+<span class="fc" id="L22">		initPanels();</span>
+<span class="pc" id="L23">		reserveButton.addActionListener(e -&gt; reservePane.showPanel());</span>
+<span class="pc" id="L24">		viewRoomsButton.addActionListener(e -&gt; viewRoomsPane.showPanel());</span>
+<span class="fc" id="L25">	}</span>
+
+	@Override
+	public JPanel getMiddlePanel() {
+		// middle Panel
+<span class="fc" id="L30">		JPanel middlePane = new JPanel();</span>
+
+		// place holder
+<span class="pc bpc" id="L33" title="3 of 4 branches missed.">		if (user == null || user.getUserGroup() &gt; 3) {</span>
+<span class="fc" id="L34">			middlePane = new JPanel();</span>
+		}
+
+<span class="fc" id="L37">		middlePane.setLayout(new BoxLayout(middlePane, BoxLayout.Y_AXIS));</span>
+
+<span class="fc" id="L39">		middlePane.add(Box.createVerticalGlue());</span>
+
+		// Reserve
+<span class="fc" id="L42">		reserveButton = GuiUtils.createButton(&quot;Reserve a Room&quot;, GuiUtils.getJumpCardActionListener(cards, &quot;reserve&quot;));</span>
+<span class="fc" id="L43">		reserveButton.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
+<span class="fc" id="L44">		middlePane.add(reserveButton);</span>
+
+<span class="fc" id="L46">		middlePane.add(Box.createVerticalGlue());</span>
+
+		// See Booked Rooms
+<span class="fc" id="L49">		viewRoomsButton = GuiUtils.createButton(&quot;View Reservations&quot;,</span>
+<span class="fc" id="L50">				GuiUtils.getJumpCardActionListener(cards, &quot;view rooms&quot;));</span>
+<span class="fc" id="L51">		viewRoomsButton.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
+<span class="fc" id="L52">		middlePane.add(viewRoomsButton);</span>
+
+<span class="fc" id="L54">		middlePane.add(Box.createVerticalGlue());</span>
+<span class="fc" id="L55">		return middlePane;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

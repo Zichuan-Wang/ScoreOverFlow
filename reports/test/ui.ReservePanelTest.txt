@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.ReservePanelTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.841 s <<< FAILURE! - in ui.ReservePanelTest
-middlePanelHasBackButton  Time elapsed: 2.161 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
-	at ui.ReservePanelTest.middlePanelHasBackButton(ReservePanelTest.java:110)
-
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.388 s - in ui.ReservePanelTest

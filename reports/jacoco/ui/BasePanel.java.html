@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BasePanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">ui</a> &gt; <span class="el_source">BasePanel.java</span></div><h1>BasePanel.java</h1><pre class="source lang-java linenums">package ui;
+
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class BasePanel extends JPanel {
+	private static final long serialVersionUID = 1L;
+	private GridBagConstraints c;
+	private String title;
+	protected JPanel cards;
+<span class="fc" id="L16">	protected boolean alert = true;</span>
+
+	// Initialize a page without the middle panel
+<span class="fc" id="L19">	public BasePanel(String title, JPanel cards) {</span>
+<span class="fc" id="L20">		this.cards = cards;</span>
+<span class="fc" id="L21">		this.title = title;</span>
+<span class="fc" id="L22">		setLayout(new GridBagLayout());</span>
+<span class="fc" id="L23">		c = new GridBagConstraints();</span>
+<span class="fc" id="L24">	}</span>
+
+	public void initPanels() {
+<span class="fc" id="L27">		JPanel upperPane = new JPanel();</span>
+<span class="fc" id="L28">		JLabel titleLabel = new JLabel(title);</span>
+<span class="fc" id="L29">		upperPane.add(titleLabel);</span>
+<span class="fc" id="L30">		c.gridx = 0;</span>
+<span class="fc" id="L31">		c.gridy = 0;</span>
+<span class="fc" id="L32">		c.gridwidth = 3;</span>
+<span class="fc" id="L33">		c.weightx = 1.0;</span>
+<span class="fc" id="L34">		c.weighty = 0.0;</span>
+<span class="fc" id="L35">		c.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L36">		c.ipady = 0;</span>
+<span class="fc" id="L37">		c.anchor = GridBagConstraints.FIRST_LINE_START;</span>
+
+<span class="fc" id="L39">		add(upperPane, c);</span>
+
+<span class="fc" id="L41">		JPanel middlePane = getMiddlePanel();</span>
+<span class="fc" id="L42">		c.gridx = 0;</span>
+<span class="fc" id="L43">		c.gridy = 1;</span>
+<span class="fc" id="L44">		c.gridwidth = 3;</span>
+<span class="fc" id="L45">		c.weightx = 1.0;</span>
+<span class="fc" id="L46">		c.weighty = 1.0;</span>
+<span class="fc" id="L47">		c.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L48">		c.ipady = 10;</span>
+<span class="fc" id="L49">		middlePane.setBorder(BorderFactory.createLineBorder(Color.black));</span>
+<span class="fc" id="L50">		add(middlePane, c);</span>
+
+<span class="fc" id="L52">		JPanel lowerPane = new JPanel();</span>
+<span class="fc" id="L53">		JLabel emptyLabel = new JLabel(&quot; &quot;);</span>
+<span class="fc" id="L54">		lowerPane.add(emptyLabel);</span>
+<span class="fc" id="L55">		c.gridx = 0;</span>
+<span class="fc" id="L56">		c.gridy = 2;</span>
+<span class="fc" id="L57">		c.gridwidth = 3;</span>
+<span class="fc" id="L58">		c.weightx = 1.0;</span>
+<span class="fc" id="L59">		c.weighty = 0.0;</span>
+<span class="fc" id="L60">		c.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L61">		c.ipady = 0;</span>
+<span class="fc" id="L62">		add(lowerPane, c);</span>
+<span class="fc" id="L63">	}</span>
+
+	public JPanel getMiddlePanel() {
+<span class="fc" id="L66">		return new JPanel();</span>
+	}
+
+	public void setAlert(boolean changedAlertState) {
+<span class="fc" id="L70">		alert = changedAlertState;</span>
+<span class="fc" id="L71">	}</span>
+
+	public void reset() {
+<span class="nc" id="L74">		removeAll();</span>
+<span class="nc" id="L75">		revalidate();</span>
+<span class="nc" id="L76">		repaint();</span>
+<span class="nc" id="L77">	}</span>
+
+	public void showPanel() {
+<span class="nc" id="L80">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

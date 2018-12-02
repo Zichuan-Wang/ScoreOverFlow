@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoomDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">RoomDao.java</span></div><h1>RoomDao.java</h1><pre class="source lang-java linenums">package dao;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
+
+import entity.Room;
+import server.constraint.SearchRoomConstraint;
+
+// DAO for Room
+public class RoomDao extends BaseDao&lt;Room&gt; {
+
+	public RoomDao(EntityManager manager) {
+<span class="fc" id="L17">		super(Room.class, manager);</span>
+<span class="fc" id="L18">	}</span>
+
+	/*
+	 * Find the room by name, return null if not found
+	 */
+	public Room findRoomByName(String name) {
+<span class="fc" id="L24">		Query query = manager.createQuery(&quot;SELECT u FROM Room u WHERE u.name = :name&quot;).setParameter(&quot;name&quot;, name);</span>
+		try {
+<span class="fc" id="L26">			return (Room) query.getSingleResult();</span>
+<span class="nc" id="L27">		} catch (NoResultException exception) {</span>
+<span class="nc" id="L28">			return null;</span>
+		}
+	}
+
+	/**
+	 * Search the rooms by the constraint criteria provided. The result contains
+	 * rooms that 1. Contains the room name string in its name 2. Have larger
+	 * capacity than the constraint 3. Does not have an existing reservation that
+	 * overlaps with the requested interval 4. Have all the facilities in the
+	 * requested set
+	 * 
+	 * @param constraint
+	 * @return
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public List&lt;Room&gt; searchRooms(SearchRoomConstraint constraint) {
+		// add null to set to prevent empty set error
+<span class="fc" id="L45">		constraint.getFacilities().add(null);</span>
+<span class="fc" id="L46">		Query query = manager.createQuery(&quot;SELECT u FROM Room u &quot;//</span>
+				+ &quot;WHERE (u.name LIKE :name) &quot;//
+				+ &quot;AND (u.capacity &gt;= :capacity) &quot;//
+				+ &quot;AND NOT EXISTS &quot;//
+				+ &quot;(SELECT r FROM Reservation r &quot;//
+				+ &quot;WHERE r.roomId = u.id &quot;//
+				+ &quot;AND r.eventDate = :eventDate &quot;//
+				+ &quot;AND r.startTime &lt; :endTime &quot;//
+				+ &quot;AND r.endTime &gt; :startTime) &quot;//
+				+ &quot;AND :facilityCount = &quot;//
+				+ &quot;(SELECT COUNT(f.id) FROM Room r &quot;//
+				+ &quot;INNER JOIN r.facilities f &quot;//
+				+ &quot;WHERE r.id = u.id &quot;//
+				+ &quot;AND f in :facilities)&quot;)//
+<span class="fc" id="L60">				.setParameter(&quot;name&quot;, &quot;%&quot; + constraint.getRoomName() + &quot;%&quot;)</span>
+<span class="fc" id="L61">				.setParameter(&quot;capacity&quot;, constraint.getCapacity())</span>
+<span class="fc" id="L62">				.setParameter(&quot;eventDate&quot;, constraint.getEventDate(), TemporalType.DATE)</span>
+<span class="fc" id="L63">				.setParameter(&quot;startTime&quot;, constraint.getStartTime(), TemporalType.TIME)</span>
+<span class="fc" id="L64">				.setParameter(&quot;endTime&quot;, constraint.getEndTime(), TemporalType.TIME)</span>
+<span class="fc" id="L65">				.setParameter(&quot;facilities&quot;, constraint.getFacilities())</span>
+<span class="fc" id="L66">				.setParameter(&quot;facilityCount&quot;, (long) constraint.getFacilities().size() - 1);</span>
+<span class="fc" id="L67">		return query.getResultList();</span>
+
+	}
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public List&lt;Object[]&gt; searchReservedRooms(SearchRoomConstraint constraint) {
+		// add null to set to prevent empty set error
+<span class="nc" id="L74">		constraint.getFacilities().add(null);</span>
+		/*
+		 * Query query = manager.createQuery(&quot;SELECT u FROM Room u &quot;// +
+		 * &quot;WHERE (u.name LIKE :name) &quot;// + &quot;AND (u.capacity &gt;= :capacity) &quot;// +
+		 * &quot;AND :facilityCount = &quot;// + &quot;(SELECT COUNT(f.id) FROM Room r &quot;// +
+		 * &quot;INNER JOIN r.facilities f &quot;// + &quot;WHERE r.id = u.id &quot;// +
+		 * &quot;AND f in :facilities) &quot;// + &quot;AND EXISTS &quot;// +
+		 * &quot;(SELECT r FROM Reservation r &quot;// + &quot;WHERE r.roomId = u.id &quot;// +
+		 * &quot;AND r.eventDate = :eventDate &quot;// + &quot;AND r.startTime &lt; :endTime &quot;// +
+		 * &quot;AND r.endTime &gt; :startTime &quot;// + &quot;AND EXISTS &quot;// +
+		 * &quot;(SELECT p FROM User p &quot;// + &quot;WHERE p.id = r.userId &quot;// +
+		 * &quot;AND p.userGroup = 3))&quot;)// .setParameter(&quot;name&quot;, &quot;%&quot; +
+		 * constraint.getRoomName() + &quot;%&quot;) .setParameter(&quot;capacity&quot;,
+		 * constraint.getCapacity()) .setParameter(&quot;eventDate&quot;,
+		 * constraint.getEventDate(), TemporalType.DATE) .setParameter(&quot;startTime&quot;,
+		 * constraint.getStartTime(), TemporalType.TIME) .setParameter(&quot;endTime&quot;,
+		 * constraint.getEndTime(), TemporalType.TIME) .setParameter(&quot;facilities&quot;,
+		 * constraint.getFacilities()) .setParameter(&quot;facilityCount&quot;, (long)
+		 * constraint.getFacilities().size() - 1);
+		 */
+<span class="nc" id="L94">		Query query = manager</span>
+<span class="nc" id="L95">				.createQuery(&quot;SELECT room, res.id FROM Room room, Reservation res &quot; + &quot;WHERE room.name LIKE :name &quot;</span>
+						+ &quot;AND room.capacity &gt;= :capacity &quot; + &quot;AND :facilityCount = &quot;//
+						+ &quot;(SELECT COUNT(f.id) FROM Room r &quot;//
+						+ &quot;INNER JOIN r.facilities f &quot;//
+						+ &quot;WHERE r.id = room.id &quot;//
+						+ &quot;AND f in :facilities) &quot;//
+						+ &quot;AND res.roomId = room.id &quot;//
+						+ &quot;AND res.eventDate = :eventDate &quot;//
+						+ &quot;AND res.startTime &lt; :endTime &quot;//
+						+ &quot;AND res.endTime &gt; :startTime &quot;//
+						+ &quot;AND EXISTS &quot;//
+						+ &quot;(SELECT p FROM User p &quot;//
+						+ &quot;WHERE p.id = res.userId &quot;//
+						+ &quot;AND p.userGroup = 3)&quot;)//
+<span class="nc" id="L109">				.setParameter(&quot;name&quot;, &quot;%&quot; + constraint.getRoomName() + &quot;%&quot;)</span>
+<span class="nc" id="L110">				.setParameter(&quot;capacity&quot;, constraint.getCapacity())</span>
+<span class="nc" id="L111">				.setParameter(&quot;eventDate&quot;, constraint.getEventDate(), TemporalType.DATE)</span>
+<span class="nc" id="L112">				.setParameter(&quot;startTime&quot;, constraint.getStartTime(), TemporalType.TIME)</span>
+<span class="nc" id="L113">				.setParameter(&quot;endTime&quot;, constraint.getEndTime(), TemporalType.TIME)</span>
+<span class="nc" id="L114">				.setParameter(&quot;facilities&quot;, constraint.getFacilities())</span>
+<span class="nc" id="L115">				.setParameter(&quot;facilityCount&quot;, (long) constraint.getFacilities().size() - 1);</span>
+<span class="nc" id="L116">		return query.getResultList();</span>
+	}
+
+	public Room getRoomById(int id) {
+<span class="fc" id="L120">		Query query = manager.createQuery(&quot;SELECT u FROM Room u WHERE u.id = :id&quot;).setParameter(&quot;id&quot;, id);</span>
+		try {
+<span class="fc" id="L122">			return (Room) query.getSingleResult();</span>
+<span class="fc" id="L123">		} catch (NoResultException exception) {</span>
+<span class="fc" id="L124">			return null;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
