@@ -105,19 +105,19 @@ public class LoginPanel extends BasePanel {
 
 <span class="fc" id="L106">		LoginStatus status = SecurityService.Login(userNameField.getText(),</span>
 <span class="fc" id="L107">				String.valueOf(passwordField.getPassword()));</span>
-<span class="pc bpc" id="L108" title="1 of 2 branches missed.">		if (status.isSuccess()) {</span>
-<span class="nc" id="L109">			User user = userAction.findUserByUni(userNameField.getText());</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">		if (status.isSuccess()) {</span>
+<span class="fc" id="L109">			User user = userAction.findUserByUni(userNameField.getText());</span>
 			// Create three panels
-<span class="nc" id="L111">			ReservePanel reservePane = new ReservePanel(cards, user, reservationAction, roomAction, facilityAction);</span>
-<span class="nc" id="L112">			ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards, user, reservationAction, roomAction);</span>
-<span class="nc" id="L113">			MainPanel mainPane = new MainPanel(cards, user, reservePane, viewRoomsPane);</span>
+<span class="fc" id="L111">			ReservePanel reservePane = new ReservePanel(cards, user, reservationAction, roomAction, facilityAction);</span>
+<span class="fc" id="L112">			ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards, user, reservationAction, roomAction);</span>
+<span class="fc" id="L113">			MainPanel mainPane = new MainPanel(cards, user, reservePane, viewRoomsPane);</span>
 
 			// add panels to card
-<span class="nc" id="L116">			cards.add(mainPane, &quot;main&quot;);</span>
-<span class="nc" id="L117">			cards.add(reservePane, &quot;reserve&quot;);</span>
-<span class="nc" id="L118">			cards.add(viewRoomsPane, &quot;view rooms&quot;);</span>
-<span class="nc" id="L119">			GuiUtils.jumpCard(cards, &quot;main&quot;);</span>
-<span class="nc" id="L120">		} else {</span>
+<span class="fc" id="L116">			cards.add(mainPane, &quot;main&quot;);</span>
+<span class="fc" id="L117">			cards.add(reservePane, &quot;reserve&quot;);</span>
+<span class="fc" id="L118">			cards.add(viewRoomsPane, &quot;view rooms&quot;);</span>
+<span class="fc" id="L119">			GuiUtils.jumpCard(cards, &quot;main&quot;);</span>
+<span class="fc" id="L120">		} else {</span>
 <span class="pc bpc" id="L121" title="1 of 2 branches missed.">			if (alert) {</span>
 <span class="nc" id="L122">				JOptionPane.showMessageDialog(null, status.getMessage());</span>
 			}
