@@ -4,7 +4,6 @@ import org.apache.shiro.SecurityUtils;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import dao.UserDao;
@@ -22,19 +21,26 @@ public class SecurityServiceTest {
 		dao = UserDaoFactory.getInstance();
 		user = dao.saveOrUpdate(EntityTestUtils.getDefaultUser());
 	}
-
-	@BeforeEach
-	public void onSetUp() throws DBConnectionException {
+	
+	@Test
+	public void initializeWithDao() {
 		SecurityService.initialize(dao);
+	}
+	
+	@Test
+	public void initializeWithNull() {
+		SecurityService.initialize(null);
 	}
 
 	@Test
 	public void hasSubject() {
+		SecurityService.initialize(dao);
 		SecurityUtils.getSubject();
 	}
 
 	@Test
 	public void loginWithCorrectCredentials() {
+		SecurityService.initialize(dao);
 		LoginStatus status = SecurityService.Login(EntityTestUtils.DEFAULT_UNI, EntityTestUtils.DEFAULT_PASSWORD);
 		Assert.assertTrue(status.isSuccess());
 		Assert.assertEquals("Success", status.getMessage());
@@ -43,6 +49,7 @@ public class SecurityServiceTest {
 
 	@Test
 	public void loginWithCorrectUsernameWrongPassword() {
+		SecurityService.initialize(dao);
 		LoginStatus status = SecurityService.Login(EntityTestUtils.DEFAULT_UNI, "123");
 		Assert.assertFalse(status.isSuccess());
 		Assert.assertEquals("Wrong password", status.getMessage());
@@ -51,6 +58,7 @@ public class SecurityServiceTest {
 
 	@Test
 	public void loginWithWrongUsernameSomePassword() {
+		SecurityService.initialize(dao);
 		LoginStatus status = SecurityService.Login("666", "123");
 		Assert.assertFalse(status.isSuccess());
 		Assert.assertEquals("Unknown account", status.getMessage());
@@ -60,6 +68,7 @@ public class SecurityServiceTest {
 
 	@Test
 	public void loginWithNoUsernameSomePassword() {
+		SecurityService.initialize(dao);
 		LoginStatus status = SecurityService.Login("", "123");
 		Assert.assertFalse(status.isSuccess());
 		Assert.assertEquals("Unknown account", status.getMessage());
@@ -68,6 +77,7 @@ public class SecurityServiceTest {
 
 	@Test
 	public void loginWithSomeUsernameNoPassword() {
+		SecurityService.initialize(dao);
 		LoginStatus status = SecurityService.Login(EntityTestUtils.DEFAULT_UNI, "");
 		Assert.assertFalse(status.isSuccess());
 		Assert.assertEquals("Wrong password", status.getMessage());
@@ -76,6 +86,7 @@ public class SecurityServiceTest {
 
 	@Test
 	public void loginWithNoUsernameNoPassword() {
+		SecurityService.initialize(dao);
 		LoginStatus status = SecurityService.Login("", "");
 		Assert.assertFalse(status.isSuccess());
 		Assert.assertEquals("Unknown account", status.getMessage());
@@ -84,6 +95,7 @@ public class SecurityServiceTest {
 
 	@Test
 	public void repeatLoginThrowsException() throws InterruptedException {
+		SecurityService.initialize(dao);
 		SecurityService.Login(EntityTestUtils.DEFAULT_UNI, EntityTestUtils.DEFAULT_PASSWORD);
 		LoginStatus status = SecurityService.Login(EntityTestUtils.DEFAULT_UNI, EntityTestUtils.DEFAULT_PASSWORD);
 		Assert.assertFalse(status.isSuccess());
