@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecureRealm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">security</a> &gt; <span class="el_source">SecureRealm.java</span></div><h1>SecureRealm.java</h1><pre class="source lang-java linenums">package security;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.shiro.authc.AuthenticationException;
@@ -12,7 +10,6 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAccount;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleRole;
@@ -28,121 +25,100 @@ import exception.DBConnectionException;
 public class SecureRealm extends AuthorizingRealm {
 
 	private UserDao dao;
-<span class="fc" id="L31">	private final String name = &quot;SecureRealm&quot;;</span>
+<span class="fc" id="L28">	private final String name = &quot;SecureRealm&quot;;</span>
 	protected final Map&lt;String, SimpleRole&gt; roles; // roleName-to-SimpleRole
-<span class="fc" id="L33">	private static final String[] roleNames = new String[] { &quot;Admin&quot;, &quot;High&quot;, &quot;PS&quot;, &quot;Normal&quot; };</span>
+<span class="fc" id="L30">	private static final String[] roleNames = new String[] { &quot;Admin&quot;, &quot;High&quot;, &quot;PS&quot;, &quot;Normal&quot; };</span>
 
 	public SecureRealm() {
-<span class="nc" id="L36">		this((UserDao) null);</span>
-<span class="nc" id="L37">	}</span>
+<span class="fc" id="L33">		this((UserDao) null);</span>
+<span class="fc" id="L34">	}</span>
 
-<span class="fc" id="L39">	public SecureRealm(UserDao dao) {</span>
+<span class="fc" id="L36">	public SecureRealm(UserDao dao) {</span>
 		// SimpleAccountRealms are memory-only realms - no need for an additional cache
 		// mechanism since we're
 		// already as memory-efficient as we can be:
-<span class="fc" id="L43">		this.roles = new LinkedHashMap&lt;String, SimpleRole&gt;();</span>
-<span class="fc" id="L44">		setCachingEnabled(false);</span>
-<span class="pc bpc" id="L45" title="1 of 2 branches missed.">		if (dao == null) {</span>
+<span class="fc" id="L40">		this.roles = new LinkedHashMap&lt;String, SimpleRole&gt;();</span>
+<span class="fc" id="L41">		setCachingEnabled(false);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (dao == null) {</span>
 			try {
-<span class="nc" id="L47">				this.dao = UserDaoFactory.getInstance();</span>
-<span class="nc" id="L48">			} catch (DBConnectionException e) {</span>
-<span class="nc" id="L49">				e.printStackTrace();</span>
-<span class="nc" id="L50">			}</span>
+<span class="fc" id="L44">				this.dao = UserDaoFactory.getInstance();</span>
+<span class="nc" id="L45">			} catch (DBConnectionException e) {</span>
+<span class="nc" id="L46">				e.printStackTrace();</span>
+<span class="pc" id="L47">			}</span>
 		} else {
-<span class="fc" id="L52">			this.dao = dao;</span>
+<span class="fc" id="L49">			this.dao = dao;</span>
 		}
-<span class="fc" id="L54">		setName(name);</span>
-<span class="fc" id="L55">	}</span>
+<span class="fc" id="L51">		setName(name);</span>
+<span class="fc" id="L52">	}</span>
 
 	public SecureRealm(String name) {
-<span class="nc" id="L58">		this();</span>
-<span class="nc" id="L59">		setName(name);</span>
-<span class="nc" id="L60">	}</span>
+<span class="fc" id="L55">		this();</span>
+<span class="fc" id="L56">		setName(name);</span>
+<span class="fc" id="L57">	}</span>
 
 	protected SimpleAccount getUser(String username) {
-<span class="fc" id="L63">		User currentUser = dao.findUserByUni(username);</span>
-<span class="fc bfc" id="L64" title="All 2 branches covered.">		if (currentUser == null) {</span>
-<span class="fc" id="L65">			throw new UnknownAccountException();</span>
+<span class="fc" id="L60">		User currentUser = dao.findUserByUni(username);</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		if (currentUser == null) {</span>
+<span class="fc" id="L62">			return null;</span>
 		}
-<span class="fc" id="L67">		String[] saltAndHash = PasswordHashing.getSaltAndHashedPassword(currentUser.getPassword());</span>
-<span class="fc" id="L68">		SimpleAccount acc = new SimpleAccount((Object) username, (Object) (saltAndHash[1]),</span>
-<span class="fc" id="L69">				new SimpleByteSource(Base64.decodeBase64(saltAndHash[0])), name);</span>
-<span class="fc" id="L70">		int currentUserGroup = currentUser.getUserGroup();</span>
-<span class="fc bfc" id="L71" title="All 2 branches covered.">		for (int i = currentUserGroup; i &lt; 4; i++) {</span>
-<span class="fc" id="L72">			acc.addRole(roleNames[i]);</span>
+<span class="fc" id="L64">		String[] saltAndHash = PasswordHashing.getSaltAndHashedPassword(currentUser.getPassword());</span>
+<span class="fc" id="L65">		SimpleAccount acc = new SimpleAccount((Object) username, (Object) (saltAndHash[1]),</span>
+<span class="fc" id="L66">				new SimpleByteSource(Base64.decodeBase64(saltAndHash[0])), name);</span>
+<span class="fc" id="L67">		int currentUserGroup = currentUser.getUserGroup();</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		for (int i = currentUserGroup; i &lt; 4; i++) {</span>
+<span class="fc" id="L69">			acc.addRole(roleNames[i]);</span>
 		}
-<span class="fc" id="L74">		return acc;</span>
+<span class="fc" id="L71">		return acc;</span>
 	}
 
 	public boolean accountExists(String username) {
-<span class="nc bnc" id="L78" title="All 2 branches missed.">		return getUser(username) != null;</span>
-	}
-
-	protected String getUsername(SimpleAccount account) {
-<span class="nc" id="L82">		return getUsername(account.getPrincipals());</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">		return getUser(username) != null;</span>
 	}
 
 	protected String getUsername(PrincipalCollection principals) {
-<span class="nc" id="L86">		return getAvailablePrincipal(principals).toString();</span>
+<span class="nc" id="L79">		return getAvailablePrincipal(principals).toString();</span>
 	}
 
 	protected SimpleRole getRole(String rolename) {
-<span class="fc" id="L90">		return roles.get(rolename);</span>
+<span class="fc" id="L83">		return roles.get(rolename);</span>
 
 	}
 
 	public boolean roleExists(String name) {
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">		return getRole(name) != null;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">		return getRole(name) != null;</span>
 	}
 
 	public void addRole(String name) {
-<span class="fc" id="L99">		add(new SimpleRole(name));</span>
-<span class="fc" id="L100">	}</span>
+<span class="fc" id="L92">		add(new SimpleRole(name));</span>
+<span class="fc" id="L93">	}</span>
 
 	protected void add(SimpleRole role) {
-<span class="fc" id="L103">		roles.put(role.getName(), role);</span>
+<span class="fc" id="L96">		roles.put(role.getName(), role);</span>
 
-<span class="fc" id="L105">	}</span>
-
-	protected static Set&lt;String&gt; toSet(String delimited, String delimiter) {
-<span class="nc bnc" id="L108" title="All 4 branches missed.">		if (delimited == null || delimited.trim().equals(&quot;&quot;)) {</span>
-<span class="nc" id="L109">			return null;</span>
-		}
-
-<span class="nc" id="L112">		Set&lt;String&gt; values = new HashSet&lt;String&gt;();</span>
-<span class="nc" id="L113">		String[] rolenamesArray = delimited.split(delimiter);</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">		for (String s : rolenamesArray) {</span>
-<span class="nc" id="L115">			String trimmed = s.trim();</span>
-<span class="nc bnc" id="L116" title="All 2 branches missed.">			if (trimmed.length() &gt; 0) {</span>
-<span class="nc" id="L117">				values.add(trimmed);</span>
-			}
-		}
-
-<span class="nc" id="L121">		return values;</span>
-	}
+<span class="fc" id="L98">	}</span>
 
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-<span class="fc" id="L125">		UsernamePasswordToken upToken = (UsernamePasswordToken) token;</span>
-<span class="fc" id="L126">		SimpleAccount account = getUser(upToken.getUsername());</span>
+<span class="fc" id="L101">		UsernamePasswordToken upToken = (UsernamePasswordToken) token;</span>
+<span class="fc" id="L102">		SimpleAccount account = getUser(upToken.getUsername());</span>
 
-<span class="pc bpc" id="L128" title="1 of 2 branches missed.">		if (account != null) {</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">		if (account != null) {</span>
 
-<span class="pc bpc" id="L130" title="1 of 2 branches missed.">			if (account.isLocked()) {</span>
-<span class="nc" id="L131">				throw new LockedAccountException(&quot;Account [&quot; + account + &quot;] is locked.&quot;);</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">			if (account.isLocked()) {</span>
+<span class="nc" id="L107">				throw new LockedAccountException(&quot;Account [&quot; + account + &quot;] is locked.&quot;);</span>
 			}
-<span class="pc bpc" id="L133" title="1 of 2 branches missed.">			if (account.isCredentialsExpired()) {</span>
-<span class="nc" id="L134">				String msg = &quot;The credentials for account [&quot; + account + &quot;] are expired&quot;;</span>
-<span class="nc" id="L135">				throw new ExpiredCredentialsException(msg);</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">			if (account.isCredentialsExpired()) {</span>
+<span class="nc" id="L110">				String msg = &quot;The credentials for account [&quot; + account + &quot;] are expired&quot;;</span>
+<span class="nc" id="L111">				throw new ExpiredCredentialsException(msg);</span>
 			}
 
 		}
 
-<span class="fc" id="L140">		return account;</span>
+<span class="fc" id="L116">		return account;</span>
 	}
 
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-<span class="nc" id="L144">		String username = getUsername(principals);</span>
-<span class="nc" id="L145">		return getUser(username);</span>
+<span class="nc" id="L120">		String username = getUsername(principals);</span>
+<span class="nc" id="L121">		return getUser(username);</span>
 
 	}
 }
