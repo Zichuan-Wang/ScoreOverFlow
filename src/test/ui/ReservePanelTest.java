@@ -36,6 +36,7 @@ import utils.FacilityActionTestUtils;
 import utils.ReservationActionTestUtils;
 import utils.RoomActionTestUtils;
 import utils.UiTestUtils;
+import utils.UserActionTestUtils;
 import utils.UserDaoTestUtils;
 
 public class ReservePanelTest {
@@ -52,7 +53,7 @@ public class ReservePanelTest {
 		SecurityService.initialize(UserDaoTestUtils.getUserDao());
 		// create user and reservePanel
 		user = UserDaoTestUtils.getUserDao().findById(EntityTestUtils.DEFAULT_USER_ID);
-		reservePane = new ReservePanel(null, user, ReservationActionTestUtils.getReservationAction(), RoomActionTestUtils.getRoomAction(), FacilityActionTestUtils.getFacilityAction());
+		reservePane = new ReservePanel(null, user, UserActionTestUtils.getUserAction(), ReservationActionTestUtils.getReservationAction(), RoomActionTestUtils.getRoomAction(), FacilityActionTestUtils.getFacilityAction());
 		reservePane.setAlert(false);
 		topPane = (JPanel) reservePane.getComponent(0);
 		middlePane = (JPanel) reservePane.getComponent(1);
@@ -112,7 +113,7 @@ public class ReservePanelTest {
 	@Test
 	protected void highUserSearchPanelDisplayCorrectly() throws DBConnectionException {
 		user.setUserGroup(EntityTestUtils.HIGH_USER_GROUP);
-		reservePane = new ReservePanel(null, user, ReservationActionTestUtils.getReservationAction(), RoomActionTestUtils.getRoomAction(), FacilityActionTestUtils.getFacilityAction());
+		reservePane = new ReservePanel(null, user, UserActionTestUtils.getUserAction(), ReservationActionTestUtils.getReservationAction(), RoomActionTestUtils.getRoomAction(), FacilityActionTestUtils.getFacilityAction());
 		reservePane.setAlert(false);
 		topPane = (JPanel) reservePane.getComponent(0);
 		middlePane = (JPanel) reservePane.getComponent(1);
@@ -159,7 +160,7 @@ public class ReservePanelTest {
 		
 		// change to high user and find override
 		user.setUserGroup(EntityTestUtils.HIGH_USER_GROUP);
-		reservePane = new ReservePanel(null, user, ReservationActionTestUtils.getReservationAction(), RoomActionTestUtils.getRoomAction(), FacilityActionTestUtils.getFacilityAction());
+		reservePane = new ReservePanel(null, user, UserActionTestUtils.getUserAction(),ReservationActionTestUtils.getReservationAction(), RoomActionTestUtils.getRoomAction(), FacilityActionTestUtils.getFacilityAction());
 		reservePane.setAlert(false);
 		topPane = (JPanel) reservePane.getComponent(0);
 		middlePane = (JPanel) reservePane.getComponent(1);

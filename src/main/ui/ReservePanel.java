@@ -18,6 +18,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -40,6 +42,7 @@ import com.github.lgooddatepicker.components.TimePicker;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
+import email.EmailSender;
 import entity.EntityUtils;
 import entity.Facility;
 import entity.Reservation;
@@ -48,6 +51,7 @@ import entity.User;
 import server.action.FacilityAction;
 import server.action.ReservationAction;
 import server.action.RoomAction;
+import server.action.UserAction;
 import server.constraint.SearchRoomConstraint;
 
 public class ReservePanel extends BasePanel {
@@ -72,14 +76,16 @@ public class ReservePanel extends BasePanel {
 	private TablePanel roomPane;
 	private TablePanel buttonPane;
 
+	private UserAction userAction;
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 	private FacilityAction facilityAction;
 
-	public ReservePanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction,
-			FacilityAction facilityAction) {
+	public ReservePanel(JPanel cards, User user, UserAction userAction, ReservationAction reservationAction,
+			RoomAction roomAction, FacilityAction facilityAction) {
 		super(TITLE, cards);
 		this.user = user;
+		this.userAction = userAction;
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
 		this.facilityAction = facilityAction;
@@ -352,7 +358,13 @@ public class ReservePanel extends BasePanel {
 				if (alert)
 					JOptionPane.showMessageDialog(null, "Success!");
 				overrideButton.setEnabled(false);
-				// @TODO Add sending email and give a new room
+				// send email
+				try {
+					sendEmail(userAction.findUserById(id), reservation);
+				} catch (MessagingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} else {
 				if (alert)
 					JOptionPane.showMessageDialog(null,
@@ -360,6 +372,18 @@ public class ReservePanel extends BasePanel {
 			}
 		});
 		return overrideButton;
+	}
+
+	private void sendEmail(User user, Reservation reservation) throws AddressException, MessagingException {
+		Room room = roomAction.getRoomById(reservation.getId());
+		String to = user.getEmail();
+		String subject = "Your reservation has been overriden by another user.";
+		String body = "Dear " + user.getUni() + ":\n"
+				+ "\t Your reservation of " + room.getName() +" for " + reservation.getEventDate().toString() 
+				+ " from " + reservation.getStartTime().toString() + " to " + reservation.getEndTime().toString()
+				+ " has been unfortinately replaced by another user.\n"
+				+ "Schedule++";
+		EmailSender.sendEmail(to, subject, body);
 	}
 
 	private JButton getUploadFileButton() {

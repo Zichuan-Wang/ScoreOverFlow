@@ -22,7 +22,7 @@ public class PanelTestUtils {
 	public static ReservePanel getReservePanel() throws DBConnectionException {
 		User user = EntityTestUtils.getDefaultUser();
 		reservationAction = ReservationActionTestUtils.getReservationAction();
-		return new ReservePanel(cards, user, reservationAction, roomAction, facilityAction);
+		return new ReservePanel(cards, user, null, reservationAction, roomAction, facilityAction);
 	}
 
 	public static ViewRoomsPanel getViewRoomsPanel() throws DBConnectionException {

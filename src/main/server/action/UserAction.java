@@ -14,4 +14,8 @@ public class UserAction {
 	public User findUserByUni(String uni) {
 		return dao.findUserByUni(uni);
 	}
+	
+	public User findUserById(int id) {
+		return dao.findById(id);
+	}
 }
