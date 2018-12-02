@@ -15,25 +15,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "room")
 public class Room {
-	
+
 	@Id
-    @Column(name = "id", unique = true)
+	@Column(name = "id", unique = true)
 	private int id;
-	
+
 	@Column(name = "name", unique = true)
 	private String name;
-	
+
 	@Column(name = "capacity")
 	private int capacity;
-	
-	@ManyToMany(cascade = {
-		CascadeType.PERSIST, 
-		CascadeType.MERGE
-	})
-	@JoinTable(name = "room_facility",
-	    joinColumns = @JoinColumn(name = "room_id"),
-	    inverseJoinColumns = @JoinColumn(name = "facility_id")
-	)
+
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "room_facility", joinColumns = @JoinColumn(name = "room_id"), inverseJoinColumns = @JoinColumn(name = "facility_id"))
 	private Set<Facility> facilities = new HashSet<>();
 
 	public int getId() {

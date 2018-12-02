@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -27,27 +28,37 @@ import org.junit.jupiter.api.Test;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
-
+import entity.User;
 import exception.DBConnectionException;
-import utils.PanelTestUtils;
+import security.SecurityService;
+import utils.EntityTestUtils;
+import utils.FacilityActionTestUtils;
+import utils.ReservationActionTestUtils;
+import utils.RoomActionTestUtils;
 import utils.UiTestUtils;
+import utils.UserDaoTestUtils;
 
 public class ReservePanelTest {
 	private ReservePanel reservePane;
 	private final String RESERVE_PANEL_LABEL = "Reserve a Room";
 	private JPanel topPane, middlePane;
 	private LocalTime now;
+	private User user;
 	private int minuteDiff;
-
+	
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
-		reservePane = PanelTestUtils.getReservePanel();
+		// initialize security
+		SecurityService.initialize(UserDaoTestUtils.getUserDao());
+		// create user and reservePanel
+		user = UserDaoTestUtils.getUserDao().findById(EntityTestUtils.DEFAULT_USER_ID);
+		reservePane = new ReservePanel(null, user, ReservationActionTestUtils.getReservationAction(), RoomActionTestUtils.getRoomAction(), FacilityActionTestUtils.getFacilityAction());
 		reservePane.setAlert(false);
 		topPane = (JPanel) reservePane.getComponent(0);
-		middlePane = (JPanel) reservePane.getComponent(1); // 0: SearchPanel, 1: JscrollPane with TablePanel 2:Back
-															// Button
+		middlePane = (JPanel) reservePane.getComponent(1);
 		now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
 		minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;
+
 	}
 
 	@Test
@@ -56,7 +67,7 @@ public class ReservePanelTest {
 	}
 
 	@Test
-	protected void middlePanelHasSearchPanel() {
+	protected void normalUserSearchPanelDisplayCorrectly() {
 		assertTrue(middlePane.getComponent(0) instanceof JPanel);
 		JPanel searchPane = (JPanel) middlePane.getComponent(0);
 		// Date
@@ -82,8 +93,6 @@ public class ReservePanelTest {
 		assertTrue(searchPane.getComponent(6) instanceof JLabel);
 		assertEquals("Capacity", ((JLabel) searchPane.getComponent(6)).getText());
 		assertTrue(searchPane.getComponent(7) instanceof JFormattedTextField);
-		// JFormattedTextField capacity = (JFormattedTextField)
-		// searchPane.getComponent(7);
 
 		// Name
 		assertTrue(searchPane.getComponent(8) instanceof JLabel);
@@ -99,6 +108,24 @@ public class ReservePanelTest {
 		assertTrue(searchPane.getComponent(12) instanceof JButton);
 		assertEquals("Search", ((JButton) searchPane.getComponent(12)).getText());
 	}
+	
+	@Test
+	protected void highUserSearchPanelDisplayCorrectly() throws DBConnectionException {
+		user.setUserGroup(EntityTestUtils.HIGH_USER_GROUP);
+		reservePane = new ReservePanel(null, user, ReservationActionTestUtils.getReservationAction(), RoomActionTestUtils.getRoomAction(), FacilityActionTestUtils.getFacilityAction());
+		reservePane.setAlert(false);
+		topPane = (JPanel) reservePane.getComponent(0);
+		middlePane = (JPanel) reservePane.getComponent(1);
+		JPanel searchPane = (JPanel) middlePane.getComponent(0);
+		// previous ones are the same as normal user, ignoring here
+		// Search Button
+		assertTrue(searchPane.getComponent(12) instanceof JLabel);
+		assertEquals("Show Overridable Rooms", ((JLabel) searchPane.getComponent(12)).getText());
+		assertTrue(searchPane.getComponent(13) instanceof JCheckBox);
+		// Search Button
+		assertTrue(searchPane.getComponent(14) instanceof JButton);
+		assertEquals("Search", ((JButton) searchPane.getComponent(14)).getText());
+	}
 
 	@Test
 	protected void middlePanelHasTablePanel() {
@@ -112,49 +139,72 @@ public class ReservePanelTest {
 		assertEquals("Back", backButton.getText());
 	}
 
-	
 	@Test
 	protected void searchButtonWorking() {
 		JPanel searchPane = (JPanel) middlePane.getComponent(0);
 		JButton searchButton = (JButton) searchPane.getComponent(12);
 		searchButton.doClick();
-		List<Object> tables = UiTestUtils.getObjects(middlePane,JTable.class);
+		List<Object> tables = UiTestUtils.getObjects(middlePane, JTable.class);
 		assertFalse(tables.isEmpty());
 	}
 	
+	@Test void overrideButtonWorking() throws DBConnectionException {
+		// reserve one on normal user
+		JPanel searchPane = (JPanel) middlePane.getComponent(0);
+		JButton searchButton = (JButton) searchPane.getComponent(12);
+		searchButton.doClick();
+		JTable table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
+		JButton reserveButton = (JButton) table.getValueAt(0, 1);
+		reserveButton.doClick(); // reserved
+		
+		// change to high user and find override
+		user.setUserGroup(EntityTestUtils.HIGH_USER_GROUP);
+		reservePane = new ReservePanel(null, user, ReservationActionTestUtils.getReservationAction(), RoomActionTestUtils.getRoomAction(), FacilityActionTestUtils.getFacilityAction());
+		reservePane.setAlert(false);
+		topPane = (JPanel) reservePane.getComponent(0);
+		middlePane = (JPanel) reservePane.getComponent(1);
+		
+		searchPane = (JPanel) ((JPanel) reservePane.getComponent(1)).getComponent(0);
+		// check box to do override
+		((JCheckBox)searchPane.getComponent(13)).setEnabled(true);
+
+		searchButton = (JButton) searchPane.getComponent(14);
+		searchButton.doClick();
+		List<Object> tables = UiTestUtils.getObjects(middlePane, JTable.class);
+		assertFalse(tables.isEmpty());
+		table = (JTable) tables.get(0);
+		//System.out.println(table.getRowCount());
+		
+		//JButton button = (JButton)table.getValueAt(1, 1);
+		//System.out.println(button.getText());
+		//button = (JButton)table.getValueAt(0, 1);
+		//System.out.println(button.getText());
+	}
+
 	@Test
 	protected void reserveButtonWorking() {
 		JPanel searchPane = (JPanel) middlePane.getComponent(0);
 		JButton searchButton = (JButton) searchPane.getComponent(12);
 		searchButton.doClick();
-		JTable table = (JTable) UiTestUtils.getObjects(middlePane,JTable.class).get(0);
-		JButton reserveButton = (JButton) table.getValueAt(0,1);
+		JTable table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
+		assertTrue(table.getRowCount() != 0);
+		JButton reserveButton = (JButton) table.getValueAt(0, 1);
 		assertNotNull(reserveButton);
 		assertTrue(reserveButton.isEnabled());
+		//reserve
 		reserveButton.doClick();
 		assertFalse(reserveButton.isEnabled());
 	}
-	
-	@Test
-	protected void overrideButtonWorking() throws DBConnectionException{
-		reservePane = PanelTestUtils.getHighUserReservePanel();
-		middlePane = (JPanel) reservePane.getComponent(1);
-		JPanel searchPane = (JPanel) middlePane.getComponent(0);
-		JButton searchButton = (JButton) searchPane.getComponent(13);
-		searchButton.doClick();
-		JTable table = (JTable) UiTestUtils.getObjects(middlePane,JTable.class).get(0);
-		//no override button
-	}
-	
+
 	@Test
 	protected void resetWorking() {
 		JPanel searchPane = (JPanel) middlePane.getComponent(0);
-		DatePicker datePicker = (DatePicker)searchPane.getComponent(1);
+		DatePicker datePicker = (DatePicker) searchPane.getComponent(1);
 		LocalDate optionalDate = LocalDate.of(1966, 6, 6);
 		datePicker.setDate(optionalDate);
 		reservePane.reset();
-		assertTrue(UiTestUtils.getObjects(middlePane,JTable.class).isEmpty()); // No table
-		assertNotEquals(optionalDate,datePicker.getDate());
+		assertTrue(UiTestUtils.getObjects(middlePane, JTable.class).isEmpty()); // No table
+		assertNotEquals(optionalDate, datePicker.getDate());
 	}
 
 	@AfterEach

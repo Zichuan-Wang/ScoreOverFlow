@@ -13,6 +13,7 @@ public class BasePanel extends JPanel {
 	private GridBagConstraints c;
 	private String title;
 	protected JPanel cards;
+	protected boolean alert = true;
 
 	// Initialize a page without the middle panel
 	public BasePanel(String title, JPanel cards) {
@@ -21,7 +22,7 @@ public class BasePanel extends JPanel {
 		setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
 	}
-	
+
 	public void initPanels() {
 		JPanel upperPane = new JPanel();
 		JLabel titleLabel = new JLabel(title);
@@ -63,6 +64,10 @@ public class BasePanel extends JPanel {
 
 	public JPanel getMiddlePanel() {
 		return new JPanel();
+	}
+
+	public void setAlert(boolean changedAlertState) {
+		alert = changedAlertState;
 	}
 
 	public void reset() {

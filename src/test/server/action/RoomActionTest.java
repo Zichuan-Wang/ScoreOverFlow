@@ -114,13 +114,11 @@ public class RoomActionTest {
 
 		// reserve with time overlap
 		List<Room> results5 = action.searchRooms(constraint.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
-				.setStartTime(EntityTestUtils.DEFAULT_START_TIME)
-				.setEndTime(EntityTestUtils.DEFAULT_START_TIME_NEXT));
+				.setStartTime(EntityTestUtils.DEFAULT_START_TIME).setEndTime(EntityTestUtils.DEFAULT_START_TIME_NEXT));
 
 		// reserve with time overlap
 		List<Room> results6 = action.searchRooms(constraint.setEventDate(EntityTestUtils.DEFAULT_EVENT_DATE)
-				.setStartTime(EntityTestUtils.DEFAULT_END_TIME_PREV)
-				.setEndTime(EntityTestUtils.DEFAULT_END_TIME));
+				.setStartTime(EntityTestUtils.DEFAULT_END_TIME_PREV).setEndTime(EntityTestUtils.DEFAULT_END_TIME));
 
 		roomDao.remove(room);
 		reservationDao.remove(reservation);

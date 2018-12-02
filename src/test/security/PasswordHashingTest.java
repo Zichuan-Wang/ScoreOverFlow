@@ -13,7 +13,7 @@ public class PasswordHashingTest {
 	public void onSetUp() {
 		SecurityService.initialize(UserDaoTestUtils.getUserDao());
 	}
-	
+
 	@Test
 	public void getHashNotNull() {
 		Assert.assertNotNull(PasswordHashing.getHash("666"));
@@ -23,30 +23,33 @@ public class PasswordHashingTest {
 	public void getHashNotEmpty() {
 		Assert.assertNotEquals("", PasswordHashing.getHash("666"));
 	}
-	
+
 	@Test
 	public void getHashDoNotAcceptEmpty() {
-		Assertions.assertThrows(IllegalArgumentException.class, () -> {PasswordHashing.getHash("");});
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			PasswordHashing.getHash("");
+		});
 	}
-	
+
 	@Test
 	public void emptyHashedCheckThrowsException() {
-		Assertions.assertThrows(IllegalArgumentException.class, () -> {PasswordHashing.check("123456", "");});
+		Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			PasswordHashing.check("123456", "");
+		});
 	}
-	
+
 	@Test
 	public void falseCheckReturnsFalse() {
 		Assert.assertFalse(PasswordHashing.check("123456", " $ "));
 	}
-	
+
 	@Test
 	public void getSaltAndHashedPasswordNotNull() {
 		Assert.assertNotNull(PasswordHashing.getSaltAndHashedPassword(" $ "));
 	}
-	
+
 	@AfterEach
 	public void cleanUp() {
 	}
-
 
 }

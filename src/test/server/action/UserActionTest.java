@@ -22,7 +22,7 @@ public class UserActionTest {
 		dao.remove(user);
 		assertNotNull(found);
 		assertEquals(EntityTestUtils.DEFAULT_UNI, found.getUni());
-		
+
 	}
 
 	@Test

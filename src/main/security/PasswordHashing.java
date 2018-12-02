@@ -10,10 +10,10 @@ public class PasswordHashing {
 	private static final int ITERATIONS = 20000;
 
 	public static String getHash(String password) {
-		
+
 		RandomNumberGenerator rng = new SecureRandomNumberGenerator();
 		byte[] salt = rng.nextBytes().getBytes();
-		
+
 		return Base64.encodeBase64String(salt) + "$" + getSaltedHash(password, salt);
 	}
 
@@ -26,15 +26,16 @@ public class PasswordHashing {
 		return hashOfInput.equals(saltAndHash[1]);
 	}
 
-	private static String getSaltedHash(String password, byte[] salt){
+	private static String getSaltedHash(String password, byte[] salt) {
 		if (password == null || password.length() == 0) {
 			throw new IllegalArgumentException("Empty passwords are not supported.");
 		}
 		return new Sha256Hash(password, salt, ITERATIONS).toBase64();
 	}
+
 	public static String[] getSaltAndHashedPassword(String hashed) {
 		return hashed.split("\\$");
-		
+
 	}
 
 }

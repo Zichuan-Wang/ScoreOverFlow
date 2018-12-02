@@ -32,6 +32,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileSystemView;
 
+//import org.apache.shiro.SecurityUtils;
+
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.TimePicker;
@@ -73,10 +75,9 @@ public class ReservePanel extends BasePanel {
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 	private FacilityAction facilityAction;
-	
-	private boolean alert = true;
 
-	public ReservePanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction, FacilityAction facilityAction) {
+	public ReservePanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction,
+			FacilityAction facilityAction) {
 		super(TITLE, cards);
 		this.user = user;
 		this.reservationAction = reservationAction;
@@ -121,24 +122,24 @@ public class ReservePanel extends BasePanel {
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		backButton = GuiUtils.getBackButton(this, cards);
-		uploadFileButton = getUploadFileButton();
-		
-		buttonPane = new TablePanel();
-		buttonPane.setPreferredSize(new Dimension(600, 200));
-		
-		buttonPane.add(backButton, c);
-		backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		buttonPane.add(uploadFileButton, c);
-		uploadFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		middlePane.add(buttonPane, c);
-		
+		if (user.getUserGroup() <= 2) {
+			// if (SecurityUtils.getSubject().hasRole("PS")) {
+			uploadFileButton = getUploadFileButton();
+
+			buttonPane = new TablePanel();
+			buttonPane.setPreferredSize(new Dimension(600, 200));
+			backButton = GuiUtils.getBackButton(this, cards);
+			buttonPane.add(backButton, c);
+			backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+			buttonPane.add(uploadFileButton, c);
+			uploadFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+			middlePane.add(buttonPane, c);
+		} else {
+			backButton = GuiUtils.getBackButton(this, cards);
+			middlePane.add(backButton);
+		}
 
 		return middlePane;
-	}
-	
-	public void setAlert(boolean changedAlertState) {
-		alert = changedAlertState;
 	}
 
 	private JPanel createSearchPanel() {
@@ -167,7 +168,7 @@ public class ReservePanel extends BasePanel {
 		startTimeSettings.setAllowEmptyTimes(false);
 		startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
 		startTimeSettings.initialTime = getCurTime();
-		
+
 		startTimePicker = new TimePicker(startTimeSettings);
 		searchPane.add(startTimePicker);
 
@@ -206,7 +207,7 @@ public class ReservePanel extends BasePanel {
 		searchPane.add(nameLabel);
 		nameField = new JTextField(10);
 		searchPane.add(nameField);
-		
+
 		// Facility
 		JLabel facilityLabel = new JLabel("Facility");
 		searchPane.add(facilityLabel);
@@ -220,7 +221,10 @@ public class ReservePanel extends BasePanel {
 		searchPane.add(facilityList);
 
 		// Show Booked Rooms for High Priority Users
-		if(user.getUserGroup() == 1) {
+		// if (SecurityUtils.getSubject().hasRole("High")) {
+		if (user.getUserGroup() <= 1) {
+			JLabel overrideLabel = new JLabel("Show Overridable Rooms");
+			searchPane.add(overrideLabel);
 			showBookedRooms = new JCheckBox();
 			searchPane.add(showBookedRooms);
 		}
@@ -251,7 +255,7 @@ public class ReservePanel extends BasePanel {
 	private JButton getSearchButton() {
 		JButton searchButton = new JButton("Search");
 		searchButton.addActionListener(e -> {
-			//reset
+			// reset
 			roomPane.reset();
 			// build up search constraint
 			SearchRoomConstraint src = new SearchRoomConstraint();
@@ -274,22 +278,22 @@ public class ReservePanel extends BasePanel {
 			}
 			src.setRoomName(nameField.getText());
 			src.getFacilities().addAll(facilityList.getSelectedValuesList());
-			
+
 			// search from database
 			List<Room> roomList = roomAction.searchRooms(src);
-			
-			List<Room> reservedRoomList = new ArrayList<>();
-			if(showBookedRooms != null && showBookedRooms.isSelected()) {
+
+			List<Object[]> reservedRoomList = new ArrayList<>();
+			if (showBookedRooms != null && showBookedRooms.isSelected()) {
 				reservedRoomList = roomAction.searchReservedRooms(src);
 			}
 			// build table
 			if (roomList.isEmpty() && reservedRoomList.isEmpty()) {
 				if (alert)
 					JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
-			}else {
+			} else {
 				List<Object[]> rows = new ArrayList<>();
 				Object[] rowName = new Object[] { "Room Name", "Action" };
-				
+
 				// Room name, Reserve button
 				for (Room room : roomList) {
 					Object[] row = new Object[2];
@@ -299,10 +303,13 @@ public class ReservePanel extends BasePanel {
 					rows.add(row);
 				}
 				// Room name, Override button
-				for (Room room : reservedRoomList) {
+				for (Object[] result : reservedRoomList) {
+					System.out.println(result);
+					Room room = (Room) result[0];
+					int id = (int) result[1];
 					Object[] row = new Object[2];
 					row[0] = room.getName();
-					JButton overrideButton = getOverrideButton(room, src);
+					JButton overrideButton = getOverrideButton(src, id);
 					row[1] = overrideButton;
 					rows.add(row);
 				}
@@ -326,18 +333,18 @@ public class ReservePanel extends BasePanel {
 				reserveButton.setEnabled(false);
 			} else {
 				if (alert)
-					JOptionPane.showMessageDialog(null, "There is something wrong with making the reservation. Please Try Again.");
+					JOptionPane.showMessageDialog(null,
+							"There is something wrong with making the reservation. Please Try Again.");
 			}
 		});
 		return reserveButton;
 	}
-	
-	private JButton getOverrideButton(Room room, SearchRoomConstraint src) {
+
+	private JButton getOverrideButton(SearchRoomConstraint src, int id) {
 		JButton overrideButton = new JButton("Override");
 		overrideButton.addActionListener(e -> {
 			// convert room to reservation
-			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(), src.getStartTime(),
-					src.getEndTime(), user.getId());
+			Reservation reservation = reservationAction.getReservationById(id);
 			// reserve
 			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),
 					src.getEndTime(), user.getId());
@@ -345,17 +352,19 @@ public class ReservePanel extends BasePanel {
 				if (alert)
 					JOptionPane.showMessageDialog(null, "Success!");
 				overrideButton.setEnabled(false);
+				// @TODO Add sending email and give a new room
 			} else {
 				if (alert)
-					JOptionPane.showMessageDialog(null, "There is something wrong with overriding the reservation. Please Try Again.");
+					JOptionPane.showMessageDialog(null,
+							"There is something wrong with overriding the reservation. Please Try Again.");
 			}
 		});
 		return overrideButton;
 	}
-	
+
 	private JButton getUploadFileButton() {
 		JButton button = GuiUtils.createButton("Upload");
-		
+
 		button.addActionListener(e -> {
 			// prompt the window to choose a csv file
 			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -363,57 +372,59 @@ public class ReservePanel extends BasePanel {
 			if (option != JFileChooser.APPROVE_OPTION) {
 				return;
 			}
-			
+
 			File selectedFile = fileChooser.getSelectedFile();
 			System.out.println(selectedFile.getAbsolutePath());
-			
+
 			// start parsing from the csv file
-			// Reference: https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
+			// Reference:
+			// https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
 			String csvFile = selectedFile.getAbsolutePath();
-	        BufferedReader br = null;
-	        String line = "";
-	        String cvsSplitBy = ",";
-	        
-	        List<Reservation> reservations = new ArrayList<>();
-	        
-	        try {
-	            br = new BufferedReader(new FileReader(csvFile));
-	            while ((line = br.readLine()) != null) {
-	            	/* Each line should contain: 
-	                 * room ID, date, start time, and end time, 
-	                 * in the exact order. */
-	                String[] groups = line.split(cvsSplitBy);
-	                Reservation reservation = new Reservation().setUserId(user.getId())
-	                		.setRoomId(Integer.parseInt(groups[0].trim()))
-	                		.setEventDate(new Date(Integer.parseInt(groups[1].trim())))
-	                		.setStartTime(new Time(Integer.parseInt(groups[2].trim())))
-	                		.setEndTime(new Time(Integer.parseInt(groups[3].trim())));
-	                reservations.add(reservation);
-	            }
-	            
-	            // make the batch reservation request
-	            reservationAction.reserveMultipleRooms(reservations);
-	        } catch (FileNotFoundException exception) {
-	        	exception.printStackTrace();
-	        } catch (IOException exception) {
-	        	exception.printStackTrace();
-	        } finally {
-	            if (br != null) {
-	                try {
-	                    br.close();
-	                } catch (IOException exception) {
-	                	exception.printStackTrace();
-	                }
-	            }
-	        }
+			BufferedReader br = null;
+			String line = "";
+			String cvsSplitBy = ",";
+
+			List<Reservation> reservations = new ArrayList<>();
+
+			try {
+				br = new BufferedReader(new FileReader(csvFile));
+				while ((line = br.readLine()) != null) {
+					/*
+					 * Each line should contain: room ID, date, start time, and end time, in the
+					 * exact order.
+					 */
+					String[] groups = line.split(cvsSplitBy);
+					Reservation reservation = new Reservation().setUserId(user.getId())
+							.setRoomId(Integer.parseInt(groups[0].trim()))
+							.setEventDate(new Date(Integer.parseInt(groups[1].trim())))
+							.setStartTime(new Time(Integer.parseInt(groups[2].trim())))
+							.setEndTime(new Time(Integer.parseInt(groups[3].trim())));
+					reservations.add(reservation);
+				}
+
+				// make the batch reservation request
+				reservationAction.reserveMultipleRooms(reservations);
+			} catch (FileNotFoundException exception) {
+				exception.printStackTrace();
+			} catch (IOException exception) {
+				exception.printStackTrace();
+			} finally {
+				if (br != null) {
+					try {
+						br.close();
+					} catch (IOException exception) {
+						exception.printStackTrace();
+					}
+				}
+			}
 		});
-		
+
 		return button;
 	}
-	
+
 	private LocalTime getCurTime() {
 		LocalTime now = LocalTime.now();
-		int minuteDiff = now.getMinute()%10 == 0? 0: 10 - now.getMinute()%10;
+		int minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;
 		return now.plusMinutes(minuteDiff);
 	}
 

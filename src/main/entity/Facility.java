@@ -12,17 +12,17 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "facility")
 public class Facility {
-	
+
 	@Id
-    @Column(name = "id", unique = true)
+	@Column(name = "id", unique = true)
 	private int id;
-	
+
 	@Column(name = "name", unique = true)
 	private String name;
-	
+
 	@ManyToMany(mappedBy = "facilities")
 	private Set<Room> rooms = new HashSet<>();
-	
+
 	public int getId() {
 		return id;
 	}
@@ -49,7 +49,7 @@ public class Facility {
 		this.rooms = rooms;
 		return this;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;

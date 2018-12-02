@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.CardLayout;
-import java.awt.Component;
 
 import javax.swing.JPanel;
 
@@ -18,14 +17,20 @@ import utils.MainWindowTestUtils;
 import utils.UiTestUtils;
 
 public class MainWindowTest {
+
 	private final String DEFAULT_MAIN_WINDOW_TITLE = "Schedule++";
-	private final int CARDS_COMPONENT_COUNT = 1;
+	private final int CARDS_COMPONENT_INITIAL_COUNT = 1;
 
 	private MainWindow mainWindow;
+	private JPanel cards;
 
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
 		mainWindow = MainWindowTestUtils.getMainWindow();
+		for (Object jPane : UiTestUtils.getObjects(mainWindow, JPanel.class)) {
+			if (((JPanel) jPane).getLayout() instanceof CardLayout)
+				cards = (JPanel) jPane;
+		}
 	}
 
 	@Test
@@ -34,19 +39,14 @@ public class MainWindowTest {
 	}
 
 	@Test
-	protected void hasCardsAndPanelsDisplayingCorrectly() {
-		JPanel cards = null;
-		for (Component component : UiTestUtils.getAllComponents(mainWindow.getRootPane())) {
-			if (component instanceof JPanel && ((JPanel) component).getLayout() instanceof CardLayout)
-				cards = (JPanel) component;
-		}
+	protected void cardInitializedCorrectly() {
 		assertNotNull(cards);
+		assertEquals(CARDS_COMPONENT_INITIAL_COUNT, cards.getComponentCount());
+	}
 
-		// Assuming order is correct
-		assertEquals(CARDS_COMPONENT_COUNT, cards.getComponentCount());
-
+	@Test
+	protected void loginPaneShowing() {
 		JPanel loginPane = (JPanel) cards.getComponent(0);
-
 		assertNotNull(loginPane);
 		assertTrue(loginPane.isVisible());
 	}

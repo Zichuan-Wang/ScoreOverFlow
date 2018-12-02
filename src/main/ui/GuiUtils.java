@@ -35,10 +35,10 @@ public class GuiUtils {
 			cl.show(cards, id);
 		};
 	}
-	
+
 	public static void jumpCard(JPanel cards, String id) {
 		CardLayout cl = (CardLayout) cards.getLayout();
-		cl.show(cards, id);		
+		cl.show(cards, id);
 	}
 
 	public static JButton getBackButton(BasePanel pane, JPanel cards) {

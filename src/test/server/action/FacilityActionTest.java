@@ -25,6 +25,6 @@ public class FacilityActionTest {
 		dao.remove(facility);
 		assertEquals(1, facilities.size());
 		assertEquals(EntityTestUtils.DEFAULT_FACILITY_NAME, facilities.get(0).getName());
-		
+
 	}
 }

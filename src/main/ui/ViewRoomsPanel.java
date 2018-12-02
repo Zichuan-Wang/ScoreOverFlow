@@ -31,7 +31,6 @@ public class ViewRoomsPanel extends BasePanel {
 
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
-	private boolean alert = true;
 
 	public ViewRoomsPanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction) {
 		super(TITLE, cards);
@@ -84,10 +83,6 @@ public class ViewRoomsPanel extends BasePanel {
 		reservationPane.revalidate();
 		reservationPane.repaint();
 	}
-	
-	public void setAlert(boolean changedAlertState) {
-		alert = changedAlertState;
-	}
 
 	public void showReservationList() {
 		SearchReservationConstraint src = new SearchReservationConstraint();
@@ -114,16 +109,11 @@ public class ViewRoomsPanel extends BasePanel {
 		cancelButton.addActionListener(e -> cancelReservation(reservation));
 		return cancelButton;
 	}
-	
+
 	private void cancelReservation(Reservation reservation) {
-		/*
-		if (!SecurityService.currentUser.hasRole("Normal")) {
-			JOptionPane.showMessageDialog(null, "You do not have the right role to perform this action.");
-			return;
-		}
-		*/
-		if (user.getUserGroup() == 3) {
-			if(alert)
+		if (user.getUserGroup() > 3) {
+			// if (!SecurityService.currentUser.hasRole("Normal")) {
+			if (alert)
 				JOptionPane.showMessageDialog(null, "You do not have the right role to perform this action.");
 			return;
 		}

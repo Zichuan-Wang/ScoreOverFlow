@@ -25,7 +25,7 @@ public class FacilityDao extends BaseDao<Facility> {
 			return null;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Facility> findAllFacilities() {
 		return (List<Facility>) manager.createQuery("SELECT u from Facility u").getResultList();

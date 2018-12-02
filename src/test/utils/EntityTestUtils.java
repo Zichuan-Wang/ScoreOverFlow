@@ -17,7 +17,7 @@ public class EntityTestUtils {
 	public static final Time DEFAULT_END_TIME = new Time(54321);
 	public static final Date DEFAULT_CREATED = new Date();
 	public static final Date DEFAULT_MODIFIED = new Date();
-	
+
 	public static final Time DEFAULT_START_TIME_PREV = new Time(10000);
 	public static final Time DEFAULT_START_TIME_NEXT = new Time(13000);
 	public static final Time DEFAULT_END_TIME_PREV = new Time(53000);
@@ -32,19 +32,22 @@ public class EntityTestUtils {
 	public static final int DEFAULT_FACILITY_ID = 1;
 	public static final String DEFAULT_FACILITY_NAME = "projector";
 
-	// User
+	// Users
 	public static final int DEFAULT_USER_ID = 27;
 	public static final String DEFAULT_EMAIL = "x@columbia.edu";
 	public static final String DEFAULT_PASSWORD = "***";
 	public static final String DEFAULT_UNI = "x";
 	public static final boolean DEFAULT_ADMIN = true;
-	public static final int DEFAULT_USER_GROUP = 0;
+	public static final int DEFAULT_USER_GROUP = 3;
+	
+	public static final int ADMIN_USER_GROUP = 0;
 	public static final int HIGH_USER_GROUP = 1;
+	public static final int SUPERVISOR_USER_GROUP = 2;
+	public static final int NORMAL_USER_GROUP = 3;
 
 	public static Reservation getDefaultReservation() {
 		return new Reservation().setId(DEFAULT_RESERVATION_ID)//
-				.setRoomId(DEFAULT_ROOM_ID)
-				.setUserId(DEFAULT_USER_ID)//
+				.setRoomId(DEFAULT_ROOM_ID).setUserId(DEFAULT_USER_ID)//
 				.setEventDate(DEFAULT_EVENT_DATE)//
 				.setStartTime(DEFAULT_START_TIME)//
 				.setEndTime(DEFAULT_END_TIME)//
@@ -71,13 +74,6 @@ public class EntityTestUtils {
 				.setIsAdmin(DEFAULT_ADMIN)//
 				.setUserGroup(DEFAULT_USER_GROUP);
 	}
-	
-	public static User getHighUser() {
-		return new User().setId(DEFAULT_USER_ID)//
-				.setEmail(DEFAULT_EMAIL)//
-				.setPassword(PasswordHashing.getHash(DEFAULT_PASSWORD))//
-				.setUni(DEFAULT_UNI)//
-				.setIsAdmin(DEFAULT_ADMIN)//
-				.setUserGroup(HIGH_USER_GROUP);
-	}
+
+
 }

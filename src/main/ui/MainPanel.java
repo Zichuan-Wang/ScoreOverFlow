@@ -7,14 +7,18 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import entity.User;
+
 public class MainPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Main";
 	private JButton reserveButton;
 	private JButton viewRoomsButton;
-	
-	public MainPanel(JPanel cards, ReservePanel reservePane, ViewRoomsPanel viewRoomsPane) {
+	private User user;
+
+	public MainPanel(JPanel cards, User user, ReservePanel reservePane, ViewRoomsPanel viewRoomsPane) {
 		super(TITLE, cards);
+		this.user = user;
 		initPanels();
 		reserveButton.addActionListener(e -> reservePane.showPanel());
 		viewRoomsButton.addActionListener(e -> viewRoomsPane.showPanel());
@@ -24,6 +28,11 @@ public class MainPanel extends BasePanel {
 	public JPanel getMiddlePanel() {
 		// middle Panel
 		JPanel middlePane = new JPanel();
+
+		// place holder
+		if (user == null || user.getUserGroup() > 3) {
+			middlePane = new JPanel();
+		}
 
 		middlePane.setLayout(new BoxLayout(middlePane, BoxLayout.Y_AXIS));
 

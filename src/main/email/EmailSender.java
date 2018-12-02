@@ -20,7 +20,7 @@ public class EmailSender {
 		to = to == null ? "" : to;
 		subject = subject == null ? "" : subject;
 		body = body == null ? "" : body;
-		
+
 		InputStream inputStream;
 		try {
 			inputStream = new FileInputStream("src/main/resources/email.properties");

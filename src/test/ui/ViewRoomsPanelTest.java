@@ -2,22 +2,15 @@ package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.awt.Component;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,36 +49,36 @@ public class ViewRoomsPanelTest {
 		JButton backButton = (JButton) middlePane.getComponent(1);
 		assertEquals("Back", backButton.getText());
 	}
-	
+
 	@Test
 	protected void listGeneratedWithCorrectItems() {
 		viewRoomsPane.showReservationList();
-		List<Object> objects= UiTestUtils.getObjects(middlePane,JTable.class);
+		List<Object> objects = UiTestUtils.getObjects(middlePane, JTable.class);
 		assertFalse(objects.isEmpty());
-		JTable table = (JTable)objects.get(0);
-		assertEquals(table.getRowCount(),2);
+		JTable table = (JTable) objects.get(0);
+		assertEquals(table.getRowCount(), 2);
 		// each row length 5, first 4 strings, last button
 		assertTrue(table.getValueAt(0, 0) instanceof String);
 		assertTrue(table.getValueAt(1, 4) instanceof JButton);
 	}
-	// @TODO CANCEL DOES NOT WORK
+
 	@Test
 	protected void canCancelFromListGenerated() {
 		viewRoomsPane.showReservationList();
-		JTable table = (JTable) UiTestUtils.getObjects(middlePane,JTable.class).get(0);
-		JButton cancelButton = (JButton) table.getValueAt(0,4);
-		//System.out.println(table.getValueAt(0,1));
-		
+		JTable table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
+		JButton cancelButton = (JButton) table.getValueAt(0, 4);
+		// System.out.println(table.getValueAt(0,1));
+
 		cancelButton.doClick();
-		
-		table = (JTable) UiTestUtils.getObjects(middlePane,JTable.class).get(0);
-		//System.out.println(table.getValueAt(0,1));
+
+		table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
+		// System.out.println(table.getValueAt(0,1));
 		// CHECK CANCEL HAS EFFECT
 	}
-	
+
 	protected void showPanelShowing() {
 		viewRoomsPane.showPanel();
-		List<Object> objects= UiTestUtils.getObjects(middlePane,JTable.class);
+		List<Object> objects = UiTestUtils.getObjects(middlePane, JTable.class);
 		assertFalse(objects.isEmpty());
 	}
 
