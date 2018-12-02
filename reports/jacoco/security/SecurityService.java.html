@@ -23,8 +23,8 @@ import dao.UserDao;
 		// IniSecurityManagerFactory(&quot;classpath:shiro.ini&quot;);
 <span class="fc" id="L24">		DefaultSecurityManager securityManager = new DefaultSecurityManager();</span>
 		Realm realm;
-<span class="pc bpc" id="L26" title="1 of 2 branches missed.">		if (dao == null) {</span>
-<span class="nc" id="L27">			realm = new SecureRealm();</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">		if (dao == null) {</span>
+<span class="fc" id="L27">			realm = new SecureRealm();</span>
 		} else {
 <span class="fc" id="L29">			realm = new SecureRealm(dao);</span>
 		}
