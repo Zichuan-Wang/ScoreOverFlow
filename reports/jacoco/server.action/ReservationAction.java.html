@@ -71,7 +71,7 @@ public class ReservationAction {
 <span class="nc" id="L71">		List&lt;Reservation&gt; failedItems = new ArrayList&lt;&gt;();</span>
 
 <span class="nc bnc" id="L73" title="All 2 branches missed.">		for (Reservation reservation : reservations) {</span>
-<span class="nc" id="L74">			boolean status = reserveRoom(reservation);</span>
+<span class="nc" id="L74">			boolean status = reserveRoom(reservation );</span>
 <span class="nc bnc" id="L75" title="All 2 branches missed.">			if (!status) {</span>
 <span class="nc" id="L76">				failedItems.add(reservation);</span>
 			}
