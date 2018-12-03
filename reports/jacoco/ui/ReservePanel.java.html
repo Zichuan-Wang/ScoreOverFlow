@@ -351,105 +351,110 @@ public class ReservePanel extends BasePanel {
 <span class="nc" id="L351">		overrideButton.addActionListener(e -&gt; {</span>
 			// convert room to reservation
 <span class="nc" id="L353">			Reservation reservation = reservationAction.getReservationById(id);</span>
+<span class="nc" id="L354">			User oldUser = userAction.findUserById(reservation.getUserId());</span>
+<span class="nc" id="L355">			System.out.println(oldUser.getEmail());</span>
 			// reserve
-<span class="nc" id="L355">			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),</span>
-<span class="nc" id="L356">					src.getEndTime(), user.getId());</span>
-<span class="nc bnc" id="L357" title="All 2 branches missed.">			if (success) {</span>
-<span class="nc bnc" id="L358" title="All 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L359">					JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
-<span class="nc" id="L360">				overrideButton.setEnabled(false);</span>
+<span class="nc" id="L357">			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),</span>
+<span class="nc" id="L358">					src.getEndTime(), user.getId());</span>
+<span class="nc bnc" id="L359" title="All 2 branches missed.">			if (success) {</span>
+<span class="nc bnc" id="L360" title="All 2 branches missed.">				if (alert)</span>
+<span class="nc" id="L361">					JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
+<span class="nc" id="L362">				overrideButton.setEnabled(false);</span>
 				// send email
 				try {
-<span class="nc" id="L363">					sendEmail(userAction.findUserById(id), reservation);</span>
-<span class="nc" id="L364">				} catch (MessagingException e1) {</span>
+<span class="nc" id="L365">					sendEmail(oldUser, reservation);</span>
+<span class="nc" id="L366">				} catch (MessagingException e1) {</span>
 					// TODO Auto-generated catch block
-<span class="nc" id="L366">					e1.printStackTrace();</span>
-<span class="nc" id="L367">				}</span>
+<span class="nc" id="L368">					e1.printStackTrace();</span>
+<span class="nc" id="L369">				}</span>
 			} else {
-<span class="nc bnc" id="L369" title="All 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L370">					JOptionPane.showMessageDialog(null,</span>
+<span class="nc bnc" id="L371" title="All 2 branches missed.">				if (alert)</span>
+<span class="nc" id="L372">					JOptionPane.showMessageDialog(null,</span>
 							&quot;There is something wrong with overriding the reservation. Please Try Again.&quot;);
 			}
-<span class="nc" id="L373">		});</span>
-<span class="nc" id="L374">		return overrideButton;</span>
+<span class="nc" id="L375">		});</span>
+<span class="nc" id="L376">		return overrideButton;</span>
 	}
 
 	private void sendEmail(User user, Reservation reservation) throws AddressException, MessagingException {
-<span class="nc" id="L378">		Room room = roomAction.getRoomById(reservation.getId());</span>
-<span class="nc" id="L379">		String to = user.getEmail();</span>
-<span class="nc" id="L380">		String subject = &quot;Your reservation has been overriden by another user.&quot;;</span>
-<span class="nc" id="L381">		String body = &quot;Dear &quot; + user.getUni() + &quot;:\n&quot;</span>
-<span class="nc" id="L382">				+ &quot;\t Your reservation of &quot; + room.getName() +&quot; for &quot; + reservation.getEventDate().toString() </span>
-<span class="nc" id="L383">				+ &quot; from &quot; + reservation.getStartTime().toString() + &quot; to &quot; + reservation.getEndTime().toString()</span>
-				+ &quot; has been unfortinately replaced by another user.\n&quot;
+<span class="nc" id="L380">		Room room = roomAction.getRoomById(reservation.getRoomId());</span>
+<span class="nc" id="L381">		String date = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).format(reservation.getEventDate());</span>
+<span class="nc" id="L382">		String beginTime = new SimpleDateFormat(&quot;hh:mm:ss&quot;).format(reservation.getStartTime());</span>
+<span class="nc" id="L383">		String endTime = new SimpleDateFormat(&quot;hh:mm:ss&quot;).format(reservation.getEndTime());</span>
+<span class="nc" id="L384">		String to = user.getEmail();</span>
+<span class="nc" id="L385">		String subject = &quot;Your reservation has been overriden by another user.&quot;;</span>
+<span class="nc" id="L386">		String body = &quot;Dear &quot; + user.getUni() + &quot;:\n&quot;</span>
+<span class="nc" id="L387">				+ &quot;\t Your reservation of &quot; + room.getName() +&quot; for &quot; + date </span>
+				+ &quot; from &quot; + beginTime + &quot; to &quot; + endTime
+				+ &quot; has been unfortunately replaced by another user.\n&quot;
 				+ &quot;Schedule++&quot;;
-<span class="nc" id="L386">		EmailSender.sendEmail(to, subject, body);</span>
-<span class="nc" id="L387">	}</span>
+<span class="nc" id="L391">		EmailSender.sendEmail(to, subject, body);</span>
+<span class="nc" id="L392">	}</span>
 
 	private JButton getUploadFileButton() {
-<span class="fc" id="L390">		JButton button = GuiUtils.createButton(&quot;Upload&quot;);</span>
+<span class="fc" id="L395">		JButton button = GuiUtils.createButton(&quot;Upload&quot;);</span>
 
-<span class="fc" id="L392">		button.addActionListener(e -&gt; {</span>
+<span class="fc" id="L397">		button.addActionListener(e -&gt; {</span>
 			// prompt the window to choose a csv file
-<span class="nc" id="L394">			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());</span>
-<span class="nc" id="L395">			int option = fileChooser.showOpenDialog(null);</span>
-<span class="nc bnc" id="L396" title="All 2 branches missed.">			if (option != JFileChooser.APPROVE_OPTION) {</span>
-<span class="nc" id="L397">				return;</span>
+<span class="nc" id="L399">			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());</span>
+<span class="nc" id="L400">			int option = fileChooser.showOpenDialog(null);</span>
+<span class="nc bnc" id="L401" title="All 2 branches missed.">			if (option != JFileChooser.APPROVE_OPTION) {</span>
+<span class="nc" id="L402">				return;</span>
 			}
 
-<span class="nc" id="L400">			File selectedFile = fileChooser.getSelectedFile();</span>
-<span class="nc" id="L401">			System.out.println(selectedFile.getAbsolutePath());</span>
+<span class="nc" id="L405">			File selectedFile = fileChooser.getSelectedFile();</span>
+<span class="nc" id="L406">			System.out.println(selectedFile.getAbsolutePath());</span>
 
 			// start parsing from the csv file
 			// Reference:
 			// https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
-<span class="nc" id="L406">			String csvFile = selectedFile.getAbsolutePath();</span>
-<span class="nc" id="L407">			BufferedReader br = null;</span>
-<span class="nc" id="L408">			String line = &quot;&quot;;</span>
-<span class="nc" id="L409">			String cvsSplitBy = &quot;,&quot;;</span>
+<span class="nc" id="L411">			String csvFile = selectedFile.getAbsolutePath();</span>
+<span class="nc" id="L412">			BufferedReader br = null;</span>
+<span class="nc" id="L413">			String line = &quot;&quot;;</span>
+<span class="nc" id="L414">			String cvsSplitBy = &quot;,&quot;;</span>
 
-<span class="nc" id="L411">			List&lt;Reservation&gt; reservations = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L416">			List&lt;Reservation&gt; reservations = new ArrayList&lt;&gt;();</span>
 
 			try {
-<span class="nc" id="L414">				br = new BufferedReader(new FileReader(csvFile));</span>
-<span class="nc bnc" id="L415" title="All 2 branches missed.">				while ((line = br.readLine()) != null) {</span>
+<span class="nc" id="L419">				br = new BufferedReader(new FileReader(csvFile));</span>
+<span class="nc bnc" id="L420" title="All 2 branches missed.">				while ((line = br.readLine()) != null) {</span>
 					/*
 					 * Each line should contain: room ID, date, start time, and end time, in the
 					 * exact order.
 					 */
-<span class="nc" id="L420">					String[] groups = line.split(cvsSplitBy);</span>
-<span class="nc" id="L421">					Reservation reservation = new Reservation().setUserId(user.getId())</span>
-<span class="nc" id="L422">							.setRoomId(Integer.parseInt(groups[0].trim()))</span>
-<span class="nc" id="L423">							.setEventDate(new Date(Integer.parseInt(groups[1].trim())))</span>
-<span class="nc" id="L424">							.setStartTime(new Time(Integer.parseInt(groups[2].trim())))</span>
-<span class="nc" id="L425">							.setEndTime(new Time(Integer.parseInt(groups[3].trim())));</span>
-<span class="nc" id="L426">					reservations.add(reservation);</span>
-<span class="nc" id="L427">				}</span>
+<span class="nc" id="L425">					String[] groups = line.split(cvsSplitBy);</span>
+<span class="nc" id="L426">					Reservation reservation = new Reservation().setUserId(user.getId())</span>
+<span class="nc" id="L427">							.setRoomId(Integer.parseInt(groups[0].trim()))</span>
+<span class="nc" id="L428">							.setEventDate(new Date(Integer.parseInt(groups[1].trim())))</span>
+<span class="nc" id="L429">							.setStartTime(new Time(Integer.parseInt(groups[2].trim())))</span>
+<span class="nc" id="L430">							.setEndTime(new Time(Integer.parseInt(groups[3].trim())));</span>
+<span class="nc" id="L431">					reservations.add(reservation);</span>
+<span class="nc" id="L432">				}</span>
 
 				// make the batch reservation request
-<span class="nc" id="L430">				reservationAction.reserveMultipleRooms(reservations);</span>
-<span class="nc" id="L431">			} catch (FileNotFoundException exception) {</span>
-<span class="nc" id="L432">				exception.printStackTrace();</span>
-<span class="nc" id="L433">			} catch (IOException exception) {</span>
-<span class="nc" id="L434">				exception.printStackTrace();</span>
+<span class="nc" id="L435">				reservationAction.reserveMultipleRooms(reservations);</span>
+<span class="nc" id="L436">			} catch (FileNotFoundException exception) {</span>
+<span class="nc" id="L437">				exception.printStackTrace();</span>
+<span class="nc" id="L438">			} catch (IOException exception) {</span>
+<span class="nc" id="L439">				exception.printStackTrace();</span>
 			} finally {
-<span class="nc bnc" id="L436" title="All 8 branches missed.">				if (br != null) {</span>
+<span class="nc bnc" id="L441" title="All 8 branches missed.">				if (br != null) {</span>
 					try {
-<span class="nc" id="L438">						br.close();</span>
-<span class="nc" id="L439">					} catch (IOException exception) {</span>
-<span class="nc" id="L440">						exception.printStackTrace();</span>
-<span class="nc" id="L441">					}</span>
+<span class="nc" id="L443">						br.close();</span>
+<span class="nc" id="L444">					} catch (IOException exception) {</span>
+<span class="nc" id="L445">						exception.printStackTrace();</span>
+<span class="nc" id="L446">					}</span>
 				}
 			}
-<span class="nc" id="L444">		});</span>
+<span class="nc" id="L449">		});</span>
 
-<span class="fc" id="L446">		return button;</span>
+<span class="fc" id="L451">		return button;</span>
 	}
 
 	private LocalTime getCurTime() {
-<span class="fc" id="L450">		LocalTime now = LocalTime.now();</span>
-<span class="pc bpc" id="L451" title="1 of 2 branches missed.">		int minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;</span>
-<span class="fc" id="L452">		return now.plusMinutes(minuteDiff);</span>
+<span class="fc" id="L455">		LocalTime now = LocalTime.now();</span>
+<span class="pc bpc" id="L456" title="1 of 2 branches missed.">		int minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;</span>
+<span class="fc" id="L457">		return now.plusMinutes(minuteDiff);</span>
 	}
 
 }

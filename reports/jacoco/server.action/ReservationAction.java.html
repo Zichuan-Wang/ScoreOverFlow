@@ -35,49 +35,48 @@ public class ReservationAction {
 <span class="fc" id="L35">		return true; // for a single-user system</span>
 	}
 
-	// NOT WORKING!
 	public boolean overrideRoom(Reservation reservation, Date eventDate, Date startTime, Date endTime, int userID) {
-<span class="nc" id="L40">		reservationDao.remove(reservation);</span>
-<span class="nc" id="L41">		reservation.setEventDate(eventDate);</span>
-<span class="nc" id="L42">		reservation.setStartTime(startTime);</span>
-<span class="nc" id="L43">		reservation.setEndTime(endTime);</span>
-<span class="nc" id="L44">		reservation.setUserId(userID);</span>
-<span class="nc" id="L45">		reservation.setModified(new Timestamp(System.currentTimeMillis()));</span>
-<span class="nc" id="L46">		reservationDao.saveOrUpdate(reservation);</span>
+<span class="nc" id="L39">		reservationDao.remove(reservation);</span>
+<span class="nc" id="L40">		reservation.setEventDate(eventDate);</span>
+<span class="nc" id="L41">		reservation.setStartTime(startTime);</span>
+<span class="nc" id="L42">		reservation.setEndTime(endTime);</span>
+<span class="nc" id="L43">		reservation.setUserId(userID);</span>
+<span class="nc" id="L44">		reservation.setModified(new Timestamp(System.currentTimeMillis()));</span>
+<span class="nc" id="L45">		reservationDao.saveOrUpdate(reservation);</span>
 
-<span class="nc" id="L48">		return true; // for a single-user system</span>
+<span class="nc" id="L47">		return true; // for a single-user system</span>
 	}
 
 	public boolean cancelReservation(Reservation reservation) {
-<span class="fc" id="L52">		reservationDao.remove(reservation);</span>
+<span class="fc" id="L51">		reservationDao.remove(reservation);</span>
 
-<span class="fc" id="L54">		return true; // for a single-user system</span>
+<span class="fc" id="L53">		return true; // for a single-user system</span>
 	}
 
 	public List&lt;Reservation&gt; searchReservations(SearchReservationConstraint constraint) {
-<span class="fc" id="L58">		return reservationDao.searchReservations(constraint);</span>
+<span class="fc" id="L57">		return reservationDao.searchReservations(constraint);</span>
 	}
 
 	public Reservation getReservation(SearchRoomConstraint constraint, int id) {
-<span class="nc" id="L62">		return reservationDao.getReservation(constraint, id);</span>
+<span class="nc" id="L61">		return reservationDao.getReservation(constraint, id);</span>
 	}
 
 	public Reservation getReservationById(int id) {
-<span class="nc" id="L66">		return reservationDao.getReservationById(id);</span>
+<span class="nc" id="L65">		return reservationDao.getReservationById(id);</span>
 	}
 
 	// returns all reservations that fail to process
 	public List&lt;Reservation&gt; reserveMultipleRooms(List&lt;Reservation&gt; reservations) {
-<span class="nc" id="L71">		List&lt;Reservation&gt; failedItems = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L70">		List&lt;Reservation&gt; failedItems = new ArrayList&lt;&gt;();</span>
 
-<span class="nc bnc" id="L73" title="All 2 branches missed.">		for (Reservation reservation : reservations) {</span>
-<span class="nc" id="L74">			boolean status = reserveRoom(reservation );</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">			if (!status) {</span>
-<span class="nc" id="L76">				failedItems.add(reservation);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">		for (Reservation reservation : reservations) {</span>
+<span class="nc" id="L73">			boolean status = reserveRoom(reservation );</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">			if (!status) {</span>
+<span class="nc" id="L75">				failedItems.add(reservation);</span>
 			}
-<span class="nc" id="L78">		}</span>
+<span class="nc" id="L77">		}</span>
 
-<span class="nc" id="L80">		return failedItems;</span>
+<span class="nc" id="L79">		return failedItems;</span>
 	}
 
 	/*
