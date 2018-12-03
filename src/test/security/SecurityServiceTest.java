@@ -24,7 +24,7 @@ public class SecurityServiceTest {
 	
 	@Test
 	public void initializeWithDao() {
-		SecurityService.initialize(dao);
+		SecurityService.initialize(dao  );
 	}
 	
 	@Test

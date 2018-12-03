@@ -108,7 +108,7 @@ public class LoginPanel extends BasePanel {
 <span class="fc bfc" id="L108" title="All 2 branches covered.">		if (status.isSuccess()) {</span>
 <span class="fc" id="L109">			User user = userAction.findUserByUni(userNameField.getText());</span>
 			// Create three panels
-<span class="fc" id="L111">			ReservePanel reservePane = new ReservePanel(cards, user, reservationAction, roomAction, facilityAction);</span>
+<span class="fc" id="L111">			ReservePanel reservePane = new ReservePanel(cards, user, userAction, reservationAction, roomAction, facilityAction);</span>
 <span class="fc" id="L112">			ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards, user, reservationAction, roomAction);</span>
 <span class="fc" id="L113">			MainPanel mainPane = new MainPanel(cards, user, reservePane, viewRoomsPane);</span>
 
