@@ -351,6 +351,8 @@ public class ReservePanel extends BasePanel {
 		overrideButton.addActionListener(e -> {
 			// convert room to reservation
 			Reservation reservation = reservationAction.getReservationById(id);
+			User oldUser = userAction.findUserById(reservation.getUserId());
+			System.out.println(oldUser.getEmail());
 			// reserve
 			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),
 					src.getEndTime(), user.getId());
@@ -360,7 +362,7 @@ public class ReservePanel extends BasePanel {
 				overrideButton.setEnabled(false);
 				// send email
 				try {
-					sendEmail(userAction.findUserById(id), reservation);
+					sendEmail(oldUser, reservation);
 				} catch (MessagingException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -375,13 +377,16 @@ public class ReservePanel extends BasePanel {
 	}
 
 	private void sendEmail(User user, Reservation reservation) throws AddressException, MessagingException {
-		Room room = roomAction.getRoomById(reservation.getId());
+		Room room = roomAction.getRoomById(reservation.getRoomId());
+		String date = new SimpleDateFormat("yyyy-MM-dd").format(reservation.getEventDate());
+		String beginTime = new SimpleDateFormat("hh:mm:ss").format(reservation.getStartTime());
+		String endTime = new SimpleDateFormat("hh:mm:ss").format(reservation.getEndTime());
 		String to = user.getEmail();
 		String subject = "Your reservation has been overriden by another user.";
 		String body = "Dear " + user.getUni() + ":\n"
-				+ "\t Your reservation of " + room.getName() +" for " + reservation.getEventDate().toString() 
-				+ " from " + reservation.getStartTime().toString() + " to " + reservation.getEndTime().toString()
-				+ " has been unfortinately replaced by another user.\n"
+				+ "\t Your reservation of " + room.getName() +" for " + date 
+				+ " from " + beginTime + " to " + endTime
+				+ " has been unfortunately replaced by another user.\n"
 				+ "Schedule++";
 		EmailSender.sendEmail(to, subject, body);
 	}

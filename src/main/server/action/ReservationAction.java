@@ -35,7 +35,6 @@ public class ReservationAction {
 		return true; // for a single-user system
 	}
 
-	// NOT WORKING!
 	public boolean overrideRoom(Reservation reservation, Date eventDate, Date startTime, Date endTime, int userID) {
 		reservationDao.remove(reservation);
 		reservation.setEventDate(eventDate);

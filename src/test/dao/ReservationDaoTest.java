@@ -21,8 +21,8 @@ public class ReservationDaoTest {
 		Reservation reservation = dao.findById(EntityTestUtils.DEFAULT_RESERVATION_ID);
 		dao.saveOrUpdate(reservation);
 		dao.remove(reservation);
+		
 		List<Reservation> reservations = dao.searchReservations(new SearchReservationConstraint());
-
 		assertEquals(reservation.getId(), EntityTestUtils.DEFAULT_RESERVATION_ID);
 		for (int i = 0; i < reservations.size(); i++) {
 			assertEquals(reservations.get(i).getId(), ReservationDaoTestUtils.RESERVATION_IDS[i]);

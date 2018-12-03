@@ -1,6 +1,8 @@
 package utils;
 
 import java.sql.Time;
+//import java.time.LocalDate;
+//import java.time.LocalTime;
 import java.util.Date;
 
 import entity.Facility;
@@ -22,6 +24,8 @@ public class EntityTestUtils {
 	public static final Time DEFAULT_START_TIME_NEXT = new Time(13000);
 	public static final Time DEFAULT_END_TIME_PREV = new Time(53000);
 	public static final Time DEFAULT_END_TIME_NEXT = new Time(56000);
+	//public static Date DEFAULT_EVENT_DATE;
+	//public static Time DEFAULT_START_TIME, DEFAULT_END_TIME;
 
 	// Room
 	public static final int DEFAULT_ROOM_ID = 1;
@@ -46,6 +50,13 @@ public class EntityTestUtils {
 	public static final int NORMAL_USER_GROUP = 3;
 
 	public static Reservation getDefaultReservation() {
+		/*
+		if (DEFAULT_EVENT_DATE == null || DEFAULT_START_TIME == null || DEFAULT_END_TIME_NEXT == null) {
+			DEFAULT_EVENT_DATE =  new Date();
+			//DEFAULT_START_TIME = Time.valueOf(LocalTime.now().plusHours(1));
+			//DEFAULT_END_TIME = Time.valueOf(LocalTime.now().plusHours(2));
+		}
+		*/
 		return new Reservation().setId(DEFAULT_RESERVATION_ID)//
 				.setRoomId(DEFAULT_ROOM_ID).setUserId(DEFAULT_USER_ID)//
 				.setEventDate(DEFAULT_EVENT_DATE)//

@@ -44,7 +44,7 @@ public class ReservationDaoTestUtils {
 		for (int id : RESERVATION_IDS) {
 			reservations.add(EntityTestUtils.getDefaultReservation().setId(id));
 		}
-
+		
 		when(manager.createQuery(any(String.class))).thenReturn(query);
 		when(query.setParameter(any(String.class), any())).thenReturn(query);
 		when(query.getResultList()).thenReturn(reservations);

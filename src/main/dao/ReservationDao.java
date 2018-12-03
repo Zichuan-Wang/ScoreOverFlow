@@ -1,5 +1,7 @@
 package dao;
 
+//import java.sql.Time;
+//import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -26,17 +28,23 @@ public class ReservationDao extends BaseDao<Reservation> {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Reservation> searchReservations(SearchReservationConstraint constraint) {
-		Query query = manager.createQuery("SELECT u FROM Reservation u WHERE u.userId = :id").setParameter("id",
-				constraint.getUserId());
+		//Time curTime = Time.valueOf(LocalTime.now());
+		Query query = manager.createQuery("SELECT r FROM Reservation r "
+						+ "WHERE r.userId = :id ")
+		//				+ "AND r.endTime >= :curTime")
+				.setParameter("id",constraint.getUserId());
+		//		.setParameter("curTime",curTime, TemporalType.TIME);
 		return query.getResultList();
 	}
 
 	public Reservation getReservation(SearchRoomConstraint src, int id) {
-		Query query = manager
-				.createQuery("SELECT r FROM Reservation r " + "WHERE r.roomId = :id " + "AND r.eventDate = :eventDate "//
+		Query query = manager.createQuery("SELECT r FROM Reservation r "
+						+ "WHERE r.roomId = :id "
+						+ "AND r.eventDate = :eventDate "//
 						+ "AND r.startTime = :endTime "//
 						+ "AND r.endTime = :startTime")
-				.setParameter("id", id).setParameter("eventDate", src.getEventDate(), TemporalType.DATE)
+				.setParameter("id", id)
+				.setParameter("eventDate", src.getEventDate(), TemporalType.DATE)
 				.setParameter("startTime", src.getStartTime(), TemporalType.TIME)
 				.setParameter("endTime", src.getEndTime(), TemporalType.TIME);
 		try {
@@ -47,7 +55,9 @@ public class ReservationDao extends BaseDao<Reservation> {
 	}
 
 	public Reservation getReservationById(int id) {
-		Query query = manager.createQuery("SELECT r FROM Reservation r WHERE r.id = :id").setParameter("id", id);
+		Query query = manager.createQuery("SELECT r FROM Reservation r "
+					+ "WHERE r.id = :id")
+				.setParameter("id", id);
 		try {
 			return (Reservation) query.getSingleResult();
 		} catch (NoResultException exception) {

@@ -7,6 +7,10 @@ public class SearchReservationConstraint {
 	public SearchReservationConstraint() {
 		this.userId = 0;
 	}
+	
+	public SearchReservationConstraint(int id) {
+		this.userId = id;
+	}
 
 	public int getUserId() {
 		return this.userId;
