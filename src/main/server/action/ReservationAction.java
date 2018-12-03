@@ -71,7 +71,7 @@ public class ReservationAction {
 		List<Reservation> failedItems = new ArrayList<>();
 
 		for (Reservation reservation : reservations) {
-			boolean status = reserveRoom(reservation);
+			boolean status = reserveRoom(reservation );
 			if (!status) {
 				failedItems.add(reservation);
 			}
