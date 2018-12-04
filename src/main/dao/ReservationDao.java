@@ -54,13 +54,4 @@ public class ReservationDao extends BaseDao<Reservation> {
 			return null;
 		}
 	}
-
-	public Reservation getReservationById(int id) {
-		Query query = manager.createQuery("SELECT r FROM Reservation r WHERE r.id = :id").setParameter("id", id);
-		try {
-			return (Reservation) query.getSingleResult();
-		} catch (NoResultException exception) {
-			return null;
-		}
-	}
 }

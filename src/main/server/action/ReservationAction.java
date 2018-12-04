@@ -62,7 +62,7 @@ public class ReservationAction {
 	}
 
 	public Reservation getReservationById(int id) {
-		return reservationDao.getReservationById(id);
+		return reservationDao.findById(id);
 	}
 
 	// returns all reservations that fail to process
