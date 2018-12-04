@@ -54,14 +54,5 @@ public class ReservationDao extends BaseDao&lt;Reservation&gt; {
 <span class="nc" id="L54">			return null;</span>
 		}
 	}
-
-	public Reservation getReservationById(int id) {
-<span class="nc" id="L59">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r WHERE r.id = :id&quot;).setParameter(&quot;id&quot;, id);</span>
-		try {
-<span class="nc" id="L61">			return (Reservation) query.getSingleResult();</span>
-<span class="nc" id="L62">		} catch (NoResultException exception) {</span>
-<span class="nc" id="L63">			return null;</span>
-		}
-	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
