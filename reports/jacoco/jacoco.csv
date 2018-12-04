@@ -6,7 +6,7 @@ ScoreOverFlow,security,PasswordHashing,3,70,1,5,1,12,2,6,1,4
 ScoreOverFlow,security,LoginStatus,0,15,0,0,0,6,0,3,0,3
 ScoreOverFlow,dao,UserDao,3,32,0,0,2,8,0,3,0,3
 ScoreOverFlow,dao,FacilityDao,3,23,0,0,2,5,0,3,0,3
-ScoreOverFlow,dao,ReservationDao,47,18,0,0,13,5,2,2,2,2
+ScoreOverFlow,dao,ReservationDao,47,30,0,0,12,8,2,2,2,2
 ScoreOverFlow,dao,BaseDao,15,75,0,2,5,21,1,5,1,4
 ScoreOverFlow,dao,RoomDao,62,92,0,0,13,18,1,4,1,4
 ScoreOverFlow,ui,GuiUtils,15,85,0,2,4,19,3,6,3,5
