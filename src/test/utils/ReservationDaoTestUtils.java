@@ -7,12 +7,15 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -47,6 +50,7 @@ public class ReservationDaoTestUtils {
 		
 		when(manager.createQuery(any(String.class))).thenReturn(query);
 		when(query.setParameter(any(String.class), any())).thenReturn(query);
+		when(query.setParameter(any(String.class), any(Date.class), any(TemporalType.class))).thenReturn(query);
 		when(query.getResultList()).thenReturn(reservations);
 
 		doAnswer(new Answer<Reservation>() {

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -54,11 +55,40 @@ public class ReservationActionTest {
 
 		// No reservation
 		assertEquals(0, action.searchReservations(constraint).size());
+		
+		Calendar calendar = Calendar.getInstance();
+		
+		// End of yesterday
+		calendar.add(Calendar.DATE, -1);
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+		calendar.set(Calendar.MINUTE, 59);
+		calendar.set(Calendar.SECOND, 59);
+		Reservation reservation1 = EntityTestUtils.getDefaultReservation().setEventDate(calendar.getTime()).setEndTime(calendar.getTime()).setId(1);
+		
+		// End of today
+		calendar.add(Calendar.DATE, 1);
+		Reservation reservation2 = EntityTestUtils.getDefaultReservation().setEventDate(calendar.getTime()).setEndTime(calendar.getTime()).setId(2);
+		
+		// Start of today
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		Reservation reservation3 = EntityTestUtils.getDefaultReservation().setEventDate(calendar.getTime()).setEndTime(calendar.getTime()).setId(3);
 
-		// Exactly one reservation
-		Reservation saved = dao.saveOrUpdate(EntityTestUtils.getDefaultReservation());
+		// Start of tomorrow
+		calendar.add(Calendar.DATE, 1);
+		Reservation reservation4 = EntityTestUtils.getDefaultReservation().setEventDate(calendar.getTime()).setEndTime(calendar.getTime()).setId(4);
+		
+		Reservation saved1 = dao.saveOrUpdate(reservation1);
+		Reservation saved2 = dao.saveOrUpdate(reservation2);
+		Reservation saved3 = dao.saveOrUpdate(reservation3);
+		Reservation saved4 = dao.saveOrUpdate(reservation4);
 		List<Reservation> reservations = action.searchReservations(constraint);
-		dao.remove(saved);
-		assertEquals(1, reservations.size());
+		dao.remove(saved1);
+		dao.remove(saved2);
+		dao.remove(saved3);
+		dao.remove(saved4);
+		
+		assertEquals(2, reservations.size());
 	}
 }
