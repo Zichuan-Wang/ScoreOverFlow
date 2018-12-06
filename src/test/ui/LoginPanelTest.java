@@ -15,9 +15,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import dao.UserDao;
-import dao.factory.UserDaoFactory;
-import entity.User;
 import exception.DBConnectionException;
 import security.SecurityService;
 import utils.EntityTestUtils;
@@ -64,10 +61,7 @@ public class LoginPanelTest {
 	}
 
 	@Test
-	protected void checkLogin() throws DBConnectionException {
-		UserDao dao = UserDaoFactory.getInstance();
-		User user = dao.saveOrUpdate(EntityTestUtils.getDefaultUser());
-		
+	protected void checkLogin() throws DBConnectionException {		
 		assertEquals(cards.getComponents().length, CARDS_COMPONENT_INITIAL_COUNT);
 		JTextField userName = (JTextField) middlePane.getComponent(1);
 		JPasswordField password = (JPasswordField) middlePane.getComponent(3);
@@ -84,7 +78,6 @@ public class LoginPanelTest {
 		password.setText(EntityTestUtils.DEFAULT_PASSWORD);
 		loginButton.doClick();
 		assertEquals(CARDS_COMPONENT_FINAL_COUNT, cards.getComponents().length);
-		dao.remove(user);
 
 	}
 

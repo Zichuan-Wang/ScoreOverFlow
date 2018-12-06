@@ -11,20 +11,20 @@ import dao.factory.UserDaoFactory;
 import entity.User;
 import exception.DBConnectionException;
 import utils.EntityTestUtils;
+import utils.UserDaoTestUtils;
 
 public class SecurityServiceTest {
 	static UserDao dao;
-	static User user;
 
 	@BeforeAll
 	public static void prepareDAOAndUser() throws DBConnectionException {
-		dao = UserDaoFactory.getInstance();
-		user = dao.saveOrUpdate(EntityTestUtils.getDefaultUser());
+		dao = UserDaoTestUtils.getUserDao();
+		SecurityService.initialize(dao);
 	}
 	
 	@Test
 	public void initializeWithDao() {
-		SecurityService.initialize(dao  );
+		SecurityService.initialize(dao);
 	}
 	
 	@Test
@@ -105,7 +105,7 @@ public class SecurityServiceTest {
 
 	@AfterAll
 	public static void cleanUp() {
-		dao.remove(user);
+
 	}
 
 }

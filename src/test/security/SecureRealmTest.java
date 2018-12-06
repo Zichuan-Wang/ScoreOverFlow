@@ -1,6 +1,5 @@
 package security;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -29,13 +28,6 @@ public class SecureRealmTest {
 	@Test
 	public void stringConstructorParameterTest() {
 		new SecureRealm("test");
-	}
-
-	@Test
-	public void mockDBCanNotGetUser() {
-		assertThrows(NullPointerException.class, () -> {
-			realm.getUser("test");
-		});
 	}
 
 	@Test
