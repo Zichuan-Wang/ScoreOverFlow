@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import entity.Reservation;
 import entity.Room;
 import entity.User;
-//import security.SecurityService;
+import security.SecurityService;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.constraint.SearchReservationConstraint;
@@ -100,8 +100,8 @@ public class ViewRoomsPanel extends BasePanel {
 	}
 
 	private void cancelReservation(Reservation reservation) {
-<span class="pc bpc" id="L103" title="1 of 2 branches missed.">		if (user.getUserGroup() &gt; 3) {</span>
-			// if (!SecurityService.currentUser.hasRole(&quot;Normal&quot;)) {
+		//if (user.getUserGroup() &gt; 3) {
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">		if (!SecurityService.currentUser.hasRole(&quot;Normal&quot;)) {</span>
 <span class="nc bnc" id="L105" title="All 2 branches missed.">			if (alert)</span>
 <span class="nc" id="L106">				JOptionPane.showMessageDialog(null, &quot;You do not have the right role to perform this action.&quot;);</span>
 <span class="nc" id="L107">			return;</span>
