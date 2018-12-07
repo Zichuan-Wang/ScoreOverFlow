@@ -1,7 +1,6 @@
 package dao;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import entity.User;
@@ -20,7 +19,7 @@ public class UserDao extends BaseDao<User> {
 		Query query = manager.createQuery("SELECT u FROM User u WHERE u.uni = :uni").setParameter("uni", uni);
 		try {
 			return (User) query.getSingleResult();
-		} catch (NoResultException exception) {
+		} catch (Exception exception) {
 			return null;
 		}
 	}
@@ -32,7 +31,7 @@ public class UserDao extends BaseDao<User> {
 		Query query = manager.createQuery("SELECT u FROM User u WHERE u.email = :email").setParameter("email", email);
 		try {
 			return (User) query.getSingleResult();
-		} catch (NoResultException exception) {
+		} catch (Exception exception) {
 			return null;
 		}
 	}

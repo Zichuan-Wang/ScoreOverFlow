@@ -39,7 +39,7 @@ public class TablePanel extends JPanel {
 		JTable table = new JTable(dm);
 		table.getColumn(buttonName).setCellRenderer(new ButtonRenderer());
 		table.getColumn(buttonName).setCellEditor(new ButtonEditor());
-
+		
 		for (int i = 0; i < rowLength; i++) {
 			Object[] column = rows.get(i);
 			for (int j = 0; j < columnLength - 1; j++) {
@@ -60,21 +60,16 @@ public class TablePanel extends JPanel {
 
 	}
 
-	// Renderer class for Buttons in JTabel
 	private class ButtonRenderer extends JButton implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
-		public ButtonRenderer() {
-		}
-
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			return (JButton) value;
-		}
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JButton button = (JButton)value;
+            return button;  
+        }
 	}
 
-	// Editor class for Buttons in JTabel
 	private class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
 		private static final long serialVersionUID = 1L;
 		JButton editorValue;

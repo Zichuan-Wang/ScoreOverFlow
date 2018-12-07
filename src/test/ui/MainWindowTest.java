@@ -22,14 +22,14 @@ public class MainWindowTest {
 	private final int CARDS_COMPONENT_INITIAL_COUNT = 1;
 
 	private MainWindow mainWindow;
-	private JPanel cards;
+	private JPanel rootPane;
 
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
 		mainWindow = MainWindowTestUtils.getMainWindow();
 		for (Object jPane : UiTestUtils.getObjects(mainWindow, JPanel.class)) {
 			if (((JPanel) jPane).getLayout() instanceof CardLayout)
-				cards = (JPanel) jPane;
+				rootPane = (JPanel) jPane;
 		}
 	}
 
@@ -37,18 +37,19 @@ public class MainWindowTest {
 	protected void titleIsCorrect() {
 		assertEquals(DEFAULT_MAIN_WINDOW_TITLE, mainWindow.getTitle());
 	}
-
+	
 	@Test
-	protected void cardInitializedCorrectly() {
-		assertNotNull(cards);
-		assertEquals(CARDS_COMPONENT_INITIAL_COUNT, cards.getComponentCount());
+	protected void sizeIsCorrect() {
+		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		assertEquals(screenSize.getHeight()/2,mainWindow.getHeight());
+		assertEquals(screenSize.getWidth()/4,mainWindow.getWidth());
 	}
 
 	@Test
-	protected void loginPaneShowing() {
-		JPanel loginPane = (JPanel) cards.getComponent(0);
-		assertNotNull(loginPane);
-		assertTrue(loginPane.isVisible());
+	protected void cardInitializedWithLoginPanel() {
+		assertNotNull(rootPane);
+		assertEquals(CARDS_COMPONENT_INITIAL_COUNT, rootPane.getComponentCount());
+		assertTrue(rootPane.getComponent(0) instanceof LoginPanel);
 	}
 
 	@AfterEach

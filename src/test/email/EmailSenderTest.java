@@ -3,9 +3,20 @@ package email;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
+import javax.mail.internet.AddressException;
 
 import org.junit.jupiter.api.Test;
+
+import dao.ReservationDao;
+import dao.UserDao;
+import entity.Reservation;
+import entity.User;
+import utils.EntityTestUtils;
+import utils.ReservationDaoTestUtils;
+import utils.RoomActionTestUtils;
+import utils.UserDaoTestUtils;
 
 public class EmailSenderTest {
 
@@ -34,6 +45,15 @@ public class EmailSenderTest {
 		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, SUBJECT, BODY));
 		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, SUBJECT, ""));
 		assertAll(() -> EmailSender.sendEmail(VALID_ADDRESS, SUBJECT, null));
+	}
+	
+	@Test
+	public void sendEmailTest() throws AddressException, MessagingException {
+		UserDao userDao = UserDaoTestUtils.getUserDao();
+		ReservationDao reservationDao = ReservationDaoTestUtils.getReservationDao();
+		User user = userDao.findById(EntityTestUtils.DEFAULT_USER_ID);
+		Reservation reservation = reservationDao.findById(EntityTestUtils.DEFAULT_RESERVATION_ID);
+		assertAll(() -> EmailSender.sendEmail(user, reservation, RoomActionTestUtils.getRoomAction()));
 	}
 
 }

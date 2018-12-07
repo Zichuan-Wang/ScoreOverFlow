@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Test;
 
 public class BasePanelTest {
 	private String BASEPANEL_TEST_TITLE = "test";
+	private final int PANELNUM= 3;
 	BasePanel basePane;
 
 	@BeforeEach
 	protected void onSetUp() {
-		basePane = new BasePanel(BASEPANEL_TEST_TITLE, null);
-		basePane.initPanels();
+		basePane = new BasePanel(null,BASEPANEL_TEST_TITLE);
 	}
 
 	@Test
@@ -28,16 +28,11 @@ public class BasePanelTest {
 	}
 
 	@Test
-	protected void hasMiddlePanel() {
-		assertNotNull(basePane.getComponent(1));
-		// JPanel middlePanel = (JPanel)basePane.getComponent(1);
-
-	}
-
-	@Test
-	protected void hasBottomPanel() {
-		assertNotNull(basePane.getComponent(2));
-		// JPanel bottomPanel = (JPanel)basePane.getComponent(2);
+	protected void hasCorrectPanesl() {
+		assertEquals(PANELNUM,basePane.getComponentCount());
+		assertEquals(basePane.getTopPane(),basePane.getComponent(0));
+		assertEquals(basePane.getMiddlePane(),basePane.getComponent(1));
+		assertEquals(basePane.getBottomPane(),basePane.getComponent(2));
 	}
 
 	@AfterEach

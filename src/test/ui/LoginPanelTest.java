@@ -15,9 +15,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import dao.UserDao;
-import dao.factory.UserDaoFactory;
-import entity.User;
 import exception.DBConnectionException;
 import security.SecurityService;
 import utils.EntityTestUtils;
@@ -34,16 +31,18 @@ public class LoginPanelTest {
 
 	private LoginPanel loginPane;
 	private JPanel topPane, middlePane;
-	private JPanel cards;
+	private JPanel rootPane;
 
 	@BeforeEach
 	protected void onSetUp() {
-		cards = new JPanel(new CardLayout());
-		loginPane = new LoginPanel(cards, UserActionTestUtils.getUserAction(), null, null, FacilityActionTestUtils.getFacilityAction());
-		cards.add(loginPane);
+		rootPane = new JPanel(new CardLayout());
+		loginPane = new LoginPanel(rootPane, UserActionTestUtils.getUserAction(), null, null, FacilityActionTestUtils.getFacilityAction());
+		loginPane.setAlert(false);
+		
+		rootPane.add(loginPane);
 		topPane = (JPanel) loginPane.getComponent(0);
 		middlePane = (JPanel) loginPane.getComponent(1);
-		loginPane.setAlert(false);
+		
 		// initialize security
 		SecurityService.initialize(UserDaoTestUtils.getUserDao());
 	}
@@ -54,48 +53,39 @@ public class LoginPanelTest {
 	}
 
 	@Test
-	protected void middlePaneHasComponents() {
-		assertTrue(middlePane.getComponent(0) instanceof JLabel);
-		assertTrue(middlePane.getComponent(1) instanceof JTextField);
-		assertTrue(middlePane.getComponent(2) instanceof JLabel);
-		assertTrue(middlePane.getComponent(3) instanceof JPasswordField);
-		assertTrue(middlePane.getComponent(4) instanceof JButton);
-		assertTrue(middlePane.getComponent(5) instanceof JButton);
+	protected void middlePaneHasLoginBox() {
+		assertTrue(middlePane.getComponent(0) instanceof JPanel);
+		JPanel loginBox = (JPanel) middlePane.getComponent(0);
+		assertTrue(loginBox.getComponent(0) instanceof JLabel);
+		assertTrue(loginBox.getComponent(1) instanceof JTextField);
+		assertTrue(loginBox.getComponent(2) instanceof JLabel);
+		assertTrue(loginBox.getComponent(3) instanceof JPasswordField);
+		assertTrue(loginBox.getComponent(4) instanceof JButton);
+		assertEquals(LOGIN_PANEL_LOGIN_BUTTON_TEXT,((JButton)loginBox.getComponent(4)).getText());
+		assertTrue(loginBox.getComponent(5) instanceof JButton);
+		assertEquals(MAIN_PANEL_EXIT_BUTTON_TEXT,((JButton)loginBox.getComponent(5)).getText());
 	}
 
 	@Test
 	protected void checkLogin() throws DBConnectionException {
-		UserDao dao = UserDaoFactory.getInstance();
-		User user = dao.saveOrUpdate(EntityTestUtils.getDefaultUser());
-		
-		assertEquals(cards.getComponents().length, CARDS_COMPONENT_INITIAL_COUNT);
-		JTextField userName = (JTextField) middlePane.getComponent(1);
-		JPasswordField password = (JPasswordField) middlePane.getComponent(3);
+		assertEquals(rootPane.getComponents().length, CARDS_COMPONENT_INITIAL_COUNT);
+		JPanel loginBox = (JPanel) middlePane.getComponent(0);
+		JTextField userName = (JTextField) loginBox.getComponent(1);
+		JPasswordField password = (JPasswordField) loginBox.getComponent(3);
 
 		// Fail Login
 		userName.setText("");
 		password.setText("");
-		JButton loginButton = (JButton) middlePane.getComponent(4);
+		JButton loginButton = (JButton) loginBox.getComponent(4);
 		loginButton.doClick();
-		assertEquals(CARDS_COMPONENT_INITIAL_COUNT, cards.getComponents().length);
+		assertEquals(CARDS_COMPONENT_INITIAL_COUNT, rootPane.getComponents().length);
 
 		// Success Login
 		userName.setText(EntityTestUtils.DEFAULT_UNI);
 		password.setText(EntityTestUtils.DEFAULT_PASSWORD);
 		loginButton.doClick();
-		assertEquals(CARDS_COMPONENT_FINAL_COUNT, cards.getComponents().length);
-		dao.remove(user);
+		assertEquals(CARDS_COMPONENT_FINAL_COUNT, rootPane.getComponents().length);
 
-	}
-
-	@Test
-	protected void middlePanelHasTwoButtons() {
-		// reserveButton
-		assertTrue(middlePane.getComponent(4) instanceof JButton);
-		assertEquals(LOGIN_PANEL_LOGIN_BUTTON_TEXT, ((JButton) middlePane.getComponent(4)).getText());
-		// viewRoomsButton
-		assertTrue(middlePane.getComponent(5) instanceof JButton);
-		assertEquals(MAIN_PANEL_EXIT_BUTTON_TEXT, ((JButton) middlePane.getComponent(5)).getText());
 	}
 
 	@AfterEach

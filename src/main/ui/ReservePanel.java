@@ -1,16 +1,8 @@
 package ui;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -19,20 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.filechooser.FileSystemView;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
 
 //import org.apache.shiro.SecurityUtils;
 
@@ -56,9 +48,7 @@ import server.constraint.SearchRoomConstraint;
 
 public class ReservePanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
-
 	private final static String TITLE = "Reserve a Room";
-	private final int DEFAULTCAPACITY = 1;
 	private final int DEFAULTDATEYEARRANGE = 1;
 
 	private User user;
@@ -68,13 +58,12 @@ public class ReservePanel extends BasePanel {
 	private TimePicker startTimePicker;
 	private TimePickerSettings endTimeSettings;
 	private TimePicker endTimePicker;
-	private JFormattedTextField capacity;
+	private JTextField capacity;
 	private JTextField nameField;
 	private JList<Facility> facilityList;
 	private JCheckBox showBookedRooms;
-	private JButton searchButton, backButton, uploadFileButton;
+	private JButton searchButton, backButton;
 	private TablePanel roomPane;
-	private TablePanel buttonPane;
 
 	private UserAction userAction;
 	private ReservationAction reservationAction;
@@ -83,20 +72,17 @@ public class ReservePanel extends BasePanel {
 
 	public ReservePanel(JPanel cards, User user, UserAction userAction, ReservationAction reservationAction,
 			RoomAction roomAction, FacilityAction facilityAction) {
-		super(TITLE, cards);
+		super(cards,TITLE);
 		this.user = user;
 		this.userAction = userAction;
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
 		this.facilityAction = facilityAction;
-		initPanels();
+		setMiddlePanel();
 	}
 
-	@Override
-	public JPanel getMiddlePanel() {
-		// middle Panel
-		JPanel middlePane = new JPanel();
-
+	
+	private void setMiddlePanel() {
 		middlePane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -128,59 +114,45 @@ public class ReservePanel extends BasePanel {
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		if (user.getUserGroup() <= 2) {
-			// if (SecurityUtils.getSubject().hasRole("PS")) {
-			uploadFileButton = getUploadFileButton();
 
-			buttonPane = new TablePanel();
-			buttonPane.setPreferredSize(new Dimension(600, 200));
-			backButton = GuiUtils.getBackButton(this, cards);
-			buttonPane.add(backButton, c);
-			backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-			buttonPane.add(uploadFileButton, c);
-			uploadFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-			middlePane.add(buttonPane, c);
-		} else {
-			backButton = GuiUtils.getBackButton(this, cards);
-			middlePane.add(backButton);
-		}
-
-		return middlePane;
+		backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
+		middlePane.add(backButton, c);
 	}
 
 	private JPanel createSearchPanel() {
 		// set default date to today
 		LocalDate today = LocalDate.now();
 
-		JPanel searchPane = new JPanel();
-
+		JPanel searchBox = new JPanel();
+		GroupLayout layout = new GroupLayout(searchBox);
+		searchBox.setLayout(layout);
+		layout.setAutoCreateContainerGaps(true);
+		layout.setAutoCreateGaps(true);
+		
 		// Date Picker
 		JLabel dateLabel = new JLabel("Date");
-		searchPane.add(dateLabel);
 
 		dateSettings = new DatePickerSettings();
 		datePicker = new DatePicker(dateSettings);
+		
 		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));
 		dateSettings.setAllowEmptyDates(false);
-		searchPane.add(datePicker);
+
 
 		// Time Picker
 		// Start Time
 		JLabel startTimeLabel = new JLabel("Start Time");
-		searchPane.add(startTimeLabel);
 
 		startTimeSettings = new TimePickerSettings();
 		startTimeSettings.use24HourClockFormat();
 		startTimeSettings.setAllowEmptyTimes(false);
-		startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
+		startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime(), null);
 		startTimeSettings.initialTime = getCurTime();
-
 		startTimePicker = new TimePicker(startTimeSettings);
-		searchPane.add(startTimePicker);
+
 
 		// End Time
 		JLabel endTimeLabel = new JLabel("End Time");
-		searchPane.add(endTimeLabel);
 
 		endTimeSettings = new TimePickerSettings();
 		endTimeSettings.use24HourClockFormat();
@@ -188,7 +160,7 @@ public class ReservePanel extends BasePanel {
 		endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
 		endTimeSettings.initialTime = getCurTime().plusMinutes(10);
 		endTimePicker = new TimePicker(endTimeSettings);
-		searchPane.add(endTimePicker);
+	
 
 		// Setting action listener for adjusting end time based on start time
 		startTimePicker.addTimeChangeListener(e -> {
@@ -201,61 +173,122 @@ public class ReservePanel extends BasePanel {
 
 		// Capacity
 		JLabel capacityLabel = new JLabel("Capacity");
-		searchPane.add(capacityLabel);
-
-		capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0, 1000));
-		// capacity.setValue(DEFAULTCAPACITY);
-		capacity.setColumns(3);
-		searchPane.add(capacity);
-
+		//capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0, 1000));
+		//capacity.setColumns(3);
+		capacity = GuiUtils.getNumTextField(5);
+		
 		// Name
 		JLabel nameLabel = new JLabel("Name");
-		searchPane.add(nameLabel);
-		nameField = new JTextField(10);
-		searchPane.add(nameField);
+		nameField = new JTextField(50);
 
 		// Facility
 		JLabel facilityLabel = new JLabel("Facility");
-		searchPane.add(facilityLabel);
 		List<Facility> facilities = facilityAction.findAllFacilities();
 		DefaultListModel<Facility> model = new DefaultListModel<>();
 		for (Facility facility : facilities) {
 			model.addElement(facility);
 		}
 		facilityList = new JList<>(model);
-		facilityList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		searchPane.add(facilityList);
+		// enables clicking multiple items
+		facilityList.setSelectionModel(new DefaultListSelectionModel() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+		    public void setSelectionInterval(int index0, int index1) {
+		        if(super.isSelectedIndex(index0)) {
+		            super.removeSelectionInterval(index0, index1);
+		        }
+		        else {
+		            super.addSelectionInterval(index0, index1);
+		        }
+		    }
+		});
 
 		// Show Booked Rooms for High Priority Users
 		// if (SecurityUtils.getSubject().hasRole("High")) {
+		JLabel overrideLabel = new JLabel();
 		if (user.getUserGroup() <= 1) {
-			JLabel overrideLabel = new JLabel("Show Overridable Rooms");
-			searchPane.add(overrideLabel);
+			overrideLabel = new JLabel("Show Overridable Rooms");
 			showBookedRooms = new JCheckBox();
-			searchPane.add(showBookedRooms);
 		}
 		// Search Button
 		searchButton = getSearchButton();
-		searchPane.add(searchButton);
-		return searchPane;
+		
+		// create panel
+		ParallelGroup hGroup = layout.createParallelGroup(Alignment.CENTER)
+			    .addGroup(layout.createSequentialGroup()
+			    		.addComponent(dateLabel)
+			    		.addComponent(datePicker)
+			    		.addComponent(startTimeLabel)
+			    		.addComponent(startTimePicker)
+			    		.addComponent(endTimeLabel)
+			    		.addComponent(endTimePicker))
+			    .addGroup(layout.createSequentialGroup()
+			    		.addComponent(capacityLabel)
+			    		.addComponent(capacity)
+			    		.addComponent(nameLabel)
+			    		.addComponent(nameField));
+		// manage override CheckBox
+		if (user.getUserGroup() < 3) {
+			hGroup.addGroup(layout.createSequentialGroup()
+		    		.addComponent(facilityLabel)
+		    		.addComponent(facilityList)
+		    		.addComponent(overrideLabel)
+		    		.addComponent(showBookedRooms)
+		    		.addComponent(searchButton));
+		} else {
+			hGroup.addGroup(layout.createSequentialGroup()
+		    		.addComponent(facilityLabel)
+		    		.addComponent(facilityList)
+		    		.addComponent(searchButton));
+		}
+		layout.setHorizontalGroup(hGroup);
+		
+		SequentialGroup vGroup = layout.createSequentialGroup()
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(dateLabel)
+			    		.addComponent(datePicker)
+			    		.addComponent(startTimeLabel)
+			    		.addComponent(startTimePicker)
+			    		.addComponent(endTimeLabel)
+			    		.addComponent(endTimePicker))
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+			    		.addComponent(capacityLabel)
+			    		.addComponent(capacity)
+			    		.addComponent(nameLabel)
+			    		.addComponent(nameField));
+		
+		// manage override CheckBox
+		if (user.getUserGroup() < 3) {
+			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+		    		.addComponent(facilityLabel)
+		    		.addComponent(facilityList)
+		    		.addComponent(overrideLabel)
+		    		.addComponent(showBookedRooms)
+		    		.addComponent(searchButton));
+		} else {
+			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+		    		.addComponent(facilityLabel)
+		    		.addComponent(facilityList)
+		    		.addComponent(searchButton));
+		}
+		layout.setVerticalGroup(vGroup);
+		
+		return searchBox;
 	}
 
 	@Override
 	// Reset when exit
-	public void reset() {
+	public void exitPanel() {
 		LocalDate today = LocalDate.now();
 		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));
 		datePicker.setDateToToday();
 		startTimePicker.setTime(getCurTime());
 		endTimePicker.setTime(getCurTime().plusMinutes(10));
-		capacity.setValue(DEFAULTCAPACITY);
+		capacity.setText("");
 		nameField.setText("");
 		facilityList.clearSelection();
 		roomPane.reset();
-	}
-
-	@Override
-	public void showPanel() {
 	}
 
 	private JButton getSearchButton() {
@@ -271,46 +304,43 @@ public class ReservePanel extends BasePanel {
 
 			// Parse
 			try {
-				src.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText())); // if no
-																												// string
-																												// specified,
-																												// set 0
+				src.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));
 				src.setEventDate(new SimpleDateFormat("yyyy-MM-dd").parse(selectedDate));
 				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 				src.setStartTime(sdf.parse(startTime));
 				src.setEndTime(sdf.parse(endTime));
+				src.setRoomName(nameField.getText());
+				src.getFacilities().addAll(facilityList.getSelectedValuesList());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
-			src.setRoomName(nameField.getText());
-			src.getFacilities().addAll(facilityList.getSelectedValuesList());
-
 			// search from database
 			List<Room> roomList = roomAction.searchRooms(src);
-
-			List<Object[]> reservedRoomList = new ArrayList<>();
-			if (showBookedRooms != null && showBookedRooms.isSelected()) {
-				reservedRoomList = roomAction.searchReservedRooms(src);
-			}
+			List<Object[]> reservedRoomList = showBookedRooms != null && showBookedRooms.isSelected() ? roomAction.searchReservedRooms(src) : new ArrayList<>();
 			// build table
 			if (roomList.isEmpty() && reservedRoomList.isEmpty()) {
 				if (alert)
 					JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
 			} else {
 				List<Object[]> rows = new ArrayList<>();
-				Object[] rowName = new Object[] { "Room Name", "Action" };
+				Object[] rowName = new Object[] { "Room Name", "Capacity", "Facilities", "Action" };
 
-				// Room name, Reserve button
+				// Room name, Capacities, Facilities, Reserve button
 				for (Room room : roomList) {
-					Object[] row = new Object[2];
+					Object[] row = new Object[4];
 					row[0] = room.getName();
+					row[1] = room.getCapacity();
+					ArrayList<String> facilities = new ArrayList<>();
+					for (Facility f : room.getFacilities()) {
+						facilities.add(f.getName());
+					}
+					row[2] = String.join(", ", facilities);
 					JButton reserveButton = getReserveButton(room, src);
-					row[1] = reserveButton;
+					row[3] = reserveButton;
 					rows.add(row);
 				}
 				// Room name, Override button
 				for (Object[] result : reservedRoomList) {
-					System.out.println(result);
 					Room room = (Room) result[0];
 					int id = (int) result[1];
 					Object[] row = new Object[2];
@@ -362,7 +392,7 @@ public class ReservePanel extends BasePanel {
 				overrideButton.setEnabled(false);
 				// send email
 				try {
-					sendEmail(oldUser, reservation);
+					EmailSender.sendEmail(oldUser, reservation, roomAction);
 				} catch (MessagingException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -374,81 +404,6 @@ public class ReservePanel extends BasePanel {
 			}
 		});
 		return overrideButton;
-	}
-
-	private void sendEmail(User user, Reservation reservation) throws AddressException, MessagingException {
-		Room room = roomAction.getRoomById(reservation.getRoomId());
-		String date = new SimpleDateFormat("yyyy-MM-dd").format(reservation.getEventDate());
-		String beginTime = new SimpleDateFormat("hh:mm:ss").format(reservation.getStartTime());
-		String endTime = new SimpleDateFormat("hh:mm:ss").format(reservation.getEndTime());
-		String to = user.getEmail();
-		String subject = "Your reservation has been overriden by another user.";
-		String body = "Dear " + user.getUni() + ":\n"
-				+ "\t Your reservation of " + room.getName() +" for " + date 
-				+ " from " + beginTime + " to " + endTime
-				+ " has been unfortunately replaced by another user.\n"
-				+ "Schedule++";
-		EmailSender.sendEmail(to, subject, body);
-	}
-
-	private JButton getUploadFileButton() {
-		JButton button = GuiUtils.createButton("Upload");
-
-		button.addActionListener(e -> {
-			// prompt the window to choose a csv file
-			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-			int option = fileChooser.showOpenDialog(null);
-			if (option != JFileChooser.APPROVE_OPTION) {
-				return;
-			}
-
-			File selectedFile = fileChooser.getSelectedFile();
-			System.out.println(selectedFile.getAbsolutePath());
-
-			// start parsing from the csv file
-			// Reference:
-			// https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
-			String csvFile = selectedFile.getAbsolutePath();
-			BufferedReader br = null;
-			String line = "";
-			String cvsSplitBy = ",";
-
-			List<Reservation> reservations = new ArrayList<>();
-
-			try {
-				br = new BufferedReader(new FileReader(csvFile));
-				while ((line = br.readLine()) != null) {
-					/*
-					 * Each line should contain: room ID, date, start time, and end time, in the
-					 * exact order.
-					 */
-					String[] groups = line.split(cvsSplitBy);
-					Reservation reservation = new Reservation().setUserId(user.getId())
-							.setRoomId(Integer.parseInt(groups[0].trim()))
-							.setEventDate(new Date(Integer.parseInt(groups[1].trim())))
-							.setStartTime(new Time(Integer.parseInt(groups[2].trim())))
-							.setEndTime(new Time(Integer.parseInt(groups[3].trim())));
-					reservations.add(reservation);
-				}
-
-				// make the batch reservation request
-				reservationAction.reserveMultipleRooms(reservations);
-			} catch (FileNotFoundException exception) {
-				exception.printStackTrace();
-			} catch (IOException exception) {
-				exception.printStackTrace();
-			} finally {
-				if (br != null) {
-					try {
-						br.close();
-					} catch (IOException exception) {
-						exception.printStackTrace();
-					}
-				}
-			}
-		});
-
-		return button;
 	}
 
 	private LocalTime getCurTime() {

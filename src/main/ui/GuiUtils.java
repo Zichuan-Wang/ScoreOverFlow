@@ -2,24 +2,19 @@ package ui;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.text.NumberFormatter;
+import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+
+import entity.User;
 
 public class GuiUtils {
-
-	public static NumberFormatter getNumberFormatter(int minimum, int maximum) {
-		NumberFormat integerFormat = NumberFormat.getIntegerInstance();
-		integerFormat.setGroupingUsed(false);
-		NumberFormatter integerFormatter = new NumberFormatter(integerFormat);
-		integerFormatter.setValueClass(Integer.class);
-		integerFormatter.setMinimum(minimum);
-		integerFormatter.setMaximum(maximum);
-		integerFormatter.setAllowsInvalid(false);
-		return integerFormatter;
-	}
 
 	public static JButton createButton(String buttonName, ActionListener... actions) {
 		JButton button = new JButton(buttonName);
@@ -29,21 +24,57 @@ public class GuiUtils {
 		return button;
 	}
 
-	public static ActionListener getJumpCardActionListener(JPanel cards, String id) {
-		return e -> {
-			CardLayout cl = (CardLayout) cards.getLayout();
-			cl.show(cards, id);
-		};
+	public static void jumpToPanel(JPanel rootPane, String id) {
+		CardLayout cl = (CardLayout) rootPane.getLayout();
+		cl.show(rootPane, id);
 	}
-
-	public static void jumpCard(JPanel cards, String id) {
-		CardLayout cl = (CardLayout) cards.getLayout();
-		cl.show(cards, id);
+	
+	public static String userGroupToString(User user) {
+		switch (user.getUserGroup()) {
+			case 0:
+				return "Administrator";
+			case 1:
+				return "High priority user";
+			case 2:
+				return "Program supervisor";
+			case 3:
+				return "Normal User";
+			default:
+				return "";
+		}
 	}
+	
+	public static JTextField getNumTextField(int maxCharacters) {
+		class CustomDocumentFilter extends DocumentFilter {
 
-	public static JButton getBackButton(BasePanel pane, JPanel cards) {
-		ActionListener initAction = e -> pane.reset();
-		JButton backButton = createButton("Back", getJumpCardActionListener(cards, "main"), initAction);
-		return backButton;
+	        private Pattern regexCheck = Pattern.compile("[0-9]+");
+
+	        @Override
+	        public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException {
+	            if (str == null) {
+	                return;
+	            }
+
+	            if (regexCheck.matcher(str).matches() && (fb.getDocument().getLength() + str.length()) <= maxCharacters) {
+	                super.insertString(fb, offs, str, a);
+	            }
+	        }
+
+	        @Override
+	        public void replace(FilterBypass fb, int offset, int length, String str, AttributeSet attrs)
+	                throws BadLocationException {
+	            if (str == null) {
+	                return;
+	            }
+
+	            if (regexCheck.matcher(str).matches() && (fb.getDocument().getLength() + str.length()) <= maxCharacters) {
+	                fb.replace(offset, length, str, attrs);
+	            }
+	        }
+	    }
+		
+		JTextField textField = new JTextField(maxCharacters);
+		((AbstractDocument) textField.getDocument()).setDocumentFilter(new CustomDocumentFilter());
+		return textField;
 	}
 }

@@ -3,6 +3,7 @@ package email;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -13,6 +14,11 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import entity.Reservation;
+import entity.Room;
+import entity.User;
+import server.action.RoomAction;
 
 public class EmailSender {
 
@@ -47,6 +53,21 @@ public class EmailSender {
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
+	}
+	
+	public static void sendEmail(User user, Reservation reservation, RoomAction roomAction) throws AddressException, MessagingException {
+		Room room = roomAction.getRoomById(reservation.getRoomId());
+		String date = new SimpleDateFormat("yyyy-MM-dd").format(reservation.getEventDate());
+		String beginTime = new SimpleDateFormat("hh:mm:ss").format(reservation.getStartTime());
+		String endTime = new SimpleDateFormat("hh:mm:ss").format(reservation.getEndTime());
+		String to = user.getEmail();
+		String subject = "Your reservation has been overriden by another user.";
+		String body = "Dear " + user.getUni() + ":\n"
+				+ "\t Your reservation of " + room.getName() +" for " + date 
+				+ " from " + beginTime + " to " + endTime
+				+ " has been unfortunately replaced by another user.\n"
+				+ "Schedule++";
+		sendEmail(to, subject, body);
 	}
 
 }

@@ -2,7 +2,6 @@ package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,7 +12,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -28,6 +26,7 @@ import org.junit.jupiter.api.Test;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
+import entity.Facility;
 import entity.User;
 import exception.DBConnectionException;
 import security.SecurityService;
@@ -40,6 +39,7 @@ import utils.UserActionTestUtils;
 import utils.UserDaoTestUtils;
 
 public class ReservePanelTest {
+	
 	private ReservePanel reservePane;
 	private final String RESERVE_PANEL_LABEL = "Reserve a Room";
 	private JPanel topPane, middlePane;
@@ -59,6 +59,7 @@ public class ReservePanelTest {
 		middlePane = (JPanel) reservePane.getComponent(1);
 		now = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
 		minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;
+		now = now.plusMinutes(minuteDiff);
 
 	}
 
@@ -66,7 +67,7 @@ public class ReservePanelTest {
 	protected void checkTitle() {
 		assertEquals(RESERVE_PANEL_LABEL, ((JLabel) topPane.getComponent(0)).getText());
 	}
-
+	
 	@Test
 	protected void normalUserSearchPanelDisplayCorrectly() {
 		assertTrue(middlePane.getComponent(0) instanceof JPanel);
@@ -76,24 +77,24 @@ public class ReservePanelTest {
 		assertEquals("Date", ((JLabel) searchPane.getComponent(0)).getText());
 		assertTrue(searchPane.getComponent(1) instanceof DatePicker);
 		DatePicker datePicker = (DatePicker) searchPane.getComponent(1);
-		assertEquals(datePicker.getDate(), LocalDate.now());
+		assertEquals(LocalDate.now(),datePicker.getDate());
 		// Time
 		// Start Time
 		assertTrue(searchPane.getComponent(2) instanceof JLabel);
 		assertEquals("Start Time", ((JLabel) searchPane.getComponent(2)).getText());
 		assertTrue(searchPane.getComponent(3) instanceof TimePicker);
 		TimePicker startTimePicker = (TimePicker) searchPane.getComponent(3);
-		assertEquals(startTimePicker.getTime(), now.plusMinutes(minuteDiff));
+		assertEquals(now, startTimePicker.getTime());
 		// End Time
 		assertTrue(searchPane.getComponent(4) instanceof JLabel);
 		assertEquals("End Time", ((JLabel) searchPane.getComponent(4)).getText());
 		assertTrue(searchPane.getComponent(5) instanceof TimePicker);
 		TimePicker endTimePicker = (TimePicker) searchPane.getComponent(5);
-		assertEquals(endTimePicker.getTime(), now.plusMinutes(minuteDiff + 10));
+		assertEquals(now.plusMinutes(10),endTimePicker.getTime());
 		// Capacity
 		assertTrue(searchPane.getComponent(6) instanceof JLabel);
 		assertEquals("Capacity", ((JLabel) searchPane.getComponent(6)).getText());
-		assertTrue(searchPane.getComponent(7) instanceof JFormattedTextField);
+		assertTrue(searchPane.getComponent(7) instanceof JTextField);
 
 		// Name
 		assertTrue(searchPane.getComponent(8) instanceof JLabel);
@@ -155,7 +156,7 @@ public class ReservePanelTest {
 		JButton searchButton = (JButton) searchPane.getComponent(12);
 		searchButton.doClick();
 		JTable table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
-		JButton reserveButton = (JButton) table.getValueAt(0, 1);
+		JButton reserveButton = (JButton) table.getValueAt(0, 3);
 		reserveButton.doClick(); // reserved
 		
 		// change to high user and find override
@@ -189,23 +190,47 @@ public class ReservePanelTest {
 		searchButton.doClick();
 		JTable table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
 		assertTrue(table.getRowCount() != 0);
-		JButton reserveButton = (JButton) table.getValueAt(0, 1);
+		// Room name, Capacities, Facilities, Reserve button
+		assertTrue(table.getValueAt(0, 0) instanceof String);
+		assertEquals(EntityTestUtils.DEFAULT_ROOM_NAME,table.getValueAt(0, 0));
+		assertTrue(table.getValueAt(0, 1) instanceof Integer);
+		assertEquals(EntityTestUtils.DEFAULT_CAPACITY,table.getValueAt(0, 1));
+		assertTrue(table.getValueAt(0, 2) instanceof String);
+		assertEquals("",table.getValueAt(0, 2));
+		JButton reserveButton = (JButton) table.getValueAt(0, 3);
 		assertNotNull(reserveButton);
 		assertTrue(reserveButton.isEnabled());
 		//reserve
 		reserveButton.doClick();
 		assertFalse(reserveButton.isEnabled());
 	}
-
+	
 	@Test
-	protected void resetWorking() {
-		JPanel searchPane = (JPanel) middlePane.getComponent(0);
+	protected void exitPanelTest() {
+		reservePane.exitPanel();
+		JPanel searchPane = (JPanel) ((JPanel)reservePane.getComponent(1)).getComponent(0);
+		LocalDate today = LocalDate.now();
 		DatePicker datePicker = (DatePicker) searchPane.getComponent(1);
-		LocalDate optionalDate = LocalDate.of(1966, 6, 6);
-		datePicker.setDate(optionalDate);
-		reservePane.reset();
-		assertTrue(UiTestUtils.getObjects(middlePane, JTable.class).isEmpty()); // No table
-		assertNotEquals(optionalDate, datePicker.getDate());
+		assertEquals(today,datePicker.getDate());
+		// Time
+		// Start Time
+		TimePicker startTimePicker = (TimePicker) searchPane.getComponent(3);
+		assertEquals(now, startTimePicker.getTime());
+		// End Time
+		TimePicker endTimePicker = (TimePicker) searchPane.getComponent(5);
+		assertEquals(now.plusMinutes(10),endTimePicker.getTime());
+		// Capacity
+		JTextField capacity = (JTextField)searchPane.getComponent(7);
+		assertEquals("",capacity.getText());
+
+		// Name
+		JTextField name = (JTextField)searchPane.getComponent(9);
+		assertEquals("",name.getText());
+
+		// Facility
+		@SuppressWarnings("unchecked")
+		JList<Facility> facilityList = (JList<Facility>) searchPane.getComponent(11);
+		assertEquals(0,facilityList.getSelectedValuesList().size());	
 	}
 
 	@AfterEach

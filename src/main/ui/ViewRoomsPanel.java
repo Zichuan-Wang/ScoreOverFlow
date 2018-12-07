@@ -33,18 +33,14 @@ public class ViewRoomsPanel extends BasePanel {
 	private RoomAction roomAction;
 
 	public ViewRoomsPanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction) {
-		super(TITLE, cards);
+		super(cards,TITLE);
 		this.user = user;
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
-		initPanels();
+		setMiddlePanel();
 	}
 
-	@Override
-	public JPanel getMiddlePanel() {
-		// middle Panel
-		JPanel middlePane = new JPanel();
-
+	private void setMiddlePanel(){
 		middlePane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -68,20 +64,13 @@ public class ViewRoomsPanel extends BasePanel {
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		JButton backButton = GuiUtils.getBackButton(this, cards);
+		JButton backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
 		middlePane.add(backButton, c);
-		return middlePane;
 	}
 
 	@Override
-	public void showPanel() {
+	public void pareparePanel() {
 		showReservationList();
-	}
-
-	@Override
-	public void reset() {
-		reservationPane.revalidate();
-		reservationPane.repaint();
 	}
 
 	public void showReservationList() {
@@ -126,7 +115,8 @@ public class ViewRoomsPanel extends BasePanel {
 			if (alert)
 				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
 		}
-		reset();
+		reservationPane.revalidate();
+		reservationPane.repaint();
 	}
 
 }

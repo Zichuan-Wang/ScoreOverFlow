@@ -1,11 +1,10 @@
 package ui;
 
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,98 +24,89 @@ public class LoginPanel extends BasePanel {
 
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Login";
-	private JButton loginButton;
-	private JButton exitButton;
-	private JTextField userNameField;
-	private JPasswordField passwordField;
+	
 	private UserAction userAction;
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 	private FacilityAction facilityAction;
+	
+	private JButton loginButton;
+	private JButton exitButton;
+	private JTextField userNameField;
+	private JPasswordField passwordField;
 
-	public LoginPanel(JPanel cards, UserAction userAction, ReservationAction reservationAction, RoomAction roomAction,
+	public LoginPanel(JPanel rootPane, UserAction userAction, ReservationAction reservationAction, RoomAction roomAction,
 			FacilityAction facilityAction) {
-		super(TITLE, cards);
-		initPanels();
+		super(rootPane,TITLE);
 		this.userAction = userAction;
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
 		this.facilityAction = facilityAction;
+		setMiddlePanel();
 	}
 
-	// Partially based on Java Tutorials Code Sample – TextSamplerDemo.java
-	@Override
-	public JPanel getMiddlePanel() {
-		// middle Panel
-		JPanel middlePane = new JPanel();
-
-		middlePane.setLayout(new BoxLayout(middlePane, BoxLayout.Y_AXIS));
-
-		JLabel userNameLabel = new JLabel("User Name");
-		userNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+	private void setMiddlePanel() {
+		middlePane.setLayout(new GridBagLayout());
+		
+		JPanel loginBox = new JPanel();
+		GroupLayout layout = new GroupLayout(loginBox);
+		loginBox.setLayout(layout);
+		layout.setAutoCreateContainerGaps(true);
+		layout.setAutoCreateGaps(true);
+		
+		// user name
+		JLabel userNameLabel = new JLabel("Username");
 		userNameField = new JTextField();
+		// password
 		JLabel passwordLabel = new JLabel("Password");
 		passwordField = new JPasswordField();
-		passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+		// buttons
 		loginButton = GuiUtils.createButton("Login", e -> login());
 		exitButton = GuiUtils.createButton("Exit", e -> System.exit(0));
+		
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.CENTER)
+				.addComponent(userNameLabel)
+				.addGroup(layout.createParallelGroup(Alignment.CENTER)
+						.addComponent(userNameField))
+				.addComponent(passwordLabel)
+				.addComponent(passwordField)
+			    .addGroup(layout.createSequentialGroup()
+			    		.addComponent(loginButton)
+			    		.addComponent(exitButton))
+		);
+		
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.CENTER)
+				.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(userNameLabel))
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(userNameField))
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(passwordLabel))
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(passwordField))
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(loginButton)
+								.addComponent(exitButton)))
+		);
 
-		GridBagLayout gridbag = new GridBagLayout();
 		GridBagConstraints c = new GridBagConstraints();
-
-		middlePane.setLayout(gridbag);
-
-		JLabel[] labels = { userNameLabel, passwordLabel };
-		JTextField[] textFields = { userNameField, passwordField };
-		addLabelTextRows(labels, textFields, middlePane);
-
-		c.gridwidth = GridBagConstraints.REMAINDER; // last
-		c.anchor = GridBagConstraints.WEST;
-		c.weightx = 1.0;
-
-		middlePane.add(loginButton);
-		middlePane.add(exitButton);
-
-		return middlePane;
-
-	}
-
-	// From Java Tutorials Code Sample – TextSamplerDemo.java
-	private void addLabelTextRows(JLabel[] labels, JTextField[] textFields, Container container) {
-		GridBagConstraints c = new GridBagConstraints();
-		c.anchor = GridBagConstraints.EAST;
-		int numLabels = labels.length;
-
-		for (int i = 0; i < numLabels; i++) {
-			c.gridwidth = GridBagConstraints.RELATIVE; // next-to-last
-			c.fill = GridBagConstraints.NONE; // reset to default
-			c.weightx = 0.0; // reset to default
-			container.add(labels[i], c);
-
-			c.gridwidth = GridBagConstraints.REMAINDER; // end row
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.weightx = 1.0;
-			container.add(textFields[i], c);
-		}
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		middlePane.add(loginBox,c);
+		
 	}
 
 	private void login() {
-
 		LoginStatus status = SecurityService.Login(userNameField.getText(),
 				String.valueOf(passwordField.getPassword()));
 		if (status.isSuccess()) {
 			User user = userAction.findUserByUni(userNameField.getText());
 			// Create three panels
-			ReservePanel reservePane = new ReservePanel(cards, user, userAction, reservationAction, roomAction, facilityAction);
-			ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(cards, user, reservationAction, roomAction);
-			MainPanel mainPane = new MainPanel(cards, user, reservePane, viewRoomsPane);
-
-			// add panels to card
-			cards.add(mainPane, "main");
-			cards.add(reservePane, "reserve");
-			cards.add(viewRoomsPane, "view rooms");
-			GuiUtils.jumpCard(cards, "main");
+			MainPanel mainPane = new MainPanel(rootPane, user, userAction, reservationAction, roomAction, facilityAction);
+			rootPane.add(mainPane, "main");
+			GuiUtils.jumpToPanel(rootPane, "main");
 		} else {
 			if (alert) {
 				JOptionPane.showMessageDialog(null, status.getMessage());

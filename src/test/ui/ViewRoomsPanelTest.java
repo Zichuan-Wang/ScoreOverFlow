@@ -30,7 +30,7 @@ public class ViewRoomsPanelTest {
 		viewRoomsPane = PanelTestUtils.getViewRoomsPanel();
 		viewRoomsPane.setAlert(false); // disable alert
 		topPane = (JPanel) viewRoomsPane.getComponent(0);
-		middlePane = (JPanel) viewRoomsPane.getComponent(1); // 0: JscrollPane with TablePanel inside 1:Back Button
+		middlePane = (JPanel) viewRoomsPane.getComponent(1);
 	}
 
 	@Test
@@ -76,8 +76,8 @@ public class ViewRoomsPanelTest {
 		// CHECK CANCEL HAS EFFECT
 	}
 
-	protected void showPanelShowing() {
-		viewRoomsPane.showPanel();
+	protected void pareparePanelTest() {
+		viewRoomsPane.pareparePanel();
 		List<Object> objects = UiTestUtils.getObjects(middlePane, JTable.class);
 		assertFalse(objects.isEmpty());
 	}
