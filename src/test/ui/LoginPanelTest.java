@@ -72,7 +72,6 @@ public class LoginPanelTest {
 		JPanel loginBox = (JPanel) middlePane.getComponent(0);
 		JTextField userName = (JTextField) loginBox.getComponent(1);
 		JPasswordField password = (JPasswordField) loginBox.getComponent(3);
-
 		// Fail Login
 		userName.setText("");
 		password.setText("");
@@ -84,6 +83,7 @@ public class LoginPanelTest {
 		userName.setText(EntityTestUtils.DEFAULT_UNI);
 		password.setText(EntityTestUtils.DEFAULT_PASSWORD);
 		loginButton.doClick();
+
 		assertEquals(CARDS_COMPONENT_FINAL_COUNT, rootPane.getComponents().length);
 
 	}
