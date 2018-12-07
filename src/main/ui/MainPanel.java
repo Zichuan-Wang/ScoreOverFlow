@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+//import org.apache.shiro.SecurityUtils;
+
 import entity.User;
 import server.action.FacilityAction;
 import server.action.ReservationAction;
@@ -21,6 +23,7 @@ public class MainPanel extends BasePanel {
 	private JButton reserveButton;
 	private JButton viewRoomsButton;
 	private JButton manageButton;
+	private JButton batchButton;
 	
 	private User user;
 	
@@ -51,12 +54,12 @@ public class MainPanel extends BasePanel {
 		middlePane.add(Box.createVerticalGlue()); // beginning
 		
 		// add or edit room and facilities for admin
+		//if (SecurityUtils.getSubject().hasRole("Admin")) {
 		if (user.getUserGroup() == 0) {
 			ManagePanel managePane = new ManagePanel(rootPane, user, userAction, reservationAction, roomAction, facilityAction);
 			rootPane.add(managePane,"manage");
 			
-			manageButton = GuiUtils.createButton("Manage Rooms and Facilities", e -> GuiUtils.jumpToPanel(rootPane, "manage"));
-			manageButton.addActionListener( e -> managePane.pareparePanel());
+			manageButton = GuiUtils.createButton("Manage Rooms and Facilities", e -> GuiUtils.jumpToPanel(rootPane, "manage"), e -> managePane.pareparePanel());
 			
 			manageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			middlePane.add(manageButton);
@@ -68,20 +71,32 @@ public class MainPanel extends BasePanel {
 		ReservePanel reservePane = new ReservePanel(rootPane, user, userAction, reservationAction, roomAction, facilityAction);
 		rootPane.add(reservePane,"reserve");
 		
-		reserveButton = GuiUtils.createButton("Reserve a Room", e -> GuiUtils.jumpToPanel(rootPane, "reserve"));
-		reserveButton.addActionListener( e -> reservePane.pareparePanel());
+		reserveButton = GuiUtils.createButton("Reserve a Room", e -> GuiUtils.jumpToPanel(rootPane, "reserve"), e -> reservePane.pareparePanel());
 		
 		reserveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(reserveButton);
 
 		middlePane.add(Box.createVerticalGlue());
 
+		// Reserve in Batch
+		//if (SecurityUtils.getSubject().hasRole("PS")) {
+		if (user.getUserGroup() == 2) {
+			BatchPanel batchPane = new BatchPanel(rootPane, user, reservationAction);
+			rootPane.add(batchPane,"batch");
+				
+			batchButton = GuiUtils.createButton("Reserve Rooms in Batch", e -> GuiUtils.jumpToPanel(rootPane, "batch"), e -> batchPane.pareparePanel());
+				
+			batchButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+			middlePane.add(batchButton);
+				
+			middlePane.add(Box.createVerticalGlue());
+		}
+		
 		// View Reservations
 		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(rootPane, user, reservationAction, roomAction);
 		rootPane.add(viewRoomsPane,"view rooms");
 		
-		viewRoomsButton = GuiUtils.createButton("View Reservations", e -> GuiUtils.jumpToPanel(rootPane, "view rooms"));
-		viewRoomsButton.addActionListener( e -> viewRoomsPane.pareparePanel());
+		viewRoomsButton = GuiUtils.createButton("View Reservations", e -> GuiUtils.jumpToPanel(rootPane, "view rooms"), e -> viewRoomsPane.pareparePanel());
 		
 		viewRoomsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(viewRoomsButton);

@@ -22,11 +22,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+//import org.apache.shiro.SecurityUtils;
+
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
-
-//import org.apache.shiro.SecurityUtils;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
@@ -203,11 +204,11 @@ public class ReservePanel extends BasePanel {
 		        }
 		    }
 		});
-
+		
 		// Show Booked Rooms for High Priority Users
-		// if (SecurityUtils.getSubject().hasRole("High")) {
 		JLabel overrideLabel = new JLabel();
-		if (user.getUserGroup() <= 1) {
+		//if (SecurityUtils.getSubject().hasRole("High")) {
+		if (user.getUserGroup() < 2) {
 			overrideLabel = new JLabel("Show Overridable Rooms");
 			showBookedRooms = new JCheckBox();
 		}
@@ -229,7 +230,8 @@ public class ReservePanel extends BasePanel {
 			    		.addComponent(nameLabel)
 			    		.addComponent(nameField));
 		// manage override CheckBox
-		if (user.getUserGroup() < 3) {
+		//if (SecurityUtils.getSubject().hasRole("High")) {
+		if (user.getUserGroup() < 2) {
 			hGroup.addGroup(layout.createSequentialGroup()
 		    		.addComponent(facilityLabel)
 		    		.addComponent(facilityList)
@@ -259,7 +261,8 @@ public class ReservePanel extends BasePanel {
 			    		.addComponent(nameField));
 		
 		// manage override CheckBox
-		if (user.getUserGroup() < 3) {
+		//if (SecurityUtils.getSubject().hasRole("High")) {
+		if (user.getUserGroup() < 2) {
 			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 		    		.addComponent(facilityLabel)
 		    		.addComponent(facilityList)

@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import entity.Reservation;
 import entity.Room;
 import entity.User;
-//import security.SecurityService;
+import security.SecurityService;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.constraint.SearchReservationConstraint;
@@ -100,8 +100,8 @@ public class ViewRoomsPanel extends BasePanel {
 	}
 
 	private void cancelReservation(Reservation reservation) {
-		if (user.getUserGroup() > 3) {
-			// if (!SecurityService.currentUser.hasRole("Normal")) {
+		//if (user.getUserGroup() > 3) {
+		if (!SecurityService.currentUser.hasRole("Normal")) {
 			if (alert)
 				JOptionPane.showMessageDialog(null, "You do not have the right role to perform this action.");
 			return;

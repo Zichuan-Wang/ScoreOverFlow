@@ -20,6 +20,9 @@ import utils.UserDaoTestUtils;
 
 public class GuiUtilsTest {
 	private final String DEFAULT_USER_GROUP_STRING = "Normal User";
+	private final String ADMIN_USER_GROUP_STRING = "Administrator";
+	private final String PS_USER_GROUP_STRING = "Program supervisor";
+	private final String HIGH_USER_GROUP_STRING = "High priority user";
 
 	@Test
 	public void createButtonTest() {
@@ -45,6 +48,12 @@ public class GuiUtilsTest {
 		UserDao dao = UserDaoTestUtils.getUserDao();
 		User user = dao.findById(EntityTestUtils.DEFAULT_USER_ID);
 		assertEquals(DEFAULT_USER_GROUP_STRING,GuiUtils.userGroupToString(user));
+		user.setUserGroup(EntityTestUtils.ADMIN_USER_GROUP);
+		assertEquals(ADMIN_USER_GROUP_STRING,GuiUtils.userGroupToString(user));
+		user.setUserGroup(EntityTestUtils.HIGH_USER_GROUP);
+		assertEquals(HIGH_USER_GROUP_STRING,GuiUtils.userGroupToString(user));
+		user.setUserGroup(EntityTestUtils.SUPERVISOR_USER_GROUP);
+		assertEquals(PS_USER_GROUP_STRING,GuiUtils.userGroupToString(user));
 	}
 	
 	@Test

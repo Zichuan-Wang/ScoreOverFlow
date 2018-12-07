@@ -120,7 +120,8 @@ public class ReservePanelTest {
 		middlePane = (JPanel) reservePane.getComponent(1);
 		JPanel searchPane = (JPanel) middlePane.getComponent(0);
 		// previous ones are the same as normal user, ignoring here
-		// Search Button
+		System.out.println(searchPane.getComponentCount());
+		// Check Box
 		assertTrue(searchPane.getComponent(12) instanceof JLabel);
 		assertEquals("Show Overridable Rooms", ((JLabel) searchPane.getComponent(12)).getText());
 		assertTrue(searchPane.getComponent(13) instanceof JCheckBox);
@@ -146,7 +147,7 @@ public class ReservePanelTest {
 		JPanel searchPane = (JPanel) middlePane.getComponent(0);
 		JButton searchButton = (JButton) searchPane.getComponent(12);
 		searchButton.doClick();
-		List<Object> tables = UiTestUtils.getObjects(middlePane, JTable.class);
+		List<JTable> tables = UiTestUtils.getObjects(middlePane, JTable.class);
 		assertFalse(tables.isEmpty());
 	}
 	
@@ -160,7 +161,7 @@ public class ReservePanelTest {
 		reserveButton.doClick(); // reserved
 		
 		// change to high user and find override
-		user.setUserGroup(EntityTestUtils.HIGH_USER_GROUP);
+		user = user.setUserGroup(EntityTestUtils.HIGH_USER_GROUP);
 		reservePane = new ReservePanel(null, user, UserActionTestUtils.getUserAction(),ReservationActionTestUtils.getReservationAction(), RoomActionTestUtils.getRoomAction(), FacilityActionTestUtils.getFacilityAction());
 		reservePane.setAlert(false);
 		topPane = (JPanel) reservePane.getComponent(0);
@@ -172,9 +173,9 @@ public class ReservePanelTest {
 
 		searchButton = (JButton) searchPane.getComponent(14);
 		searchButton.doClick();
-		List<Object> tables = UiTestUtils.getObjects(middlePane, JTable.class);
+		List<JTable> tables = UiTestUtils.getObjects(middlePane, JTable.class);
 		assertFalse(tables.isEmpty());
-		table = (JTable) tables.get(0);
+		table = tables.get(0);
 		//System.out.println(table.getRowCount());
 		
 		//JButton button = (JButton)table.getValueAt(1, 1);

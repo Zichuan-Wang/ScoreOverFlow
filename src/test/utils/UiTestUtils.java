@@ -17,9 +17,9 @@ public class UiTestUtils {
 		}
 		return compList;
 	}
-
-	public static List<Object> getObjects(Container c, @SuppressWarnings("rawtypes") Class clazz) {
-		ArrayList<Object> arr = new ArrayList<>();
+	
+	public static <T> List<T> getObjects(Container c, Class<T> clazz) {
+		ArrayList<T> arr = new ArrayList<>();
 		for (Component comp : getAllComponents(c)) {
 			if (clazz.isInstance(comp))
 				arr.add(clazz.cast(comp));

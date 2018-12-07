@@ -53,9 +53,9 @@ public class ViewRoomsPanelTest {
 	@Test
 	protected void listGeneratedWithCorrectItems() {
 		viewRoomsPane.showReservationList();
-		List<Object> objects = UiTestUtils.getObjects(middlePane, JTable.class);
+		List<JTable> objects = UiTestUtils.getObjects(middlePane, JTable.class);
 		assertFalse(objects.isEmpty());
-		JTable table = (JTable) objects.get(0);
+		JTable table = objects.get(0);
 		assertEquals(table.getRowCount(), 2);
 		// each row length 5, first 4 strings, last button
 		assertTrue(table.getValueAt(0, 0) instanceof String);
@@ -78,7 +78,7 @@ public class ViewRoomsPanelTest {
 
 	protected void pareparePanelTest() {
 		viewRoomsPane.pareparePanel();
-		List<Object> objects = UiTestUtils.getObjects(middlePane, JTable.class);
+		List<JTable> objects = UiTestUtils.getObjects(middlePane, JTable.class);
 		assertFalse(objects.isEmpty());
 	}
 

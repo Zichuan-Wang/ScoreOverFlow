@@ -36,10 +36,14 @@ public class MainPanelTest {
 	private final String MAIN_PANEL_MANAGE_BUTTON_TEXT = "Manage Rooms and Facilities";
 	private final String MAIN_PANEL_RESERVE_BUTTON_TEXT = "Reserve a Room";
 	private final String MAIN_PANEL_VIEW_ROOMS_BUTTON_TEXT = "View Reservations";
+	private final String MAIN_PANEL_BATCH_BUTTON_TEXT = "Reserve Rooms in Batch";
 	private final String WELCOME_MESSAGE_DEFAULT_USER = "Welcome back Normal User x";
 	
 	private final int ADMIN_BUTTON_COUNT = 3;
+	private final int PS_BUTTON_COUNT = 3;
 	private final int BUTTON_COUNT = 2;
+	
+	
 	
 	private MainPanel mainPane;
 	private JPanel topPane, middlePane;
@@ -83,6 +87,7 @@ public class MainPanelTest {
 	
 	@Test
 	protected void adminMiddlePanelHasCorrectButtons() {
+		// Manage, Reserve, View Rooms
 		JPanel rootPane = new JPanel(new CardLayout());
 		user.setIsAdmin(true);
 		user.setUserGroup(0);
@@ -90,20 +95,37 @@ public class MainPanelTest {
 		rootPane.add(mainPane,"main");
 		middlePane = (JPanel) mainPane.getComponent(1);
 		//check buttons
-		List<Object> buttons = UiTestUtils.getObjects(middlePane, JButton.class);
+		List<JButton> buttons = UiTestUtils.getObjects(middlePane, JButton.class);
 		assertEquals(ADMIN_BUTTON_COUNT,buttons.size());
 		
-		JButton manageButton = (JButton) buttons.get(0);
+		JButton manageButton = buttons.get(0);
 		assertEquals(MAIN_PANEL_MANAGE_BUTTON_TEXT,manageButton.getText());
 	}
 	
 	@Test
-	protected void middlePanelHasCorrectButtons() {
-		List<Object> buttons = UiTestUtils.getObjects(middlePane, JButton.class);
+	protected void psMiddlePanelHasCorrectButtons() {
+		// Reserve, Reserve Batch View, View Rooms
+		JPanel rootPane = new JPanel(new CardLayout());
+		user.setUserGroup(2);
+		mainPane = new MainPanel(rootPane,user,userAction,reservationAction,roomAction,facilityAction);
+		rootPane.add(mainPane,"main");
+		middlePane = (JPanel) mainPane.getComponent(1);
+		//check buttons
+		List<JButton> buttons = UiTestUtils.getObjects(middlePane, JButton.class);
+		assertEquals(PS_BUTTON_COUNT,buttons.size());
+		
+		JButton batchButton = buttons.get(1);
+		assertEquals(MAIN_PANEL_BATCH_BUTTON_TEXT,batchButton.getText());
+	}
+	
+	@Test
+	protected void defaultMiddlePanelHasCorrectButtons() {
+		// Reserve, View Rooms
+		List<JButton> buttons = UiTestUtils.getObjects(middlePane, JButton.class);
 		assertEquals(BUTTON_COUNT,buttons.size());
-		JButton reserveButton = (JButton) buttons.get(0);
+		JButton reserveButton = buttons.get(0);
 		assertEquals(MAIN_PANEL_RESERVE_BUTTON_TEXT,reserveButton.getText());
-		JButton viewRoomsButton = (JButton) buttons.get(1);
+		JButton viewRoomsButton = buttons.get(1);
 		assertEquals(MAIN_PANEL_VIEW_ROOMS_BUTTON_TEXT,viewRoomsButton.getText());
 	}
 	
