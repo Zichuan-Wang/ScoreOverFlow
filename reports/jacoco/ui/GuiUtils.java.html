@@ -2,49 +2,80 @@
 
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.text.NumberFormatter;
+import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
-<span class="nc" id="L11">public class GuiUtils {</span>
+import entity.User;
 
-	public static NumberFormatter getNumberFormatter(int minimum, int maximum) {
-<span class="fc" id="L14">		NumberFormat integerFormat = NumberFormat.getIntegerInstance();</span>
-<span class="fc" id="L15">		integerFormat.setGroupingUsed(false);</span>
-<span class="fc" id="L16">		NumberFormatter integerFormatter = new NumberFormatter(integerFormat);</span>
-<span class="fc" id="L17">		integerFormatter.setValueClass(Integer.class);</span>
-<span class="fc" id="L18">		integerFormatter.setMinimum(minimum);</span>
-<span class="fc" id="L19">		integerFormatter.setMaximum(maximum);</span>
-<span class="fc" id="L20">		integerFormatter.setAllowsInvalid(false);</span>
-<span class="fc" id="L21">		return integerFormatter;</span>
-	}
+<span class="nc" id="L17">public class GuiUtils {</span>
 
 	public static JButton createButton(String buttonName, ActionListener... actions) {
-<span class="fc" id="L25">		JButton button = new JButton(buttonName);</span>
-<span class="fc bfc" id="L26" title="All 2 branches covered.">		for (ActionListener action : actions) {</span>
-<span class="fc" id="L27">			button.addActionListener(action);</span>
+<span class="fc" id="L20">		JButton button = new JButton(buttonName);</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">		for (ActionListener action : actions) {</span>
+<span class="fc" id="L22">			button.addActionListener(action);</span>
 		}
-<span class="fc" id="L29">		return button;</span>
+<span class="fc" id="L24">		return button;</span>
 	}
 
-	public static ActionListener getJumpCardActionListener(JPanel cards, String id) {
-<span class="fc" id="L33">		return e -&gt; {</span>
-<span class="nc" id="L34">			CardLayout cl = (CardLayout) cards.getLayout();</span>
-<span class="nc" id="L35">			cl.show(cards, id);</span>
-<span class="nc" id="L36">		};</span>
+	public static void jumpToPanel(JPanel rootPane, String id) {
+<span class="fc" id="L28">		CardLayout cl = (CardLayout) rootPane.getLayout();</span>
+<span class="fc" id="L29">		cl.show(rootPane, id);</span>
+<span class="fc" id="L30">	}</span>
+	
+	public static String userGroupToString(User user) {
+<span class="pc bpc" id="L33" title="3 of 5 branches missed.">		switch (user.getUserGroup()) {</span>
+			case 0:
+<span class="fc" id="L35">				return &quot;Administrator&quot;;</span>
+			case 1:
+<span class="nc" id="L37">				return &quot;High priority user&quot;;</span>
+			case 2:
+<span class="nc" id="L39">				return &quot;Program supervisor&quot;;</span>
+			case 3:
+<span class="fc" id="L41">				return &quot;Normal User&quot;;</span>
+			default:
+<span class="nc" id="L43">				return &quot;&quot;;</span>
+		}
 	}
+	
+	public static JTextField getNumTextField(int maxCharacters) {
+<span class="fc" id="L48">		class CustomDocumentFilter extends DocumentFilter {</span>
 
-	public static void jumpCard(JPanel cards, String id) {
-<span class="fc" id="L40">		CardLayout cl = (CardLayout) cards.getLayout();</span>
-<span class="fc" id="L41">		cl.show(cards, id);</span>
-<span class="fc" id="L42">	}</span>
+<span class="fc" id="L50">	        private Pattern regexCheck = Pattern.compile(&quot;[0-9]+&quot;);</span>
 
-	public static JButton getBackButton(BasePanel pane, JPanel cards) {
-<span class="pc" id="L45">		ActionListener initAction = e -&gt; pane.reset();</span>
-<span class="fc" id="L46">		JButton backButton = createButton(&quot;Back&quot;, getJumpCardActionListener(cards, &quot;main&quot;), initAction);</span>
-<span class="fc" id="L47">		return backButton;</span>
+	        @Override
+	        public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">	            if (str == null) {</span>
+<span class="nc" id="L55">	                return;</span>
+	            }
+
+<span class="nc bnc" id="L58" title="All 4 branches missed.">	            if (regexCheck.matcher(str).matches() &amp;&amp; (fb.getDocument().getLength() + str.length()) &lt;= maxCharacters) {</span>
+<span class="nc" id="L59">	                super.insertString(fb, offs, str, a);</span>
+	            }
+<span class="nc" id="L61">	        }</span>
+
+	        @Override
+	        public void replace(FilterBypass fb, int offset, int length, String str, AttributeSet attrs)
+	                throws BadLocationException {
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">	            if (str == null) {</span>
+<span class="nc" id="L67">	                return;</span>
+	            }
+
+<span class="fc bfc" id="L70" title="All 4 branches covered.">	            if (regexCheck.matcher(str).matches() &amp;&amp; (fb.getDocument().getLength() + str.length()) &lt;= maxCharacters) {</span>
+<span class="fc" id="L71">	                fb.replace(offset, length, str, attrs);</span>
+	            }
+<span class="fc" id="L73">	        }</span>
+	    }
+		
+<span class="fc" id="L76">		JTextField textField = new JTextField(maxCharacters);</span>
+<span class="fc" id="L77">		((AbstractDocument) textField.getDocument()).setDocumentFilter(new CustomDocumentFilter());</span>
+<span class="fc" id="L78">		return textField;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

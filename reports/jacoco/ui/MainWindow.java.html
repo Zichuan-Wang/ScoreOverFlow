@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import dao.factory.FacilityDaoFactory;
 import dao.factory.ReservationDaoFactory;
@@ -18,46 +20,51 @@ import server.action.UserAction;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
-<span class="fc" id="L21">	final int SCREEN_WIDTH = 600;</span>
-<span class="fc" id="L22">	final int SCREEN_HEIGHT = 800;</span>
 
 	public MainWindow(UserAction userAction, ReservationAction reservationAction, RoomAction roomAction,
 <span class="fc" id="L25">			FacilityAction facilityAction) {</span>
 		// Initialization
 <span class="fc" id="L27">		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
 <span class="fc" id="L28">		setTitle(&quot;Schedule++&quot;);</span>
-<span class="fc" id="L29">		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);</span>
-
+<span class="fc" id="L29">		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();</span>
+<span class="fc" id="L30">		setSize(screenSize.width/4, screenSize.height/2);</span>
+		
 		// Create a cardLayout for switching between the panels
-<span class="fc" id="L32">		JPanel cards = new JPanel(new CardLayout());</span>
-<span class="fc" id="L33">		LoginPanel loginPane = new LoginPanel(cards, userAction, reservationAction, roomAction, facilityAction);</span>
-<span class="fc" id="L34">		cards.add(loginPane, &quot;login&quot;);</span>
-<span class="fc" id="L35">		add(cards);</span>
-<span class="fc" id="L36">	}</span>
+<span class="fc" id="L33">		JPanel rootPanel = new JPanel(new CardLayout());</span>
+<span class="fc" id="L34">		LoginPanel loginPane = new LoginPanel(rootPanel, userAction, reservationAction, roomAction, facilityAction);</span>
+<span class="fc" id="L35">		rootPanel.add(loginPane, &quot;login&quot;);</span>
+<span class="fc" id="L36">		add(rootPanel);</span>
+<span class="fc" id="L37">	}</span>
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-<span class="nc" id="L42">		EventQueue.invokeLater(new Runnable() {</span>
+<span class="nc" id="L43">		EventQueue.invokeLater(new Runnable() {</span>
 			public void run() {
 				try {
-<span class="nc" id="L45">					UserAction userAction = new UserAction(UserDaoFactory.getInstance());</span>
-					// ReservationAction reservationAction = new
-					// ReservationAction(ReservationDaoFactory.getInstance(),
-					// RoomDaoFactory.getInstance());
-<span class="nc" id="L49">					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());</span>
-<span class="nc" id="L50">					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());</span>
-<span class="nc" id="L51">					FacilityAction facilityAction = new FacilityAction(FacilityDaoFactory.getInstance());</span>
-
-<span class="nc" id="L53">					MainWindow frame = new MainWindow(userAction, reservationAction, roomAction, facilityAction);</span>
-<span class="nc" id="L54">					frame.setVisible(true);</span>
-<span class="nc" id="L55">					SecurityService.initialize(null);</span>
-<span class="nc" id="L56">				} catch (Exception e) {</span>
-<span class="nc" id="L57">					e.printStackTrace();</span>
-<span class="nc" id="L58">				}</span>
-<span class="nc" id="L59">			}</span>
+					// nicer look and feel with Nimbus
+<span class="nc bnc" id="L47" title="All 2 branches missed.">					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">				        if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L49">				            UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L50">				            break;</span>
+				        }
+				    }
+					
+					// Set up necessary parameters
+<span class="nc" id="L55">					UserAction userAction = new UserAction(UserDaoFactory.getInstance());</span>
+<span class="nc" id="L56">					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());</span>
+<span class="nc" id="L57">					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());</span>
+<span class="nc" id="L58">					FacilityAction facilityAction = new FacilityAction(FacilityDaoFactory.getInstance());</span>
+<span class="nc" id="L59">					SecurityService.initialize(null);</span>
+					
+<span class="nc" id="L61">					MainWindow frame = new MainWindow(userAction, reservationAction, roomAction, facilityAction);</span>
+<span class="nc" id="L62">					frame.setVisible(true);</span>
+<span class="nc" id="L63">				} catch (Exception e) {</span>
+<span class="nc" id="L64">					e.printStackTrace();</span>
+<span class="nc" id="L65">				}</span>
+<span class="nc" id="L66">			}</span>
 		});
-<span class="nc" id="L61">	}</span>
+<span class="nc" id="L68">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -9,18 +9,22 @@ ScoreOverFlow,dao,FacilityDao,3,23,0,0,2,5,0,3,0,3
 ScoreOverFlow,dao,ReservationDao,31,30,0,0,8,8,1,2,1,2
 ScoreOverFlow,dao,BaseDao,15,75,0,2,5,21,1,5,1,4
 ScoreOverFlow,dao,RoomDao,62,92,0,0,13,18,1,4,1,4
-ScoreOverFlow,ui,GuiUtils,15,85,0,2,4,19,3,6,3,5
-ScoreOverFlow,ui,TablePanel.ButtonRenderer,3,6,0,0,1,2,1,1,1,1
-ScoreOverFlow,ui,LoginPanel,7,267,1,5,1,56,2,7,1,5
-ScoreOverFlow,ui,BasePanel,8,168,0,0,5,44,2,4,2,4
-ScoreOverFlow,ui,TablePanel,0,105,0,4,0,24,0,5,0,3
+ScoreOverFlow,ui,GuiUtils,9,57,3,4,4,13,4,6,1,4
+ScoreOverFlow,ui,TablePanel.ButtonRenderer,5,6,0,0,2,1,1,1,1,1
+ScoreOverFlow,ui,LoginPanel,7,226,1,3,1,57,2,5,1,4
+ScoreOverFlow,ui,BatchPanel,149,35,12,0,32,11,7,3,1,3
+ScoreOverFlow,ui,BasePanel,1,147,0,0,1,45,1,7,1,7
+ScoreOverFlow,ui,TablePanel,0,106,0,4,0,24,0,5,0,3
 ScoreOverFlow,ui,TablePanel.new DefaultTableModel() {...},10,11,2,0,1,1,2,1,1,1
-ScoreOverFlow,ui,MainWindow.new Runnable() {...},41,0,0,0,12,0,2,0,2,0
-ScoreOverFlow,ui,ReservePanel,387,730,33,17,84,163,26,15,6,10
+ScoreOverFlow,ui,MainWindow.new Runnable() {...},66,0,4,0,16,0,4,0,2,0
+ScoreOverFlow,ui,ManagePanel,1,39,4,6,1,12,4,3,0,2
+ScoreOverFlow,ui,ReservePanel,181,795,22,20,41,190,19,15,4,9
 ScoreOverFlow,ui,TablePanel.ButtonEditor,10,6,0,0,3,2,2,1,2,1
-ScoreOverFlow,ui,MainPanel,6,101,1,3,0,21,3,3,2,2
-ScoreOverFlow,ui,MainWindow,5,43,0,0,2,11,1,1,1,1
-ScoreOverFlow,ui,ViewRoomsPanel,19,249,7,5,8,59,6,8,1,7
+ScoreOverFlow,ui,MainPanel,0,245,0,2,0,36,0,9,0,8
+ScoreOverFlow,ui,GuiUtils.new DocumentFilter() {...},26,34,7,5,6,6,5,4,1,2
+ScoreOverFlow,ui,MainWindow,5,46,0,0,2,10,1,1,1,1
+ScoreOverFlow,ui,ViewRoomsPanel,21,252,7,5,6,58,6,8,1,7
+ScoreOverFlow,ui,ReservePanel.new DefaultListSelectionModel() {...},14,6,2,0,4,1,2,1,1,1
 ScoreOverFlow,dao.factory,ReservationDaoFactory,9,13,0,2,3,5,1,2,1,1
 ScoreOverFlow,dao.factory,DaoFactory,3,4,0,0,1,1,1,1,1,1
 ScoreOverFlow,dao.factory,UserDaoFactory,9,13,0,2,3,5,1,2,1,1
@@ -32,10 +36,10 @@ ScoreOverFlow,server.action,ReservationAction,73,38,4,0,17,10,6,4,4,4
 ScoreOverFlow,server.action,UserAction,6,11,0,0,1,4,1,2,1,2
 ScoreOverFlow,server.action,FacilityAction,0,10,0,0,0,4,0,2,0,2
 ScoreOverFlow,server.action,RoomAction,5,16,0,0,1,5,1,3,1,3
-ScoreOverFlow,email,EmailSender,6,76,0,6,3,18,1,4,1,1
+ScoreOverFlow,email,EmailSender,6,144,0,6,3,28,1,5,1,2
 ScoreOverFlow,email,EmailSender.new Authenticator() {...},0,17,0,0,0,2,0,2,0,2
 ScoreOverFlow,entity,Facility,11,24,0,0,4,8,3,5,3,5
-ScoreOverFlow,entity,Room,8,32,0,0,3,11,2,7,2,7
+ScoreOverFlow,entity,Room,5,35,0,0,2,12,1,8,1,8
 ScoreOverFlow,entity,User,0,51,0,0,0,19,0,13,0,13
 ScoreOverFlow,entity,Reservation,0,67,0,0,0,25,0,17,0,17
 ScoreOverFlow,entity,EntityUtils,3,25,0,0,1,9,1,1,1,1

@@ -3,6 +3,7 @@
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -14,40 +15,60 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-<span class="nc" id="L17">public class EmailSender {</span>
+import entity.Reservation;
+import entity.Room;
+import entity.User;
+import server.action.RoomAction;
+
+<span class="nc" id="L23">public class EmailSender {</span>
 
 	public static void sendEmail(String to, String subject, String body) throws AddressException, MessagingException {
-<span class="fc bfc" id="L20" title="All 2 branches covered.">		to = to == null ? &quot;&quot; : to;</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">		subject = subject == null ? &quot;&quot; : subject;</span>
-<span class="fc bfc" id="L22" title="All 2 branches covered.">		body = body == null ? &quot;&quot; : body;</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">		to = to == null ? &quot;&quot; : to;</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">		subject = subject == null ? &quot;&quot; : subject;</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">		body = body == null ? &quot;&quot; : body;</span>
 
 		InputStream inputStream;
 		try {
-<span class="fc" id="L26">			inputStream = new FileInputStream(&quot;src/main/resources/email.properties&quot;);</span>
-<span class="fc" id="L27">			Properties properties = new Properties();</span>
-<span class="fc" id="L28">			properties.load(inputStream);</span>
+<span class="fc" id="L32">			inputStream = new FileInputStream(&quot;src/main/resources/email.properties&quot;);</span>
+<span class="fc" id="L33">			Properties properties = new Properties();</span>
+<span class="fc" id="L34">			properties.load(inputStream);</span>
 
-<span class="fc" id="L30">			String username = properties.getProperty(&quot;mail.from.username&quot;);</span>
-<span class="fc" id="L31">			String password = properties.getProperty(&quot;mail.from.password&quot;);</span>
-<span class="fc" id="L32">			String from = properties.getProperty(&quot;mail.from.address&quot;);</span>
+<span class="fc" id="L36">			String username = properties.getProperty(&quot;mail.from.username&quot;);</span>
+<span class="fc" id="L37">			String password = properties.getProperty(&quot;mail.from.password&quot;);</span>
+<span class="fc" id="L38">			String from = properties.getProperty(&quot;mail.from.address&quot;);</span>
 
-<span class="fc" id="L34">			Session session = Session.getInstance(properties, new javax.mail.Authenticator() {</span>
+<span class="fc" id="L40">			Session session = Session.getInstance(properties, new javax.mail.Authenticator() {</span>
 				protected PasswordAuthentication getPasswordAuthentication() {
-<span class="fc" id="L36">					return new PasswordAuthentication(username, password);</span>
+<span class="fc" id="L42">					return new PasswordAuthentication(username, password);</span>
 				}
 			});
 
-<span class="fc" id="L40">			Message message = new MimeMessage(session);</span>
-<span class="fc" id="L41">			message.setFrom(new InternetAddress(from));</span>
-<span class="fc" id="L42">			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));</span>
-<span class="fc" id="L43">			message.setSubject(subject);</span>
-<span class="fc" id="L44">			message.setText(body);</span>
-<span class="fc" id="L45">			Transport.send(message);</span>
+<span class="fc" id="L46">			Message message = new MimeMessage(session);</span>
+<span class="fc" id="L47">			message.setFrom(new InternetAddress(from));</span>
+<span class="fc" id="L48">			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));</span>
+<span class="fc" id="L49">			message.setSubject(subject);</span>
+<span class="fc" id="L50">			message.setText(body);</span>
+<span class="fc" id="L51">			Transport.send(message);</span>
 
-<span class="nc" id="L47">		} catch (IOException exception) {</span>
-<span class="nc" id="L48">			exception.printStackTrace();</span>
-<span class="fc" id="L49">		}</span>
-<span class="fc" id="L50">	}</span>
+<span class="nc" id="L53">		} catch (IOException exception) {</span>
+<span class="nc" id="L54">			exception.printStackTrace();</span>
+<span class="fc" id="L55">		}</span>
+<span class="fc" id="L56">	}</span>
+	
+	public static void sendEmail(User user, Reservation reservation, RoomAction roomAction) throws AddressException, MessagingException {
+<span class="fc" id="L59">		Room room = roomAction.getRoomById(reservation.getRoomId());</span>
+<span class="fc" id="L60">		String date = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).format(reservation.getEventDate());</span>
+<span class="fc" id="L61">		String beginTime = new SimpleDateFormat(&quot;hh:mm:ss&quot;).format(reservation.getStartTime());</span>
+<span class="fc" id="L62">		String endTime = new SimpleDateFormat(&quot;hh:mm:ss&quot;).format(reservation.getEndTime());</span>
+<span class="fc" id="L63">		String to = user.getEmail();</span>
+<span class="fc" id="L64">		String subject = &quot;Your reservation has been overriden by another user.&quot;;</span>
+<span class="fc" id="L65">		String body = &quot;Dear &quot; + user.getUni() + &quot;:\n&quot;</span>
+<span class="fc" id="L66">				+ &quot;\t Your reservation of &quot; + room.getName() +&quot; for &quot; + date </span>
+				+ &quot; from &quot; + beginTime + &quot; to &quot; + endTime
+				+ &quot; has been unfortunately replaced by another user.\n&quot;
+				+ &quot;Schedule++&quot;;
+<span class="fc" id="L70">		sendEmail(to, subject, body);</span>
+<span class="fc" id="L71">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
