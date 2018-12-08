@@ -8,19 +8,19 @@ import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.action.UserAction;
 
-public class ManagePanel extends BasePanel{
+public class ManagePanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = &quot;Manage Rooms and Facilities&quot;;
 	private User user;
-	
+
 	private UserAction userAction;
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 	private FacilityAction facilityAction;
-	
+
 	public ManagePanel(JPanel cards, User user, UserAction userAction, ReservationAction reservationAction,
 			RoomAction roomAction, FacilityAction facilityAction) {
-<span class="fc" id="L23">		super(cards,TITLE);</span>
+<span class="fc" id="L23">		super(cards, TITLE);</span>
 <span class="fc" id="L24">		this.user = user;</span>
 <span class="fc" id="L25">		this.userAction = userAction;</span>
 <span class="fc" id="L26">		this.reservationAction = reservationAction;</span>

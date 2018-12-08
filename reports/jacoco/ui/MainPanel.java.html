@@ -19,14 +19,14 @@ import server.action.UserAction;
 public class MainPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = &quot;Main&quot;;
-	
+
 	private JButton reserveButton;
 	private JButton viewRoomsButton;
 	private JButton manageButton;
 	private JButton batchButton;
-	
+
 	private User user;
-	
+
 	private UserAction userAction;
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
@@ -45,65 +45,70 @@ public class MainPanel extends BasePanel {
 
 	private void setMiddlePanel() {
 <span class="fc" id="L47">		middlePane.setLayout(new BoxLayout(middlePane, BoxLayout.Y_AXIS));</span>
-		
+
 		// create text
-<span class="fc" id="L50">		JLabel welcomeMessage = new JLabel(&quot;Welcome back &quot; + GuiUtils.userGroupToString(user)+ &quot; &quot; + user.getUni());</span>
+<span class="fc" id="L50">		JLabel welcomeMessage = new JLabel(&quot;Welcome back &quot; + GuiUtils.userGroupToString(user) + &quot; &quot; + user.getUni());</span>
 <span class="fc" id="L51">		welcomeMessage.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
 <span class="fc" id="L52">		middlePane.add(welcomeMessage);</span>
-		
-<span class="fc" id="L54">		middlePane.add(Box.createVerticalGlue()); // beginning</span>
-		
-		// add or edit room and facilities for admin
-		//if (SecurityUtils.getSubject().hasRole(&quot;Admin&quot;)) {
-<span class="fc bfc" id="L58" title="All 2 branches covered.">		if (user.getUserGroup() == 0) {</span>
-<span class="fc" id="L59">			ManagePanel managePane = new ManagePanel(rootPane, user, userAction, reservationAction, roomAction, facilityAction);</span>
-<span class="fc" id="L60">			rootPane.add(managePane,&quot;manage&quot;);</span>
-			
-<span class="fc" id="L62">			manageButton = GuiUtils.createButton(&quot;Manage Rooms and Facilities&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;manage&quot;), e -&gt; managePane.pareparePanel());</span>
-			
-<span class="fc" id="L64">			manageButton.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
-<span class="fc" id="L65">			middlePane.add(manageButton);</span>
-			
-<span class="fc" id="L67">			middlePane.add(Box.createVerticalGlue());</span>
-		}
-		
-		// Reserve
-<span class="fc" id="L71">		ReservePanel reservePane = new ReservePanel(rootPane, user, userAction, reservationAction, roomAction, facilityAction);</span>
-<span class="fc" id="L72">		rootPane.add(reservePane,&quot;reserve&quot;);</span>
-		
-<span class="fc" id="L74">		reserveButton = GuiUtils.createButton(&quot;Reserve a Room&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;reserve&quot;), e -&gt; reservePane.pareparePanel());</span>
-		
-<span class="fc" id="L76">		reserveButton.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
-<span class="fc" id="L77">		middlePane.add(reserveButton);</span>
 
-<span class="fc" id="L79">		middlePane.add(Box.createVerticalGlue());</span>
+<span class="fc" id="L54">		middlePane.add(Box.createVerticalGlue()); // beginning</span>
+
+		// add or edit room and facilities for admin
+		// if (SecurityUtils.getSubject().hasRole(&quot;Admin&quot;)) {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		if (user.getUserGroup() == 0) {</span>
+<span class="fc" id="L59">			ManagePanel managePane = new ManagePanel(rootPane, user, userAction, reservationAction, roomAction,</span>
+					facilityAction);
+<span class="fc" id="L61">			rootPane.add(managePane, &quot;manage&quot;);</span>
+
+<span class="fc" id="L63">			manageButton = GuiUtils.createButton(&quot;Manage Rooms and Facilities&quot;,</span>
+<span class="fc" id="L64">					e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;manage&quot;), e -&gt; managePane.pareparePanel());</span>
+
+<span class="fc" id="L66">			manageButton.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
+<span class="fc" id="L67">			middlePane.add(manageButton);</span>
+
+<span class="fc" id="L69">			middlePane.add(Box.createVerticalGlue());</span>
+		}
+
+		// Reserve
+<span class="fc" id="L73">		ReservePanel reservePane = new ReservePanel(rootPane, user, userAction, reservationAction, roomAction,</span>
+				facilityAction);
+<span class="fc" id="L75">		rootPane.add(reservePane, &quot;reserve&quot;);</span>
+
+<span class="fc" id="L77">		reserveButton = GuiUtils.createButton(&quot;Reserve a Room&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;reserve&quot;),</span>
+<span class="fc" id="L78">				e -&gt; reservePane.pareparePanel());</span>
+
+<span class="fc" id="L80">		reserveButton.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
+<span class="fc" id="L81">		middlePane.add(reserveButton);</span>
+
+<span class="fc" id="L83">		middlePane.add(Box.createVerticalGlue());</span>
 
 		// Reserve in Batch
-		//if (SecurityUtils.getSubject().hasRole(&quot;PS&quot;)) {
-<span class="fc bfc" id="L83" title="All 2 branches covered.">		if (user.getUserGroup() == 2) {</span>
-<span class="fc" id="L84">			BatchPanel batchPane = new BatchPanel(rootPane, user, reservationAction);</span>
-<span class="fc" id="L85">			rootPane.add(batchPane,&quot;batch&quot;);</span>
-				
-<span class="pc" id="L87">			batchButton = GuiUtils.createButton(&quot;Reserve Rooms in Batch&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;batch&quot;), e -&gt; batchPane.pareparePanel());</span>
-				
-<span class="fc" id="L89">			batchButton.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
-<span class="fc" id="L90">			middlePane.add(batchButton);</span>
-				
-<span class="fc" id="L92">			middlePane.add(Box.createVerticalGlue());</span>
+		// if (SecurityUtils.getSubject().hasRole(&quot;PS&quot;)) {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">		if (user.getUserGroup() == 2) {</span>
+<span class="fc" id="L88">			BatchPanel batchPane = new BatchPanel(rootPane, user, reservationAction);</span>
+<span class="fc" id="L89">			rootPane.add(batchPane, &quot;batch&quot;);</span>
+
+<span class="pc" id="L91">			batchButton = GuiUtils.createButton(&quot;Reserve Rooms in Batch&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;batch&quot;),</span>
+<span class="nc" id="L92">					e -&gt; batchPane.pareparePanel());</span>
+
+<span class="fc" id="L94">			batchButton.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
+<span class="fc" id="L95">			middlePane.add(batchButton);</span>
+
+<span class="fc" id="L97">			middlePane.add(Box.createVerticalGlue());</span>
 		}
-		
+
 		// View Reservations
-<span class="fc" id="L96">		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(rootPane, user, reservationAction, roomAction);</span>
-<span class="fc" id="L97">		rootPane.add(viewRoomsPane,&quot;view rooms&quot;);</span>
-		
-<span class="fc" id="L99">		viewRoomsButton = GuiUtils.createButton(&quot;View Reservations&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;view rooms&quot;), e -&gt; viewRoomsPane.pareparePanel());</span>
-		
-<span class="fc" id="L101">		viewRoomsButton.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
-<span class="fc" id="L102">		middlePane.add(viewRoomsButton);</span>
-		
-<span class="fc" id="L104">		middlePane.add(Box.createVerticalGlue()); // end</span>
-<span class="fc" id="L105">	}</span>
-	
+<span class="fc" id="L101">		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(rootPane, user, reservationAction, roomAction);</span>
+<span class="fc" id="L102">		rootPane.add(viewRoomsPane, &quot;view rooms&quot;);</span>
+
+<span class="fc" id="L104">		viewRoomsButton = GuiUtils.createButton(&quot;View Reservations&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;view rooms&quot;),</span>
+<span class="fc" id="L105">				e -&gt; viewRoomsPane.pareparePanel());</span>
+
+<span class="fc" id="L107">		viewRoomsButton.setAlignmentX(Component.CENTER_ALIGNMENT);</span>
+<span class="fc" id="L108">		middlePane.add(viewRoomsButton);</span>
+
+<span class="fc" id="L110">		middlePane.add(Box.createVerticalGlue()); // end</span>
+<span class="fc" id="L111">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

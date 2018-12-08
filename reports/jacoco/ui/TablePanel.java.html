@@ -39,7 +39,7 @@ public class TablePanel extends JPanel {
 <span class="fc" id="L39">		JTable table = new JTable(dm);</span>
 <span class="fc" id="L40">		table.getColumn(buttonName).setCellRenderer(new ButtonRenderer());</span>
 <span class="fc" id="L41">		table.getColumn(buttonName).setCellEditor(new ButtonEditor());</span>
-		
+
 <span class="fc bfc" id="L43" title="All 2 branches covered.">		for (int i = 0; i &lt; rowLength; i++) {</span>
 <span class="fc" id="L44">			Object[] column = rows.get(i);</span>
 <span class="fc bfc" id="L45" title="All 2 branches covered.">			for (int j = 0; j &lt; columnLength - 1; j++) {</span>
@@ -64,29 +64,30 @@ public class TablePanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-<span class="nc" id="L68">            JButton button = (JButton)value;</span>
-<span class="nc" id="L69">            return button;  </span>
-        }
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+<span class="nc" id="L69">			JButton button = (JButton) value;</span>
+<span class="nc" id="L70">			return button;</span>
+		}
 	}
 
 	private class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
 		private static final long serialVersionUID = 1L;
 		JButton editorValue;
 
-<span class="fc" id="L77">		public ButtonEditor() {</span>
-<span class="fc" id="L78">		}</span>
+<span class="fc" id="L78">		public ButtonEditor() {</span>
+<span class="fc" id="L79">		}</span>
 
 		@Override
 		public Object getCellEditorValue() {
-<span class="nc" id="L82">			return editorValue;</span>
+<span class="nc" id="L83">			return editorValue;</span>
 		}
 
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 				int column) {
-<span class="nc" id="L88">			this.editorValue = (JButton) value;</span>
-<span class="nc" id="L89">			return editorValue;</span>
+<span class="nc" id="L89">			this.editorValue = (JButton) value;</span>
+<span class="nc" id="L90">			return editorValue;</span>
 		}
 
 	}

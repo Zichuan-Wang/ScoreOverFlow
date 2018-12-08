@@ -10,9 +10,9 @@ import javax.swing.border.EtchedBorder;
 
 public class BasePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
+
 <span class="fc" id="L14">	protected boolean alert = true; // For disabling message box</span>
-	
+
 	protected JPanel rootPane;
 	protected JPanel topPane;
 	protected JPanel middlePane;
@@ -54,21 +54,21 @@ public class BasePanel extends JPanel {
 <span class="fc" id="L54">		c.ipady = 0;</span>
 <span class="fc" id="L55">		add(bottomPane, c);</span>
 <span class="fc" id="L56">	}</span>
-	
+
 	public BasePanel(JPanel rootPane, String title) {
 <span class="fc" id="L59">		this(rootPane);</span>
 <span class="fc" id="L60">		JLabel titleLabel = new JLabel(title);</span>
 <span class="fc" id="L61">		topPane.add(titleLabel);</span>
 <span class="fc" id="L62">	}</span>
-	
+
 	public JPanel getTopPane() {
 <span class="fc" id="L65">		return topPane;</span>
 	}
-	
+
 	public JPanel getMiddlePane() {
 <span class="fc" id="L69">		return middlePane;</span>
 	}
-	
+
 	public JPanel getBottomPane() {
 <span class="fc" id="L73">		return bottomPane;</span>
 	}
@@ -76,11 +76,11 @@ public class BasePanel extends JPanel {
 	public void setAlert(boolean changedAlertState) {
 <span class="fc" id="L77">		alert = changedAlertState;</span>
 <span class="fc" id="L78">	}</span>
-	
+
 	// things to do when switching to this panel
 	public void pareparePanel() {
 <span class="fc" id="L82">	}</span>
-	
+
 	// things to do when quitting this panel
 	public void exitPanel() {
 <span class="nc" id="L86">	}</span>

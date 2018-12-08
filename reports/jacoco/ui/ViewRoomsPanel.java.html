@@ -33,14 +33,14 @@ public class ViewRoomsPanel extends BasePanel {
 	private RoomAction roomAction;
 
 	public ViewRoomsPanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction) {
-<span class="fc" id="L36">		super(cards,TITLE);</span>
+<span class="fc" id="L36">		super(cards, TITLE);</span>
 <span class="fc" id="L37">		this.user = user;</span>
 <span class="fc" id="L38">		this.reservationAction = reservationAction;</span>
 <span class="fc" id="L39">		this.roomAction = roomAction;</span>
 <span class="fc" id="L40">		setMiddlePanel();</span>
 <span class="fc" id="L41">	}</span>
 
-	private void setMiddlePanel(){
+	private void setMiddlePanel() {
 <span class="fc" id="L44">		middlePane.setLayout(new GridBagLayout());</span>
 <span class="fc" id="L45">		GridBagConstraints c = new GridBagConstraints();</span>
 
@@ -100,7 +100,7 @@ public class ViewRoomsPanel extends BasePanel {
 	}
 
 	private void cancelReservation(Reservation reservation) {
-		//if (user.getUserGroup() &gt; 3) {
+		// if (user.getUserGroup() &gt; 3) {
 <span class="pc bpc" id="L104" title="1 of 2 branches missed.">		if (!SecurityService.currentUser.hasRole(&quot;Normal&quot;)) {</span>
 <span class="nc bnc" id="L105" title="All 2 branches missed.">			if (alert)</span>
 <span class="nc" id="L106">				JOptionPane.showMessageDialog(null, &quot;You do not have the right role to perform this action.&quot;);</span>
