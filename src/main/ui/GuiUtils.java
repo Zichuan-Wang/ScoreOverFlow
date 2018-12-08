@@ -28,51 +28,54 @@ public class GuiUtils {
 		CardLayout cl = (CardLayout) rootPane.getLayout();
 		cl.show(rootPane, id);
 	}
-	
+
 	public static String userGroupToString(User user) {
 		switch (user.getUserGroup()) {
-			case 0:
-				return "Administrator";
-			case 1:
-				return "High priority user";
-			case 2:
-				return "Program supervisor";
-			case 3:
-				return "Normal User";
-			default:
-				return "";
+		case 0:
+			return "Administrator";
+		case 1:
+			return "High priority user";
+		case 2:
+			return "Program supervisor";
+		case 3:
+			return "Normal User";
+		default:
+			return "";
 		}
 	}
-	
+
 	public static JTextField getNumTextField(int maxCharacters) {
 		class CustomDocumentFilter extends DocumentFilter {
 
-	        private Pattern regexCheck = Pattern.compile("[0-9]+");
+			private Pattern regexCheck = Pattern.compile("[0-9]+");
 
-	        @Override
-	        public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException {
-	            if (str == null) {
-	                return;
-	            }
+			@Override
+			public void insertString(FilterBypass fb, int offs, String str, AttributeSet a)
+					throws BadLocationException {
+				if (str == null) {
+					return;
+				}
 
-	            if (regexCheck.matcher(str).matches() && (fb.getDocument().getLength() + str.length()) <= maxCharacters) {
-	                super.insertString(fb, offs, str, a);
-	            }
-	        }
+				if (regexCheck.matcher(str).matches()
+						&& (fb.getDocument().getLength() + str.length()) <= maxCharacters) {
+					super.insertString(fb, offs, str, a);
+				}
+			}
 
-	        @Override
-	        public void replace(FilterBypass fb, int offset, int length, String str, AttributeSet attrs)
-	                throws BadLocationException {
-	            if (str == null) {
-	                return;
-	            }
+			@Override
+			public void replace(FilterBypass fb, int offset, int length, String str, AttributeSet attrs)
+					throws BadLocationException {
+				if (str == null) {
+					return;
+				}
 
-	            if (regexCheck.matcher(str).matches() && (fb.getDocument().getLength() + str.length()) <= maxCharacters) {
-	                fb.replace(offset, length, str, attrs);
-	            }
-	        }
-	    }
-		
+				if (regexCheck.matcher(str).matches()
+						&& (fb.getDocument().getLength() + str.length()) <= maxCharacters) {
+					fb.replace(offset, length, str, attrs);
+				}
+			}
+		}
+
 		JTextField textField = new JTextField(maxCharacters);
 		((AbstractDocument) textField.getDocument()).setDocumentFilter(new CustomDocumentFilter());
 		return textField;

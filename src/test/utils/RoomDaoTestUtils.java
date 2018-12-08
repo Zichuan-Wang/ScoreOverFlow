@@ -47,7 +47,6 @@ public class RoomDaoTestUtils {
 		for (int id : ROOM_IDS) {
 			rooms.add(EntityTestUtils.getDefaultRoom().setId(id));
 		}
-
 		when(manager.createQuery(any(String.class))).thenReturn(query);
 		when(query.setParameter(any(String.class), any(String.class))).thenReturn(query);
 		when(query.setParameter(any(String.class), anyInt())).thenReturn(query);

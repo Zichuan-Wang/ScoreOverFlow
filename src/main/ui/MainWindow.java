@@ -27,8 +27,8 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Schedule++");
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(screenSize.width/4, screenSize.height/2);
-		
+		setSize(screenSize.width / 4, screenSize.height / 2);
+
 		// Create a cardLayout for switching between the panels
 		JPanel rootPanel = new JPanel(new CardLayout());
 		LoginPanel loginPane = new LoginPanel(rootPanel, userAction, reservationAction, roomAction, facilityAction);
@@ -45,19 +45,19 @@ public class MainWindow extends JFrame {
 				try {
 					// nicer look and feel with Nimbus
 					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				        if ("Nimbus".equals(info.getName())) {
-				            UIManager.setLookAndFeel(info.getClassName());
-				            break;
-				        }
-				    }
-					
+						if ("Nimbus".equals(info.getName())) {
+							UIManager.setLookAndFeel(info.getClassName());
+							break;
+						}
+					}
+
 					// Set up necessary parameters
 					UserAction userAction = new UserAction(UserDaoFactory.getInstance());
 					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
 					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
 					FacilityAction facilityAction = new FacilityAction(FacilityDaoFactory.getInstance());
 					SecurityService.initialize(null);
-					
+
 					MainWindow frame = new MainWindow(userAction, reservationAction, roomAction, facilityAction);
 					frame.setVisible(true);
 				} catch (Exception e) {

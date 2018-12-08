@@ -37,12 +37,12 @@ public class MainWindowTest {
 	protected void titleIsCorrect() {
 		assertEquals(DEFAULT_MAIN_WINDOW_TITLE, mainWindow.getTitle());
 	}
-	
+
 	@Test
 	protected void sizeIsCorrect() {
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		assertEquals(screenSize.getHeight()/2,mainWindow.getHeight());
-		assertEquals(screenSize.getWidth()/4,mainWindow.getWidth());
+		assertEquals(screenSize.getHeight() / 2, mainWindow.getHeight());
+		assertEquals(screenSize.getWidth() / 4, mainWindow.getWidth());
 	}
 
 	@Test

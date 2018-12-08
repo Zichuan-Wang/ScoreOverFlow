@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 
 import exception.DBConnectionException;
 import security.SecurityService;
+import server.action.FacilityAction;
+import server.action.UserAction;
 import utils.EntityTestUtils;
 import utils.FacilityActionTestUtils;
 import utils.UserActionTestUtils;
@@ -33,16 +35,22 @@ public class LoginPanelTest {
 	private JPanel topPane, middlePane;
 	private JPanel rootPane;
 
+	private UserAction userAction;
+	private FacilityAction facilityAction;
+
 	@BeforeEach
 	protected void onSetUp() {
+		userAction = UserActionTestUtils.getUserAction();
+		facilityAction = FacilityActionTestUtils.getFacilityAction();
+
 		rootPane = new JPanel(new CardLayout());
-		loginPane = new LoginPanel(rootPane, UserActionTestUtils.getUserAction(), null, null, FacilityActionTestUtils.getFacilityAction());
+		loginPane = new LoginPanel(rootPane, userAction, null, null, facilityAction);
 		loginPane.setAlert(false);
-		
+
 		rootPane.add(loginPane);
 		topPane = (JPanel) loginPane.getComponent(0);
 		middlePane = (JPanel) loginPane.getComponent(1);
-		
+
 		// initialize security
 		SecurityService.initialize(UserDaoTestUtils.getUserDao());
 	}
@@ -61,9 +69,9 @@ public class LoginPanelTest {
 		assertTrue(loginBox.getComponent(2) instanceof JLabel);
 		assertTrue(loginBox.getComponent(3) instanceof JPasswordField);
 		assertTrue(loginBox.getComponent(4) instanceof JButton);
-		assertEquals(LOGIN_PANEL_LOGIN_BUTTON_TEXT,((JButton)loginBox.getComponent(4)).getText());
+		assertEquals(LOGIN_PANEL_LOGIN_BUTTON_TEXT, ((JButton) loginBox.getComponent(4)).getText());
 		assertTrue(loginBox.getComponent(5) instanceof JButton);
-		assertEquals(MAIN_PANEL_EXIT_BUTTON_TEXT,((JButton)loginBox.getComponent(5)).getText());
+		assertEquals(MAIN_PANEL_EXIT_BUTTON_TEXT, ((JButton) loginBox.getComponent(5)).getText());
 	}
 
 	@Test

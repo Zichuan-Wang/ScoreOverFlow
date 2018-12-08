@@ -42,11 +42,11 @@ public class TablePanelTest {
 		assertEquals("1,2", table.getValueAt(0, 1));
 		assertTrue(table.getValueAt(0, 2) instanceof JButton);
 	}
-	
+
 	@Test
 	protected void resetTest() {
 		tablePane.reset();
-		assertEquals(0,tablePane.getComponentCount());
+		assertEquals(0, tablePane.getComponentCount());
 	}
 
 	@AfterEach

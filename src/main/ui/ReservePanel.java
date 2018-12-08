@@ -73,7 +73,7 @@ public class ReservePanel extends BasePanel {
 
 	public ReservePanel(JPanel cards, User user, UserAction userAction, ReservationAction reservationAction,
 			RoomAction roomAction, FacilityAction facilityAction) {
-		super(cards,TITLE);
+		super(cards, TITLE);
 		this.user = user;
 		this.userAction = userAction;
 		this.reservationAction = reservationAction;
@@ -82,7 +82,6 @@ public class ReservePanel extends BasePanel {
 		setMiddlePanel();
 	}
 
-	
 	private void setMiddlePanel() {
 		middlePane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -129,16 +128,15 @@ public class ReservePanel extends BasePanel {
 		searchBox.setLayout(layout);
 		layout.setAutoCreateContainerGaps(true);
 		layout.setAutoCreateGaps(true);
-		
+
 		// Date Picker
 		JLabel dateLabel = new JLabel("Date");
 
 		dateSettings = new DatePickerSettings();
 		datePicker = new DatePicker(dateSettings);
-		
+
 		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));
 		dateSettings.setAllowEmptyDates(false);
-
 
 		// Time Picker
 		// Start Time
@@ -151,7 +149,6 @@ public class ReservePanel extends BasePanel {
 		startTimeSettings.initialTime = getCurTime();
 		startTimePicker = new TimePicker(startTimeSettings);
 
-
 		// End Time
 		JLabel endTimeLabel = new JLabel("End Time");
 
@@ -161,7 +158,6 @@ public class ReservePanel extends BasePanel {
 		endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
 		endTimeSettings.initialTime = getCurTime().plusMinutes(10);
 		endTimePicker = new TimePicker(endTimeSettings);
-	
 
 		// Setting action listener for adjusting end time based on start time
 		startTimePicker.addTimeChangeListener(e -> {
@@ -174,10 +170,10 @@ public class ReservePanel extends BasePanel {
 
 		// Capacity
 		JLabel capacityLabel = new JLabel("Capacity");
-		//capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0, 1000));
-		//capacity.setColumns(3);
+		// capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0, 1000));
+		// capacity.setColumns(3);
 		capacity = GuiUtils.getNumTextField(5);
-		
+
 		// Name
 		JLabel nameLabel = new JLabel("Name");
 		nameField = new JTextField(50);
@@ -195,88 +191,62 @@ public class ReservePanel extends BasePanel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-		    public void setSelectionInterval(int index0, int index1) {
-		        if(super.isSelectedIndex(index0)) {
-		            super.removeSelectionInterval(index0, index1);
-		        }
-		        else {
-		            super.addSelectionInterval(index0, index1);
-		        }
-		    }
+			public void setSelectionInterval(int index0, int index1) {
+				if (super.isSelectedIndex(index0)) {
+					super.removeSelectionInterval(index0, index1);
+				} else {
+					super.addSelectionInterval(index0, index1);
+				}
+			}
 		});
-		
+
 		// Show Booked Rooms for High Priority Users
 		JLabel overrideLabel = new JLabel();
-		//if (SecurityUtils.getSubject().hasRole("High")) {
+		// if (SecurityUtils.getSubject().hasRole("High")) {
 		if (user.getUserGroup() < 2) {
 			overrideLabel = new JLabel("Show Overridable Rooms");
 			showBookedRooms = new JCheckBox();
 		}
 		// Search Button
 		searchButton = getSearchButton();
-		
+
 		// create panel
 		ParallelGroup hGroup = layout.createParallelGroup(Alignment.CENTER)
-			    .addGroup(layout.createSequentialGroup()
-			    		.addComponent(dateLabel)
-			    		.addComponent(datePicker)
-			    		.addComponent(startTimeLabel)
-			    		.addComponent(startTimePicker)
-			    		.addComponent(endTimeLabel)
-			    		.addComponent(endTimePicker))
-			    .addGroup(layout.createSequentialGroup()
-			    		.addComponent(capacityLabel)
-			    		.addComponent(capacity)
-			    		.addComponent(nameLabel)
-			    		.addComponent(nameField));
+				.addGroup(layout.createSequentialGroup().addComponent(dateLabel).addComponent(datePicker)
+						.addComponent(startTimeLabel).addComponent(startTimePicker).addComponent(endTimeLabel)
+						.addComponent(endTimePicker))
+				.addGroup(layout.createSequentialGroup().addComponent(capacityLabel).addComponent(capacity)
+						.addComponent(nameLabel).addComponent(nameField));
 		// manage override CheckBox
-		//if (SecurityUtils.getSubject().hasRole("High")) {
+		// if (SecurityUtils.getSubject().hasRole("High")) {
 		if (user.getUserGroup() < 2) {
-			hGroup.addGroup(layout.createSequentialGroup()
-		    		.addComponent(facilityLabel)
-		    		.addComponent(facilityList)
-		    		.addComponent(overrideLabel)
-		    		.addComponent(showBookedRooms)
-		    		.addComponent(searchButton));
+			hGroup.addGroup(layout.createSequentialGroup().addComponent(facilityLabel).addComponent(facilityList)
+					.addComponent(overrideLabel).addComponent(showBookedRooms).addComponent(searchButton));
 		} else {
-			hGroup.addGroup(layout.createSequentialGroup()
-		    		.addComponent(facilityLabel)
-		    		.addComponent(facilityList)
-		    		.addComponent(searchButton));
+			hGroup.addGroup(layout.createSequentialGroup().addComponent(facilityLabel).addComponent(facilityList)
+					.addComponent(searchButton));
 		}
 		layout.setHorizontalGroup(hGroup);
-		
+
 		SequentialGroup vGroup = layout.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(dateLabel)
-			    		.addComponent(datePicker)
-			    		.addComponent(startTimeLabel)
-			    		.addComponent(startTimePicker)
-			    		.addComponent(endTimeLabel)
-			    		.addComponent(endTimePicker))
-				.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-			    		.addComponent(capacityLabel)
-			    		.addComponent(capacity)
-			    		.addComponent(nameLabel)
-			    		.addComponent(nameField));
-		
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(dateLabel)
+						.addComponent(datePicker).addComponent(startTimeLabel).addComponent(startTimePicker)
+						.addComponent(endTimeLabel).addComponent(endTimePicker))
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacityLabel)
+						.addComponent(capacity).addComponent(nameLabel).addComponent(nameField));
+
 		// manage override CheckBox
-		//if (SecurityUtils.getSubject().hasRole("High")) {
+		// if (SecurityUtils.getSubject().hasRole("High")) {
 		if (user.getUserGroup() < 2) {
-			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-		    		.addComponent(facilityLabel)
-		    		.addComponent(facilityList)
-		    		.addComponent(overrideLabel)
-		    		.addComponent(showBookedRooms)
-		    		.addComponent(searchButton));
+			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel)
+					.addComponent(facilityList).addComponent(overrideLabel).addComponent(showBookedRooms)
+					.addComponent(searchButton));
 		} else {
-			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-		    		.addComponent(facilityLabel)
-		    		.addComponent(facilityList)
-		    		.addComponent(searchButton));
+			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel)
+					.addComponent(facilityList).addComponent(searchButton));
 		}
 		layout.setVerticalGroup(vGroup);
-		
+
 		return searchBox;
 	}
 
@@ -319,7 +289,9 @@ public class ReservePanel extends BasePanel {
 			}
 			// search from database
 			List<Room> roomList = roomAction.searchRooms(src);
-			List<Object[]> reservedRoomList = showBookedRooms != null && showBookedRooms.isSelected() ? roomAction.searchReservedRooms(src) : new ArrayList<>();
+			List<Object[]> reservedRoomList = showBookedRooms != null && showBookedRooms.isSelected()
+					? roomAction.searchReservedRooms(src)
+					: new ArrayList<>();
 			// build table
 			if (roomList.isEmpty() && reservedRoomList.isEmpty()) {
 				if (alert)
@@ -346,10 +318,16 @@ public class ReservePanel extends BasePanel {
 				for (Object[] result : reservedRoomList) {
 					Room room = (Room) result[0];
 					int id = (int) result[1];
-					Object[] row = new Object[2];
+					Object[] row = new Object[4];
 					row[0] = room.getName();
+					row[1] = room.getCapacity();
+					ArrayList<String> facilities = new ArrayList<>();
+					for (Facility f : room.getFacilities()) {
+						facilities.add(f.getName());
+					}
+					row[2] = String.join(", ", facilities);
 					JButton overrideButton = getOverrideButton(src, id);
-					row[1] = overrideButton;
+					row[3] = overrideButton;
 					rows.add(row);
 				}
 				roomPane.populateList(rowName, rows, "Action");
@@ -385,7 +363,6 @@ public class ReservePanel extends BasePanel {
 			// convert room to reservation
 			Reservation reservation = reservationAction.getReservationById(id);
 			User oldUser = userAction.findUserById(reservation.getUserId());
-			System.out.println(oldUser.getEmail());
 			// reserve
 			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),
 					src.getEndTime(), user.getId());
@@ -397,7 +374,6 @@ public class ReservePanel extends BasePanel {
 				try {
 					EmailSender.sendEmail(oldUser, reservation, roomAction);
 				} catch (MessagingException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else {

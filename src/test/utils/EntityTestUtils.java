@@ -29,6 +29,9 @@ public class EntityTestUtils {
 	public static final int DEFAULT_ROOM_ID = 1;
 	public static final String DEFAULT_ROOM_NAME = "Mudd 282";
 	public static final int DEFAULT_CAPACITY = 15;
+	
+	public static final int DEFAULT_OVERRIDABLE_ROOM_ID = 2;
+	public static final String DEFAULT_OVERRIDABLE_ROOM_NAME = "Mudd 283";
 
 	// Facility
 	public static final int DEFAULT_FACILITY_ID = 1;
@@ -61,6 +64,12 @@ public class EntityTestUtils {
 	public static Room getDefaultRoom() {
 		return new Room().setId(DEFAULT_ROOM_ID)//
 				.setName(DEFAULT_ROOM_NAME)//
+				.setCapacity(DEFAULT_CAPACITY);
+	}
+	
+	public static Room getDefaultOverridableRoom() {
+		return new Room().setId(DEFAULT_OVERRIDABLE_ROOM_ID)//
+				.setName(DEFAULT_OVERRIDABLE_ROOM_NAME)//
 				.setCapacity(DEFAULT_CAPACITY);
 	}
 

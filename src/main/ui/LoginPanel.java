@@ -24,20 +24,20 @@ public class LoginPanel extends BasePanel {
 
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Login";
-	
+
 	private UserAction userAction;
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 	private FacilityAction facilityAction;
-	
+
 	private JButton loginButton;
 	private JButton exitButton;
 	private JTextField userNameField;
 	private JPasswordField passwordField;
 
-	public LoginPanel(JPanel rootPane, UserAction userAction, ReservationAction reservationAction, RoomAction roomAction,
-			FacilityAction facilityAction) {
-		super(rootPane,TITLE);
+	public LoginPanel(JPanel rootPane, UserAction userAction, ReservationAction reservationAction,
+			RoomAction roomAction, FacilityAction facilityAction) {
+		super(rootPane, TITLE);
 		this.userAction = userAction;
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
@@ -47,13 +47,13 @@ public class LoginPanel extends BasePanel {
 
 	private void setMiddlePanel() {
 		middlePane.setLayout(new GridBagLayout());
-		
+
 		JPanel loginBox = new JPanel();
 		GroupLayout layout = new GroupLayout(loginBox);
 		loginBox.setLayout(layout);
 		layout.setAutoCreateContainerGaps(true);
 		layout.setAutoCreateGaps(true);
-		
+
 		// user name
 		JLabel userNameLabel = new JLabel("Username");
 		userNameField = new JTextField();
@@ -63,39 +63,25 @@ public class LoginPanel extends BasePanel {
 		// buttons
 		loginButton = GuiUtils.createButton("Login", e -> login());
 		exitButton = GuiUtils.createButton("Exit", e -> System.exit(0));
-		
-		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.CENTER)
-				.addComponent(userNameLabel)
-				.addGroup(layout.createParallelGroup(Alignment.CENTER)
-						.addComponent(userNameField))
-				.addComponent(passwordLabel)
-				.addComponent(passwordField)
-			    .addGroup(layout.createSequentialGroup()
-			    		.addComponent(loginButton)
-			    		.addComponent(exitButton))
-		);
-		
-		layout.setVerticalGroup(layout.createParallelGroup(Alignment.CENTER)
-				.addGroup(layout.createSequentialGroup()
-						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(userNameLabel))
-						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(userNameField))
-						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(passwordLabel))
-						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(passwordField))
-						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(loginButton)
-								.addComponent(exitButton)))
-		);
+
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(userNameLabel)
+				.addGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(userNameField))
+				.addComponent(passwordLabel).addComponent(passwordField)
+				.addGroup(layout.createSequentialGroup().addComponent(loginButton).addComponent(exitButton)));
+
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.CENTER).addGroup(layout.createSequentialGroup()
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(userNameLabel))
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(userNameField))
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(passwordLabel))
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(passwordField)).addGroup(layout
+						.createParallelGroup(Alignment.BASELINE).addComponent(loginButton).addComponent(exitButton))));
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 1;
-		middlePane.add(loginBox,c);
-		
+		middlePane.add(loginBox, c);
+
 	}
 
 	private void login() {
@@ -104,7 +90,8 @@ public class LoginPanel extends BasePanel {
 		if (status.isSuccess()) {
 			User user = userAction.findUserByUni(userNameField.getText());
 			// Create three panels
-			MainPanel mainPane = new MainPanel(rootPane, user, userAction, reservationAction, roomAction, facilityAction);
+			MainPanel mainPane = new MainPanel(rootPane, user, userAction, reservationAction, roomAction,
+					facilityAction);
 			rootPane.add(mainPane, "main");
 			GuiUtils.jumpToPanel(rootPane, "main");
 		} else {

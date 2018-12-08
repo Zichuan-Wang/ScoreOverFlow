@@ -10,9 +10,9 @@ import javax.swing.border.EtchedBorder;
 
 public class BasePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
+
 	protected boolean alert = true; // For disabling message box
-	
+
 	protected JPanel rootPane;
 	protected JPanel topPane;
 	protected JPanel middlePane;
@@ -54,21 +54,21 @@ public class BasePanel extends JPanel {
 		c.ipady = 0;
 		add(bottomPane, c);
 	}
-	
+
 	public BasePanel(JPanel rootPane, String title) {
 		this(rootPane);
 		JLabel titleLabel = new JLabel(title);
 		topPane.add(titleLabel);
 	}
-	
+
 	public JPanel getTopPane() {
 		return topPane;
 	}
-	
+
 	public JPanel getMiddlePane() {
 		return middlePane;
 	}
-	
+
 	public JPanel getBottomPane() {
 		return bottomPane;
 	}
@@ -76,11 +76,11 @@ public class BasePanel extends JPanel {
 	public void setAlert(boolean changedAlertState) {
 		alert = changedAlertState;
 	}
-	
+
 	// things to do when switching to this panel
 	public void pareparePanel() {
 	}
-	
+
 	// things to do when quitting this panel
 	public void exitPanel() {
 	}

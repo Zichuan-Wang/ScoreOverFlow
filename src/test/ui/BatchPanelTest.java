@@ -15,29 +15,29 @@ import exception.DBConnectionException;
 
 public class BatchPanelTest {
 	private final String BATCH_PANEL_LABEL = "Reserve Rooms in Batch";
-	
+
 	private BatchPanel batchPane;
 	private JPanel topPane, middlePane;
-	
+
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
 		batchPane = new BatchPanel(null, null, null);
 		topPane = (JPanel) batchPane.getComponent(0);
 		middlePane = (JPanel) batchPane.getComponent(1);
 	}
-	
+
 	@Test
 	protected void checkTitle() {
 		assertEquals(BATCH_PANEL_LABEL, ((JLabel) topPane.getComponent(0)).getText());
 	}
-	
+
 	@Test
 	protected void middlePanelTest() {
-		assertEquals(1,middlePane.getComponentCount());
+		assertEquals(1, middlePane.getComponentCount());
 		assertTrue(middlePane.getComponent(0) instanceof JButton);
 		JButton uploadButton = (JButton) middlePane.getComponent(0);
 		assertNotNull(uploadButton);
-		assertEquals("Upload",uploadButton.getText());
-		
+		assertEquals("Upload", uploadButton.getText());
+
 	}
 }

@@ -19,44 +19,38 @@ import entity.Reservation;
 import entity.User;
 import server.action.ReservationAction;
 
-
-public class BatchPanel extends BasePanel{
+public class BatchPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Reserve Rooms in Batch";
 	private User user;
-	
+
 	private JButton uploadFileButton;
 
-	//private UserAction userAction;
+	// private UserAction userAction;
 	private ReservationAction reservationAction;
-	//private RoomAction roomAction;
-	//private FacilityAction facilityAction;
-	
+	// private RoomAction roomAction;
+	// private FacilityAction facilityAction;
+
 	public BatchPanel(JPanel cards, User user, ReservationAction reservationAction) {
-		super(cards,TITLE);
+		super(cards, TITLE);
 		this.user = user;
 		this.reservationAction = reservationAction;
 		setMiddlePanel();
 	}
-	
+
 	/*
-	public BatchPanel(JPanel cards, User user, UserAction userAction, ReservationAction reservationAction,
-			RoomAction roomAction, FacilityAction facilityAction) {
-		super(cards,TITLE);
-		this.user = user;
-		this.userAction = userAction;
-		this.reservationAction = reservationAction;
-		this.roomAction = roomAction;
-		this.facilityAction = facilityAction;
-		setMiddlePanel();
-	}
-	*/
-	
+	 * public BatchPanel(JPanel cards, User user, UserAction userAction,
+	 * ReservationAction reservationAction, RoomAction roomAction, FacilityAction
+	 * facilityAction) { super(cards,TITLE); this.user = user; this.userAction =
+	 * userAction; this.reservationAction = reservationAction; this.roomAction =
+	 * roomAction; this.facilityAction = facilityAction; setMiddlePanel(); }
+	 */
+
 	private void setMiddlePanel() {
 		uploadFileButton = getUploadFileButton();
 		middlePane.add(uploadFileButton);
 	}
-	
+
 	private JButton getUploadFileButton() {
 		JButton button = GuiUtils.createButton("Upload");
 
@@ -116,6 +110,5 @@ public class BatchPanel extends BasePanel{
 
 		return button;
 	}
-	
-	
+
 }

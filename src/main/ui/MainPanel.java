@@ -19,14 +19,14 @@ import server.action.UserAction;
 public class MainPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Main";
-	
+
 	private JButton reserveButton;
 	private JButton viewRoomsButton;
 	private JButton manageButton;
 	private JButton batchButton;
-	
+
 	private User user;
-	
+
 	private UserAction userAction;
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
@@ -45,64 +45,69 @@ public class MainPanel extends BasePanel {
 
 	private void setMiddlePanel() {
 		middlePane.setLayout(new BoxLayout(middlePane, BoxLayout.Y_AXIS));
-		
+
 		// create text
-		JLabel welcomeMessage = new JLabel("Welcome back " + GuiUtils.userGroupToString(user)+ " " + user.getUni());
+		JLabel welcomeMessage = new JLabel("Welcome back " + GuiUtils.userGroupToString(user) + " " + user.getUni());
 		welcomeMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(welcomeMessage);
-		
+
 		middlePane.add(Box.createVerticalGlue()); // beginning
-		
+
 		// add or edit room and facilities for admin
-		//if (SecurityUtils.getSubject().hasRole("Admin")) {
+		// if (SecurityUtils.getSubject().hasRole("Admin")) {
 		if (user.getUserGroup() == 0) {
-			ManagePanel managePane = new ManagePanel(rootPane, user, userAction, reservationAction, roomAction, facilityAction);
-			rootPane.add(managePane,"manage");
-			
-			manageButton = GuiUtils.createButton("Manage Rooms and Facilities", e -> GuiUtils.jumpToPanel(rootPane, "manage"), e -> managePane.pareparePanel());
-			
+			ManagePanel managePane = new ManagePanel(rootPane, user, userAction, reservationAction, roomAction,
+					facilityAction);
+			rootPane.add(managePane, "manage");
+
+			manageButton = GuiUtils.createButton("Manage Rooms and Facilities",
+					e -> GuiUtils.jumpToPanel(rootPane, "manage"), e -> managePane.pareparePanel());
+
 			manageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			middlePane.add(manageButton);
-			
+
 			middlePane.add(Box.createVerticalGlue());
 		}
-		
+
 		// Reserve
-		ReservePanel reservePane = new ReservePanel(rootPane, user, userAction, reservationAction, roomAction, facilityAction);
-		rootPane.add(reservePane,"reserve");
-		
-		reserveButton = GuiUtils.createButton("Reserve a Room", e -> GuiUtils.jumpToPanel(rootPane, "reserve"), e -> reservePane.pareparePanel());
-		
+		ReservePanel reservePane = new ReservePanel(rootPane, user, userAction, reservationAction, roomAction,
+				facilityAction);
+		rootPane.add(reservePane, "reserve");
+
+		reserveButton = GuiUtils.createButton("Reserve a Room", e -> GuiUtils.jumpToPanel(rootPane, "reserve"),
+				e -> reservePane.pareparePanel());
+
 		reserveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(reserveButton);
 
 		middlePane.add(Box.createVerticalGlue());
 
 		// Reserve in Batch
-		//if (SecurityUtils.getSubject().hasRole("PS")) {
+		// if (SecurityUtils.getSubject().hasRole("PS")) {
 		if (user.getUserGroup() == 2) {
 			BatchPanel batchPane = new BatchPanel(rootPane, user, reservationAction);
-			rootPane.add(batchPane,"batch");
-				
-			batchButton = GuiUtils.createButton("Reserve Rooms in Batch", e -> GuiUtils.jumpToPanel(rootPane, "batch"), e -> batchPane.pareparePanel());
-				
+			rootPane.add(batchPane, "batch");
+
+			batchButton = GuiUtils.createButton("Reserve Rooms in Batch", e -> GuiUtils.jumpToPanel(rootPane, "batch"),
+					e -> batchPane.pareparePanel());
+
 			batchButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			middlePane.add(batchButton);
-				
+
 			middlePane.add(Box.createVerticalGlue());
 		}
-		
+
 		// View Reservations
 		ViewRoomsPanel viewRoomsPane = new ViewRoomsPanel(rootPane, user, reservationAction, roomAction);
-		rootPane.add(viewRoomsPane,"view rooms");
-		
-		viewRoomsButton = GuiUtils.createButton("View Reservations", e -> GuiUtils.jumpToPanel(rootPane, "view rooms"), e -> viewRoomsPane.pareparePanel());
-		
+		rootPane.add(viewRoomsPane, "view rooms");
+
+		viewRoomsButton = GuiUtils.createButton("View Reservations", e -> GuiUtils.jumpToPanel(rootPane, "view rooms"),
+				e -> viewRoomsPane.pareparePanel());
+
 		viewRoomsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(viewRoomsButton);
-		
+
 		middlePane.add(Box.createVerticalGlue()); // end
 	}
-	
 
 }

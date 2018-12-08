@@ -33,14 +33,14 @@ public class ViewRoomsPanel extends BasePanel {
 	private RoomAction roomAction;
 
 	public ViewRoomsPanel(JPanel cards, User user, ReservationAction reservationAction, RoomAction roomAction) {
-		super(cards,TITLE);
+		super(cards, TITLE);
 		this.user = user;
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
 		setMiddlePanel();
 	}
 
-	private void setMiddlePanel(){
+	private void setMiddlePanel() {
 		middlePane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -100,7 +100,7 @@ public class ViewRoomsPanel extends BasePanel {
 	}
 
 	private void cancelReservation(Reservation reservation) {
-		//if (user.getUserGroup() > 3) {
+		// if (user.getUserGroup() > 3) {
 		if (!SecurityService.currentUser.hasRole("Normal")) {
 			if (alert)
 				JOptionPane.showMessageDialog(null, "You do not have the right role to perform this action.");
