@@ -89,6 +89,7 @@ public class RoomDao extends BaseDao<Room> {
 						+ "WHERE r.id = room.id "//
 						+ "AND f in :facilities) "//
 						+ "AND res.roomId = room.id "//
+						+ "AND res.overriden = 0" //
 						+ "AND res.eventDate = :eventDate "//
 						+ "AND res.startTime < :endTime "//
 						+ "AND res.endTime > :startTime "//

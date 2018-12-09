@@ -266,75 +266,86 @@ public class ReservePanel extends BasePanel {
 
 	private JButton getSearchButton() {
 		JButton searchButton = new JButton("Search");
-		searchButton.addActionListener(e -> {
-			// reset
-			roomPane.reset();
-			// build up search constraint
-			SearchRoomConstraint src = new SearchRoomConstraint();
-			String selectedDate = datePicker.getDateStringOrEmptyString();
-			String startTime = startTimePicker.getTimeStringOrEmptyString();
-			String endTime = endTimePicker.getTimeStringOrEmptyString();
-
-			// Parse
-			try {
-				src.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));
-				src.setEventDate(new SimpleDateFormat("yyyy-MM-dd").parse(selectedDate));
-				SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-				src.setStartTime(sdf.parse(startTime));
-				src.setEndTime(sdf.parse(endTime));
-				src.setRoomName(nameField.getText());
-				src.getFacilities().addAll(facilityList.getSelectedValuesList());
-			} catch (ParseException e1) {
-				e1.printStackTrace();
-			}
-			// search from database
-			List<Room> roomList = roomAction.searchRooms(src);
-			List<Object[]> reservedRoomList = showBookedRooms != null && showBookedRooms.isSelected()
-					? roomAction.searchReservedRooms(src)
-					: new ArrayList<>();
-			// build table
-			if (roomList.isEmpty() && reservedRoomList.isEmpty()) {
-				if (alert)
-					JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
-			} else {
-				List<Object[]> rows = new ArrayList<>();
-				Object[] rowName = new Object[] { "Room Name", "Capacity", "Facilities", "Action" };
-
-				// Room name, Capacities, Facilities, Reserve button
-				for (Room room : roomList) {
-					Object[] row = new Object[4];
-					row[0] = room.getName();
-					row[1] = room.getCapacity();
-					ArrayList<String> facilities = new ArrayList<>();
-					for (Facility f : room.getFacilities()) {
-						facilities.add(f.getName());
-					}
-					row[2] = String.join(", ", facilities);
-					JButton reserveButton = getReserveButton(room, src);
-					row[3] = reserveButton;
-					rows.add(row);
-				}
-				// Room name, Override button
-				for (Object[] result : reservedRoomList) {
-					Room room = (Room) result[0];
-					int id = (int) result[1];
-					Object[] row = new Object[4];
-					row[0] = room.getName();
-					row[1] = room.getCapacity();
-					ArrayList<String> facilities = new ArrayList<>();
-					for (Facility f : room.getFacilities()) {
-						facilities.add(f.getName());
-					}
-					row[2] = String.join(", ", facilities);
-					JButton overrideButton = getOverrideButton(src, id);
-					row[3] = overrideButton;
-					rows.add(row);
-				}
-				roomPane.populateList(rowName, rows, "Action");
-			}
-		});
+		searchButton.addActionListener(e -> searchRoom());
 		return searchButton;
 	}
+	
+	public void searchRoom(SearchRoomConstraint src) {
+		// search from database
+		List<Room> roomList = roomAction.searchRooms(src);
+		List<Object[]> reservedRoomList = showBookedRooms != null && showBookedRooms.isSelected()
+				? roomAction.searchReservedRooms(src)
+				: new ArrayList<>();
+		// build table
+		if (roomList.isEmpty() && reservedRoomList.isEmpty()) {
+			if (alert)
+				JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
+		} else {
+			List<Object[]> rows = new ArrayList<>();
+			Object[] rowName = new Object[] { "Room Name", "Capacity", "Facilities", "Action" };
+
+			// Room name, Capacities, Facilities, Reserve button
+			for (Room room : roomList) {
+				Object[] row = new Object[4];
+				row[0] = room.getName();
+				row[1] = room.getCapacity();
+				ArrayList<String> facilities = new ArrayList<>();
+				for (Facility f : room.getFacilities()) {
+					facilities.add(f.getName());
+				}
+				row[2] = String.join(", ", facilities);
+				JButton reserveButton = getReserveButton(room, src);
+				row[3] = reserveButton;
+				rows.add(row);
+			}
+			// Room name, Override button
+			for (Object[] result : reservedRoomList) {
+				Room room = (Room) result[0];
+				int id = (int) result[1];
+				Object[] row = new Object[4];
+				row[0] = room.getName();
+				row[1] = room.getCapacity();
+				ArrayList<String> facilities = new ArrayList<>();
+				for (Facility f : room.getFacilities()) {
+					facilities.add(f.getName());
+				}
+				row[2] = String.join(", ", facilities);
+				JButton overrideButton = getOverrideButton(src, id);
+				row[3] = overrideButton;
+				rows.add(row);
+			}
+			roomPane.populateList(rowName, rows, "Action");
+		}
+	}
+	
+	
+	
+	
+	
+	private void searchRoom() {
+		// reset
+		roomPane.reset();
+		// build up search constraint
+		SearchRoomConstraint src = new SearchRoomConstraint();
+		String selectedDate = datePicker.getDateStringOrEmptyString();
+		String startTime = startTimePicker.getTimeStringOrEmptyString();
+		String endTime = endTimePicker.getTimeStringOrEmptyString();
+
+		// Parse
+		try {
+			src.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));
+			src.setEventDate(new SimpleDateFormat("yyyy-MM-dd").parse(selectedDate));
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+			src.setStartTime(sdf.parse(startTime));
+			src.setEndTime(sdf.parse(endTime));
+			src.setRoomName(nameField.getText());
+			src.getFacilities().addAll(facilityList.getSelectedValuesList());
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		searchRoom(src);
+	}
+	
 
 	private JButton getReserveButton(Room room, SearchRoomConstraint src) {
 		JButton reserveButton = new JButton("Reserve");

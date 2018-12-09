@@ -36,13 +36,19 @@ public class ReservationAction {
 	}
 
 	public boolean overrideRoom(Reservation reservation, Date eventDate, Date startTime, Date endTime, int userID) {
-		reservationDao.remove(reservation);
-		reservation.setEventDate(eventDate);
-		reservation.setStartTime(startTime);
-		reservation.setEndTime(endTime);
-		reservation.setUserId(userID);
-		reservation.setModified(new Timestamp(System.currentTimeMillis()));
+		reservation.setOverriden(1);
 		reservationDao.saveOrUpdate(reservation);
+		
+		Reservation newReservation = new Reservation();
+		newReservation.setEventDate(eventDate);
+		newReservation.setStartTime(startTime);
+		newReservation.setEndTime(endTime);
+		newReservation.setUserId(userID);
+		newReservation.setModified(new Timestamp(System.currentTimeMillis()));
+		newReservation.setCreated(new Timestamp(System.currentTimeMillis()));
+		newReservation.setOverriden(0);
+		newReservation.setRoomId(reservation.getRoomId());
+		reservationDao.saveOrUpdate(newReservation);
 
 		return true; // for a single-user system
 	}
@@ -55,6 +61,10 @@ public class ReservationAction {
 
 	public List<Reservation> searchReservations(SearchReservationConstraint constraint) {
 		return reservationDao.searchReservations(constraint);
+	}
+	
+	public List<Reservation> searchOverridenReservations(SearchReservationConstraint constraint) {
+		return reservationDao.searchOverridenReservations(constraint);
 	}
 
 	public Reservation getReservation(SearchRoomConstraint constraint, int id) {

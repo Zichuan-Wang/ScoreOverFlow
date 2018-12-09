@@ -1,7 +1,9 @@
 package ui;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import entity.Reservation;
 import entity.User;
 import security.LoginStatus;
 import security.SecurityService;
@@ -19,6 +22,7 @@ import server.action.FacilityAction;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.action.UserAction;
+import server.constraint.SearchReservationConstraint;
 
 public class LoginPanel extends BasePanel {
 
@@ -89,11 +93,44 @@ public class LoginPanel extends BasePanel {
 				String.valueOf(passwordField.getPassword()));
 		if (status.isSuccess()) {
 			User user = userAction.findUserByUni(userNameField.getText());
+			
 			// Create three panels
 			MainPanel mainPane = new MainPanel(rootPane, user, userAction, reservationAction, roomAction,
 					facilityAction);
 			rootPane.add(mainPane, "main");
 			GuiUtils.jumpToPanel(rootPane, "main");
+			
+			SearchReservationConstraint src = new SearchReservationConstraint();
+			src.setUserId(user.getId());
+			
+			if (reservationAction != null) {
+				List<Reservation> overridenReservationList = reservationAction.searchOverridenReservations(src);
+				
+				
+				if (alert && overridenReservationList.size() != 0) {
+					//JOptionPane.showMessageDialog(null, "Welcome");
+					int response = JOptionPane.showConfirmDialog(
+						    null,
+						    "Unfortunately one or more of your reservations is(are) overriden.\nDo you want to find replacement room(s) now?",
+						    "Reservation overriden",
+						    JOptionPane.YES_NO_OPTION);
+					if (response == 0) {
+						GuiUtils.jumpToPanel(rootPane, "view rooms");
+						Component[] components = rootPane.getComponents();
+						for (Component c : components) {
+							if(c instanceof ViewRoomsPanel) {
+								ViewRoomsPanel panel = (ViewRoomsPanel) c;
+								panel.pareparePanel();
+								break;
+							}
+						}
+						
+					}
+					
+				}
+			}	
+			
+			
 		} else {
 			if (alert) {
 				JOptionPane.showMessageDialog(null, status.getMessage());

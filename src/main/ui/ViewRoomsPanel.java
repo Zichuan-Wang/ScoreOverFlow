@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +19,7 @@ import security.SecurityService;
 import server.action.ReservationAction;
 import server.action.RoomAction;
 import server.constraint.SearchReservationConstraint;
+import server.constraint.SearchRoomConstraint;
 
 public class ViewRoomsPanel extends BasePanel {
 	/**
@@ -74,12 +76,29 @@ public class ViewRoomsPanel extends BasePanel {
 	}
 
 	public void showReservationList() {
+		
 		SearchReservationConstraint src = new SearchReservationConstraint();
 		src.setUserId(user.getId());
-		List<Reservation> reservationList = reservationAction.searchReservations(src);
+		List<Reservation> overridenReservationList = reservationAction.searchOverridenReservations(src);
 		List<Object[]> rows = new ArrayList<>();
 		// Room name, date, start time, end time, cancel button
-		Object[] rowName = new Object[] { "Room Name", "Date", "Start Time", "End Time", "Cancel" };
+		Object[] rowName = new Object[] { "Room Name", "Date", "Start Time", "End Time", "Button" };
+		for (Reservation reservation : overridenReservationList) {
+			Room room = roomAction.getRoomById(reservation.getRoomId());
+			Object[] row = new Object[5];
+			row[0] = room.getName()+"(overriden)";
+			row[1] = reservation.getEventDate().toString();
+			row[2] = reservation.getStartTime().toString();
+			row[3] = reservation.getEndTime().toString();
+			row[4] = getReplacementButton(reservation);
+			rows.add(row);
+		}
+		//reservationPane.populateList(rowName1, rows1, "Cancel");
+		
+
+		List<Reservation> reservationList = reservationAction.searchReservations(src);
+		List<Object[]> rows1 = new ArrayList<>();
+		// Room name, date, start time, end time, cancel button
 		for (Reservation reservation : reservationList) {
 			Room room = roomAction.getRoomById(reservation.getRoomId());
 			Object[] row = new Object[5];
@@ -88,9 +107,10 @@ public class ViewRoomsPanel extends BasePanel {
 			row[2] = reservation.getStartTime().toString();
 			row[3] = reservation.getEndTime().toString();
 			row[4] = getCancelButton(reservation);
-			rows.add(row);
+			rows1.add(row);
 		}
-		reservationPane.populateList(rowName, rows, "Cancel");
+		rows.addAll(rows1);
+		reservationPane.populateList(rowName, rows, "Button");
 	}
 
 	private JButton getCancelButton(Reservation reservation) {
@@ -115,6 +135,56 @@ public class ViewRoomsPanel extends BasePanel {
 			if (alert)
 				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
 		}
+		reservationPane.revalidate();
+		reservationPane.repaint();
+	}
+	
+	private JButton getReplacementButton(Reservation reservation) {
+		JButton replacementButton = new JButton("Find replacement");
+		replacementButton.addActionListener(e -> replaceReservation(reservation));
+		return replacementButton;
+	}
+
+	private void replaceReservation(Reservation reservation) {
+		// if (user.getUserGroup() > 3) {
+		if (!SecurityService.currentUser.hasRole("Normal")) {
+			if (alert)
+				JOptionPane.showMessageDialog(null, "You do not have the right role to perform this action.");
+			return;
+		}
+		
+		SearchRoomConstraint src = new SearchRoomConstraint();
+		src.setStartTime(reservation.getStartTime());
+		src.setEndTime(reservation.getEndTime());
+		Room room = roomAction.getRoomById(reservation.getRoomId());
+		src.setFacilities(room.getFacilities());
+		src.setCapacity(room.getCapacity());
+		src.setEventDate(reservation.getEventDate());		
+		
+		GuiUtils.jumpToPanel(rootPane, "reserve");
+		Component[] components = rootPane.getComponents();
+		for (Component c : components) {
+			if(c instanceof ReservePanel) {
+				ReservePanel panel = (ReservePanel) c;
+				panel.searchRoom(src);
+				break;
+			}
+		}
+		
+		
+		
+		reservationAction.cancelReservation(reservation);
+		//boolean success = reservationAction.cancelReservation(reservation);
+		/*
+		if (success) {
+			if (alert)
+				JOptionPane.showMessageDialog(null, "Success!");
+			showReservationList();
+		} else {
+			if (alert)
+				JOptionPane.showMessageDialog(null, "There is something wrong with the reservation. Please Try Again.");
+		}
+		*/
 		reservationPane.revalidate();
 		reservationPane.repaint();
 	}

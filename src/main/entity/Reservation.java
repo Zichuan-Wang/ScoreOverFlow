@@ -42,6 +42,9 @@ public class Reservation {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modified")
 	private Date modified;
+	
+	@Column(name = "overriden")
+	private int overriden;
 
 	public int getId() {
 		return id;
@@ -99,6 +102,15 @@ public class Reservation {
 
 	public Date getCreated() {
 		return created;
+	}
+	
+	public int isOverriden() {
+		return overriden;
+	}
+	
+	public Reservation setOverriden(int overriden) {
+		this.overriden = overriden;
+		return this;
 	}
 
 	public Reservation setCreated(Date created) {
