@@ -89,6 +89,7 @@ public class RoomDao extends BaseDao&lt;Room&gt; {
 						+ &quot;WHERE r.id = room.id &quot;//
 						+ &quot;AND f in :facilities) &quot;//
 						+ &quot;AND res.roomId = room.id &quot;//
+						+ &quot;AND res.overriden = 0&quot; //
 						+ &quot;AND res.eventDate = :eventDate &quot;//
 						+ &quot;AND res.startTime &lt; :endTime &quot;//
 						+ &quot;AND res.endTime &gt; :startTime &quot;//
@@ -96,14 +97,14 @@ public class RoomDao extends BaseDao&lt;Room&gt; {
 						+ &quot;(SELECT p FROM User p &quot;//
 						+ &quot;WHERE p.id = res.userId &quot;//
 						+ &quot;AND p.userGroup = 3)&quot;)//
-<span class="nc" id="L99">				.setParameter(&quot;name&quot;, &quot;%&quot; + constraint.getRoomName() + &quot;%&quot;)</span>
-<span class="nc" id="L100">				.setParameter(&quot;capacity&quot;, constraint.getCapacity())</span>
-<span class="nc" id="L101">				.setParameter(&quot;eventDate&quot;, constraint.getEventDate(), TemporalType.DATE)</span>
-<span class="nc" id="L102">				.setParameter(&quot;startTime&quot;, constraint.getStartTime(), TemporalType.TIME)</span>
-<span class="nc" id="L103">				.setParameter(&quot;endTime&quot;, constraint.getEndTime(), TemporalType.TIME)</span>
-<span class="nc" id="L104">				.setParameter(&quot;facilities&quot;, constraint.getFacilities())</span>
-<span class="nc" id="L105">				.setParameter(&quot;facilityCount&quot;, (long) constraint.getFacilities().size() - 1);</span>
-<span class="nc" id="L106">		return query.getResultList();</span>
+<span class="nc" id="L100">				.setParameter(&quot;name&quot;, &quot;%&quot; + constraint.getRoomName() + &quot;%&quot;)</span>
+<span class="nc" id="L101">				.setParameter(&quot;capacity&quot;, constraint.getCapacity())</span>
+<span class="nc" id="L102">				.setParameter(&quot;eventDate&quot;, constraint.getEventDate(), TemporalType.DATE)</span>
+<span class="nc" id="L103">				.setParameter(&quot;startTime&quot;, constraint.getStartTime(), TemporalType.TIME)</span>
+<span class="nc" id="L104">				.setParameter(&quot;endTime&quot;, constraint.getEndTime(), TemporalType.TIME)</span>
+<span class="nc" id="L105">				.setParameter(&quot;facilities&quot;, constraint.getFacilities())</span>
+<span class="nc" id="L106">				.setParameter(&quot;facilityCount&quot;, (long) constraint.getFacilities().size() - 1);</span>
+<span class="nc" id="L107">		return query.getResultList();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

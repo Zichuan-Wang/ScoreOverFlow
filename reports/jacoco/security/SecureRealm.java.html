@@ -76,7 +76,7 @@ public class SecureRealm extends AuthorizingRealm {
 	}
 
 	protected String getUsername(PrincipalCollection principals) {
-<span class="fc" id="L79">		return getAvailablePrincipal(principals).toString();</span>
+<span class="nc" id="L79">		return getAvailablePrincipal(principals).toString();</span>
 	}
 
 	protected SimpleRole getRole(String rolename) {
@@ -117,8 +117,8 @@ public class SecureRealm extends AuthorizingRealm {
 	}
 
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-<span class="fc" id="L120">		String username = getUsername(principals);</span>
-<span class="fc" id="L121">		return getUser(username);</span>
+<span class="nc" id="L120">		String username = getUsername(principals);</span>
+<span class="nc" id="L121">		return getUser(username);</span>
 
 	}
 }

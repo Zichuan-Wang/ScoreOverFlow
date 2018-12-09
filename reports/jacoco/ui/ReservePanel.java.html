@@ -266,129 +266,140 @@ public class ReservePanel extends BasePanel {
 
 	private JButton getSearchButton() {
 <span class="fc" id="L268">		JButton searchButton = new JButton(&quot;Search&quot;);</span>
-<span class="fc" id="L269">		searchButton.addActionListener(e -&gt; {</span>
-			// reset
-<span class="fc" id="L271">			roomPane.reset();</span>
-			// build up search constraint
-<span class="fc" id="L273">			SearchRoomConstraint src = new SearchRoomConstraint();</span>
-<span class="fc" id="L274">			String selectedDate = datePicker.getDateStringOrEmptyString();</span>
-<span class="fc" id="L275">			String startTime = startTimePicker.getTimeStringOrEmptyString();</span>
-<span class="fc" id="L276">			String endTime = endTimePicker.getTimeStringOrEmptyString();</span>
-
-			// Parse
-			try {
-<span class="pc bpc" id="L280" title="1 of 2 branches missed.">				src.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));</span>
-<span class="fc" id="L281">				src.setEventDate(new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).parse(selectedDate));</span>
-<span class="fc" id="L282">				SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH:mm&quot;);</span>
-<span class="fc" id="L283">				src.setStartTime(sdf.parse(startTime));</span>
-<span class="fc" id="L284">				src.setEndTime(sdf.parse(endTime));</span>
-<span class="fc" id="L285">				src.setRoomName(nameField.getText());</span>
-<span class="fc" id="L286">				src.getFacilities().addAll(facilityList.getSelectedValuesList());</span>
-<span class="nc" id="L287">			} catch (ParseException e1) {</span>
-<span class="nc" id="L288">				e1.printStackTrace();</span>
-<span class="fc" id="L289">			}</span>
-			// search from database
-<span class="fc" id="L291">			List&lt;Room&gt; roomList = roomAction.searchRooms(src);</span>
-<span class="pc bpc" id="L292" title="1 of 4 branches missed.">			List&lt;Object[]&gt; reservedRoomList = showBookedRooms != null &amp;&amp; showBookedRooms.isSelected()</span>
-<span class="fc" id="L293">					? roomAction.searchReservedRooms(src)</span>
-					: new ArrayList&lt;&gt;();
-			// build table
-<span class="pc bpc" id="L296" title="3 of 4 branches missed.">			if (roomList.isEmpty() &amp;&amp; reservedRoomList.isEmpty()) {</span>
-<span class="nc bnc" id="L297" title="All 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L298">					JOptionPane.showMessageDialog(null, &quot;No rooms with your requirements found. Please Try Again.&quot;);</span>
-			} else {
-<span class="fc" id="L300">				List&lt;Object[]&gt; rows = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L301">				Object[] rowName = new Object[] { &quot;Room Name&quot;, &quot;Capacity&quot;, &quot;Facilities&quot;, &quot;Action&quot; };</span>
-
-				// Room name, Capacities, Facilities, Reserve button
-<span class="fc bfc" id="L304" title="All 2 branches covered.">				for (Room room : roomList) {</span>
-<span class="fc" id="L305">					Object[] row = new Object[4];</span>
-<span class="fc" id="L306">					row[0] = room.getName();</span>
-<span class="fc" id="L307">					row[1] = room.getCapacity();</span>
-<span class="fc" id="L308">					ArrayList&lt;String&gt; facilities = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L309" title="1 of 2 branches missed.">					for (Facility f : room.getFacilities()) {</span>
-<span class="nc" id="L310">						facilities.add(f.getName());</span>
-<span class="nc" id="L311">					}</span>
-<span class="fc" id="L312">					row[2] = String.join(&quot;, &quot;, facilities);</span>
-<span class="fc" id="L313">					JButton reserveButton = getReserveButton(room, src);</span>
-<span class="fc" id="L314">					row[3] = reserveButton;</span>
-<span class="fc" id="L315">					rows.add(row);</span>
-<span class="fc" id="L316">				}</span>
-				// Room name, Override button
-<span class="fc bfc" id="L318" title="All 2 branches covered.">				for (Object[] result : reservedRoomList) {</span>
-<span class="fc" id="L319">					Room room = (Room) result[0];</span>
-<span class="fc" id="L320">					int id = (int) result[1];</span>
-<span class="fc" id="L321">					Object[] row = new Object[4];</span>
-<span class="fc" id="L322">					row[0] = room.getName();</span>
-<span class="fc" id="L323">					row[1] = room.getCapacity();</span>
-<span class="fc" id="L324">					ArrayList&lt;String&gt; facilities = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L325" title="1 of 2 branches missed.">					for (Facility f : room.getFacilities()) {</span>
-<span class="nc" id="L326">						facilities.add(f.getName());</span>
-<span class="nc" id="L327">					}</span>
-<span class="fc" id="L328">					row[2] = String.join(&quot;, &quot;, facilities);</span>
-<span class="fc" id="L329">					JButton overrideButton = getOverrideButton(src, id);</span>
-<span class="fc" id="L330">					row[3] = overrideButton;</span>
-<span class="fc" id="L331">					rows.add(row);</span>
-<span class="fc" id="L332">				}</span>
-<span class="fc" id="L333">				roomPane.populateList(rowName, rows, &quot;Action&quot;);</span>
-			}
-<span class="fc" id="L335">		});</span>
-<span class="fc" id="L336">		return searchButton;</span>
+<span class="fc" id="L269">		searchButton.addActionListener(e -&gt; searchRoom());</span>
+<span class="fc" id="L270">		return searchButton;</span>
 	}
+	
+	public void searchRoom(SearchRoomConstraint src) {
+		// search from database
+<span class="fc" id="L275">		List&lt;Room&gt; roomList = roomAction.searchRooms(src);</span>
+<span class="pc bpc" id="L276" title="1 of 4 branches missed.">		List&lt;Object[]&gt; reservedRoomList = showBookedRooms != null &amp;&amp; showBookedRooms.isSelected()</span>
+<span class="fc" id="L277">				? roomAction.searchReservedRooms(src)</span>
+				: new ArrayList&lt;&gt;();
+		// build table
+<span class="pc bpc" id="L280" title="3 of 4 branches missed.">		if (roomList.isEmpty() &amp;&amp; reservedRoomList.isEmpty()) {</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">			if (alert)</span>
+<span class="nc" id="L282">				JOptionPane.showMessageDialog(null, &quot;No rooms with your requirements found. Please Try Again.&quot;);</span>
+		} else {
+<span class="fc" id="L284">			List&lt;Object[]&gt; rows = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L285">			Object[] rowName = new Object[] { &quot;Room Name&quot;, &quot;Capacity&quot;, &quot;Facilities&quot;, &quot;Action&quot; };</span>
+
+			// Room name, Capacities, Facilities, Reserve button
+<span class="fc bfc" id="L288" title="All 2 branches covered.">			for (Room room : roomList) {</span>
+<span class="fc" id="L289">				Object[] row = new Object[4];</span>
+<span class="fc" id="L290">				row[0] = room.getName();</span>
+<span class="fc" id="L291">				row[1] = room.getCapacity();</span>
+<span class="fc" id="L292">				ArrayList&lt;String&gt; facilities = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L293" title="1 of 2 branches missed.">				for (Facility f : room.getFacilities()) {</span>
+<span class="nc" id="L294">					facilities.add(f.getName());</span>
+<span class="nc" id="L295">				}</span>
+<span class="fc" id="L296">				row[2] = String.join(&quot;, &quot;, facilities);</span>
+<span class="fc" id="L297">				JButton reserveButton = getReserveButton(room, src);</span>
+<span class="fc" id="L298">				row[3] = reserveButton;</span>
+<span class="fc" id="L299">				rows.add(row);</span>
+<span class="fc" id="L300">			}</span>
+			// Room name, Override button
+<span class="fc bfc" id="L302" title="All 2 branches covered.">			for (Object[] result : reservedRoomList) {</span>
+<span class="fc" id="L303">				Room room = (Room) result[0];</span>
+<span class="fc" id="L304">				int id = (int) result[1];</span>
+<span class="fc" id="L305">				Object[] row = new Object[4];</span>
+<span class="fc" id="L306">				row[0] = room.getName();</span>
+<span class="fc" id="L307">				row[1] = room.getCapacity();</span>
+<span class="fc" id="L308">				ArrayList&lt;String&gt; facilities = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L309" title="1 of 2 branches missed.">				for (Facility f : room.getFacilities()) {</span>
+<span class="nc" id="L310">					facilities.add(f.getName());</span>
+<span class="nc" id="L311">				}</span>
+<span class="fc" id="L312">				row[2] = String.join(&quot;, &quot;, facilities);</span>
+<span class="fc" id="L313">				JButton overrideButton = getOverrideButton(src, id);</span>
+<span class="fc" id="L314">				row[3] = overrideButton;</span>
+<span class="fc" id="L315">				rows.add(row);</span>
+<span class="fc" id="L316">			}</span>
+<span class="fc" id="L317">			roomPane.populateList(rowName, rows, &quot;Action&quot;);</span>
+		}
+<span class="fc" id="L319">	}</span>
+	
+	
+	
+	
+	
+	private void searchRoom() {
+		// reset
+<span class="fc" id="L327">		roomPane.reset();</span>
+		// build up search constraint
+<span class="fc" id="L329">		SearchRoomConstraint src = new SearchRoomConstraint();</span>
+<span class="fc" id="L330">		String selectedDate = datePicker.getDateStringOrEmptyString();</span>
+<span class="fc" id="L331">		String startTime = startTimePicker.getTimeStringOrEmptyString();</span>
+<span class="fc" id="L332">		String endTime = endTimePicker.getTimeStringOrEmptyString();</span>
+
+		// Parse
+		try {
+<span class="pc bpc" id="L336" title="1 of 2 branches missed.">			src.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));</span>
+<span class="fc" id="L337">			src.setEventDate(new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).parse(selectedDate));</span>
+<span class="fc" id="L338">			SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH:mm&quot;);</span>
+<span class="fc" id="L339">			src.setStartTime(sdf.parse(startTime));</span>
+<span class="fc" id="L340">			src.setEndTime(sdf.parse(endTime));</span>
+<span class="fc" id="L341">			src.setRoomName(nameField.getText());</span>
+<span class="fc" id="L342">			src.getFacilities().addAll(facilityList.getSelectedValuesList());</span>
+<span class="nc" id="L343">		} catch (ParseException e1) {</span>
+<span class="nc" id="L344">			e1.printStackTrace();</span>
+<span class="fc" id="L345">		}</span>
+<span class="fc" id="L346">		searchRoom(src);</span>
+<span class="fc" id="L347">	}</span>
+	
 
 	private JButton getReserveButton(Room room, SearchRoomConstraint src) {
-<span class="fc" id="L340">		JButton reserveButton = new JButton(&quot;Reserve&quot;);</span>
-<span class="fc" id="L341">		reserveButton.addActionListener(e -&gt; {</span>
+<span class="fc" id="L351">		JButton reserveButton = new JButton(&quot;Reserve&quot;);</span>
+<span class="fc" id="L352">		reserveButton.addActionListener(e -&gt; {</span>
 			// convert room to reservation
-<span class="fc" id="L343">			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(), src.getStartTime(),</span>
-<span class="fc" id="L344">					src.getEndTime(), user.getId());</span>
+<span class="fc" id="L354">			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(), src.getStartTime(),</span>
+<span class="fc" id="L355">					src.getEndTime(), user.getId());</span>
 			// reserve
-<span class="fc" id="L346">			boolean success = reservationAction.reserveRoom(reservation);</span>
-<span class="pc bpc" id="L347" title="1 of 2 branches missed.">			if (success) {</span>
-<span class="pc bpc" id="L348" title="1 of 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L349">					JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
-<span class="fc" id="L350">				reserveButton.setEnabled(false);</span>
+<span class="fc" id="L357">			boolean success = reservationAction.reserveRoom(reservation);</span>
+<span class="pc bpc" id="L358" title="1 of 2 branches missed.">			if (success) {</span>
+<span class="pc bpc" id="L359" title="1 of 2 branches missed.">				if (alert)</span>
+<span class="nc" id="L360">					JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
+<span class="fc" id="L361">				reserveButton.setEnabled(false);</span>
 			} else {
-<span class="nc bnc" id="L352" title="All 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L353">					JOptionPane.showMessageDialog(null,</span>
+<span class="nc bnc" id="L363" title="All 2 branches missed.">				if (alert)</span>
+<span class="nc" id="L364">					JOptionPane.showMessageDialog(null,</span>
 							&quot;There is something wrong with making the reservation. Please Try Again.&quot;);
 			}
-<span class="fc" id="L356">		});</span>
-<span class="fc" id="L357">		return reserveButton;</span>
+<span class="fc" id="L367">		});</span>
+<span class="fc" id="L368">		return reserveButton;</span>
 	}
 
 	private JButton getOverrideButton(SearchRoomConstraint src, int id) {
-<span class="fc" id="L361">		JButton overrideButton = new JButton(&quot;Override&quot;);</span>
-<span class="fc" id="L362">		overrideButton.addActionListener(e -&gt; {</span>
+<span class="fc" id="L372">		JButton overrideButton = new JButton(&quot;Override&quot;);</span>
+<span class="fc" id="L373">		overrideButton.addActionListener(e -&gt; {</span>
 			// convert room to reservation
-<span class="fc" id="L364">			Reservation reservation = reservationAction.getReservationById(id);</span>
-<span class="fc" id="L365">			User oldUser = userAction.findUserById(reservation.getUserId());</span>
+<span class="fc" id="L375">			Reservation reservation = reservationAction.getReservationById(id);</span>
+<span class="fc" id="L376">			User oldUser = userAction.findUserById(reservation.getUserId());</span>
 			// reserve
-<span class="fc" id="L367">			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),</span>
-<span class="fc" id="L368">					src.getEndTime(), user.getId());</span>
-<span class="pc bpc" id="L369" title="1 of 2 branches missed.">			if (success) {</span>
-<span class="pc bpc" id="L370" title="1 of 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L371">					JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
-<span class="fc" id="L372">				overrideButton.setEnabled(false);</span>
+<span class="fc" id="L378">			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),</span>
+<span class="fc" id="L379">					src.getEndTime(), user.getId());</span>
+<span class="pc bpc" id="L380" title="1 of 2 branches missed.">			if (success) {</span>
+<span class="pc bpc" id="L381" title="1 of 2 branches missed.">				if (alert)</span>
+<span class="nc" id="L382">					JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
+<span class="fc" id="L383">				overrideButton.setEnabled(false);</span>
 				// send email
 				try {
-<span class="fc" id="L375">					EmailSender.sendEmail(oldUser, reservation, roomAction);</span>
-<span class="nc" id="L376">				} catch (MessagingException e1) {</span>
-<span class="nc" id="L377">					e1.printStackTrace();</span>
-<span class="pc" id="L378">				}</span>
+<span class="fc" id="L386">					EmailSender.sendEmail(oldUser, reservation, roomAction);</span>
+<span class="nc" id="L387">				} catch (MessagingException e1) {</span>
+<span class="nc" id="L388">					e1.printStackTrace();</span>
+<span class="pc" id="L389">				}</span>
 			} else {
-<span class="nc bnc" id="L380" title="All 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L381">					JOptionPane.showMessageDialog(null,</span>
+<span class="nc bnc" id="L391" title="All 2 branches missed.">				if (alert)</span>
+<span class="nc" id="L392">					JOptionPane.showMessageDialog(null,</span>
 							&quot;There is something wrong with overriding the reservation. Please Try Again.&quot;);
 			}
-<span class="fc" id="L384">		});</span>
-<span class="fc" id="L385">		return overrideButton;</span>
+<span class="fc" id="L395">		});</span>
+<span class="fc" id="L396">		return overrideButton;</span>
 	}
 
 	private LocalTime getCurTime() {
-<span class="fc" id="L389">		LocalTime now = LocalTime.now();</span>
-<span class="pc bpc" id="L390" title="1 of 2 branches missed.">		int minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;</span>
-<span class="fc" id="L391">		return now.plusMinutes(minuteDiff);</span>
+<span class="fc" id="L400">		LocalTime now = LocalTime.now();</span>
+<span class="pc bpc" id="L401" title="1 of 2 branches missed.">		int minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;</span>
+<span class="fc" id="L402">		return now.plusMinutes(minuteDiff);</span>
 	}
 
 }

@@ -42,77 +42,89 @@ import javax.persistence.TemporalType;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = &quot;modified&quot;)
 	private Date modified;
+	
+	@Column(name = &quot;overriden&quot;)
+	private int overriden;
 
 	public int getId() {
-<span class="fc" id="L47">		return id;</span>
+<span class="fc" id="L50">		return id;</span>
 	}
 
 	public Reservation setId(int id) {
-<span class="fc" id="L51">		this.id = id;</span>
-<span class="fc" id="L52">		return this;</span>
+<span class="fc" id="L54">		this.id = id;</span>
+<span class="fc" id="L55">		return this;</span>
 	}
 
 	public int getUserId() {
-<span class="fc" id="L56">		return userId;</span>
+<span class="fc" id="L59">		return userId;</span>
 	}
 
 	public Reservation setUserId(int userId) {
-<span class="fc" id="L60">		this.userId = userId;</span>
-<span class="fc" id="L61">		return this;</span>
+<span class="fc" id="L63">		this.userId = userId;</span>
+<span class="fc" id="L64">		return this;</span>
 	}
 
 	public int getRoomId() {
-<span class="fc" id="L65">		return roomId;</span>
+<span class="fc" id="L68">		return roomId;</span>
 	}
 
 	public Reservation setRoomId(int roomId) {
-<span class="fc" id="L69">		this.roomId = roomId;</span>
-<span class="fc" id="L70">		return this;</span>
+<span class="fc" id="L72">		this.roomId = roomId;</span>
+<span class="fc" id="L73">		return this;</span>
 	}
 
 	public Date getEventDate() {
-<span class="fc" id="L74">		return eventDate;</span>
+<span class="fc" id="L77">		return eventDate;</span>
 	}
 
 	public Reservation setEventDate(Date eventDate) {
-<span class="fc" id="L78">		this.eventDate = eventDate;</span>
-<span class="fc" id="L79">		return this;</span>
+<span class="fc" id="L81">		this.eventDate = eventDate;</span>
+<span class="fc" id="L82">		return this;</span>
 	}
 
 	public Date getStartTime() {
-<span class="fc" id="L83">		return startTime;</span>
+<span class="fc" id="L86">		return startTime;</span>
 	}
 
 	public Reservation setStartTime(Date startTime) {
-<span class="fc" id="L87">		this.startTime = startTime;</span>
-<span class="fc" id="L88">		return this;</span>
+<span class="fc" id="L90">		this.startTime = startTime;</span>
+<span class="fc" id="L91">		return this;</span>
 	}
 
 	public Date getEndTime() {
-<span class="fc" id="L92">		return endTime;</span>
+<span class="fc" id="L95">		return endTime;</span>
 	}
 
 	public Reservation setEndTime(Date endTime) {
-<span class="fc" id="L96">		this.endTime = endTime;</span>
-<span class="fc" id="L97">		return this;</span>
+<span class="fc" id="L99">		this.endTime = endTime;</span>
+<span class="fc" id="L100">		return this;</span>
 	}
 
 	public Date getCreated() {
-<span class="fc" id="L101">		return created;</span>
+<span class="fc" id="L104">		return created;</span>
+	}
+	
+	public int isOverriden() {
+<span class="nc" id="L108">		return overriden;</span>
+	}
+	
+	public Reservation setOverriden(int overriden) {
+<span class="fc" id="L112">		this.overriden = overriden;</span>
+<span class="fc" id="L113">		return this;</span>
 	}
 
 	public Reservation setCreated(Date created) {
-<span class="fc" id="L105">		this.created = created;</span>
-<span class="fc" id="L106">		return this;</span>
+<span class="fc" id="L117">		this.created = created;</span>
+<span class="fc" id="L118">		return this;</span>
 	}
 
 	public Date getModified() {
-<span class="fc" id="L110">		return modified;</span>
+<span class="fc" id="L122">		return modified;</span>
 	}
 
 	public Reservation setModified(Date modified) {
-<span class="fc" id="L114">		this.modified = modified;</span>
-<span class="fc" id="L115">		return this;</span>
+<span class="fc" id="L126">		this.modified = modified;</span>
+<span class="fc" id="L127">		return this;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
