@@ -62,21 +62,19 @@ public class ViewRoomsPanelTest {
 		assertTrue(table.getValueAt(1, 4) instanceof JButton);
 	}
 
-	/*
 	@Test
 	protected void canCancelFromListGenerated() {
 		viewRoomsPane.showReservationList();
 		JTable table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
-		JButton cancelButton = (JButton) table.getValueAt(0, 4);
+		JButton cancelButton = (JButton) table.getValueAt(2, 4);
 		System.out.println(table.getValueAt(0,1));
-
+		
 		cancelButton.doClick();
 
 		table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
 		// System.out.println(table.getValueAt(0,1));
 		// CHECK CANCEL HAS EFFECT
 	}
-	*/
 
 	protected void pareparePanelTest() {
 		viewRoomsPane.pareparePanel();

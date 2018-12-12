@@ -120,8 +120,8 @@ public class ViewRoomsPanel extends BasePanel {
 	}
 
 	private void cancelReservation(Reservation reservation) {
-		// if (user.getUserGroup() > 3) {
-		if (!SecurityService.currentUser.hasRole("Normal")) {
+		if (user.getUserGroup() > 3) {
+		//if (!SecurityService.currentUser.hasRole("Normal")) {
 			if (alert)
 				JOptionPane.showMessageDialog(null, "You do not have the right role to perform this action.");
 			return;

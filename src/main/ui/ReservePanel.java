@@ -155,7 +155,7 @@ public class ReservePanel extends BasePanel {
 		endTimeSettings = new TimePickerSettings();
 		endTimeSettings.use24HourClockFormat();
 		endTimeSettings.setAllowEmptyTimes(false);
-		endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
+		endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime().plusMinutes(10), null);
 		endTimeSettings.initialTime = getCurTime().plusMinutes(10);
 		endTimePicker = new TimePicker(endTimeSettings);
 
@@ -167,11 +167,24 @@ public class ReservePanel extends BasePanel {
 				endTimePicker.setTime(selectedTime);
 			}
 		});
+		
+		// Setting action listener for adjusting start time based on date
+		datePicker.addDateChangeListener(e ->{
+			if (datePicker.getDate().equals(today)) { // set to cur date
+				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime(), null);
+				startTimePicker.setTime(getCurTime());
+				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, startTimePicker.getTime().plusMinutes(10), null);
+				endTimePicker.setTime(getCurTime().plusMinutes(10));
+			}else { // set to a new date
+				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
+				startTimePicker.setTime(LocalTime.MIDNIGHT);
+				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, startTimePicker.getTime().plusMinutes(10), null);
+				endTimePicker.setTime(LocalTime.MIDNIGHT.plusMinutes(10));
+			}
+		});
 
 		// Capacity
 		JLabel capacityLabel = new JLabel("Capacity");
-		// capacity = new JFormattedTextField(GuiUtils.getNumberFormatter(0, 1000));
-		// capacity.setColumns(3);
 		capacity = GuiUtils.getNumTextField(5);
 
 		// Name
