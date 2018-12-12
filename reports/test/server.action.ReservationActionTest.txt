@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: server.action.ReservationActionTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 2.843 s <<< FAILURE! - in server.action.ReservationActionTest
-testReserveRoom  Time elapsed: 0.382 s  <<< ERROR!
-java.lang.IllegalArgumentException: attempt to create merge event with null entity
-	at server.action.ReservationActionTest.testReserveRoom(ReservationActionTest.java:33)
+Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 6.366 s <<< FAILURE! - in server.action.ReservationActionTest
+testMakeMultipleReservations  Time elapsed: 2.996 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <1> but was: <0>
+	at server.action.ReservationActionTest.testMakeMultipleReservations(ReservationActionTest.java:160)
 
