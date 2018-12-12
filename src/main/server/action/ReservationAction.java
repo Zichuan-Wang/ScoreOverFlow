@@ -1,6 +1,6 @@
 package server.action;
 
-//import java.sql.Time;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,17 +20,15 @@ public class ReservationAction {
 	private RoomDao roomDao;
 
 	public ReservationAction(ReservationDao reservationDao, RoomDao roomDao) {
-	//public ReservationAction(ReservationDao reservationDao) {
 		this.reservationDao = reservationDao;
 		this.roomDao = roomDao;
 	}
 
 	public boolean reserveRoom(Reservation reservation) {
-		// TODO: check if the reservation is valid, e.g. the room is available
 		reservation.setCreated(new Timestamp(System.currentTimeMillis()));
 		reservation.setModified(new Timestamp(System.currentTimeMillis()));
 		//Time systemTime = new Time(System.currentTimeMillis());
-		//if(systemTime.before(reservation.getStartTime())) {
+		//if(systemTime.after(reservation.getStartTime())) {
 		    //return false;
 		//}
 		if (!isAvailable(reservation)) {
