@@ -26,4 +26,8 @@ public class RoomAction {
 	public Room getRoomById(int id) {
 		return dao.getRoomById(id);
 	}
+	
+	public List<Room> getAllRooms() {
+		return dao.getAllRooms();
+	}
 }

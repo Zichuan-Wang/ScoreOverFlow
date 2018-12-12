@@ -28,7 +28,7 @@ public class RoomDao extends BaseDao<Room> {
 			return null;
 		}
 	}
-	
+
 	public Room getRoomById(int id) {
 		Query query = manager.createQuery("SELECT u FROM Room u WHERE u.id = :id").setParameter("id", id);
 		try {
@@ -36,6 +36,11 @@ public class RoomDao extends BaseDao<Room> {
 		} catch (NoResultException exception) {
 			return null;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Room> getAllRooms() {
+		return (List<Room>) manager.createQuery("SELECT u FROM Room u").getResultList();
 	}
 
 	/**
