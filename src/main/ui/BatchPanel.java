@@ -83,12 +83,16 @@ public class BatchPanel extends BasePanel {
 					 * exact order.
 					 */
 					String[] groups = line.split(cvsSplitBy);
-					Reservation reservation = new Reservation().setUserId(user.getId())
-							.setRoomId(Integer.parseInt(groups[0].trim()))
-							.setEventDate(new Date(Integer.parseInt(groups[1].trim())))
-							.setStartTime(new Time(Integer.parseInt(groups[2].trim())))
-							.setEndTime(new Time(Integer.parseInt(groups[3].trim())));
-					reservations.add(reservation);
+					try {
+						Reservation reservation = new Reservation().setUserId(user.getId())
+								.setRoomId(Integer.parseInt(groups[0].trim()))
+								.setEventDate(new Date(Integer.parseInt(groups[1].trim())))
+								.setStartTime(new Time(Integer.parseInt(groups[2].trim())))
+								.setEndTime(new Time(Integer.parseInt(groups[3].trim())));
+						reservations.add(reservation);
+					} catch (NumberFormatException nfe) {
+						continue;
+					}
 				}
 
 				// make the batch reservation request
