@@ -2,5 +2,22 @@
 <pmd xmlns="http://pmd.sourceforge.net/report/2.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd"
-    version="6.8.0" timestamp="2018-12-12T17:05:36.067">
+    version="6.8.0" timestamp="2018-12-12T22:53:42.768">
+<file name="/Users/travis/build/Zichuan-Wang/ScoreOverFlow/src/main/ui/ManagePanel.java">
+<violation beginline="22" endline="22" begincolumn="22" endcolumn="25" rule="UnusedPrivateField" ruleset="Best Practices" package="ui" class="ManagePanel" variable="user" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'user'.
+</violation>
+<violation beginline="24" endline="24" begincolumn="28" endcolumn="37" rule="UnusedPrivateField" ruleset="Best Practices" package="ui" class="ManagePanel" variable="userAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'userAction'.
+</violation>
+<violation beginline="25" endline="25" begincolumn="35" endcolumn="51" rule="UnusedPrivateField" ruleset="Best Practices" package="ui" class="ManagePanel" variable="reservationAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'reservationAction'.
+</violation>
+<violation beginline="27" endline="27" begincolumn="32" endcolumn="45" rule="UnusedPrivateField" ruleset="Best Practices" package="ui" class="ManagePanel" variable="facilityAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'facilityAction'.
+</violation>
+<violation beginline="88" endline="88" begincolumn="46" endcolumn="49" rule="UnusedFormalParameter" ruleset="Best Practices" package="ui" class="ManagePanel" method="getManageButton" variable="room" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused method parameters such as 'room'.
+</violation>
+</file>
 </pmd>
