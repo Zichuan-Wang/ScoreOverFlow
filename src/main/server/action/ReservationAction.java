@@ -1,6 +1,6 @@
 package server.action;
 
-import java.sql.Time;
+//import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -96,17 +96,19 @@ public class ReservationAction {
 		return failedItems;
 	}
 
-	private boolean isAvailable(Reservation reservation) { SearchRoomConstraint
-		constraint = new SearchRoomConstraint()
+	private boolean isAvailable(Reservation reservation) { 
+		SearchRoomConstraint constraint = new SearchRoomConstraint()
 		  .setStartTime(reservation.getStartTime())
 		  .setEndTime(reservation.getEndTime())
 		  .setEventDate(reservation.getEventDate());
 		
-		Room target = roomDao.getRoomById(reservation.getRoomId()); 
-		for (Room room: roomDao.searchRooms(constraint)) { 
-			 if (target.getId() == room.getId()) { 
-				 return true;
-		     } 
+		Room target = roomDao.getRoomById(reservation.getRoomId());
+		for (Room room: roomDao.searchRooms(constraint)) {
+			System.out.println("room");
+			System.out.println(room.getId());
+			if (target.getId() == room.getId()) { 
+				return true;
+		    }
 		}
 		 
 		return false; 
