@@ -1,35 +1,42 @@
 package server.action;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import dao.ReservationDao;
-//import dao.RoomDao;
+import dao.RoomDao;
 import entity.Reservation;
-//import entity.Room;
+import entity.Room;
 import server.constraint.SearchReservationConstraint;
-//import server.constraint.SearchRoomConstraint;
 import server.constraint.SearchRoomConstraint;
 
 // Handle all actions related to Reservation
 public class ReservationAction {
 
 	private ReservationDao reservationDao;
-	// private RoomDao roomDao;
+	private RoomDao roomDao;
 
-	// public ReservationAction(ReservationDao reservationDao, RoomDao roomDao) {
-	public ReservationAction(ReservationDao reservationDao) {
+	public ReservationAction(ReservationDao reservationDao, RoomDao roomDao) {
+	//public ReservationAction(ReservationDao reservationDao) {
 		this.reservationDao = reservationDao;
-		// this.roomDao = roomDao;
+		this.roomDao = roomDao;
 	}
 
 	public boolean reserveRoom(Reservation reservation) {
 		// TODO: check if the reservation is valid, e.g. the room is available
-
 		reservation.setCreated(new Timestamp(System.currentTimeMillis()));
 		reservation.setModified(new Timestamp(System.currentTimeMillis()));
+		//Time systemTime = new Time(System.currentTimeMillis());
+		//if(systemTime.before(reservation.getStartTime())) {
+		    //return false;
+		//}
+		if (!isAvailable(reservation)) {
+			return false;
+		}
+		
 		reservationDao.saveOrUpdate(reservation);
 
 		return true; // for a single-user system
@@ -89,17 +96,19 @@ public class ReservationAction {
 		return failedItems;
 	}
 
-	/*
-	 * private boolean isAvailable(Reservation reservation) { SearchRoomConstraint
-	 * constraint = new SearchRoomConstraint()
-	 * .setStartTime(reservation.getStartTime())
-	 * .setEndTime(reservation.getEndTime())
-	 * .setEventDate(reservation.getEventDate());
-	 * 
-	 * Room target = roomDao.getRoomById(reservation.getRoomId()); for (Room room:
-	 * searchRoom(constraint)) { if (target.getId() == room.getId()) { return true;
-	 * } }
-	 * 
-	 * return false; }
-	 */
+	private boolean isAvailable(Reservation reservation) { SearchRoomConstraint
+		constraint = new SearchRoomConstraint()
+		  .setStartTime(reservation.getStartTime())
+		  .setEndTime(reservation.getEndTime())
+		  .setEventDate(reservation.getEventDate());
+		
+		Room target = roomDao.getRoomById(reservation.getRoomId()); 
+		for (Room room: roomDao.searchRooms(constraint)) { 
+			 if (target.getId() == room.getId()) { 
+				 return true;
+		     } 
+		}
+		 
+		return false; 
+	}
 }

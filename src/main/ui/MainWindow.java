@@ -53,7 +53,7 @@ public class MainWindow extends JFrame {
 
 					// Set up necessary parameters
 					UserAction userAction = new UserAction(UserDaoFactory.getInstance());
-					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance());
+					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance(), RoomDaoFactory.getInstance());
 					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
 					FacilityAction facilityAction = new FacilityAction(FacilityDaoFactory.getInstance());
 					SecurityService.initialize(null);

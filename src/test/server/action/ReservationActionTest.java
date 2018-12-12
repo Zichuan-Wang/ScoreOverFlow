@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import dao.ReservationDao;
 import dao.factory.ReservationDaoFactory;
+import dao.factory.RoomDaoFactory;
 import entity.Reservation;
 import exception.DBConnectionException;
 import server.constraint.SearchReservationConstraint;
@@ -23,7 +24,7 @@ public class ReservationActionTest {
 	@Test
 	public void testReserveRoom() throws DBConnectionException {
 		ReservationDao dao = ReservationDaoFactory.getInstance();
-		ReservationAction action = new ReservationAction(dao);
+		ReservationAction action = new ReservationAction(dao, RoomDaoFactory.getInstance());
 
 		assertThrows(NullPointerException.class, () -> action.reserveRoom(null));
 
@@ -36,7 +37,7 @@ public class ReservationActionTest {
 	@Test
 	public void testCancelReservation() throws DBConnectionException {
 		ReservationDao dao = ReservationDaoFactory.getInstance();
-		ReservationAction action = new ReservationAction(dao);
+		ReservationAction action = new ReservationAction(dao, RoomDaoFactory.getInstance());
 
 		assertThrows(IllegalArgumentException.class, () -> action.cancelReservation(null));
 		assertAll(() -> action.cancelReservation(EntityTestUtils.getDefaultReservation()));
@@ -49,7 +50,7 @@ public class ReservationActionTest {
 	@Test
 	public void testSearchReservations() throws DBConnectionException {
 		ReservationDao dao = ReservationDaoFactory.getInstance();
-		ReservationAction action = new ReservationAction(dao);
+		ReservationAction action = new ReservationAction(dao, RoomDaoFactory.getInstance());
 		SearchReservationConstraint constraint = new SearchReservationConstraint()
 				.setUserId(EntityTestUtils.DEFAULT_USER_ID);
 
