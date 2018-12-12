@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import entity.Reservation;
 import entity.Room;
@@ -47,9 +46,7 @@ public class ViewRoomsPanel extends BasePanel {
 		GridBagConstraints c = new GridBagConstraints();
 
 		reservationPane = new TablePanel();
-		JScrollPane scrollReservationPane = new JScrollPane(reservationPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollReservationPane.setPreferredSize(new Dimension(600, 200));
+		reservationPane.setPreferredSize(new Dimension(600, 200));
 
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
@@ -58,7 +55,7 @@ public class ViewRoomsPanel extends BasePanel {
 		c.gridheight = 2;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
-		middlePane.add(scrollReservationPane, c);
+		middlePane.add(reservationPane, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;

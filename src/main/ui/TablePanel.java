@@ -7,6 +7,7 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
@@ -48,7 +49,9 @@ public class TablePanel extends JPanel {
 			JButton actionButton = (JButton) column[columnLength - 1];
 			dm.setValueAt(actionButton, i, columnLength - 1);
 		}
-		add(table);
+		JScrollPane scrollTable = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		add(scrollTable);
 		revalidate();
 		repaint();
 	}

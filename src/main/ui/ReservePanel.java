@@ -20,7 +20,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 //import org.apache.shiro.SecurityUtils;
@@ -103,10 +102,8 @@ public class ReservePanel extends BasePanel {
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		roomPane = new TablePanel();
-		JScrollPane scrollRoomPane = new JScrollPane(roomPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollRoomPane.setPreferredSize(new Dimension(600, 200));
-		middlePane.add(scrollRoomPane, c);
+		roomPane.setPreferredSize(new Dimension(600, 200));
+		middlePane.add(roomPane, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;

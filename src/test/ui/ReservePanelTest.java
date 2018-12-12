@@ -147,7 +147,7 @@ public class ReservePanelTest {
 
 	@Test
 	protected void middlePanelHasTablePanel() {
-		assertTrue(middlePane.getComponent(1) instanceof JScrollPane);
+		assertTrue(middlePane.getComponent(1) instanceof TablePanel);
 	}
 
 	@Test
@@ -183,10 +183,10 @@ public class ReservePanelTest {
 		JButton searchButton = (JButton) searchPane.getComponent(14);
 		searchButton.doClick();
 
-		JScrollPane scrollPane = (JScrollPane) middlePane.getComponent(1);
+		TablePanel tablePane = (TablePanel) middlePane.getComponent(1);
+		JScrollPane scrollPane = (JScrollPane) tablePane.getComponent(0);
 		JViewport viewport = scrollPane.getViewport();
-		TablePanel tablePane = (TablePanel) viewport.getView();
-		JTable table = (JTable) tablePane.getComponent(0);
+		JTable table = (JTable) viewport.getView();
 		assertNotNull(table);
 		JButton overrideButton = (JButton) table.getValueAt(1, 3);
 		assertEquals("Override", overrideButton.getText());

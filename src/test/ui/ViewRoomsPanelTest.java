@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.junit.jupiter.api.AfterEach;
@@ -40,7 +39,7 @@ public class ViewRoomsPanelTest {
 
 	@Test
 	protected void middlePanelHasTablePanel() {
-		assertTrue(middlePane.getComponent(0) instanceof JScrollPane);
+		assertTrue(middlePane.getComponent(0) instanceof TablePanel);
 	}
 
 	@Test

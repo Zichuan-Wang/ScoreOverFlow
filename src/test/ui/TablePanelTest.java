@@ -1,6 +1,7 @@
 package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -8,7 +9,9 @@ import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JViewport;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,8 +37,11 @@ public class TablePanelTest {
 		List<Object[]> rows = new ArrayList<>();
 		rows.add(new Object[] { "1,1", "1,2", new JButton() });
 		tablePane.populateList(columnNames, rows, buttonName);
-		assertTrue(tablePane.getComponent(0) instanceof JTable);
-		JTable table = (JTable) tablePane.getComponent(0);
+		assertTrue(tablePane.getComponent(0) instanceof JScrollPane);
+		JScrollPane scrollPane = (JScrollPane) tablePane.getComponent(0);
+		JViewport viewport = scrollPane.getViewport();
+		JTable table = (JTable) viewport.getView();
+		assertNotNull(table);
 		assertTrue(table.getValueAt(0, 0) instanceof String);
 		assertEquals("1,1", table.getValueAt(0, 0));
 		assertTrue(table.getValueAt(0, 1) instanceof String);
