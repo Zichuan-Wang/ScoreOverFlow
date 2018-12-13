@@ -112,7 +112,7 @@ public class EditPanel extends BasePanel{
 	private void saveRoom() {
 		room.setName(nameField.getText());
 		room.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));
-		room.getFacilities().addAll(facilityList.getSelectedValuesList());
+		room.setFacilities(new HashSet<>(facilityList.getSelectedValuesList()));
 		roomAction.saveRoom(room);
 	}
 	
