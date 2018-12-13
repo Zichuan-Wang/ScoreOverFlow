@@ -12,8 +12,13 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.GroupLayout;
+
+//import org.apache.shiro.SecurityUtils;
+
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -21,12 +26,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-//import org.apache.shiro.SecurityUtils;
-
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout.ParallelGroup;
-import javax.swing.GroupLayout.SequentialGroup;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
@@ -164,18 +163,20 @@ public class ReservePanel extends BasePanel {
 				endTimePicker.setTime(selectedTime);
 			}
 		});
-		
+
 		// Setting action listener for adjusting start time based on date
-		datePicker.addDateChangeListener(e ->{
+		datePicker.addDateChangeListener(e -> {
 			if (datePicker.getDate().equals(today)) { // set to cur date
 				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime(), null);
 				startTimePicker.setTime(getCurTime());
-				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, startTimePicker.getTime().plusMinutes(10), null);
+				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes,
+						startTimePicker.getTime().plusMinutes(10), null);
 				endTimePicker.setTime(getCurTime().plusMinutes(10));
-			}else { // set to a new date
+			} else { // set to a new date
 				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);
 				startTimePicker.setTime(LocalTime.MIDNIGHT);
-				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, startTimePicker.getTime().plusMinutes(10), null);
+				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes,
+						startTimePicker.getTime().plusMinutes(10), null);
 				endTimePicker.setTime(LocalTime.MIDNIGHT.plusMinutes(10));
 			}
 		});
@@ -197,18 +198,7 @@ public class ReservePanel extends BasePanel {
 		}
 		facilityList = new JList<>(model);
 		// enables clicking multiple items
-		facilityList.setSelectionModel(new DefaultListSelectionModel() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void setSelectionInterval(int index0, int index1) {
-				if (super.isSelectedIndex(index0)) {
-					super.removeSelectionInterval(index0, index1);
-				} else {
-					super.addSelectionInterval(index0, index1);
-				}
-			}
-		});
+		facilityList.setSelectionModel(new FacilityListSelectionModel());
 
 		// Show Booked Rooms for High Priority Users
 		JLabel overrideLabel = new JLabel();
@@ -279,7 +269,7 @@ public class ReservePanel extends BasePanel {
 		searchButton.addActionListener(e -> searchRoom());
 		return searchButton;
 	}
-	
+
 	public void searchRoom(SearchRoomConstraint src) {
 		// search from database
 		List<Room> roomList = roomAction.searchRooms(src);
@@ -324,14 +314,10 @@ public class ReservePanel extends BasePanel {
 				row[3] = overrideButton;
 				rows.add(row);
 			}
-			roomPane.populateList(rowName, rows, new int[] {3});
+			roomPane.populateList(rowName, rows, new int[] { 3 });
 		}
 	}
-	
-	
-	
-	
-	
+
 	private void searchRoom() {
 		// reset
 		roomPane.reset();
@@ -355,7 +341,6 @@ public class ReservePanel extends BasePanel {
 		}
 		searchRoom(src);
 	}
-	
 
 	private JButton getReserveButton(Room room, SearchRoomConstraint src) {
 		JButton reserveButton = new JButton("Reserve");

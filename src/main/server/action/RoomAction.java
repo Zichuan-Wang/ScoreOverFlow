@@ -34,4 +34,8 @@ public class RoomAction {
 	public void deleteRoom(Room room) {
 		dao.remove(room);
 	}
+	
+	public Room saveRoom(Room room) {
+		return dao.saveOrUpdate(room);
+	}
 }

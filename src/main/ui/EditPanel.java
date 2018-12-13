@@ -2,33 +2,25 @@ package ui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout.ParallelGroup;
-import javax.swing.GroupLayout.SequentialGroup;
-
-import com.github.lgooddatepicker.components.DatePicker;
-import com.github.lgooddatepicker.components.DatePickerSettings;
-import com.github.lgooddatepicker.components.TimePicker;
-import com.github.lgooddatepicker.components.TimePickerSettings;
-import com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement;
 
 import entity.Facility;
 import entity.Room;
+import server.action.FacilityAction;
+import server.action.RoomAction;
 
 public class EditPanel extends BasePanel{
 	
@@ -36,13 +28,46 @@ public class EditPanel extends BasePanel{
 	
 	private Room room;
 	
+	private FacilityAction facilityAction;
+	private RoomAction roomAction;
+	
 	private JTextField nameField;
 	private JTextField capacity;
+	private JList<Facility> facilityList;
 	
-	public EditPanel(JPanel cards, String title, Room room) {
+	private Runnable callback;
+	
+	public EditPanel(JPanel cards, String title, FacilityAction facilityAction, RoomAction roomAction, Runnable callback) {
 		super(cards, title);
-		this.room = room;
+		this.facilityAction = facilityAction;
+		this.roomAction = roomAction;
+		this.callback = callback;
 		setMiddlePanel();
+	}
+	
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+	
+	@Override
+	public void pareparePanel() {
+		if (room != null) {
+			nameField.setText(room.getName() == null ? "" : room.getName());
+			capacity.setText(room.getCapacity() == 0 ? "" : Integer.toString(room.getCapacity()));
+			if (room.getFacilities() != null) {
+				List<Integer> indices = new ArrayList<>();
+				Set<Integer> facilitiSet = new HashSet<>();
+				for (Facility facility : room.getFacilities()) {
+					facilitiSet.add(facility.getId());
+				}
+				for (int i = 0; i < facilityList.getModel().getSize(); i++) {
+					if (facilitiSet.contains(facilityList.getModel().getElementAt(i).getId())) {
+						indices.add(i);
+					}
+				}
+				facilityList.setSelectedIndices(indices.stream().mapToInt(i->i).toArray());
+			}
+		}
 	}
 	
 	private void setMiddlePanel() {
@@ -65,9 +90,30 @@ public class EditPanel extends BasePanel{
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-
+		JButton saveButton = GuiUtils.createButton("Save", e -> {
+			saveRoom();
+			JOptionPane.showMessageDialog(null, "Success!");
+			GuiUtils.jumpToPanel(rootPane, "manage");
+			callback.run();
+		});
+		middlePane.add(saveButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.weightx = 0.0;
+		c.weighty = 1.0;
+		
 		JButton backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "manage"));
 		middlePane.add(backButton, c);
+	}
+	
+	private void saveRoom() {
+		room.setName(nameField.getText());
+		room.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));
+		room.getFacilities().addAll(facilityList.getSelectedValuesList());
+		roomAction.saveRoom(room);
 	}
 	
 	private JPanel getInfoPanel() {
@@ -85,16 +131,29 @@ public class EditPanel extends BasePanel{
 		// Capacity
 		JLabel capacityLabel = new JLabel("Capacity");
 		capacity = GuiUtils.getNumTextField(5);
+		
+		// Facility
+		JLabel facilityLabel = new JLabel("Facility");
+		List<Facility> facilities = facilityAction.findAllFacilities();
+		DefaultListModel<Facility> model = new DefaultListModel<>();
+		for (Facility facility : facilities) {
+			model.addElement(facility);
+		}
+		facilityList = new JList<>(model);
+		// enables clicking multiple items
+		facilityList.setSelectionModel(new FacilityListSelectionModel());
 
 		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(nameLabel)
 				.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(nameField))
-				.addComponent(capacityLabel).addComponent(capacity));
+				.addComponent(capacityLabel).addComponent(capacity)
+				.addGroup(layout.createSequentialGroup().addComponent(facilityLabel).addComponent(facilityList)));
 
 		layout.setVerticalGroup(layout.createParallelGroup(Alignment.CENTER).addGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(nameLabel))
 				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(nameField))
 				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacityLabel))
-				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacity))));
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacity))
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel).addComponent(facilityList))));
 		
 		return infoPanel;
 	}

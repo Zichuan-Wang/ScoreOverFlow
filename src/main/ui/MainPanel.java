@@ -8,8 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import entity.Room;
-
 //import org.apache.shiro.SecurityUtils;
 
 import entity.User;
@@ -65,7 +63,7 @@ public class MainPanel extends BasePanel {
 		// add or edit room and facilities for admin
 		// if (SecurityUtils.getSubject().hasRole("Admin")) {
 		if (user.getIsAdmin()) {
-			createPanel = new EditPanel(rootPane, "Create Room", new Room());
+			createPanel = new EditPanel(rootPane, "Create Room", facilityAction, roomAction, () -> showManagePanel());
 			rootPane.add(createPanel, "create");
 			
 			

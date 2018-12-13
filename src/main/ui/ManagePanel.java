@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import entity.Room;
@@ -19,12 +20,8 @@ import server.action.UserAction;
 public class ManagePanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = "Manage Rooms and Facilities";
-	private User user;
 
-	private UserAction userAction;
-	private ReservationAction reservationAction;
 	private RoomAction roomAction;
-	private FacilityAction facilityAction;
 
 	private TablePanel roomPane;
 	private EditPanel createPanel;
@@ -32,11 +29,7 @@ public class ManagePanel extends BasePanel {
 	public ManagePanel(JPanel cards, User user, UserAction userAction, ReservationAction reservationAction,
 			RoomAction roomAction, FacilityAction facilityAction, EditPanel createPanel) {
 		super(cards, TITLE);
-		this.user = user;
-		this.userAction = userAction;
-		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
-		this.facilityAction = facilityAction;
 		this.createPanel = createPanel;
 		setMiddlePanel();
 	}
@@ -64,16 +57,20 @@ public class ManagePanel extends BasePanel {
 		c.gridheight = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		JButton createButton = GuiUtils.createButton("Create Room", e -> GuiUtils.jumpToPanel(rootPane, "create"), e -> createPanel.pareparePanel());
+		JButton createButton = GuiUtils.createButton("Create Room", e -> {
+			GuiUtils.jumpToPanel(rootPane, "create");
+			createPanel.setRoom(new Room());
+			createPanel.pareparePanel();
+		});
 		middlePane.add(createButton, c);
-		
+
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 4;
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
-		
+
 		JButton backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
 		middlePane.add(backButton, c);
 	}
@@ -102,6 +99,9 @@ public class ManagePanel extends BasePanel {
 	private JButton getManageButton(Room room) {
 		JButton manageButton = new JButton("Manage");
 		manageButton.addActionListener(e -> {
+			GuiUtils.jumpToPanel(rootPane, "create");
+			createPanel.setRoom(room);
+			createPanel.pareparePanel();
 		});
 		return manageButton;
 	}
@@ -110,6 +110,7 @@ public class ManagePanel extends BasePanel {
 		JButton deleteButton = new JButton("Delete");
 		deleteButton.addActionListener(e -> {
 			roomAction.deleteRoom(room);
+			JOptionPane.showMessageDialog(null, "Success!");
 			pareparePanel();
 		});
 		return deleteButton;
