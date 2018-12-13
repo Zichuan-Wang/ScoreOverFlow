@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import entity.Room;
+
 //import org.apache.shiro.SecurityUtils;
 
 import entity.User;
@@ -32,6 +34,9 @@ public class MainPanel extends BasePanel {
 	private RoomAction roomAction;
 	private FacilityAction facilityAction;
 
+	private EditPanel createPanel;
+	private ManagePanel managePanel;
+	
 	public MainPanel(JPanel rootPane, User user, UserAction userAction, ReservationAction reservationAction,
 			RoomAction roomAction, FacilityAction facilityAction) {
 		super(rootPane, TITLE);
@@ -41,6 +46,10 @@ public class MainPanel extends BasePanel {
 		this.roomAction = roomAction;
 		this.facilityAction = facilityAction;
 		setMiddlePanel();
+	}
+	
+	public void showManagePanel() {
+		managePanel.pareparePanel();
 	}
 
 	private void setMiddlePanel() {
@@ -55,13 +64,17 @@ public class MainPanel extends BasePanel {
 
 		// add or edit room and facilities for admin
 		// if (SecurityUtils.getSubject().hasRole("Admin")) {
-		if (user.getUserGroup() == 0) {
-			ManagePanel managePane = new ManagePanel(rootPane, user, userAction, reservationAction, roomAction,
-					facilityAction);
-			rootPane.add(managePane, "manage");
+		if (user.getIsAdmin()) {
+			createPanel = new EditPanel(rootPane, "Create Room", new Room());
+			rootPane.add(createPanel, "create");
+			
+			
+			managePanel = new ManagePanel(rootPane, user, userAction, reservationAction, roomAction,
+					facilityAction, createPanel);
+			rootPane.add(managePanel, "manage");
 
 			manageButton = GuiUtils.createButton("Manage Rooms and Facilities",
-					e -> GuiUtils.jumpToPanel(rootPane, "manage"), e -> managePane.pareparePanel());
+					e -> GuiUtils.jumpToPanel(rootPane, "manage"), e -> showManagePanel());
 
 			manageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			middlePane.add(manageButton);

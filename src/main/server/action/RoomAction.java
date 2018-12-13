@@ -30,4 +30,8 @@ public class RoomAction {
 	public List<Room> getAllRooms() {
 		return dao.getAllRooms();
 	}
+	
+	public void deleteRoom(Room room) {
+		dao.remove(room);
+	}
 }

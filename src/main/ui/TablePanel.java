@@ -24,7 +24,7 @@ public class TablePanel extends JPanel {
 	}
 
 	// Print objects (Strings and one button) in a table
-	public void populateList(Object[] columnNames, List<Object[]> rows, String buttonName) {
+	public void populateList(String[] columnNames, List<Object[]> rows, int[] buttonIndex) {
 		removeAll();
 		int columnLength = columnNames.length;
 		int rowLength = rows.size();
@@ -34,20 +34,26 @@ public class TablePanel extends JPanel {
 
 			// button needs editable to be clicked
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
-				return columnIndex == columnLength - 1;
+				for (int index : buttonIndex) {
+					if (columnIndex == index) {
+						return true;
+					}
+				}
+				return false;
 			}
 		};
 		JTable table = new JTable(dm);
-		table.getColumn(buttonName).setCellRenderer(new ButtonRenderer());
-		table.getColumn(buttonName).setCellEditor(new ButtonEditor());
+		for (int index : buttonIndex) {
+			String buttonName = columnNames[index];
+			table.getColumn(buttonName).setCellRenderer(new ButtonRenderer());
+			table.getColumn(buttonName).setCellEditor(new ButtonEditor());
+		}
 
 		for (int i = 0; i < rowLength; i++) {
 			Object[] column = rows.get(i);
-			for (int j = 0; j < columnLength - 1; j++) {
+			for (int j = 0; j < columnLength; j++) {
 				dm.setValueAt(column[j], i, j);
 			}
-			JButton actionButton = (JButton) column[columnLength - 1];
-			dm.setValueAt(actionButton, i, columnLength - 1);
 		}
 		JScrollPane scrollTable = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

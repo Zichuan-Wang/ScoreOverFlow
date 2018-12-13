@@ -79,7 +79,7 @@ public class ViewRoomsPanel extends BasePanel {
 		List<Reservation> overridenReservationList = reservationAction.searchOverridenReservations(src);
 		List<Object[]> rows = new ArrayList<>();
 		// Room name, date, start time, end time, cancel button
-		Object[] rowName = new Object[] { "Room Name", "Date", "Start Time", "End Time", "Button" };
+		String[] rowName = new String[] { "Room Name", "Date", "Start Time", "End Time", "Action" };
 		for (Reservation reservation : overridenReservationList) {
 			Room room = roomAction.getRoomById(reservation.getRoomId());
 			Object[] row = new Object[5];
@@ -107,7 +107,7 @@ public class ViewRoomsPanel extends BasePanel {
 			rows1.add(row);
 		}
 		rows.addAll(rows1);
-		reservationPane.populateList(rowName, rows, "Button");
+		reservationPane.populateList(rowName, rows, new int[] {4});
 	}
 
 	private JButton getCancelButton(Reservation reservation) {

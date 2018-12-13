@@ -292,7 +292,7 @@ public class ReservePanel extends BasePanel {
 				JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
 		} else {
 			List<Object[]> rows = new ArrayList<>();
-			Object[] rowName = new Object[] { "Room Name", "Capacity", "Facilities", "Action" };
+			String[] rowName = new String[] { "Room Name", "Capacity", "Facilities", "Action" };
 
 			// Room name, Capacities, Facilities, Reserve button
 			for (Room room : roomList) {
@@ -324,7 +324,7 @@ public class ReservePanel extends BasePanel {
 				row[3] = overrideButton;
 				rows.add(row);
 			}
-			roomPane.populateList(rowName, rows, "Action");
+			roomPane.populateList(rowName, rows, new int[] {3});
 		}
 	}
 	

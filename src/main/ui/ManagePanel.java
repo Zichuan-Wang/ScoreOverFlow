@@ -27,15 +27,17 @@ public class ManagePanel extends BasePanel {
 	private FacilityAction facilityAction;
 
 	private TablePanel roomPane;
+	private EditPanel createPanel;
 
 	public ManagePanel(JPanel cards, User user, UserAction userAction, ReservationAction reservationAction,
-			RoomAction roomAction, FacilityAction facilityAction) {
+			RoomAction roomAction, FacilityAction facilityAction, EditPanel createPanel) {
 		super(cards, TITLE);
 		this.user = user;
 		this.userAction = userAction;
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
 		this.facilityAction = facilityAction;
+		this.createPanel = createPanel;
 		setMiddlePanel();
 	}
 
@@ -59,8 +61,19 @@ public class ManagePanel extends BasePanel {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 1;
+		c.gridheight = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
+		JButton createButton = GuiUtils.createButton("Create Room", e -> GuiUtils.jumpToPanel(rootPane, "create"), e -> createPanel.pareparePanel());
+		middlePane.add(createButton, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.weightx = 0.0;
+		c.weighty = 1.0;
+		
 		JButton backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
 		middlePane.add(backButton, c);
 	}
@@ -72,17 +85,18 @@ public class ManagePanel extends BasePanel {
 
 	public void showRoomList() {
 		List<Room> rooms = roomAction.getAllRooms();
-		Object[] rowName = new Object[] { "Name", "Capacity", "Action" };
+		String[] rowName = new String[] { "Room Name", "Capacity", "Action 1", "Action 2" };
 
 		List<Object[]> rows = new ArrayList<>();
 		for (Room room : rooms) {
-			Object[] row = new Object[3];
+			Object[] row = new Object[4];
 			row[0] = room.getName();
 			row[1] = room.getCapacity();
 			row[2] = getManageButton(room);
+			row[3] = getDeleteButton(room);
 			rows.add(row);
 		}
-		roomPane.populateList(rowName, rows, "Action");
+		roomPane.populateList(rowName, rows, new int[] { 2, 3 });
 	}
 
 	private JButton getManageButton(Room room) {
@@ -90,6 +104,15 @@ public class ManagePanel extends BasePanel {
 		manageButton.addActionListener(e -> {
 		});
 		return manageButton;
+	}
+
+	private JButton getDeleteButton(Room room) {
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(e -> {
+			roomAction.deleteRoom(room);
+			pareparePanel();
+		});
+		return deleteButton;
 	}
 
 }

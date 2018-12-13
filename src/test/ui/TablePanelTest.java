@@ -32,11 +32,10 @@ public class TablePanelTest {
 
 	@Test
 	protected void testPopulateList() {
-		String buttonName = "botton row";
-		Object[] columnNames = new Object[] { "column 1", "column 2", buttonName };
+		String[] columnNames = new String[] { "column 1", "column 2", "botton row" };
 		List<Object[]> rows = new ArrayList<>();
 		rows.add(new Object[] { "1,1", "1,2", new JButton() });
-		tablePane.populateList(columnNames, rows, buttonName);
+		tablePane.populateList(columnNames, rows, new int[]{2});
 		assertTrue(tablePane.getComponent(0) instanceof JScrollPane);
 		JScrollPane scrollPane = (JScrollPane) tablePane.getComponent(0);
 		JViewport viewport = scrollPane.getViewport();

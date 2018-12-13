@@ -18,7 +18,7 @@ public class ManagePanelTest {
 
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
-		managePane = new ManagePanel(null, null, null, null, null, null);
+		managePane = new ManagePanel(null, null, null, null, null, null, null);
 		topPane = (JPanel) managePane.getComponent(0);
 		middlePane = (JPanel) managePane.getComponent(1);
 	}
