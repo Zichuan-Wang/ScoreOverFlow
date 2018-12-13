@@ -2,78 +2,19 @@
 <pmd xmlns="http://pmd.sourceforge.net/report/2.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd"
-    version="6.8.0" timestamp="2018-12-13T10:41:57.931">
-<file name="/Users/travis/build/Zichuan-Wang/ScoreOverFlow/src/main/ui/EditPanel.java">
-<violation beginline="5" endline="5" begincolumn="1" endcolumn="27" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'java.time.LocalDate'
-</violation>
-<violation beginline="6" endline="6" begincolumn="1" endcolumn="27" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'java.time.LocalTime'
-</violation>
-<violation beginline="7" endline="7" begincolumn="1" endcolumn="22" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'java.util.List'
-</violation>
-<violation beginline="9" endline="9" begincolumn="1" endcolumn="29" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'javax.swing.BoxLayout'
-</violation>
-<violation beginline="10" endline="10" begincolumn="1" endcolumn="36" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'javax.swing.DefaultListModel'
-</violation>
-<violation beginline="11" endline="11" begincolumn="1" endcolumn="45" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'javax.swing.DefaultListSelectionModel'
-</violation>
-<violation beginline="14" endline="14" begincolumn="1" endcolumn="29" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'javax.swing.JCheckBox'
-</violation>
-<violation beginline="16" endline="16" begincolumn="1" endcolumn="25" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'javax.swing.JList'
-</violation>
-<violation beginline="18" endline="18" begincolumn="1" endcolumn="34" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'javax.swing.JPasswordField'
-</violation>
-<violation beginline="21" endline="21" begincolumn="1" endcolumn="45" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'javax.swing.GroupLayout.ParallelGroup'
-</violation>
-<violation beginline="22" endline="22" begincolumn="1" endcolumn="47" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'javax.swing.GroupLayout.SequentialGroup'
-</violation>
-<violation beginline="24" endline="24" begincolumn="1" endcolumn="56" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'com.github.lgooddatepicker.components.DatePicker'
-</violation>
-<violation beginline="25" endline="25" begincolumn="1" endcolumn="64" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'com.github.lgooddatepicker.components.DatePickerSettings'
-</violation>
-<violation beginline="26" endline="26" begincolumn="1" endcolumn="56" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'com.github.lgooddatepicker.components.TimePicker'
-</violation>
-<violation beginline="27" endline="27" begincolumn="1" endcolumn="64" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'com.github.lgooddatepicker.components.TimePickerSettings'
-</violation>
-<violation beginline="28" endline="28" begincolumn="1" endcolumn="78" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'com.github.lgooddatepicker.components.TimePickerSettings.TimeIncrement'
-</violation>
-<violation beginline="30" endline="30" begincolumn="1" endcolumn="23" rule="UnusedImports" ruleset="Best Practices" package="ui" class="EditPanel" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedimports" priority="4">
-Avoid unused imports such as 'entity.Facility'
-</violation>
-<violation beginline="37" endline="37" begincolumn="22" endcolumn="25" rule="UnusedPrivateField" ruleset="Best Practices" package="ui" class="EditPanel" variable="room" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
-Avoid unused private fields such as 'room'.
-</violation>
-</file>
+    version="6.8.0" timestamp="2018-12-13T11:35:36.236">
 <file name="/Users/travis/build/Zichuan-Wang/ScoreOverFlow/src/main/ui/ManagePanel.java">
-<violation beginline="22" endline="22" begincolumn="22" endcolumn="25" rule="UnusedPrivateField" ruleset="Best Practices" package="ui" class="ManagePanel" variable="user" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
-Avoid unused private fields such as 'user'.
+<violation beginline="29" endline="29" begincolumn="94" endcolumn="110" rule="UnusedFormalParameter" ruleset="Best Practices" package="ui" class="ManagePanel" method="ManagePanel" variable="reservationAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused constructor parameters such as 'reservationAction'.
 </violation>
-<violation beginline="24" endline="24" begincolumn="28" endcolumn="37" rule="UnusedPrivateField" ruleset="Best Practices" package="ui" class="ManagePanel" variable="userAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
-Avoid unused private fields such as 'userAction'.
+<violation beginline="29" endline="29" begincolumn="47" endcolumn="50" rule="UnusedFormalParameter" ruleset="Best Practices" package="ui" class="ManagePanel" method="ManagePanel" variable="user" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused constructor parameters such as 'user'.
 </violation>
-<violation beginline="25" endline="25" begincolumn="35" endcolumn="51" rule="UnusedPrivateField" ruleset="Best Practices" package="ui" class="ManagePanel" variable="reservationAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
-Avoid unused private fields such as 'reservationAction'.
+<violation beginline="29" endline="29" begincolumn="64" endcolumn="73" rule="UnusedFormalParameter" ruleset="Best Practices" package="ui" class="ManagePanel" method="ManagePanel" variable="userAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused constructor parameters such as 'userAction'.
 </violation>
-<violation beginline="27" endline="27" begincolumn="32" endcolumn="45" rule="UnusedPrivateField" ruleset="Best Practices" package="ui" class="ManagePanel" variable="facilityAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
-Avoid unused private fields such as 'facilityAction'.
-</violation>
-<violation beginline="102" endline="102" begincolumn="46" endcolumn="49" rule="UnusedFormalParameter" ruleset="Best Practices" package="ui" class="ManagePanel" method="getManageButton" variable="room" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
-Avoid unused method parameters such as 'room'.
+<violation beginline="30" endline="30" begincolumn="63" endcolumn="76" rule="UnusedFormalParameter" ruleset="Best Practices" package="ui" class="ManagePanel" method="ManagePanel" variable="facilityAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused constructor parameters such as 'facilityAction'.
 </violation>
 </file>
 </pmd>
