@@ -33,7 +33,7 @@ import server.constraint.SearchRoomConstraint;
 public class BatchPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private static final String TITLE = &quot;Reserve Rooms in Batch&quot;;
-	private static final String TEMPLATE = &quot;Event Date,Start Time,End Time,Capacity,Room Name,Facilities\n12/20/2018,08:00,09:20,50,Mudd,projector; computer\n12/22/2018,15:00,22:10,250,,&quot;;
+	private static final String TEMPLATE = &quot;This is the template of the batch reservation file. The third and fourth lines are examples. Fields with * are required. Please start from the fifth line.\nEvent Date*,Start Time*,End Time*,Capacity,Room Name,Facilities\n12/20/2018,08:00,09:20,50,Mudd,projector; computer\n12/22/2018,15:00,22:10,250,,&quot;;
 	private User user;
 
 	private JButton uploadFileButton, downloadFileButton;
@@ -129,7 +129,7 @@ public class BatchPanel extends BasePanel {
 <span class="nc" id="L129">			BufferedReader br = null;</span>
 <span class="nc" id="L130">			String line = &quot;&quot;;</span>
 <span class="nc" id="L131">			String cvsSplitBy = &quot;,&quot;;</span>
-<span class="nc" id="L132">			int lineNum = 0;</span>
+<span class="nc" id="L132">			int lineNum = -4;</span>
 
 <span class="nc" id="L134">			List&lt;SearchRoomConstraint&gt; srcs = new ArrayList&lt;&gt;();</span>
 <span class="nc" id="L135">			List&lt;Facility&gt; facilities = facilityAction.findAllFacilities();</span>
@@ -142,7 +142,7 @@ public class BatchPanel extends BasePanel {
 <span class="nc" id="L142">				br = new BufferedReader(new FileReader(csvFile));</span>
 <span class="nc bnc" id="L143" title="All 2 branches missed.">				while ((line = br.readLine()) != null) {</span>
 <span class="nc" id="L144">					lineNum++;</span>
-<span class="nc bnc" id="L145" title="All 2 branches missed.">					if (lineNum &lt; 2) {</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">					if (lineNum &lt; 1) {</span>
 <span class="nc" id="L146">						continue;</span>
 					}
 <span class="nc" id="L148">					String[] groups = line.split(cvsSplitBy, -1);</span>

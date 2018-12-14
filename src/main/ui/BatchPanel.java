@@ -33,7 +33,7 @@ import server.constraint.SearchRoomConstraint;
 public class BatchPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private static final String TITLE = "Reserve Rooms in Batch";
-	private static final String TEMPLATE = "Event Date,Start Time,End Time,Capacity,Room Name,Facilities\n12/20/2018,08:00,09:20,50,Mudd,projector; computer\n12/22/2018,15:00,22:10,250,,";
+	private static final String TEMPLATE = "This is the template of the batch reservation file. The third and fourth lines are examples. Fields with * are required. Please start from the fifth line.\nEvent Date*,Start Time*,End Time*,Capacity,Room Name,Facilities\n12/20/2018,08:00,09:20,50,Mudd,projector; computer\n12/22/2018,15:00,22:10,250,,";
 	private User user;
 
 	private JButton uploadFileButton, downloadFileButton;
@@ -129,7 +129,7 @@ public class BatchPanel extends BasePanel {
 			BufferedReader br = null;
 			String line = "";
 			String cvsSplitBy = ",";
-			int lineNum = 0;
+			int lineNum = -4;
 
 			List<SearchRoomConstraint> srcs = new ArrayList<>();
 			List<Facility> facilities = facilityAction.findAllFacilities();
@@ -142,7 +142,7 @@ public class BatchPanel extends BasePanel {
 				br = new BufferedReader(new FileReader(csvFile));
 				while ((line = br.readLine()) != null) {
 					lineNum++;
-					if (lineNum < 2) {
+					if (lineNum < 1) {
 						continue;
 					}
 					String[] groups = line.split(cvsSplitBy, -1);
