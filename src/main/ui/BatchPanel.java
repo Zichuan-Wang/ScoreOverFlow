@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,6 +14,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 
@@ -37,8 +40,7 @@ public class BatchPanel extends BasePanel {
 		this.reservationAction = reservationAction;
 		setMiddlePanel();
 		
-		backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
-		middlePane.add(backButton);
+		
 	}
 
 	/*
@@ -50,8 +52,43 @@ public class BatchPanel extends BasePanel {
 	 */
 
 	private void setMiddlePanel() {
+        middlePane.setLayout(new GridBagLayout()); 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+		
+        gbc.gridx = 0;
+        gbc.gridy = 0;
 		uploadFileButton = getUploadFileButton();
-		middlePane.add(uploadFileButton);
+		middlePane.add(uploadFileButton, gbc);
+		
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+		backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
+		middlePane.add(backButton, gbc);
+		
+		JLabel labelInstruction1, labelInstruction2, labelInstruction3, labelInstruction4;  
+	    labelInstruction1 = new JLabel("CSV file example: ");
+	    labelInstruction2 = new JLabel("\"room id\", \"date\", \"start time\", \"end time\"");
+	    labelInstruction3 = new JLabel("6, 5234564545, 63000, 70300");
+	    labelInstruction4 = new JLabel("6, 6456784546, 42000, 60040");  
+	    
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+	    middlePane.add(labelInstruction1, gbc);
+	    
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+	    middlePane.add(labelInstruction2, gbc);
+	    
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+	    middlePane.add(labelInstruction3, gbc);
+	    
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+	    middlePane.add(labelInstruction4, gbc);
+	    
+	    
 	}
 
 	private JButton getUploadFileButton() {
