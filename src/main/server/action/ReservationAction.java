@@ -101,6 +101,10 @@ public class ReservationAction {
 		  .setEventDate(reservation.getEventDate());
 		
 		Room target = roomDao.getRoomById(reservation.getRoomId());
+		if (target == null) {
+			System.out.println("null target");
+			return false;
+		}
 		for (Room room: roomDao.searchRooms(constraint)) {
 			System.out.println("room");
 			System.out.println(room.getId());
