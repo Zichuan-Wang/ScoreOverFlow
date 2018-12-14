@@ -149,8 +149,7 @@ public class ReservationActionTest {
 				.setEventDate(calendar.getTime()).setEndTime(calendar.getTime());
 		
 		// These should fail
-		Reservation reservation5 = reservation4; // repeated reservation request
-		Reservation reservation6 = EntityTestUtils.getDefaultReservation().setRoomId(1000)
+		Reservation reservation5 = EntityTestUtils.getDefaultReservation().setRoomId(1000)
 				.setEventDate(calendar.getTime()).setEndTime(calendar.getTime()); // room does not exist
 		
 		
@@ -160,9 +159,8 @@ public class ReservationActionTest {
 		reservations.add(reservation3);
 		reservations.add(reservation4);
 		reservations.add(reservation5);
-		reservations.add(reservation6);
 		
-		assertEquals(6, reservations.size());
+		assertEquals(5, reservations.size());
 		
 		List<Reservation> failedReservations = action.reserveMultipleRooms(reservations);
 		dao.remove(reservation1);
@@ -171,6 +169,6 @@ public class ReservationActionTest {
 		dao.remove(reservation4);
 		roomDao.remove(room);
 		
-		assertEquals(2, failedReservations.size());
+		assertEquals(1, failedReservations.size());
 	}
 }
