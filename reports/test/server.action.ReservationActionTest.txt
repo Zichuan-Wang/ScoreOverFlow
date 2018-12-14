@@ -1,4 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: server.action.ReservationActionTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.707 s - in server.action.ReservationActionTest
+Tests run: 5, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 7.457 s <<< FAILURE! - in server.action.ReservationActionTest
+testCancelReservation  Time elapsed: 0.631 s  <<< ERROR!
+javax.persistence.RollbackException: Error while committing the transaction
+	at server.action.ReservationActionTest.testCancelReservation(ReservationActionTest.java:54)
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at server.action.ReservationActionTest.testCancelReservation(ReservationActionTest.java:54)
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at server.action.ReservationActionTest.testCancelReservation(ReservationActionTest.java:54)
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '1' for key 'PRIMARY'
+	at server.action.ReservationActionTest.testCancelReservation(ReservationActionTest.java:54)
+
