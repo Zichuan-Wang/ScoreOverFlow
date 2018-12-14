@@ -6,14 +6,30 @@ import javax.swing.DefaultListSelectionModel;
 
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public void setSelectionInterval(int index0, int index1) {
-<span class="nc bnc" id="L11" title="All 2 branches missed.">		if (super.isSelectedIndex(index0)) {</span>
-<span class="nc" id="L12">			super.removeSelectionInterval(index0, index1);</span>
-		} else {
-<span class="nc" id="L14">			super.addSelectionInterval(index0, index1);</span>
-		}
-<span class="nc" id="L16">	}</span>
+<span class="fc" id="L9">	private int i0 = -1;</span>
+<span class="fc" id="L10">    private int i1 = -1;</span>
+
+    @Override
+    public void setSelectionInterval(int index0, int index1) {
+<span class="nc bnc" id="L14" title="All 4 branches missed.">        if(i0 == index0 &amp;&amp; i1 == index1){</span>
+<span class="nc bnc" id="L15" title="All 2 branches missed.">            if(getValueIsAdjusting()){</span>
+<span class="nc" id="L16">                 setValueIsAdjusting(false);</span>
+<span class="nc" id="L17">                 setSelection(index0, index1);</span>
+            }
+        }else{
+<span class="nc" id="L20">            i0 = index0;</span>
+<span class="nc" id="L21">            i1 = index1;</span>
+<span class="nc" id="L22">            setValueIsAdjusting(false);</span>
+<span class="nc" id="L23">            setSelection(index0, index1);</span>
+        }
+<span class="nc" id="L25">    }</span>
+    private void setSelection(int index0, int index1){
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if(super.isSelectedIndex(index0)) {</span>
+<span class="nc" id="L28">            super.removeSelectionInterval(index0, index1);</span>
+        }else {
+<span class="nc" id="L30">            super.addSelectionInterval(index0, index1);</span>
+        }
+<span class="nc" id="L32">    }</span>
 	
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

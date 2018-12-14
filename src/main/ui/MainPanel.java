@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.shiro.SecurityUtils;
+
 //import org.apache.shiro.SecurityUtils;
 
 import entity.User;
@@ -25,6 +27,7 @@ public class MainPanel extends BasePanel {
 	private JButton viewRoomsButton;
 	private JButton manageButton;
 	private JButton batchButton;
+	private JButton logoutButton;
 
 	private User user;
 
@@ -132,8 +135,15 @@ public class MainPanel extends BasePanel {
 			Dimension largestSize = viewRoomsButton.getPreferredSize();
 			reserveButton.setMaximumSize(largestSize);
 		}
-		repaint();
-		revalidate();
+		
+		// Logout
+		logoutButton = GuiUtils.createButton("Logout", e -> GuiUtils.jumpToPanel(rootPane, "login"),
+				e -> SecurityUtils.getSubject().logout());
+
+		logoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		middlePane.add(logoutButton);
+
+		middlePane.add(Box.createVerticalGlue()); // end
 	}
 
 }

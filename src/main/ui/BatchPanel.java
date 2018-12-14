@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
@@ -14,7 +15,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 
@@ -24,10 +24,11 @@ import server.action.ReservationAction;
 
 public class BatchPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
-	private final static String TITLE = "Reserve Rooms in Batch";
+	private static final String TITLE = "Reserve Rooms in Batch";
+	private static final String TEMPLATE = "\"room id\", \"date\", \"start time\", \"end time\"\n6, 5234564545, 63000, 70300\n6, 6456784546, 42000, 60040";
 	private User user;
 
-	private JButton uploadFileButton, backButton;
+	private JButton uploadFileButton, downloadFileButton, backButton;
 
 	// private UserAction userAction;
 	private ReservationAction reservationAction;
@@ -43,14 +44,6 @@ public class BatchPanel extends BasePanel {
 		
 	}
 
-	/*
-	 * public BatchPanel(JPanel cards, User user, UserAction userAction,
-	 * ReservationAction reservationAction, RoomAction roomAction, FacilityAction
-	 * facilityAction) { super(cards,TITLE); this.user = user; this.userAction =
-	 * userAction; this.reservationAction = reservationAction; this.roomAction =
-	 * roomAction; this.facilityAction = facilityAction; setMiddlePanel(); }
-	 */
-
 	private void setMiddlePanel() {
         middlePane.setLayout(new GridBagLayout()); 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -61,42 +54,65 @@ public class BatchPanel extends BasePanel {
 		uploadFileButton = getUploadFileButton();
 		middlePane.add(uploadFileButton, gbc);
 		
-        gbc.gridx = 0;
+		gbc.gridx = 0;
         gbc.gridy = 1;
+		downloadFileButton = getDownloadFileButton();
+		middlePane.add(downloadFileButton, gbc);
+		
+        gbc.gridx = 0;
+        gbc.gridy = 2;
 		backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
 		middlePane.add(backButton, gbc);
+	}
+	
+	private JButton getDownloadFileButton() {
+		JButton button = GuiUtils.createButton("Download Template");
 		
-		JLabel labelInstruction1, labelInstruction2, labelInstruction3, labelInstruction4;  
-	    labelInstruction1 = new JLabel("CSV file example: ");
-	    labelInstruction2 = new JLabel("\"room id\", \"date\", \"start time\", \"end time\"");
-	    labelInstruction3 = new JLabel("6, 5234564545, 63000, 70300");
-	    labelInstruction4 = new JLabel("6, 6456784546, 42000, 60040");  
-	    
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-	    middlePane.add(labelInstruction1, gbc);
-	    
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-	    middlePane.add(labelInstruction2, gbc);
-	    
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-	    middlePane.add(labelInstruction3, gbc);
-	    
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-	    middlePane.add(labelInstruction4, gbc);
-	    
-	    
+		button.addActionListener(e -> {
+			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+			fileChooser.setDialogTitle("Select Directory for Download");
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fileChooser.setAcceptAllFileFilterUsed(false);
+			int option = fileChooser.showOpenDialog(null);
+			if (option != JFileChooser.APPROVE_OPTION) {
+				return
+						;
+			}
+			
+			int probe = 0;
+			String filename = "/reservations";
+			String extension = ".csv";
+			
+			File file = new File(fileChooser.getSelectedFile().getAbsolutePath() + filename + extension);
+			
+			while (true) {
+				try {
+					if (file.createNewFile()) {
+						FileWriter writer = new FileWriter(file);
+						writer.write(TEMPLATE);
+						writer.close();
+						return;
+					} else {
+					    probe++;
+					    file = new File(fileChooser.getSelectedFile().getAbsolutePath() + filename + "(" + probe + ")" + extension);
+					}
+				} catch (IOException exception) {
+					exception.printStackTrace();
+					break;
+				}
+			}
+		});
+		
+		return button;
 	}
 
 	private JButton getUploadFileButton() {
-		JButton button = GuiUtils.createButton("Upload");
+		JButton button = GuiUtils.createButton("Upload File");
 
 		button.addActionListener(e -> {
 			// prompt the window to choose a csv file
 			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+			fileChooser.setDialogTitle("Select File to Upload");
 			int option = fileChooser.showOpenDialog(null);
 			if (option != JFileChooser.APPROVE_OPTION) {
 				return;

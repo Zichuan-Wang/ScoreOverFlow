@@ -28,7 +28,7 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Schedule++");
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(screenSize.width / 4, screenSize.height / 2);
+		setSize(screenSize.width / 2, screenSize.height / 2);
 
 		// Create a cardLayout for switching between the panels
 		JPanel rootPanel = new JPanel(new CardLayout());
