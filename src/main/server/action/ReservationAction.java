@@ -86,6 +86,7 @@ public class ReservationAction {
 
 		for (Reservation reservation : reservations) {
 			boolean status = reserveRoom(reservation);
+			// System.out.println(status);
 			if (!status) {
 				failedItems.add(reservation);
 			}
