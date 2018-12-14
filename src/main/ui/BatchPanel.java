@@ -24,7 +24,7 @@ public class BatchPanel extends BasePanel {
 	private final static String TITLE = "Reserve Rooms in Batch";
 	private User user;
 
-	private JButton uploadFileButton;
+	private JButton uploadFileButton, backButton;
 
 	// private UserAction userAction;
 	private ReservationAction reservationAction;
@@ -36,6 +36,9 @@ public class BatchPanel extends BasePanel {
 		this.user = user;
 		this.reservationAction = reservationAction;
 		setMiddlePanel();
+		
+		backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
+		middlePane.add(backButton);
 	}
 
 	/*
@@ -63,7 +66,7 @@ public class BatchPanel extends BasePanel {
 			}
 
 			File selectedFile = fileChooser.getSelectedFile();
-			System.out.println(selectedFile.getAbsolutePath());
+			// System.out.println(selectedFile.getAbsolutePath());
 
 			// start parsing from the csv file
 			// Reference:
