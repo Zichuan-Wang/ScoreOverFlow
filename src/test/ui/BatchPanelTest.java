@@ -33,7 +33,7 @@ public class BatchPanelTest {
 
 	@Test
 	protected void middlePanelTest() {
-		assertEquals(1, middlePane.getComponentCount());
+		assertEquals(2, middlePane.getComponentCount()); // upload button and back button
 		assertTrue(middlePane.getComponent(0) instanceof JButton);
 		JButton uploadButton = (JButton) middlePane.getComponent(0);
 		assertNotNull(uploadButton);
