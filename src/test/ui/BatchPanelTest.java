@@ -21,7 +21,7 @@ public class BatchPanelTest {
 
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
-		batchPane = new BatchPanel(null, null, null);
+		batchPane = new BatchPanel(null, null, null,null,null);
 		topPane = (JPanel) batchPane.getComponent(0);
 		middlePane = (JPanel) batchPane.getComponent(1);
 	}
