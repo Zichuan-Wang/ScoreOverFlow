@@ -98,7 +98,7 @@ public class MainPanel extends BasePanel {
 		// Reserve in Batch
 		// if (SecurityUtils.getSubject().hasRole("PS")) {
 		if (user.getUserGroup() <= 2) {
-			BatchPanel batchPane = new BatchPanel(rootPane, user, reservationAction);
+			BatchPanel batchPane = new BatchPanel(rootPane, user, facilityAction, roomAction, reservationAction);
 			rootPane.add(batchPane, "batch");
 
 			batchButton = GuiUtils.createButton("Reserve Rooms in Batch", e -> GuiUtils.jumpToPanel(rootPane, "batch"),

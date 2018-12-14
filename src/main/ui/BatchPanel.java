@@ -47,7 +47,7 @@ public class BatchPanel extends BasePanel {
 		this.roomAction = roomAction;
 		this.reservationAction = reservationAction;
 		setMiddlePanel();
-		if (this.user.getId() == -1) {
+		if (this.user == null) {
 			System.out.println("");
 		}
 		if (this.roomAction == null) {
