@@ -37,9 +37,10 @@ public class MainPanelTest {
 	private final String MAIN_PANEL_RESERVE_BUTTON_TEXT = "Reserve a Room";
 	private final String MAIN_PANEL_VIEW_ROOMS_BUTTON_TEXT = "View Reservations";
 	private final String MAIN_PANEL_BATCH_BUTTON_TEXT = "Reserve Rooms in Batch";
-	private final String WELCOME_MESSAGE_DEFAULT_USER = "Welcome back Normal User x";
+	private final String WELCOME_MESSAGE_DEFAULT_USER = "Welcome back, Normal User x!";
 
-	private final int ADMIN_BUTTON_COUNT = 4;
+	private final int ADMIN_BUTTON_COUNT = 5;
+	
 	private final int PS_BUTTON_COUNT = 4;
 	private final int BUTTON_COUNT = 3;
 
@@ -98,6 +99,9 @@ public class MainPanelTest {
 
 		JButton manageButton = buttons.get(0);
 		assertEquals(MAIN_PANEL_MANAGE_BUTTON_TEXT, manageButton.getText());
+		
+		JButton batchButton = buttons.get(2);
+		assertEquals(MAIN_PANEL_BATCH_BUTTON_TEXT, batchButton.getText());
 	}
 
 	@Test

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: email.EmailSenderTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.024 s - in email.EmailSenderTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.938 s - in email.EmailSenderTest
