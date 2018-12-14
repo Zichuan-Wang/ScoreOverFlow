@@ -25,7 +25,7 @@ public class TablePanel extends JPanel {
 	}
 
 	// Print objects (Strings and one button) in a table
-	public void populateList(String[] columnNames, List<Object[]> rows, int[] buttonIndex) {
+	public void populateList(String[] columnNames, List<Object[]> rows, int[] editableIndex) {
 		removeAll();
 		int columnLength = columnNames.length;
 		int rowLength = rows.size();
@@ -35,7 +35,7 @@ public class TablePanel extends JPanel {
 
 			// button needs editable to be clicked
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
-				for (int index : buttonIndex) {
+				for (int index : editableIndex) {
 					if (columnIndex == index) {
 						return true;
 					}
@@ -44,10 +44,10 @@ public class TablePanel extends JPanel {
 			}
 		};
 		JTable table = new JTable(dm);
-		for (int index : buttonIndex) {
+		for (int index : editableIndex) {
 			String buttonName = columnNames[index];
-			table.getColumn(buttonName).setCellRenderer(new ButtonRenderer());
-			table.getColumn(buttonName).setCellEditor(new ButtonEditor());
+			table.getColumn(buttonName).setCellRenderer(new ComponentRenderer());
+			table.getColumn(buttonName).setCellEditor(new ComponentEditor());
 		}
 
 		for (int i = 0; i < rowLength; i++) {
@@ -70,7 +70,7 @@ public class TablePanel extends JPanel {
 
 	}
 
-	private class ButtonRenderer extends JButton implements TableCellRenderer {
+	private class ComponentRenderer extends JButton implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -81,12 +81,9 @@ public class TablePanel extends JPanel {
 		}
 	}
 
-	private class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
+	private class ComponentEditor extends AbstractCellEditor implements TableCellEditor {
 		private static final long serialVersionUID = 1L;
 		JComponent editorValue;
-
-		public ButtonEditor() {
-		}
 
 		@Override
 		public Object getCellEditorValue() {

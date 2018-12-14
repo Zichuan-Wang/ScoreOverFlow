@@ -13,6 +13,10 @@ public class FacilityAction {
 	public FacilityAction(FacilityDao dao) {
 		this.dao = dao;
 	}
+	
+	public Facility saveFacility(Facility facility) {
+		return dao.saveOrUpdate(facility);
+	}
 
 	public List<Facility> findAllFacilities() {
 		return dao.findAllFacilities();

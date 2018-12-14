@@ -2,8 +2,11 @@ package ui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -24,6 +27,7 @@ public class EditPanel extends BasePanel{
 	private static final long serialVersionUID = 1L;
 	
 	private Room room;
+	private Set<Facility> facilities;
 	
 	private FacilityAction facilityAction;
 	private RoomAction roomAction;
@@ -40,6 +44,7 @@ public class EditPanel extends BasePanel{
 		this.facilityAction = facilityAction;
 		this.roomAction = roomAction;
 		this.callback = callback;
+		facilities = new HashSet<>();
 		setMiddlePanel();
 	}
 	
@@ -61,26 +66,36 @@ public class EditPanel extends BasePanel{
 	}
 	
 	private void prepareTable() {
-		List<Facility> facilities = facilityAction.findAllFacilities();
-		String[] columnNames = new String[] { "Select", "Facility", "Action" };
-		
+		facilities.clear();
+		facilities.addAll(room.getFacilities());
+		List<Facility> allFacilities = facilityAction.findAllFacilities();
+		Set<Integer> roomFacilities = new HashSet<>();
+		for (Facility facility : room.getFacilities()) {
+			roomFacilities.add(facility.getId());
+		}
+		String[] columnNames = new String[] { "Select", "Facility" };
 		List<Object[]> rows = new ArrayList<>();
-		for (Facility facility : facilities) {
+		for (Facility facility : allFacilities) {
 			Object[] row = new Object[3];
-			row[0] = getFacilityCheckBox(facility);
+			row[0] = getFacilityCheckBox(facility, roomFacilities.contains(facility.getId()));
 			row[1] = facility.getName();
-			row[2] = getRemoveButton(facility);
 			rows.add(row);
 		}
-		facilityTable.populateList(columnNames, rows, new int[]{0,2});
+		
+		facilityTable.populateList(columnNames, rows, new int[]{0});
 	}
 	
-	private JCheckBox getFacilityCheckBox(Facility facility) {
-		return new JCheckBox();
-	}
-	
-	private JButton getRemoveButton(Facility facility) {
-		return new JButton("remove");
+	private JCheckBox getFacilityCheckBox(Facility facility, boolean selected) {
+		JCheckBox checkBox = new JCheckBox();
+		checkBox.setSelected(selected);
+		checkBox.addItemListener(e -> {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					facilities.add(facility);
+				} else {
+					facilities.remove(facility);
+				}
+		});
+		return checkBox;
 	}
 	
 	private void setMiddlePanel() {
@@ -88,6 +103,7 @@ public class EditPanel extends BasePanel{
 		GridBagConstraints c = new GridBagConstraints();
 
 		JPanel infoPanel = getInfoPanel();
+		JPanel addFacilityPanel = getAddFacilityPanel();
 		facilityTable = new TablePanel();
 
 		c.fill = GridBagConstraints.BOTH;
@@ -101,10 +117,14 @@ public class EditPanel extends BasePanel{
 		c.gridx = 0;
 		c.gridy = 1;
 		middlePane.add(facilityTable, c);
+		
+		c.gridx = 0;
+		c.gridy = 2;
+		middlePane.add(addFacilityPanel, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.gridwidth = 1;
 		c.weightx = 0.0;
 		c.weighty = 1.0;
@@ -130,11 +150,27 @@ public class EditPanel extends BasePanel{
 	private void saveRoom() {
 		room.setName(nameField.getText());
 		room.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));
-		roomAction.saveRoom(room);
+		room.getFacilities().clear();
+		room.getFacilities().addAll(facilities);
+		roomAction.saveRoom(room);	
+	}
+	
+	private JPanel getAddFacilityPanel() {
+		JPanel addFacilityPanel = new JPanel();
+		JLabel addFacilityLabel = new JLabel("New Facility:");
+		JTextField addFacilityTextField = new JTextField(50);
+		JButton addFacilityButton = new JButton("Add");
+		addFacilityButton.addActionListener(e-> {
+			facilityAction.saveFacility(new Facility().setName(addFacilityTextField.getText()));
+			this.pareparePanel();
+		});
+		addFacilityPanel.add(addFacilityLabel);
+		addFacilityPanel.add(addFacilityTextField);
+		addFacilityPanel.add(addFacilityButton);
+		return addFacilityPanel;
 	}
 	
 	private JPanel getInfoPanel() {
-
 		JPanel infoPanel = new JPanel();
 		GroupLayout layout = new GroupLayout(infoPanel);
 		infoPanel.setLayout(layout);
