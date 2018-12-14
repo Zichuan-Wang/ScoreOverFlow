@@ -11,11 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import entity.Room;
-import entity.User;
-import server.action.FacilityAction;
-import server.action.ReservationAction;
 import server.action.RoomAction;
-import server.action.UserAction;
 
 public class ManagePanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
@@ -26,8 +22,7 @@ public class ManagePanel extends BasePanel {
 	private TablePanel roomPane;
 	private EditPanel createPanel;
 
-	public ManagePanel(JPanel cards, User user, UserAction userAction, ReservationAction reservationAction,
-			RoomAction roomAction, FacilityAction facilityAction, EditPanel createPanel) {
+	public ManagePanel(JPanel cards, RoomAction roomAction, EditPanel createPanel) {
 		super(cards, TITLE);
 		this.roomAction = roomAction;
 		this.createPanel = createPanel;

@@ -34,7 +34,7 @@ public class MainPanel extends BasePanel {
 
 	private EditPanel createPanel;
 	private ManagePanel managePanel;
-	
+
 	public MainPanel(JPanel rootPane, User user, UserAction userAction, ReservationAction reservationAction,
 			RoomAction roomAction, FacilityAction facilityAction) {
 		super(rootPane, TITLE);
@@ -45,7 +45,7 @@ public class MainPanel extends BasePanel {
 		this.facilityAction = facilityAction;
 		setMiddlePanel();
 	}
-	
+
 	public void showManagePanel() {
 		managePanel.pareparePanel();
 	}
@@ -62,13 +62,11 @@ public class MainPanel extends BasePanel {
 
 		// add or edit room and facilities for admin
 		// if (SecurityUtils.getSubject().hasRole("Admin")) {
-		if (user.getIsAdmin()) {
+		if (user.getUserGroup() == 0) {
 			createPanel = new EditPanel(rootPane, "Create Room", facilityAction, roomAction, () -> showManagePanel());
 			rootPane.add(createPanel, "create");
-			
-			
-			managePanel = new ManagePanel(rootPane, user, userAction, reservationAction, roomAction,
-					facilityAction, createPanel);
+
+			managePanel = new ManagePanel(rootPane, roomAction, createPanel);
 			rootPane.add(managePanel, "manage");
 
 			manageButton = GuiUtils.createButton("Manage Rooms and Facilities",

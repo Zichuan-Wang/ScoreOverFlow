@@ -86,9 +86,4 @@ public class EntityTestUtils {
 				.setIsAdmin(DEFAULT_ADMIN)//
 				.setUserGroup(DEFAULT_USER_GROUP);
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(DEFAULT_EVENT_DATE);
-	}
-
 }

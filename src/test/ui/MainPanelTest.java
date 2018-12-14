@@ -41,7 +41,7 @@ public class MainPanelTest {
 
 	private final int ADMIN_BUTTON_COUNT = 3;
 	private final int PS_BUTTON_COUNT = 3;
-	private final int BUTTON_COUNT = 3; // search, batch, view panels
+	private final int BUTTON_COUNT = 2;
 
 	private MainPanel mainPane;
 	private JPanel topPane, middlePane;

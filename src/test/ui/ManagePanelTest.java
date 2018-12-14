@@ -12,13 +12,14 @@ import exception.DBConnectionException;
 
 public class ManagePanelTest {
 	private final String MANAGE_PANEL_LABEL = "Manage Rooms and Facilities";
+	private final int MANAGE_PANEL_COMPONENT_COUNT = 3;
 
 	private ManagePanel managePane;
 	private JPanel topPane, middlePane;
 
 	@BeforeEach
 	protected void onSetUp() throws DBConnectionException {
-		managePane = new ManagePanel(null, null, null, null, null, null, null);
+		managePane = new ManagePanel(null, null, null);
 		topPane = (JPanel) managePane.getComponent(0);
 		middlePane = (JPanel) managePane.getComponent(1);
 	}
@@ -30,6 +31,6 @@ public class ManagePanelTest {
 
 	@Test
 	protected void middlePanelTest() {
-		assertEquals(0, middlePane.getComponentCount());
+		assertEquals(MANAGE_PANEL_COMPONENT_COUNT, middlePane.getComponentCount());
 	}
 }
