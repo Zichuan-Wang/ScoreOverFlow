@@ -25,6 +25,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
@@ -47,7 +48,7 @@ import server.constraint.SearchRoomConstraint;
 public class ReservePanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private final static String TITLE = &quot;Reserve a Room&quot;;
-<span class="fc" id="L50">	private final int DEFAULTDATEYEARRANGE = 1;</span>
+<span class="fc" id="L51">	private final int DEFAULTDATEYEARRANGE = 1;</span>
 
 	private User user;
 	private DatePickerSettings dateSettings;
@@ -70,324 +71,333 @@ public class ReservePanel extends BasePanel {
 
 	public ReservePanel(JPanel cards, User user, UserAction userAction, ReservationAction reservationAction,
 			RoomAction roomAction, FacilityAction facilityAction) {
-<span class="fc" id="L73">		super(cards, TITLE);</span>
-<span class="fc" id="L74">		this.user = user;</span>
-<span class="fc" id="L75">		this.userAction = userAction;</span>
-<span class="fc" id="L76">		this.reservationAction = reservationAction;</span>
-<span class="fc" id="L77">		this.roomAction = roomAction;</span>
-<span class="fc" id="L78">		this.facilityAction = facilityAction;</span>
-<span class="fc" id="L79">		setMiddlePanel();</span>
-<span class="fc" id="L80">		setBackButtonBottomPanel();</span>
-<span class="fc" id="L81">	}</span>
+<span class="fc" id="L74">		super(cards, TITLE);</span>
+<span class="fc" id="L75">		this.user = user;</span>
+<span class="fc" id="L76">		this.userAction = userAction;</span>
+<span class="fc" id="L77">		this.reservationAction = reservationAction;</span>
+<span class="fc" id="L78">		this.roomAction = roomAction;</span>
+<span class="fc" id="L79">		this.facilityAction = facilityAction;</span>
+<span class="fc" id="L80">		setMiddlePanel();</span>
+<span class="fc" id="L81">		setBackButtonBottomPanel();</span>
+<span class="fc" id="L82">	}</span>
 
 	private void setMiddlePanel() {
-<span class="fc" id="L84">		middlePane.setLayout(new GridBagLayout());</span>
-<span class="fc" id="L85">		GridBagConstraints c = new GridBagConstraints();</span>
+<span class="fc" id="L85">		middlePane.setLayout(new GridBagLayout());</span>
+<span class="fc" id="L86">		GridBagConstraints c = new GridBagConstraints();</span>
 
-<span class="fc" id="L87">		JPanel searchPane = createSearchPanel();</span>
+<span class="fc" id="L88">		JPanel searchPane = createSearchPanel();</span>
 
-<span class="fc" id="L89">		c.fill = GridBagConstraints.BOTH;</span>
-<span class="fc" id="L90">		c.gridx = 1;</span>
-<span class="fc" id="L91">		c.gridy = 0;</span>
-<span class="fc" id="L92">		c.gridwidth = 3;</span>
-<span class="fc" id="L93">		c.gridheight = 1;</span>
-<span class="fc" id="L94">		c.weightx = 1.0;</span>
-<span class="fc" id="L95">		c.weighty = 1.0;</span>
-<span class="fc" id="L96">		middlePane.add(searchPane, c);</span>
+<span class="fc" id="L90">		c.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L91">		c.gridx = 1;</span>
+<span class="fc" id="L92">		c.gridy = 0;</span>
+<span class="fc" id="L93">		c.gridwidth = 3;</span>
+<span class="fc" id="L94">		c.gridheight = 1;</span>
+<span class="fc" id="L95">		c.weightx = 1.0;</span>
+<span class="fc" id="L96">		c.weighty = 1.0;</span>
+<span class="fc" id="L97">		middlePane.add(searchPane, c);</span>
 		
-<span class="fc" id="L98">		c.fill = GridBagConstraints.BOTH;</span>
-<span class="fc" id="L99">		c.gridx = 1;</span>
-<span class="fc" id="L100">		c.gridy = 1;</span>
-<span class="fc" id="L101">		c.gridwidth = 1;</span>
-<span class="fc" id="L102">		c.gridheight = 2;</span>
-<span class="fc" id="L103">		c.weightx = 1.0;</span>
-<span class="fc" id="L104">		c.weighty = 1.0;</span>
-<span class="fc" id="L105">		roomPane = new TablePanel(true);</span>
-<span class="fc" id="L106">		middlePane.add(roomPane, c);</span>
+<span class="fc" id="L99">		c.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L100">		c.gridx = 1;</span>
+<span class="fc" id="L101">		c.gridy = 1;</span>
+<span class="fc" id="L102">		c.gridwidth = 1;</span>
+<span class="fc" id="L103">		c.gridheight = 2;</span>
+<span class="fc" id="L104">		c.weightx = 1.0;</span>
+<span class="fc" id="L105">		c.weighty = 1.0;</span>
+<span class="fc" id="L106">		roomPane = new TablePanel(true);</span>
+<span class="fc" id="L107">		middlePane.add(roomPane, c);</span>
 
-<span class="fc" id="L108">	}</span>
+<span class="fc" id="L109">	}</span>
 
 	private JPanel createSearchPanel() {
 		// set default date to today
-<span class="fc" id="L112">		LocalDate today = LocalDate.now();</span>
+<span class="fc" id="L113">		LocalDate today = LocalDate.now();</span>
 
-<span class="fc" id="L114">		JPanel searchBox = new JPanel();</span>
-<span class="fc" id="L115">		GroupLayout layout = new GroupLayout(searchBox);</span>
-<span class="fc" id="L116">		searchBox.setLayout(layout);</span>
-<span class="fc" id="L117">		layout.setAutoCreateContainerGaps(true);</span>
-<span class="fc" id="L118">		layout.setAutoCreateGaps(true);</span>
+<span class="fc" id="L115">		JPanel searchBox = new JPanel();</span>
+<span class="fc" id="L116">		GroupLayout layout = new GroupLayout(searchBox);</span>
+<span class="fc" id="L117">		searchBox.setLayout(layout);</span>
+<span class="fc" id="L118">		layout.setAutoCreateContainerGaps(true);</span>
+<span class="fc" id="L119">		layout.setAutoCreateGaps(true);</span>
 
 		// Date Picker
-<span class="fc" id="L121">		JLabel dateLabel = new JLabel(&quot;Date&quot;);</span>
+<span class="fc" id="L122">		JLabel dateLabel = new JLabel(&quot;Date&quot;);</span>
 
-<span class="fc" id="L123">		dateSettings = new DatePickerSettings();</span>
-<span class="fc" id="L124">		datePicker = new DatePicker(dateSettings);</span>
+<span class="fc" id="L124">		dateSettings = new DatePickerSettings();</span>
+<span class="fc" id="L125">		datePicker = new DatePicker(dateSettings);</span>
 
-<span class="fc" id="L126">		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));</span>
-<span class="fc" id="L127">		dateSettings.setAllowEmptyDates(false);</span>
+<span class="fc" id="L127">		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));</span>
+<span class="fc" id="L128">		dateSettings.setAllowEmptyDates(false);</span>
 
 		// Time Picker
 		// Start Time
-<span class="fc" id="L131">		JLabel startTimeLabel = new JLabel(&quot;Start Time&quot;);</span>
+<span class="fc" id="L132">		JLabel startTimeLabel = new JLabel(&quot;Start Time&quot;);</span>
 
-<span class="fc" id="L133">		startTimeSettings = new TimePickerSettings();</span>
-<span class="fc" id="L134">		startTimeSettings.use24HourClockFormat();</span>
-<span class="fc" id="L135">		startTimeSettings.setAllowEmptyTimes(false);</span>
-<span class="fc" id="L136">		startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime(), null);</span>
-<span class="fc" id="L137">		startTimeSettings.initialTime = getCurTime();</span>
-<span class="fc" id="L138">		startTimePicker = new TimePicker(startTimeSettings);</span>
+<span class="fc" id="L134">		startTimeSettings = new TimePickerSettings();</span>
+<span class="fc" id="L135">		startTimeSettings.use24HourClockFormat();</span>
+<span class="fc" id="L136">		startTimeSettings.setAllowEmptyTimes(false);</span>
+<span class="fc" id="L137">		startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime(), null);</span>
+<span class="fc" id="L138">		startTimeSettings.initialTime = getCurTime();</span>
+<span class="fc" id="L139">		startTimePicker = new TimePicker(startTimeSettings);</span>
 
 		// End Time
-<span class="fc" id="L141">		JLabel endTimeLabel = new JLabel(&quot;End Time&quot;);</span>
+<span class="fc" id="L142">		JLabel endTimeLabel = new JLabel(&quot;End Time&quot;);</span>
 
-<span class="fc" id="L143">		endTimeSettings = new TimePickerSettings();</span>
-<span class="fc" id="L144">		endTimeSettings.use24HourClockFormat();</span>
-<span class="fc" id="L145">		endTimeSettings.setAllowEmptyTimes(false);</span>
-<span class="fc" id="L146">		endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime().plusMinutes(10), null);</span>
-<span class="fc" id="L147">		endTimeSettings.initialTime = getCurTime().plusMinutes(10);</span>
-<span class="fc" id="L148">		endTimePicker = new TimePicker(endTimeSettings);</span>
+<span class="fc" id="L144">		endTimeSettings = new TimePickerSettings();</span>
+<span class="fc" id="L145">		endTimeSettings.use24HourClockFormat();</span>
+<span class="fc" id="L146">		endTimeSettings.setAllowEmptyTimes(false);</span>
+<span class="fc" id="L147">		endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime().plusMinutes(10), null);</span>
+<span class="fc" id="L148">		endTimeSettings.initialTime = getCurTime().plusMinutes(10);</span>
+<span class="fc" id="L149">		endTimePicker = new TimePicker(endTimeSettings);</span>
 
 		// Setting action listener for adjusting end time based on start time
-<span class="fc" id="L151">		startTimePicker.addTimeChangeListener(e -&gt; {</span>
-<span class="nc" id="L152">			LocalTime selectedTime = startTimePicker.getTime().plusMinutes(10);</span>
-<span class="nc" id="L153">			endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, selectedTime, null);</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">			if (endTimePicker.getTime().isBefore(startTimePicker.getTime())) {</span>
-<span class="nc" id="L155">				endTimePicker.setTime(selectedTime);</span>
+<span class="fc" id="L152">		startTimePicker.addTimeChangeListener(e -&gt; {</span>
+<span class="nc" id="L153">			LocalTime selectedTime = startTimePicker.getTime().plusMinutes(10);</span>
+<span class="nc" id="L154">			endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, selectedTime, null);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">			if (endTimePicker.getTime().isBefore(startTimePicker.getTime())) {</span>
+<span class="nc" id="L156">				endTimePicker.setTime(selectedTime);</span>
 			}
-<span class="nc" id="L157">		});</span>
+<span class="nc" id="L158">		});</span>
 
 		// Setting action listener for adjusting start time based on date
-<span class="fc" id="L160">		datePicker.addDateChangeListener(e -&gt; {</span>
-<span class="nc bnc" id="L161" title="All 2 branches missed.">			if (datePicker.getDate().equals(today)) { // set to cur date</span>
-<span class="nc" id="L162">				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime(), null);</span>
-<span class="nc" id="L163">				startTimePicker.setTime(getCurTime());</span>
-<span class="nc" id="L164">				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes,</span>
-<span class="nc" id="L165">						startTimePicker.getTime().plusMinutes(10), null);</span>
-<span class="nc" id="L166">				endTimePicker.setTime(getCurTime().plusMinutes(10));</span>
+<span class="fc" id="L161">		datePicker.addDateChangeListener(e -&gt; {</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">			if (datePicker.getDate().equals(today)) { // set to cur date</span>
+<span class="nc" id="L163">				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime(), null);</span>
+<span class="nc" id="L164">				startTimePicker.setTime(getCurTime());</span>
+<span class="nc" id="L165">				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes,</span>
+<span class="nc" id="L166">						startTimePicker.getTime().plusMinutes(10), null);</span>
+<span class="nc" id="L167">				endTimePicker.setTime(getCurTime().plusMinutes(10));</span>
 			} else { // set to a new date
-<span class="nc" id="L168">				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);</span>
-<span class="nc" id="L169">				startTimePicker.setTime(LocalTime.MIDNIGHT);</span>
-<span class="nc" id="L170">				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes,</span>
-<span class="nc" id="L171">						startTimePicker.getTime().plusMinutes(10), null);</span>
-<span class="nc" id="L172">				endTimePicker.setTime(LocalTime.MIDNIGHT.plusMinutes(10));</span>
+<span class="nc" id="L169">				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);</span>
+<span class="nc" id="L170">				startTimePicker.setTime(LocalTime.MIDNIGHT);</span>
+<span class="nc" id="L171">				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes,</span>
+<span class="nc" id="L172">						startTimePicker.getTime().plusMinutes(10), null);</span>
+<span class="nc" id="L173">				endTimePicker.setTime(LocalTime.MIDNIGHT.plusMinutes(10));</span>
 			}
-<span class="nc" id="L174">		});</span>
+<span class="nc" id="L175">		});</span>
 
 		// Capacity
-<span class="fc" id="L177">		JLabel capacityLabel = new JLabel(&quot;Capacity&quot;);</span>
-<span class="fc" id="L178">		capacity = GuiUtils.getNumTextField(5);</span>
+<span class="fc" id="L178">		JLabel capacityLabel = new JLabel(&quot;Capacity&quot;);</span>
+<span class="fc" id="L179">		capacity = GuiUtils.getNumTextField(5);</span>
 
 		// Name
-<span class="fc" id="L181">		JLabel nameLabel = new JLabel(&quot;Name&quot;);</span>
-<span class="fc" id="L182">		nameField = new JTextField(20);</span>
+<span class="fc" id="L182">		JLabel nameLabel = new JLabel(&quot;Name&quot;);</span>
+<span class="fc" id="L183">		nameField = new JTextField(20);</span>
 
 		// Facility
-<span class="fc" id="L185">		JLabel facilityLabel = new JLabel(&quot;Facility&quot;);</span>
-<span class="fc" id="L186">		List&lt;Facility&gt; facilities = facilityAction.findAllFacilities();</span>
-<span class="fc" id="L187">		DefaultListModel&lt;Facility&gt; model = new DefaultListModel&lt;&gt;();</span>
-<span class="fc bfc" id="L188" title="All 2 branches covered.">		for (Facility facility : facilities) {</span>
-<span class="fc" id="L189">			model.addElement(facility);</span>
-<span class="fc" id="L190">		}</span>
-<span class="fc" id="L191">		facilityList = new JList&lt;&gt;(model);</span>
+<span class="fc" id="L186">		JLabel facilityLabel = new JLabel(&quot;Facility&quot;);</span>
+<span class="fc" id="L187">		List&lt;Facility&gt; facilities = facilityAction.findAllFacilities();</span>
+<span class="fc" id="L188">		DefaultListModel&lt;Facility&gt; model = new DefaultListModel&lt;&gt;();</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">		for (Facility facility : facilities) {</span>
+<span class="fc" id="L190">			model.addElement(facility);</span>
+<span class="fc" id="L191">		}</span>
+<span class="fc" id="L192">		facilityList = new JList&lt;&gt;(model);</span>
 		// enables clicking multiple items
-<span class="fc" id="L193">		facilityList.setSelectionModel(new FacilityListSelectionModel());</span>
+<span class="fc" id="L194">		facilityList.setSelectionModel(new FacilityListSelectionModel());</span>
 
 		// Show Booked Rooms for High Priority Users
-<span class="fc" id="L196">		JLabel overrideLabel = new JLabel();</span>
+<span class="fc" id="L197">		JLabel overrideLabel = new JLabel();</span>
 		// if (SecurityUtils.getSubject().hasRole(&quot;High&quot;)) {
-<span class="fc bfc" id="L198" title="All 2 branches covered.">		if (user.getUserGroup() &lt; 2) {</span>
-<span class="fc" id="L199">			overrideLabel = new JLabel(&quot;Show Overridable Rooms&quot;);</span>
-<span class="fc" id="L200">			showBookedRooms = new JCheckBox();</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">		if (user.getUserGroup() &lt; 2) {</span>
+<span class="fc" id="L200">			overrideLabel = new JLabel(&quot;Show Overridable Rooms&quot;);</span>
+<span class="fc" id="L201">			showBookedRooms = new JCheckBox();</span>
 		}
 		// Search Button
-<span class="fc" id="L203">		searchButton = getSearchButton();</span>
+<span class="fc" id="L204">		searchButton = getSearchButton();</span>
 
 		// create panel
-<span class="fc" id="L206">		ParallelGroup hGroup = layout.createParallelGroup(Alignment.CENTER)</span>
-<span class="fc" id="L207">				.addGroup(layout.createSequentialGroup().addComponent(dateLabel).addComponent(datePicker)</span>
-<span class="fc" id="L208">						.addComponent(startTimeLabel).addComponent(startTimePicker).addComponent(endTimeLabel)</span>
-<span class="fc" id="L209">						.addComponent(endTimePicker))</span>
-<span class="fc" id="L210">				.addGroup(layout.createSequentialGroup().addComponent(capacityLabel).addComponent(capacity)</span>
-<span class="fc" id="L211">						.addComponent(nameLabel).addComponent(nameField));</span>
+<span class="fc" id="L207">		ParallelGroup hGroup = layout.createParallelGroup(Alignment.CENTER)</span>
+<span class="fc" id="L208">				.addGroup(layout.createSequentialGroup().addComponent(dateLabel).addComponent(datePicker)</span>
+<span class="fc" id="L209">						.addComponent(startTimeLabel).addComponent(startTimePicker).addComponent(endTimeLabel)</span>
+<span class="fc" id="L210">						.addComponent(endTimePicker))</span>
+<span class="fc" id="L211">				.addGroup(layout.createSequentialGroup().addComponent(capacityLabel).addComponent(capacity)</span>
+<span class="fc" id="L212">						.addComponent(nameLabel).addComponent(nameField));</span>
 		// manage override CheckBox
 		// if (SecurityUtils.getSubject().hasRole(&quot;High&quot;)) {
-<span class="fc bfc" id="L214" title="All 2 branches covered.">		if (user.getUserGroup() &lt; 2) {</span>
-<span class="fc" id="L215">			hGroup.addGroup(layout.createSequentialGroup().addComponent(facilityLabel).addComponent(facilityList)</span>
-<span class="fc" id="L216">					.addComponent(overrideLabel).addComponent(showBookedRooms).addComponent(searchButton));</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">		if (user.getUserGroup() &lt; 2) {</span>
+<span class="fc" id="L216">			hGroup.addGroup(layout.createSequentialGroup().addComponent(facilityLabel).addComponent(facilityList)</span>
+<span class="fc" id="L217">					.addComponent(overrideLabel).addComponent(showBookedRooms).addComponent(searchButton));</span>
 		} else {
-<span class="fc" id="L218">			hGroup.addGroup(layout.createSequentialGroup().addComponent(facilityLabel).addComponent(facilityList)</span>
-<span class="fc" id="L219">					.addComponent(searchButton));</span>
+<span class="fc" id="L219">			hGroup.addGroup(layout.createSequentialGroup().addComponent(facilityLabel).addComponent(facilityList)</span>
+<span class="fc" id="L220">					.addComponent(searchButton));</span>
 		}
-<span class="fc" id="L221">		layout.setHorizontalGroup(hGroup);</span>
+<span class="fc" id="L222">		layout.setHorizontalGroup(hGroup);</span>
 
-<span class="fc" id="L223">		SequentialGroup vGroup = layout.createSequentialGroup()</span>
-<span class="fc" id="L224">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(dateLabel)</span>
-<span class="fc" id="L225">						.addComponent(datePicker).addComponent(startTimeLabel).addComponent(startTimePicker)</span>
-<span class="fc" id="L226">						.addComponent(endTimeLabel).addComponent(endTimePicker))</span>
-<span class="fc" id="L227">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacityLabel)</span>
-<span class="fc" id="L228">						.addComponent(capacity).addComponent(nameLabel).addComponent(nameField));</span>
+<span class="fc" id="L224">		SequentialGroup vGroup = layout.createSequentialGroup()</span>
+<span class="fc" id="L225">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(dateLabel)</span>
+<span class="fc" id="L226">						.addComponent(datePicker).addComponent(startTimeLabel).addComponent(startTimePicker)</span>
+<span class="fc" id="L227">						.addComponent(endTimeLabel).addComponent(endTimePicker))</span>
+<span class="fc" id="L228">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacityLabel)</span>
+<span class="fc" id="L229">						.addComponent(capacity).addComponent(nameLabel).addComponent(nameField));</span>
 
 		// manage override CheckBox
 		// if (SecurityUtils.getSubject().hasRole(&quot;High&quot;)) {
-<span class="fc bfc" id="L232" title="All 2 branches covered.">		if (user.getUserGroup() &lt; 2) {</span>
-<span class="fc" id="L233">			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel)</span>
-<span class="fc" id="L234">					.addComponent(facilityList).addComponent(overrideLabel).addComponent(showBookedRooms)</span>
-<span class="fc" id="L235">					.addComponent(searchButton));</span>
+<span class="fc bfc" id="L233" title="All 2 branches covered.">		if (user.getUserGroup() &lt; 2) {</span>
+<span class="fc" id="L234">			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel)</span>
+<span class="fc" id="L235">					.addComponent(facilityList).addComponent(overrideLabel).addComponent(showBookedRooms)</span>
+<span class="fc" id="L236">					.addComponent(searchButton));</span>
 		} else {
-<span class="fc" id="L237">			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel)</span>
-<span class="fc" id="L238">					.addComponent(facilityList).addComponent(searchButton));</span>
+<span class="fc" id="L238">			vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel)</span>
+<span class="fc" id="L239">					.addComponent(facilityList).addComponent(searchButton));</span>
 		}
-<span class="fc" id="L240">		layout.setVerticalGroup(vGroup);</span>
+<span class="fc" id="L241">		layout.setVerticalGroup(vGroup);</span>
 
-<span class="fc" id="L242">		return searchBox;</span>
+<span class="fc" id="L243">		return searchBox;</span>
 	}
 
+
 	@Override
-	// Reset when exit
+	// Reset when entering
 	public void pareparePanel() {
-<span class="fc" id="L248">		LocalDate today = LocalDate.now();</span>
-<span class="fc" id="L249">		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));</span>
-<span class="fc" id="L250">		datePicker.setDateToToday();</span>
-<span class="fc" id="L251">		startTimePicker.setTime(getCurTime());</span>
-<span class="fc" id="L252">		endTimePicker.setTime(getCurTime().plusMinutes(10));</span>
-<span class="fc" id="L253">		capacity.setText(&quot;&quot;);</span>
-<span class="fc" id="L254">		nameField.setText(&quot;&quot;);</span>
-<span class="fc" id="L255">		facilityList.clearSelection();</span>
-<span class="fc" id="L256">		roomPane.reset();</span>
-<span class="fc" id="L257">	}</span>
+<span class="fc" id="L250">		LocalDate today = LocalDate.now();</span>
+<span class="fc" id="L251">		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));</span>
+<span class="fc" id="L252">		datePicker.setDateToToday();</span>
+<span class="fc" id="L253">		startTimePicker.setTime(getCurTime());</span>
+<span class="fc" id="L254">		endTimePicker.setTime(getCurTime().plusMinutes(10));</span>
+<span class="fc" id="L255">		capacity.setText(&quot;&quot;);</span>
+<span class="fc" id="L256">		nameField.setText(&quot;&quot;);</span>
+		// facility
+<span class="fc" id="L258">		List&lt;Facility&gt; facilities = facilityAction.findAllFacilities();</span>
+<span class="fc" id="L259">		ListModel&lt;Facility&gt; model = (ListModel&lt;Facility&gt;)facilityList.getModel();</span>
+<span class="fc" id="L260">		((DefaultListModel&lt;Facility&gt;) model).removeAllElements();</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">		for (Facility facility : facilities) {</span>
+<span class="fc" id="L262">			((DefaultListModel&lt;Facility&gt;) model).addElement(facility);</span>
+<span class="fc" id="L263">		}</span>
+<span class="fc" id="L264">		roomPane.reset();</span>
+<span class="fc" id="L265">		revalidate();</span>
+<span class="fc" id="L266">		repaint();</span>
+<span class="fc" id="L267">	}</span>
 
 	private JButton getSearchButton() {
-<span class="fc" id="L260">		JButton searchButton = new JButton(&quot;Search&quot;);</span>
-<span class="fc" id="L261">		searchButton.addActionListener(e -&gt; searchRoom());</span>
-<span class="fc" id="L262">		return searchButton;</span>
+<span class="fc" id="L270">		JButton searchButton = new JButton(&quot;Search&quot;);</span>
+<span class="fc" id="L271">		searchButton.addActionListener(e -&gt; searchRoom());</span>
+<span class="fc" id="L272">		return searchButton;</span>
 	}
 
 	public void searchRoom(SearchRoomConstraint src) {
 		// search from database
-<span class="fc" id="L267">		List&lt;Room&gt; roomList = roomAction.searchRooms(src);</span>
-<span class="pc bpc" id="L268" title="1 of 4 branches missed.">		List&lt;Object[]&gt; reservedRoomList = showBookedRooms != null &amp;&amp; showBookedRooms.isSelected()</span>
-<span class="fc" id="L269">				? roomAction.searchReservedRooms(src)</span>
+<span class="fc" id="L277">		List&lt;Room&gt; roomList = roomAction.searchRooms(src);</span>
+<span class="pc bpc" id="L278" title="1 of 4 branches missed.">		List&lt;Object[]&gt; reservedRoomList = showBookedRooms != null &amp;&amp; showBookedRooms.isSelected()</span>
+<span class="fc" id="L279">				? roomAction.searchReservedRooms(src)</span>
 				: new ArrayList&lt;&gt;();
 		// build table
-<span class="pc bpc" id="L272" title="3 of 4 branches missed.">		if (roomList.isEmpty() &amp;&amp; reservedRoomList.isEmpty()) {</span>
-<span class="nc bnc" id="L273" title="All 2 branches missed.">			if (alert) {</span>
-<span class="nc" id="L274">				JOptionPane.showMessageDialog(null, &quot;No rooms with your requirements found. Please Try Again.&quot;);</span>
+<span class="pc bpc" id="L282" title="3 of 4 branches missed.">		if (roomList.isEmpty() &amp;&amp; reservedRoomList.isEmpty()) {</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">			if (alert) {</span>
+<span class="nc" id="L284">				JOptionPane.showMessageDialog(null, &quot;No rooms with your requirements found. Please Try Again.&quot;);</span>
 			}
 		} else {
-<span class="fc" id="L277">			List&lt;Object[]&gt; rows = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L278">			String[] rowName = new String[] { &quot;Room Name&quot;, &quot;Capacity&quot;, &quot;Facilities&quot;, &quot;Action&quot; };</span>
+<span class="fc" id="L287">			List&lt;Object[]&gt; rows = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L288">			String[] rowName = new String[] { &quot;Room Name&quot;, &quot;Capacity&quot;, &quot;Facilities&quot;, &quot;Action&quot; };</span>
 
 			// Room name, Capacities, Facilities, Reserve button
-<span class="fc bfc" id="L281" title="All 2 branches covered.">			for (Room room : roomList) {</span>
-<span class="fc" id="L282">				Object[] row = new Object[4];</span>
-<span class="fc" id="L283">				row[0] = room.getName();</span>
-<span class="fc" id="L284">				row[1] = room.getCapacity();</span>
-<span class="fc" id="L285">				ArrayList&lt;String&gt; facilities = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L286" title="1 of 2 branches missed.">				for (Facility f : room.getFacilities()) {</span>
-<span class="nc" id="L287">					facilities.add(f.getName());</span>
-<span class="nc" id="L288">				}</span>
-<span class="fc" id="L289">				row[2] = String.join(&quot;, &quot;, facilities);</span>
-<span class="fc" id="L290">				JButton reserveButton = getReserveButton(room, src);</span>
-<span class="fc" id="L291">				row[3] = reserveButton;</span>
-<span class="fc" id="L292">				rows.add(row);</span>
-<span class="fc" id="L293">			}</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">			for (Room room : roomList) {</span>
+<span class="fc" id="L292">				Object[] row = new Object[4];</span>
+<span class="fc" id="L293">				row[0] = room.getName();</span>
+<span class="fc" id="L294">				row[1] = room.getCapacity();</span>
+<span class="fc" id="L295">				ArrayList&lt;String&gt; facilities = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L296" title="1 of 2 branches missed.">				for (Facility f : room.getFacilities()) {</span>
+<span class="nc" id="L297">					facilities.add(f.getName());</span>
+<span class="nc" id="L298">				}</span>
+<span class="fc" id="L299">				row[2] = String.join(&quot;, &quot;, facilities);</span>
+<span class="fc" id="L300">				JButton reserveButton = getReserveButton(room, src);</span>
+<span class="fc" id="L301">				row[3] = reserveButton;</span>
+<span class="fc" id="L302">				rows.add(row);</span>
+<span class="fc" id="L303">			}</span>
 			// Room name, Override button
-<span class="fc bfc" id="L295" title="All 2 branches covered.">			for (Object[] result : reservedRoomList) {</span>
-<span class="fc" id="L296">				Room room = (Room) result[0];</span>
-<span class="fc" id="L297">				int id = (int) result[1];</span>
-<span class="fc" id="L298">				Object[] row = new Object[4];</span>
-<span class="fc" id="L299">				row[0] = room.getName();</span>
-<span class="fc" id="L300">				row[1] = room.getCapacity();</span>
-<span class="fc" id="L301">				ArrayList&lt;String&gt; facilities = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L302" title="1 of 2 branches missed.">				for (Facility f : room.getFacilities()) {</span>
-<span class="nc" id="L303">					facilities.add(f.getName());</span>
-<span class="nc" id="L304">				}</span>
-<span class="fc" id="L305">				row[2] = String.join(&quot;, &quot;, facilities);</span>
-<span class="fc" id="L306">				JButton overrideButton = getOverrideButton(src, id);</span>
-<span class="fc" id="L307">				row[3] = overrideButton;</span>
-<span class="fc" id="L308">				rows.add(row);</span>
-<span class="fc" id="L309">			}</span>
-<span class="fc" id="L310">			roomPane.populateList(rowName, rows, new int[] { 3 });</span>
+<span class="fc bfc" id="L305" title="All 2 branches covered.">			for (Object[] result : reservedRoomList) {</span>
+<span class="fc" id="L306">				Room room = (Room) result[0];</span>
+<span class="fc" id="L307">				int id = (int) result[1];</span>
+<span class="fc" id="L308">				Object[] row = new Object[4];</span>
+<span class="fc" id="L309">				row[0] = room.getName();</span>
+<span class="fc" id="L310">				row[1] = room.getCapacity();</span>
+<span class="fc" id="L311">				ArrayList&lt;String&gt; facilities = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L312" title="1 of 2 branches missed.">				for (Facility f : room.getFacilities()) {</span>
+<span class="nc" id="L313">					facilities.add(f.getName());</span>
+<span class="nc" id="L314">				}</span>
+<span class="fc" id="L315">				row[2] = String.join(&quot;, &quot;, facilities);</span>
+<span class="fc" id="L316">				JButton overrideButton = getOverrideButton(src, id);</span>
+<span class="fc" id="L317">				row[3] = overrideButton;</span>
+<span class="fc" id="L318">				rows.add(row);</span>
+<span class="fc" id="L319">			}</span>
+<span class="fc" id="L320">			roomPane.populateList(rowName, rows, new int[] { 3 });</span>
 		}
-<span class="fc" id="L312">	}</span>
+<span class="fc" id="L322">	}</span>
 
 	private void searchRoom() {
 		// reset
-<span class="fc" id="L316">		roomPane.reset();</span>
+<span class="fc" id="L326">		roomPane.reset();</span>
 		// build up search constraint
-<span class="fc" id="L318">		SearchRoomConstraint src = new SearchRoomConstraint();</span>
-<span class="fc" id="L319">		String selectedDate = datePicker.getDateStringOrEmptyString();</span>
-<span class="fc" id="L320">		String startTime = startTimePicker.getTimeStringOrEmptyString();</span>
-<span class="fc" id="L321">		String endTime = endTimePicker.getTimeStringOrEmptyString();</span>
+<span class="fc" id="L328">		SearchRoomConstraint src = new SearchRoomConstraint();</span>
+<span class="fc" id="L329">		String selectedDate = datePicker.getDateStringOrEmptyString();</span>
+<span class="fc" id="L330">		String startTime = startTimePicker.getTimeStringOrEmptyString();</span>
+<span class="fc" id="L331">		String endTime = endTimePicker.getTimeStringOrEmptyString();</span>
 
 		// Parse
 		try {
-<span class="pc bpc" id="L325" title="1 of 2 branches missed.">			src.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));</span>
-<span class="fc" id="L326">			src.setEventDate(new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).parse(selectedDate));</span>
-<span class="fc" id="L327">			SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH:mm&quot;);</span>
-<span class="fc" id="L328">			src.setStartTime(sdf.parse(startTime));</span>
-<span class="fc" id="L329">			src.setEndTime(sdf.parse(endTime));</span>
-<span class="fc" id="L330">			src.setRoomName(nameField.getText());</span>
-<span class="fc" id="L331">			src.getFacilities().addAll(facilityList.getSelectedValuesList());</span>
-<span class="nc" id="L332">		} catch (ParseException e1) {</span>
-<span class="nc" id="L333">			e1.printStackTrace();</span>
-<span class="fc" id="L334">		}</span>
-<span class="fc" id="L335">		searchRoom(src);</span>
-<span class="fc" id="L336">	}</span>
+<span class="pc bpc" id="L335" title="1 of 2 branches missed.">			src.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));</span>
+<span class="fc" id="L336">			src.setEventDate(new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).parse(selectedDate));</span>
+<span class="fc" id="L337">			SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH:mm&quot;);</span>
+<span class="fc" id="L338">			src.setStartTime(sdf.parse(startTime));</span>
+<span class="fc" id="L339">			src.setEndTime(sdf.parse(endTime));</span>
+<span class="fc" id="L340">			src.setRoomName(nameField.getText());</span>
+<span class="fc" id="L341">			src.getFacilities().addAll(facilityList.getSelectedValuesList());</span>
+<span class="nc" id="L342">		} catch (ParseException e1) {</span>
+<span class="nc" id="L343">			e1.printStackTrace();</span>
+<span class="fc" id="L344">		}</span>
+<span class="fc" id="L345">		searchRoom(src);</span>
+<span class="fc" id="L346">	}</span>
 
 	private JButton getReserveButton(Room room, SearchRoomConstraint src) {
-<span class="fc" id="L339">		JButton reserveButton = new JButton(&quot;Reserve&quot;);</span>
-<span class="fc" id="L340">		reserveButton.addActionListener(e -&gt; {</span>
+<span class="fc" id="L349">		JButton reserveButton = new JButton(&quot;Reserve&quot;);</span>
+<span class="fc" id="L350">		reserveButton.addActionListener(e -&gt; {</span>
 			// convert room to reservation
-<span class="fc" id="L342">			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(), src.getStartTime(),</span>
-<span class="fc" id="L343">					src.getEndTime(), user.getId());</span>
+<span class="fc" id="L352">			Reservation reservation = EntityUtils.roomToReservation(room, src.getEventDate(), src.getStartTime(),</span>
+<span class="fc" id="L353">					src.getEndTime(), user.getId());</span>
 			// reserve
-<span class="fc" id="L345">			boolean success = reservationAction.reserveRoom(reservation);</span>
-<span class="pc bpc" id="L346" title="1 of 2 branches missed.">			if (success) {</span>
-<span class="pc bpc" id="L347" title="1 of 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L348">					JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
-<span class="fc" id="L349">				reserveButton.setEnabled(false);</span>
+<span class="fc" id="L355">			boolean success = reservationAction.reserveRoom(reservation);</span>
+<span class="pc bpc" id="L356" title="1 of 2 branches missed.">			if (success) {</span>
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">				if (alert)</span>
+<span class="nc" id="L358">					JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
+<span class="fc" id="L359">				reserveButton.setEnabled(false);</span>
 			} else {
-<span class="nc bnc" id="L351" title="All 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L352">					JOptionPane.showMessageDialog(null,</span>
+<span class="nc bnc" id="L361" title="All 2 branches missed.">				if (alert)</span>
+<span class="nc" id="L362">					JOptionPane.showMessageDialog(null,</span>
 							&quot;There is something wrong with making the reservation. Please Try Again.&quot;);
 			}
-<span class="fc" id="L355">		});</span>
-<span class="fc" id="L356">		return reserveButton;</span>
+<span class="fc" id="L365">		});</span>
+<span class="fc" id="L366">		return reserveButton;</span>
 	}
 
 	private JButton getOverrideButton(SearchRoomConstraint src, int id) {
-<span class="fc" id="L360">		JButton overrideButton = new JButton(&quot;Override&quot;);</span>
-<span class="fc" id="L361">		overrideButton.addActionListener(e -&gt; {</span>
+<span class="fc" id="L370">		JButton overrideButton = new JButton(&quot;Override&quot;);</span>
+<span class="fc" id="L371">		overrideButton.addActionListener(e -&gt; {</span>
 			// convert room to reservation
-<span class="fc" id="L363">			Reservation reservation = reservationAction.getReservationById(id);</span>
-<span class="fc" id="L364">			User oldUser = userAction.findUserById(reservation.getUserId());</span>
+<span class="fc" id="L373">			Reservation reservation = reservationAction.getReservationById(id);</span>
+<span class="fc" id="L374">			User oldUser = userAction.findUserById(reservation.getUserId());</span>
 			// reserve
-<span class="fc" id="L366">			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),</span>
-<span class="fc" id="L367">					src.getEndTime(), user.getId());</span>
-<span class="pc bpc" id="L368" title="1 of 2 branches missed.">			if (success) {</span>
-<span class="pc bpc" id="L369" title="1 of 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L370">					JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
-<span class="fc" id="L371">				overrideButton.setEnabled(false);</span>
+<span class="fc" id="L376">			boolean success = reservationAction.overrideRoom(reservation, src.getEventDate(), src.getStartTime(),</span>
+<span class="fc" id="L377">					src.getEndTime(), user.getId());</span>
+<span class="pc bpc" id="L378" title="1 of 2 branches missed.">			if (success) {</span>
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">				if (alert)</span>
+<span class="nc" id="L380">					JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
+<span class="fc" id="L381">				overrideButton.setEnabled(false);</span>
 				// send email
 				try {
-<span class="fc" id="L374">					EmailSender.sendEmail(oldUser, reservation, roomAction);</span>
-<span class="nc" id="L375">				} catch (MessagingException e1) {</span>
-<span class="nc" id="L376">					e1.printStackTrace();</span>
-<span class="pc" id="L377">				}</span>
+<span class="fc" id="L384">					EmailSender.sendEmail(oldUser, reservation, roomAction);</span>
+<span class="nc" id="L385">				} catch (MessagingException e1) {</span>
+<span class="nc" id="L386">					e1.printStackTrace();</span>
+<span class="pc" id="L387">				}</span>
 			} else {
-<span class="nc bnc" id="L379" title="All 2 branches missed.">				if (alert)</span>
-<span class="nc" id="L380">					JOptionPane.showMessageDialog(null,</span>
+<span class="nc bnc" id="L389" title="All 2 branches missed.">				if (alert)</span>
+<span class="nc" id="L390">					JOptionPane.showMessageDialog(null,</span>
 							&quot;There is something wrong with overriding the reservation. Please Try Again.&quot;);
 			}
-<span class="fc" id="L383">		});</span>
-<span class="fc" id="L384">		return overrideButton;</span>
+<span class="fc" id="L393">		});</span>
+<span class="fc" id="L394">		return overrideButton;</span>
 	}
 
 	private LocalTime getCurTime() {
-<span class="fc" id="L388">		LocalTime now = LocalTime.now();</span>
-<span class="pc bpc" id="L389" title="1 of 2 branches missed.">		int minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;</span>
-<span class="fc" id="L390">		return now.plusMinutes(minuteDiff);</span>
+<span class="fc" id="L398">		LocalTime now = LocalTime.now();</span>
+<span class="pc bpc" id="L399" title="1 of 2 branches missed.">		int minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;</span>
+<span class="fc" id="L400">		return now.plusMinutes(minuteDiff);</span>
 	}
 
 }
