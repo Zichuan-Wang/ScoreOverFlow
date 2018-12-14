@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: server.action.ReservationActionTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 6.597 s <<< FAILURE! - in server.action.ReservationActionTest
-testMakeMultipleReservations  Time elapsed: 3.217 s  <<< FAILURE!
+Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 6.618 s <<< FAILURE! - in server.action.ReservationActionTest
+testMakeMultipleReservations  Time elapsed: 3.235 s  <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <2> but was: <1>
 	at server.action.ReservationActionTest.testMakeMultipleReservations(ReservationActionTest.java:174)
 
