@@ -3,16 +3,13 @@ package ui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -33,7 +30,8 @@ public class EditPanel extends BasePanel{
 	
 	private JTextField nameField;
 	private JTextField capacity;
-	private JList<Facility> facilityList;
+	
+	private TablePanel facilityTable;
 	
 	private Runnable callback;
 	
@@ -58,20 +56,31 @@ public class EditPanel extends BasePanel{
 			} else {
 				capacity.setText(Integer.toString(room.getCapacity()));
 			}
-			if (room.getFacilities() != null) {
-				List<Integer> indices = new ArrayList<>();
-				Set<Integer> facilitiSet = new HashSet<>();
-				for (Facility facility : room.getFacilities()) {
-					facilitiSet.add(facility.getId());
-				}
-				for (int i = 0; i < facilityList.getModel().getSize(); i++) {
-					if (facilitiSet.contains(facilityList.getModel().getElementAt(i).getId())) {
-						indices.add(i);
-					}
-				}
-				facilityList.setSelectedIndices(indices.stream().mapToInt(i->i).toArray());
-			}
 		}
+		prepareTable();
+	}
+	
+	private void prepareTable() {
+		List<Facility> facilities = facilityAction.findAllFacilities();
+		String[] columnNames = new String[] { "Select", "Facility", "Action" };
+		
+		List<Object[]> rows = new ArrayList<>();
+		for (Facility facility : facilities) {
+			Object[] row = new Object[3];
+			row[0] = getFacilityCheckBox(facility);
+			row[1] = facility.getName();
+			row[2] = getRemoveButton(facility);
+			rows.add(row);
+		}
+		facilityTable.populateList(columnNames, rows, new int[]{0,2});
+	}
+	
+	private JCheckBox getFacilityCheckBox(Facility facility) {
+		return new JCheckBox();
+	}
+	
+	private JButton getRemoveButton(Facility facility) {
+		return new JButton("remove");
 	}
 	
 	private void setMiddlePanel() {
@@ -79,6 +88,7 @@ public class EditPanel extends BasePanel{
 		GridBagConstraints c = new GridBagConstraints();
 
 		JPanel infoPanel = getInfoPanel();
+		facilityTable = new TablePanel();
 
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
@@ -87,6 +97,10 @@ public class EditPanel extends BasePanel{
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		middlePane.add(infoPanel, c);
+		
+		c.gridx = 0;
+		c.gridy = 1;
+		middlePane.add(facilityTable, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -116,7 +130,6 @@ public class EditPanel extends BasePanel{
 	private void saveRoom() {
 		room.setName(nameField.getText());
 		room.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));
-		room.setFacilities(new HashSet<>(facilityList.getSelectedValuesList()));
 		roomAction.saveRoom(room);
 	}
 	
@@ -138,26 +151,18 @@ public class EditPanel extends BasePanel{
 		
 		// Facility
 		JLabel facilityLabel = new JLabel("Facility");
-		List<Facility> facilities = facilityAction.findAllFacilities();
-		DefaultListModel<Facility> model = new DefaultListModel<>();
-		for (Facility facility : facilities) {
-			model.addElement(facility);
-		}
-		facilityList = new JList<>(model);
-		// enables clicking multiple items
-		facilityList.setSelectionModel(new FacilityListSelectionModel());
 
 		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(nameLabel)
 				.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(nameField))
 				.addComponent(capacityLabel).addComponent(capacity)
-				.addGroup(layout.createSequentialGroup().addComponent(facilityLabel).addComponent(facilityList)));
+				.addGroup(layout.createSequentialGroup().addComponent(facilityLabel)));
 
 		layout.setVerticalGroup(layout.createParallelGroup(Alignment.CENTER).addGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(nameLabel))
 				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(nameField))
 				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacityLabel))
 				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacity))
-				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel).addComponent(facilityList))));
+				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel))));
 		
 		return infoPanel;
 	}

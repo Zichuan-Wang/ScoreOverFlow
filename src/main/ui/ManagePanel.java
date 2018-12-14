@@ -77,7 +77,7 @@ public class ManagePanel extends BasePanel {
 
 	public void showRoomList() {
 		List<Room> rooms = roomAction.getAllRooms();
-		String[] rowName = new String[] { "Room Name", "Capacity", "Action 1", "Action 2" };
+		String[] columnNames = new String[] { "Room Name", "Capacity", "Action 1", "Action 2" };
 
 		List<Object[]> rows = new ArrayList<>();
 		for (Room room : rooms) {
@@ -88,7 +88,7 @@ public class ManagePanel extends BasePanel {
 			row[3] = getDeleteButton(room);
 			rows.add(row);
 		}
-		roomPane.populateList(rowName, rows, new int[] { 2, 3 });
+		roomPane.populateList(columnNames, rows, new int[] { 2, 3 });
 	}
 
 	private JButton getManageButton(Room room) {

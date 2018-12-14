@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.AbstractCellEditor;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -75,14 +76,14 @@ public class TablePanel extends JPanel {
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
-			JButton button = (JButton) value;
+			JComponent button = (JComponent) value;
 			return button;
 		}
 	}
 
 	private class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
 		private static final long serialVersionUID = 1L;
-		JButton editorValue;
+		JComponent editorValue;
 
 		public ButtonEditor() {
 		}
@@ -95,7 +96,7 @@ public class TablePanel extends JPanel {
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 				int column) {
-			this.editorValue = (JButton) value;
+			this.editorValue = (JComponent) value;
 			return editorValue;
 		}
 
