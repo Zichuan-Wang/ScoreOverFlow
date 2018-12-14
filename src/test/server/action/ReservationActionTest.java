@@ -171,4 +171,48 @@ public class ReservationActionTest {
 		
 		assertEquals(1, failedReservations.size());
 	}
+	
+	@Test
+	public void testMakeMultipleReservations_RepeatingRequest() throws DBConnectionException {
+		ReservationDao dao = ReservationDaoFactory.getInstance();
+		RoomDao roomDao = RoomDaoFactory.getInstance();
+		ReservationAction action = new ReservationAction(dao, RoomDaoFactory.getInstance());
+		SearchReservationConstraint constraint = new SearchReservationConstraint()
+				.setUserId(EntityTestUtils.DEFAULT_USER_ID);
+		
+		Room room = roomDao.saveOrUpdate(EntityTestUtils.getDefaultRoom().setId(3)); // has to be 3, don't know why
+
+		// No reservation
+		assertEquals(0, action.searchReservations(constraint).size());
+		
+		Calendar calendar = Calendar.getInstance();
+		
+		List<Reservation> reservations = new ArrayList<>();
+		
+		// End of yesterday
+		calendar.add(Calendar.DATE, -1);
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+		calendar.set(Calendar.MINUTE, 59);
+		calendar.set(Calendar.SECOND, 59);
+		Reservation reservation1 = EntityTestUtils.getDefaultReservation().setRoomId(3)
+				.setEventDate(calendar.getTime()).setEndTime(calendar.getTime());
+		
+		
+		// These should fail
+		Reservation reservation2 = reservation1;
+		
+		
+		// add to the list
+		reservations.add(reservation1);
+		reservations.add(reservation2);
+		
+		assertEquals(2, reservations.size());
+		
+		List<Reservation> failedReservations = action.reserveMultipleRooms(reservations);
+		dao.remove(reservation1);
+		dao.remove(reservation2);
+		roomDao.remove(room);
+		
+		assertEquals(1, failedReservations.size());
+	}
 }
