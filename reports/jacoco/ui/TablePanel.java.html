@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TablePanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">ui</a> &gt; <span class="el_source">TablePanel.java</span></div><h1>TablePanel.java</h1><pre class="source lang-java linenums">package ui;
+
+import java.awt.Component;
+import java.util.List;
+
+import javax.swing.AbstractCellEditor;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+
+public class TablePanel extends JPanel {
+	/**
+	 * Default serial version id
+	 */
+	private static final long serialVersionUID = 1L;
+
+<span class="fc" id="L23">	public TablePanel() {</span>
+<span class="fc" id="L24">		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));</span>
+<span class="fc" id="L25">	}</span>
+
+	// Print objects (Strings and one button) in a table
+	public void populateList(String[] columnNames, List&lt;Object[]&gt; rows, int[] buttonIndex) {
+<span class="fc" id="L29">		removeAll();</span>
+<span class="fc" id="L30">		int columnLength = columnNames.length;</span>
+<span class="fc" id="L31">		int rowLength = rows.size();</span>
+		// anonymous class dm to disable editing
+<span class="fc" id="L33">		DefaultTableModel dm = new DefaultTableModel(columnNames, rowLength) {</span>
+			private static final long serialVersionUID = 1L;
+
+			// button needs editable to be clicked
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc bnc" id="L38" title="All 2 branches missed.">				for (int index : buttonIndex) {</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">					if (columnIndex == index) {</span>
+<span class="nc" id="L40">						return true;</span>
+					}
+				}
+<span class="nc" id="L43">				return false;</span>
+			}
+		};
+<span class="fc" id="L46">		JTable table = new JTable(dm);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">		for (int index : buttonIndex) {</span>
+<span class="fc" id="L48">			String buttonName = columnNames[index];</span>
+<span class="fc" id="L49">			table.getColumn(buttonName).setCellRenderer(new ButtonRenderer());</span>
+<span class="fc" id="L50">			table.getColumn(buttonName).setCellEditor(new ButtonEditor());</span>
+		}
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">		for (int i = 0; i &lt; rowLength; i++) {</span>
+<span class="fc" id="L54">			Object[] column = rows.get(i);</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">			for (int j = 0; j &lt; columnLength; j++) {</span>
+<span class="fc" id="L56">				dm.setValueAt(column[j], i, j);</span>
+			}
+		}
+<span class="fc" id="L59">		JScrollPane scrollTable = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,</span>
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+<span class="fc" id="L61">		add(scrollTable);</span>
+<span class="fc" id="L62">		revalidate();</span>
+<span class="fc" id="L63">		repaint();</span>
+<span class="fc" id="L64">	}</span>
+
+	public void reset() {
+<span class="fc" id="L67">		removeAll();</span>
+<span class="fc" id="L68">		revalidate();</span>
+<span class="fc" id="L69">		repaint();</span>
+
+<span class="fc" id="L71">	}</span>
+
+<span class="fc" id="L73">	private class ButtonRenderer extends JButton implements TableCellRenderer {</span>
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+<span class="nc" id="L79">			JComponent button = (JComponent) value;</span>
+<span class="nc" id="L80">			return button;</span>
+		}
+	}
+
+	private class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
+		private static final long serialVersionUID = 1L;
+		JComponent editorValue;
+
+<span class="fc" id="L88">		public ButtonEditor() {</span>
+<span class="fc" id="L89">		}</span>
+
+		@Override
+		public Object getCellEditorValue() {
+<span class="nc" id="L93">			return editorValue;</span>
+		}
+
+		@Override
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+<span class="nc" id="L99">			this.editorValue = (JComponent) value;</span>
+<span class="nc" id="L100">			return editorValue;</span>
+		}
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

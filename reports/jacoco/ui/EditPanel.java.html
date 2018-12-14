@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EditPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">ui</a> &gt; <span class="el_source">EditPanel.java</span></div><h1>EditPanel.java</h1><pre class="source lang-java linenums">package ui;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import entity.Facility;
+import entity.Room;
+import server.action.FacilityAction;
+import server.action.RoomAction;
+
+public class EditPanel extends BasePanel{
+	
+	private static final long serialVersionUID = 1L;
+	
+	private Room room;
+	
+	private FacilityAction facilityAction;
+	private RoomAction roomAction;
+	
+	private JTextField nameField;
+	private JTextField capacity;
+	
+	private TablePanel facilityTable;
+	
+	private Runnable callback;
+	
+	public EditPanel(JPanel cards, String title, FacilityAction facilityAction, RoomAction roomAction, Runnable callback) {
+<span class="fc" id="L39">		super(cards, title);</span>
+<span class="fc" id="L40">		this.facilityAction = facilityAction;</span>
+<span class="fc" id="L41">		this.roomAction = roomAction;</span>
+<span class="fc" id="L42">		this.callback = callback;</span>
+<span class="fc" id="L43">		setMiddlePanel();</span>
+<span class="fc" id="L44">	}</span>
+	
+	public void setRoom(Room room) {
+<span class="nc" id="L47">		this.room = room;</span>
+<span class="nc" id="L48">	}</span>
+	
+	@Override
+	public void pareparePanel() {
+<span class="nc bnc" id="L52" title="All 2 branches missed.">		if (room != null) {</span>
+<span class="nc" id="L53">			nameField.setText(room.getName());</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">			if (room.getCapacity() == 0) {</span>
+<span class="nc" id="L55">				capacity.setText(&quot;&quot;);</span>
+			} else {
+<span class="nc" id="L57">				capacity.setText(Integer.toString(room.getCapacity()));</span>
+			}
+		}
+<span class="nc" id="L60">		prepareTable();</span>
+<span class="nc" id="L61">	}</span>
+	
+	private void prepareTable() {
+<span class="nc" id="L64">		List&lt;Facility&gt; facilities = facilityAction.findAllFacilities();</span>
+<span class="nc" id="L65">		String[] columnNames = new String[] { &quot;Select&quot;, &quot;Facility&quot;, &quot;Action&quot; };</span>
+		
+<span class="nc" id="L67">		List&lt;Object[]&gt; rows = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">		for (Facility facility : facilities) {</span>
+<span class="nc" id="L69">			Object[] row = new Object[3];</span>
+<span class="nc" id="L70">			row[0] = getFacilityCheckBox(facility);</span>
+<span class="nc" id="L71">			row[1] = facility.getName();</span>
+<span class="nc" id="L72">			row[2] = getRemoveButton(facility);</span>
+<span class="nc" id="L73">			rows.add(row);</span>
+<span class="nc" id="L74">		}</span>
+<span class="nc" id="L75">		facilityTable.populateList(columnNames, rows, new int[]{0,2});</span>
+<span class="nc" id="L76">	}</span>
+	
+	private JCheckBox getFacilityCheckBox(Facility facility) {
+<span class="nc" id="L79">		return new JCheckBox();</span>
+	}
+	
+	private JButton getRemoveButton(Facility facility) {
+<span class="nc" id="L83">		return new JButton(&quot;remove&quot;);</span>
+	}
+	
+	private void setMiddlePanel() {
+<span class="fc" id="L87">		middlePane.setLayout(new GridBagLayout());</span>
+<span class="fc" id="L88">		GridBagConstraints c = new GridBagConstraints();</span>
+
+<span class="fc" id="L90">		JPanel infoPanel = getInfoPanel();</span>
+<span class="fc" id="L91">		facilityTable = new TablePanel();</span>
+
+<span class="fc" id="L93">		c.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L94">		c.gridx = 0;</span>
+<span class="fc" id="L95">		c.gridy = 0;</span>
+<span class="fc" id="L96">		c.gridwidth = 3;</span>
+<span class="fc" id="L97">		c.weightx = 1.0;</span>
+<span class="fc" id="L98">		c.weighty = 1.0;</span>
+<span class="fc" id="L99">		middlePane.add(infoPanel, c);</span>
+		
+<span class="fc" id="L101">		c.gridx = 0;</span>
+<span class="fc" id="L102">		c.gridy = 1;</span>
+<span class="fc" id="L103">		middlePane.add(facilityTable, c);</span>
+
+<span class="fc" id="L105">		c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="fc" id="L106">		c.gridx = 0;</span>
+<span class="fc" id="L107">		c.gridy = 2;</span>
+<span class="fc" id="L108">		c.gridwidth = 1;</span>
+<span class="fc" id="L109">		c.weightx = 0.0;</span>
+<span class="fc" id="L110">		c.weighty = 1.0;</span>
+<span class="fc" id="L111">		JButton saveButton = GuiUtils.createButton(&quot;Save&quot;, e -&gt; {</span>
+<span class="nc" id="L112">			saveRoom();</span>
+<span class="nc" id="L113">			JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
+<span class="nc" id="L114">			GuiUtils.jumpToPanel(rootPane, &quot;manage&quot;);</span>
+<span class="nc" id="L115">			callback.run();</span>
+<span class="nc" id="L116">		});</span>
+<span class="fc" id="L117">		middlePane.add(saveButton, c);</span>
+		
+<span class="fc" id="L119">		c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="fc" id="L120">		c.gridx = 0;</span>
+<span class="fc" id="L121">		c.gridy = 4;</span>
+<span class="fc" id="L122">		c.gridwidth = 1;</span>
+<span class="fc" id="L123">		c.weightx = 0.0;</span>
+<span class="fc" id="L124">		c.weighty = 1.0;</span>
+		
+<span class="pc" id="L126">		JButton backButton = GuiUtils.createButton(&quot;Back&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;manage&quot;));</span>
+<span class="fc" id="L127">		middlePane.add(backButton, c);</span>
+<span class="fc" id="L128">	}</span>
+	
+	private void saveRoom() {
+<span class="nc" id="L131">		room.setName(nameField.getText());</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">		room.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));</span>
+<span class="nc" id="L133">		roomAction.saveRoom(room);</span>
+<span class="nc" id="L134">	}</span>
+	
+	private JPanel getInfoPanel() {
+
+<span class="fc" id="L138">		JPanel infoPanel = new JPanel();</span>
+<span class="fc" id="L139">		GroupLayout layout = new GroupLayout(infoPanel);</span>
+<span class="fc" id="L140">		infoPanel.setLayout(layout);</span>
+<span class="fc" id="L141">		layout.setAutoCreateContainerGaps(true);</span>
+<span class="fc" id="L142">		layout.setAutoCreateGaps(true);</span>
+
+		// Name
+<span class="fc" id="L145">		JLabel nameLabel = new JLabel(&quot;Name&quot;);</span>
+<span class="fc" id="L146">		nameField = new JTextField(50);</span>
+		
+		// Capacity
+<span class="fc" id="L149">		JLabel capacityLabel = new JLabel(&quot;Capacity&quot;);</span>
+<span class="fc" id="L150">		capacity = GuiUtils.getNumTextField(5);</span>
+		
+		// Facility
+<span class="fc" id="L153">		JLabel facilityLabel = new JLabel(&quot;Facility&quot;);</span>
+
+<span class="fc" id="L155">		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(nameLabel)</span>
+<span class="fc" id="L156">				.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(nameField))</span>
+<span class="fc" id="L157">				.addComponent(capacityLabel).addComponent(capacity)</span>
+<span class="fc" id="L158">				.addGroup(layout.createSequentialGroup().addComponent(facilityLabel)));</span>
+
+<span class="fc" id="L160">		layout.setVerticalGroup(layout.createParallelGroup(Alignment.CENTER).addGroup(layout.createSequentialGroup()</span>
+<span class="fc" id="L161">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(nameLabel))</span>
+<span class="fc" id="L162">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(nameField))</span>
+<span class="fc" id="L163">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacityLabel))</span>
+<span class="fc" id="L164">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacity))</span>
+<span class="fc" id="L165">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel))));</span>
+		
+<span class="fc" id="L167">		return infoPanel;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

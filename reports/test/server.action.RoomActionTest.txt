@@ -1,12 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: server.action.RoomActionTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 4.228 s <<< FAILURE! - in server.action.RoomActionTest
-searchRooms_name  Time elapsed: 0.693 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <2> but was: <1>
-	at server.action.RoomActionTest.searchRooms_name(RoomActionTest.java:79)
-
-searchRooms_time  Time elapsed: 1.266 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <1> but was: <0>
-	at server.action.RoomActionTest.searchRooms_time(RoomActionTest.java:129)
-
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.169 s - in server.action.RoomActionTest
