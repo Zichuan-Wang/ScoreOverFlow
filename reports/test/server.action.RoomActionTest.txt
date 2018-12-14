@@ -1,4 +1,30 @@
 -------------------------------------------------------------------------------
 Test set: server.action.RoomActionTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.398 s - in server.action.RoomActionTest
+Tests run: 6, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 3.721 s <<< FAILURE! - in server.action.RoomActionTest
+searchRooms_time  Time elapsed: 1.112 s  <<< ERROR!
+javax.persistence.RollbackException: Error while committing the transaction
+	at server.action.RoomActionTest.searchRooms_time(RoomActionTest.java:123)
+Caused by: javax.persistence.OptimisticLockException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1
+	at server.action.RoomActionTest.searchRooms_time(RoomActionTest.java:123)
+Caused by: org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1
+	at server.action.RoomActionTest.searchRooms_time(RoomActionTest.java:123)
+
+findRoomById_roomExists  Time elapsed: 0.268 s  <<< ERROR!
+javax.persistence.RollbackException: Error while committing the transaction
+	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:27)
+Caused by: javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:27)
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:27)
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException: Duplicate entry '1' for key 'PRIMARY'
+	at server.action.RoomActionTest.findRoomById_roomExists(RoomActionTest.java:27)
+
+searchRooms_combined  Time elapsed: 0.892 s  <<< ERROR!
+javax.persistence.RollbackException: Error while committing the transaction
+	at server.action.RoomActionTest.searchRooms_combined(RoomActionTest.java:161)
+Caused by: javax.persistence.OptimisticLockException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1
+	at server.action.RoomActionTest.searchRooms_combined(RoomActionTest.java:161)
+Caused by: org.hibernate.StaleStateException: Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1
+	at server.action.RoomActionTest.searchRooms_combined(RoomActionTest.java:161)
+

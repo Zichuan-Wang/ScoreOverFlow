@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.BatchPanelTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.032 s <<< FAILURE! - in ui.BatchPanelTest
-middlePanelTest  Time elapsed: 0.002 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <1> but was: <2>
-	at ui.BatchPanelTest.middlePanelTest(BatchPanelTest.java:36)
-
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 s - in ui.BatchPanelTest
