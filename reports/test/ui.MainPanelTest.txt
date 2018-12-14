@@ -1,4 +1,16 @@
 -------------------------------------------------------------------------------
 Test set: ui.MainPanelTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.004 s - in ui.MainPanelTest
+Tests run: 8, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 1.082 s <<< FAILURE! - in ui.MainPanelTest
+defaultMiddlePanelHasCorrectButtons  Time elapsed: 0.077 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <2> but was: <3>
+	at ui.MainPanelTest.defaultMiddlePanelHasCorrectButtons(MainPanelTest.java:123)
+
+adminMiddlePanelHasCorrectButtons  Time elapsed: 0.111 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <3> but was: <4>
+	at ui.MainPanelTest.adminMiddlePanelHasCorrectButtons(MainPanelTest.java:97)
+
+psMiddlePanelHasCorrectButtons  Time elapsed: 0.09 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <3> but was: <4>
+	at ui.MainPanelTest.psMiddlePanelHasCorrectButtons(MainPanelTest.java:113)
+
