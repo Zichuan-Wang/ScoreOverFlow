@@ -24,7 +24,7 @@ public class EditPanelTest {
 	@Test
 	protected void setRoomEmptyName() {
 		Room room = mock(Room.class);
-		when(room.getName()).thenReturn("");
+		when(room.getName()).thenReturn(null);
 		EditPanel pane = new EditPanel(null, null, null, null, null);
 		pane.setRoom(room);
 		Assert.assertEquals(pane.titleLabel.getText(), "Create a Room");
