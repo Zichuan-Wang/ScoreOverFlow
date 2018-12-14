@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -54,7 +55,7 @@ public class MainPanel extends BasePanel {
 		middlePane.setLayout(new BoxLayout(middlePane, BoxLayout.Y_AXIS));
 
 		// create text
-		JLabel welcomeMessage = new JLabel("Welcome back " + GuiUtils.userGroupToString(user) + " " + user.getUni());
+		JLabel welcomeMessage = new JLabel("Welcome back, " + GuiUtils.userGroupToString(user) + " " + user.getUni() + "!");
 		welcomeMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		middlePane.add(welcomeMessage);
 
@@ -71,7 +72,7 @@ public class MainPanel extends BasePanel {
 
 			manageButton = GuiUtils.createButton("Manage Rooms and Facilities",
 					e -> GuiUtils.jumpToPanel(rootPane, "manage"), e -> showManagePanel());
-
+			
 			manageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			middlePane.add(manageButton);
 
@@ -93,13 +94,12 @@ public class MainPanel extends BasePanel {
 
 		// Reserve in Batch
 		// if (SecurityUtils.getSubject().hasRole("PS")) {
-		if (user.getUserGroup() == 2) {
+		if (user.getUserGroup() <= 2) {
 			BatchPanel batchPane = new BatchPanel(rootPane, user, reservationAction);
 			rootPane.add(batchPane, "batch");
 
 			batchButton = GuiUtils.createButton("Reserve Rooms in Batch", e -> GuiUtils.jumpToPanel(rootPane, "batch"),
 					e -> batchPane.pareparePanel());
-
 			batchButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			middlePane.add(batchButton);
 
@@ -117,6 +117,23 @@ public class MainPanel extends BasePanel {
 		middlePane.add(viewRoomsButton);
 
 		middlePane.add(Box.createVerticalGlue()); // end
+		
+		// force buttons to be the same size depending on the buttons
+		if (user.getUserGroup() == 0) {// view and manage is the largest button
+			Dimension largestSize = manageButton.getPreferredSize();
+			batchButton.setMaximumSize(largestSize);
+			reserveButton.setMaximumSize(largestSize);
+			viewRoomsButton.setMaximumSize(largestSize);
+		} else if (user.getUserGroup() == 1 || user.getUserGroup() == 2) { // batch 
+			Dimension largestSize = batchButton.getPreferredSize();
+			reserveButton.setMaximumSize(largestSize);
+			viewRoomsButton.setMaximumSize(largestSize);
+		} else { 
+			Dimension largestSize = viewRoomsButton.getPreferredSize();
+			reserveButton.setMaximumSize(largestSize);
+		}
+		repaint();
+		revalidate();
 	}
 
 }

@@ -68,8 +68,7 @@ public class GuiUtils {
 				if (str == null) {
 					return;
 				}
-
-				if (regexCheck.matcher(str).matches()
+				if (str.equals("") || regexCheck.matcher(str).matches()
 						&& (fb.getDocument().getLength() + str.length()) <= maxCharacters) {
 					fb.replace(offset, length, str, attrs);
 				}

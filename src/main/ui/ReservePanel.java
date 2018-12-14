@@ -187,7 +187,7 @@ public class ReservePanel extends BasePanel {
 
 		// Name
 		JLabel nameLabel = new JLabel("Name");
-		nameField = new JTextField(50);
+		nameField = new JTextField(20);
 
 		// Facility
 		JLabel facilityLabel = new JLabel("Facility");
@@ -252,7 +252,7 @@ public class ReservePanel extends BasePanel {
 
 	@Override
 	// Reset when exit
-	public void exitPanel() {
+	public void pareparePanel() {
 		LocalDate today = LocalDate.now();
 		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));
 		datePicker.setDateToToday();

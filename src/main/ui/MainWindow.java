@@ -24,6 +24,7 @@ public class MainWindow extends JFrame {
 	public MainWindow(UserAction userAction, ReservationAction reservationAction, RoomAction roomAction,
 			FacilityAction facilityAction) {
 		// Initialization
+		setDefaultLookAndFeelDecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Schedule++");
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -57,8 +58,9 @@ public class MainWindow extends JFrame {
 					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
 					FacilityAction facilityAction = new FacilityAction(FacilityDaoFactory.getInstance());
 					SecurityService.initialize(null);
-
+					
 					MainWindow frame = new MainWindow(userAction, reservationAction, roomAction, facilityAction);
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,4 +68,6 @@ public class MainWindow extends JFrame {
 			}
 		});
 	}
+	
+	
 }
