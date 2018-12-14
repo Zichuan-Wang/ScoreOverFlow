@@ -39,9 +39,9 @@ public class MainPanelTest {
 	private final String MAIN_PANEL_BATCH_BUTTON_TEXT = "Reserve Rooms in Batch";
 	private final String WELCOME_MESSAGE_DEFAULT_USER = "Welcome back Normal User x";
 
-	private final int ADMIN_BUTTON_COUNT = 3;
-	private final int PS_BUTTON_COUNT = 3;
-	private final int BUTTON_COUNT = 2;
+	private final int ADMIN_BUTTON_COUNT = 4;
+	private final int PS_BUTTON_COUNT = 4;
+	private final int BUTTON_COUNT = 3;
 
 	private MainPanel mainPane;
 	private JPanel topPane, middlePane;
