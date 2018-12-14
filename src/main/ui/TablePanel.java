@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class TablePanel extends JPanel {
 	public TablePanel(boolean fill) {
 		if(fill) {
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		} else {
+			setLayout(new BorderLayout());
 		}
 	}
 

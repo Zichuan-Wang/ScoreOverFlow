@@ -51,6 +51,7 @@ public class EditPanel extends BasePanel{
 		setBackButtonBottomPanel();
 	}
 	
+	
 	public void setRoom(Room room) {
 		this.room = room;
 		if (room.getName().isEmpty()){
@@ -222,6 +223,12 @@ public class EditPanel extends BasePanel{
 				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel))));
 		
 		return infoPanel;
+	}
+	
+	@Override
+	public void setBackButtonBottomPanel() {
+		JButton backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "manage"));
+		bottomPane.add(backButton, BorderLayout.PAGE_END);
 	}
 
 }

@@ -25,6 +25,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
@@ -242,8 +243,9 @@ public class ReservePanel extends BasePanel {
 		return searchBox;
 	}
 
+
 	@Override
-	// Reset when exit
+	// Reset when entering
 	public void pareparePanel() {
 		LocalDate today = LocalDate.now();
 		dateSettings.setDateRangeLimits(today, today.plusYears(DEFAULTDATEYEARRANGE));
@@ -252,8 +254,16 @@ public class ReservePanel extends BasePanel {
 		endTimePicker.setTime(getCurTime().plusMinutes(10));
 		capacity.setText("");
 		nameField.setText("");
-		facilityList.clearSelection();
+		// facility
+		List<Facility> facilities = facilityAction.findAllFacilities();
+		ListModel<Facility> model = (ListModel<Facility>)facilityList.getModel();
+		((DefaultListModel<Facility>) model).removeAllElements();
+		for (Facility facility : facilities) {
+			((DefaultListModel<Facility>) model).addElement(facility);
+		}
 		roomPane.reset();
+		revalidate();
+		repaint();
 	}
 
 	private JButton getSearchButton() {
