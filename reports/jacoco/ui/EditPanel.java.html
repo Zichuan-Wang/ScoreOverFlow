@@ -54,7 +54,7 @@ public class EditPanel extends BasePanel{
 	
 	public void setRoom(Room room) {
 <span class="nc" id="L56">		this.room = room;</span>
-<span class="nc bnc" id="L57" title="All 2 branches missed.">		if (room.getName().isEmpty()){</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">		if (room.getName() == null){</span>
 <span class="nc" id="L58">			this.titleLabel.setText(&quot;Create a Room&quot;);</span>
 		}else {
 <span class="nc" id="L60">			this.titleLabel.setText(&quot;Edit Room &quot; + room.getName());</span>
