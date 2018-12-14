@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EditPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">ui</a> &gt; <span class="el_source">EditPanel.java</span></div><h1>EditPanel.java</h1><pre class="source lang-java linenums">package ui;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import entity.Facility;
+import entity.Room;
+import server.action.FacilityAction;
+import server.action.RoomAction;
+
+public class EditPanel extends BasePanel{
+	
+	private static final long serialVersionUID = 1L;
+	
+	private Room room;
+	
+	private FacilityAction facilityAction;
+	private RoomAction roomAction;
+	
+	private JTextField nameField;
+	private JTextField capacity;
+	private JList&lt;Facility&gt; facilityList;
+	
+	private Runnable callback;
+	
+	public EditPanel(JPanel cards, String title, FacilityAction facilityAction, RoomAction roomAction, Runnable callback) {
+<span class="fc" id="L41">		super(cards, title);</span>
+<span class="fc" id="L42">		this.facilityAction = facilityAction;</span>
+<span class="fc" id="L43">		this.roomAction = roomAction;</span>
+<span class="fc" id="L44">		this.callback = callback;</span>
+<span class="fc" id="L45">		setMiddlePanel();</span>
+<span class="fc" id="L46">	}</span>
+	
+	public void setRoom(Room room) {
+<span class="nc" id="L49">		this.room = room;</span>
+<span class="nc" id="L50">	}</span>
+	
+	@Override
+	public void pareparePanel() {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">		if (room != null) {</span>
+<span class="nc" id="L55">			nameField.setText(room.getName());</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">			if (room.getCapacity() == 0) {</span>
+<span class="nc" id="L57">				capacity.setText(&quot;&quot;);</span>
+			} else {
+<span class="nc" id="L59">				capacity.setText(Integer.toString(room.getCapacity()));</span>
+			}
+<span class="nc bnc" id="L61" title="All 2 branches missed.">			if (room.getFacilities() != null) {</span>
+<span class="nc" id="L62">				List&lt;Integer&gt; indices = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L63">				Set&lt;Integer&gt; facilitiSet = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">				for (Facility facility : room.getFacilities()) {</span>
+<span class="nc" id="L65">					facilitiSet.add(facility.getId());</span>
+<span class="nc" id="L66">				}</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">				for (int i = 0; i &lt; facilityList.getModel().getSize(); i++) {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">					if (facilitiSet.contains(facilityList.getModel().getElementAt(i).getId())) {</span>
+<span class="nc" id="L69">						indices.add(i);</span>
+					}
+				}
+<span class="nc" id="L72">				facilityList.setSelectedIndices(indices.stream().mapToInt(i-&gt;i).toArray());</span>
+			}
+		}
+<span class="nc" id="L75">	}</span>
+	
+	private void setMiddlePanel() {
+<span class="fc" id="L78">		middlePane.setLayout(new GridBagLayout());</span>
+<span class="fc" id="L79">		GridBagConstraints c = new GridBagConstraints();</span>
+
+<span class="fc" id="L81">		JPanel infoPanel = getInfoPanel();</span>
+
+<span class="fc" id="L83">		c.fill = GridBagConstraints.BOTH;</span>
+<span class="fc" id="L84">		c.gridx = 0;</span>
+<span class="fc" id="L85">		c.gridy = 0;</span>
+<span class="fc" id="L86">		c.gridwidth = 3;</span>
+<span class="fc" id="L87">		c.weightx = 1.0;</span>
+<span class="fc" id="L88">		c.weighty = 1.0;</span>
+<span class="fc" id="L89">		middlePane.add(infoPanel, c);</span>
+
+<span class="fc" id="L91">		c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="fc" id="L92">		c.gridx = 0;</span>
+<span class="fc" id="L93">		c.gridy = 2;</span>
+<span class="fc" id="L94">		c.gridwidth = 1;</span>
+<span class="fc" id="L95">		c.weightx = 0.0;</span>
+<span class="fc" id="L96">		c.weighty = 1.0;</span>
+<span class="fc" id="L97">		JButton saveButton = GuiUtils.createButton(&quot;Save&quot;, e -&gt; {</span>
+<span class="nc" id="L98">			saveRoom();</span>
+<span class="nc" id="L99">			JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
+<span class="nc" id="L100">			GuiUtils.jumpToPanel(rootPane, &quot;manage&quot;);</span>
+<span class="nc" id="L101">			callback.run();</span>
+<span class="nc" id="L102">		});</span>
+<span class="fc" id="L103">		middlePane.add(saveButton, c);</span>
+		
+<span class="fc" id="L105">		c.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="fc" id="L106">		c.gridx = 0;</span>
+<span class="fc" id="L107">		c.gridy = 4;</span>
+<span class="fc" id="L108">		c.gridwidth = 1;</span>
+<span class="fc" id="L109">		c.weightx = 0.0;</span>
+<span class="fc" id="L110">		c.weighty = 1.0;</span>
+		
+<span class="pc" id="L112">		JButton backButton = GuiUtils.createButton(&quot;Back&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;manage&quot;));</span>
+<span class="fc" id="L113">		middlePane.add(backButton, c);</span>
+<span class="fc" id="L114">	}</span>
+	
+	private void saveRoom() {
+<span class="nc" id="L117">		room.setName(nameField.getText());</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">		room.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));</span>
+<span class="nc" id="L119">		room.setFacilities(new HashSet&lt;&gt;(facilityList.getSelectedValuesList()));</span>
+<span class="nc" id="L120">		roomAction.saveRoom(room);</span>
+<span class="nc" id="L121">	}</span>
+	
+	private JPanel getInfoPanel() {
+
+<span class="fc" id="L125">		JPanel infoPanel = new JPanel();</span>
+<span class="fc" id="L126">		GroupLayout layout = new GroupLayout(infoPanel);</span>
+<span class="fc" id="L127">		infoPanel.setLayout(layout);</span>
+<span class="fc" id="L128">		layout.setAutoCreateContainerGaps(true);</span>
+<span class="fc" id="L129">		layout.setAutoCreateGaps(true);</span>
+
+		// Name
+<span class="fc" id="L132">		JLabel nameLabel = new JLabel(&quot;Name&quot;);</span>
+<span class="fc" id="L133">		nameField = new JTextField(50);</span>
+		
+		// Capacity
+<span class="fc" id="L136">		JLabel capacityLabel = new JLabel(&quot;Capacity&quot;);</span>
+<span class="fc" id="L137">		capacity = GuiUtils.getNumTextField(5);</span>
+		
+		// Facility
+<span class="fc" id="L140">		JLabel facilityLabel = new JLabel(&quot;Facility&quot;);</span>
+<span class="fc" id="L141">		List&lt;Facility&gt; facilities = facilityAction.findAllFacilities();</span>
+<span class="fc" id="L142">		DefaultListModel&lt;Facility&gt; model = new DefaultListModel&lt;&gt;();</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">		for (Facility facility : facilities) {</span>
+<span class="fc" id="L144">			model.addElement(facility);</span>
+<span class="fc" id="L145">		}</span>
+<span class="fc" id="L146">		facilityList = new JList&lt;&gt;(model);</span>
+		// enables clicking multiple items
+<span class="fc" id="L148">		facilityList.setSelectionModel(new FacilityListSelectionModel());</span>
+
+<span class="fc" id="L150">		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(nameLabel)</span>
+<span class="fc" id="L151">				.addGroup(layout.createParallelGroup(Alignment.LEADING).addComponent(nameField))</span>
+<span class="fc" id="L152">				.addComponent(capacityLabel).addComponent(capacity)</span>
+<span class="fc" id="L153">				.addGroup(layout.createSequentialGroup().addComponent(facilityLabel).addComponent(facilityList)));</span>
+
+<span class="fc" id="L155">		layout.setVerticalGroup(layout.createParallelGroup(Alignment.CENTER).addGroup(layout.createSequentialGroup()</span>
+<span class="fc" id="L156">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(nameLabel))</span>
+<span class="fc" id="L157">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(nameField))</span>
+<span class="fc" id="L158">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacityLabel))</span>
+<span class="fc" id="L159">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(capacity))</span>
+<span class="fc" id="L160">				.addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(facilityLabel).addComponent(facilityList))));</span>
+		
+<span class="fc" id="L162">		return infoPanel;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
