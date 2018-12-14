@@ -52,8 +52,12 @@ public class EditPanel extends BasePanel{
 	@Override
 	public void pareparePanel() {
 		if (room != null) {
-			nameField.setText(room.getName() == null ? "" : room.getName());
-			capacity.setText(room.getCapacity() == 0 ? "" : Integer.toString(room.getCapacity()));
+			nameField.setText(room.getName());
+			if (room.getCapacity() == 0) {
+				capacity.setText("");
+			} else {
+				capacity.setText(Integer.toString(room.getCapacity()));
+			}
 			if (room.getFacilities() != null) {
 				List<Integer> indices = new ArrayList<>();
 				Set<Integer> facilitiSet = new HashSet<>();
