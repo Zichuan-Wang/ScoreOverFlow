@@ -39,13 +39,14 @@ public class ViewRoomsPanel extends BasePanel {
 		this.reservationAction = reservationAction;
 		this.roomAction = roomAction;
 		setMiddlePanel();
+		setBackButtonBottomPanel();
 	}
 
 	private void setMiddlePanel() {
 		middlePane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 
-		reservationPane = new TablePanel();
+		reservationPane = new TablePanel(true);
 		reservationPane.setPreferredSize(new Dimension(600, 200));
 
 		c.fill = GridBagConstraints.BOTH;
@@ -56,15 +57,6 @@ public class ViewRoomsPanel extends BasePanel {
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		middlePane.add(reservationPane, c);
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 1;
-		c.weightx = 0.0;
-		c.weighty = 1.0;
-		JButton backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
-		middlePane.add(backButton, c);
 	}
 
 	@Override

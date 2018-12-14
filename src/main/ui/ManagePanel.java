@@ -22,11 +22,12 @@ public class ManagePanel extends BasePanel {
 	private TablePanel roomPane;
 	private EditPanel createPanel;
 
-	public ManagePanel(JPanel cards, RoomAction roomAction, EditPanel createPanel) {
-		super(cards, TITLE);
+	public ManagePanel(JPanel rootPane, RoomAction roomAction, EditPanel createPanel) {
+		super(rootPane, TITLE);
 		this.roomAction = roomAction;
 		this.createPanel = createPanel;
 		setMiddlePanel();
+		setBackButtonBottomPanel();
 	}
 
 	private void setMiddlePanel() {
@@ -36,18 +37,18 @@ public class ManagePanel extends BasePanel {
 		roomPane = new TablePanel();
 		roomPane.setPreferredSize(new Dimension(600, 200));
 
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
 		c.gridy = 0;
-		c.gridwidth = 3;
-		c.gridheight = 2;
+		c.gridwidth = 1;
+		c.gridheight = 1;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		middlePane.add(roomPane, c);
 
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 2;
+		c.fill = GridBagConstraints.CENTER;
+		c.gridx = 1;
+		c.gridy = 1;
 		c.gridwidth = 1;
 		c.gridheight = 1;
 		c.weightx = 0.0;
@@ -58,16 +59,6 @@ public class ManagePanel extends BasePanel {
 			createPanel.pareparePanel();
 		});
 		middlePane.add(createButton, c);
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.weightx = 0.0;
-		c.weighty = 1.0;
-
-		JButton backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
-		middlePane.add(backButton, c);
 	}
 
 	@Override
@@ -77,7 +68,7 @@ public class ManagePanel extends BasePanel {
 
 	public void showRoomList() {
 		List<Room> rooms = roomAction.getAllRooms();
-		String[] columnNames = new String[] { "Room Name", "Capacity", "Action 1", "Action 2" };
+		String[] columnNames = new String[] { "Room Name", "Capacity", "Manage", "Delete" };
 
 		List<Object[]> rows = new ArrayList<>();
 		for (Room room : rooms) {

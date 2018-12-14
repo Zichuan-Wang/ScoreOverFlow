@@ -3,6 +3,7 @@ package ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -28,13 +29,22 @@ public class BasePanelTest {
 	}
 
 	@Test
-	protected void hasCorrectPanesl() {
+	protected void hasCorrectPanel() {
 		assertEquals(PANELNUM, basePane.getComponentCount());
 		assertEquals(basePane.getTopPane(), basePane.getComponent(0));
 		assertEquals(basePane.getMiddlePane(), basePane.getComponent(1));
 		assertEquals(basePane.getBottomPane(), basePane.getComponent(2));
 	}
 
+	@Test
+	protected void backButtonTest() {
+		basePane.setBackButtonBottomPanel();
+		assertEquals(1,basePane.getBottomPane().getComponentCount());
+		JButton backButton = (JButton) basePane.bottomPane.getComponent(0);
+		assertEquals("Back",backButton.getText());
+		
+	}
+	
 	@AfterEach
 	protected void cleanUp() {
 	}

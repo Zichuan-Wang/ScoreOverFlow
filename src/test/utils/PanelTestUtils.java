@@ -30,4 +30,12 @@ public class PanelTestUtils {
 		reservationAction = ReservationActionTestUtils.getReservationAction();
 		return new ViewRoomsPanel(cards, user, reservationAction, roomAction);
 	}
+	
+	public static ViewRoomsPanel getHighUserViewRoomsPanel() throws DBConnectionException {
+		User user = EntityTestUtils.getDefaultUser();
+		user.setUserGroup(EntityTestUtils.HIGH_USER_GROUP);
+		reservationAction = ReservationActionTestUtils.getReservationAction();
+		return new ViewRoomsPanel(cards, user, reservationAction, roomAction);
+	}
+	
 }

@@ -12,7 +12,7 @@ import exception.DBConnectionException;
 
 public class ManagePanelTest {
 	private final String MANAGE_PANEL_LABEL = "Manage Rooms and Facilities";
-	private final int MANAGE_PANEL_COMPONENT_COUNT = 3;
+	private final int MANAGE_PANEL_COMPONENT_COUNT = 2;
 
 	private ManagePanel managePane;
 	private JPanel topPane, middlePane;

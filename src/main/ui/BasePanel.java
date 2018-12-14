@@ -1,9 +1,11 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
@@ -13,6 +15,8 @@ public class BasePanel extends JPanel {
 
 	protected boolean alert = true; // For disabling message box
 
+	protected JLabel titleLabel;
+	
 	protected JPanel rootPane;
 	protected JPanel topPane;
 	protected JPanel middlePane;
@@ -50,14 +54,19 @@ public class BasePanel extends JPanel {
 		c.gridwidth = 3;
 		c.weightx = 1.0;
 		c.weighty = 0.0;
-		c.fill = GridBagConstraints.BOTH;
+		c.fill = GridBagConstraints.NONE;
 		c.ipady = 0;
 		add(bottomPane, c);
+	}
+	
+	public void setBackButtonBottomPanel() {
+		JButton backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
+		bottomPane.add(backButton, BorderLayout.PAGE_END);
 	}
 
 	public BasePanel(JPanel rootPane, String title) {
 		this(rootPane);
-		JLabel titleLabel = new JLabel(title);
+		titleLabel = new JLabel(title);
 		topPane.add(titleLabel);
 	}
 

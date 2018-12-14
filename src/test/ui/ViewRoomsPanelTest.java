@@ -43,13 +43,6 @@ public class ViewRoomsPanelTest {
 	}
 
 	@Test
-	protected void middlePanelHasBackButton() {
-		assertTrue(middlePane.getComponent(1) instanceof JButton);
-		JButton backButton = (JButton) middlePane.getComponent(1);
-		assertEquals("Back", backButton.getText());
-	}
-
-	@Test
 	protected void listGeneratedWithCorrectItems() {
 		viewRoomsPane.showReservationList();
 		List<JTable> objects = UiTestUtils.getObjects(middlePane, JTable.class);
@@ -66,15 +59,26 @@ public class ViewRoomsPanelTest {
 		viewRoomsPane.showReservationList();
 		JTable table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
 		JButton cancelButton = (JButton) table.getValueAt(2, 4);
-		System.out.println(table.getValueAt(0,1));
-		
+		System.out.println(cancelButton.getText());
 		cancelButton.doClick();
 
 		table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
-		// System.out.println(table.getValueAt(0,1));
-		// CHECK CANCEL HAS EFFECT
 	}
+	/*
+	@Test
+	protected void canOverridelFromListGenerated() throws DBConnectionException {
+		viewRoomsPane = PanelTestUtils.getHighUserViewRoomsPanel();
+		viewRoomsPane.showReservationList();
+		JTable table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
+		JButton cancelButton = (JButton) table.getValueAt(2, 4);
+		
+		cancelButton.doClick();
+		System.out.println(cancelButton.getText());
 
+		table = (JTable) UiTestUtils.getObjects(middlePane, JTable.class).get(0);
+	}
+	*/
+	
 	protected void pareparePanelTest() {
 		viewRoomsPane.pareparePanel();
 		List<JTable> objects = UiTestUtils.getObjects(middlePane, JTable.class);

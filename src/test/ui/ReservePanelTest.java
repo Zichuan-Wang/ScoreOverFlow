@@ -151,13 +151,6 @@ public class ReservePanelTest {
 	}
 
 	@Test
-	protected void middlePanelHasBackButton() {
-		assertTrue(middlePane.getComponent(2) instanceof JButton);
-		JButton backButton = (JButton) middlePane.getComponent(2);
-		assertEquals("Back", backButton.getText());
-	}
-
-	@Test
 	protected void searchButtonWorking() {
 		JPanel searchPane = (JPanel) middlePane.getComponent(0);
 		JButton searchButton = (JButton) searchPane.getComponent(12);

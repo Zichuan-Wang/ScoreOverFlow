@@ -33,7 +33,7 @@ public class BatchPanel extends BasePanel {
 	private static final String TEMPLATE = "\"room id\", \"date\", \"start time\", \"end time\"\n6, 5234564545, 63000, 70300\n6, 6456784546, 42000, 60040";
 	private User user;
 
-	private JButton uploadFileButton, downloadFileButton, backButton;
+	private JButton uploadFileButton, downloadFileButton;
 
 	// private UserAction userAction;
 	private ReservationAction reservationAction;
@@ -53,7 +53,7 @@ public class BatchPanel extends BasePanel {
 		if (this.roomAction == null) {
 			System.out.println("");
 		}
-		
+		setBackButtonBottomPanel();
 		
 	}
 
@@ -71,11 +71,6 @@ public class BatchPanel extends BasePanel {
         gbc.gridy = 1;
 		downloadFileButton = getDownloadFileButton();
 		middlePane.add(downloadFileButton, gbc);
-		
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-		backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
-		middlePane.add(backButton, gbc);
 	}
 	
 	private JButton getDownloadFileButton() {

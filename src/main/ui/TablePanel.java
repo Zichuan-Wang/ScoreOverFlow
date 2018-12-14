@@ -7,6 +7,7 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,7 +22,13 @@ public class TablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public TablePanel() {
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+	}
+	
+	public TablePanel(boolean fill) {
+		if(fill) {
+			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		}
 	}
 
 	// Print objects (Strings and one button) in a table
@@ -72,7 +79,12 @@ public class TablePanel extends JPanel {
 
 	private class ComponentRenderer extends JButton implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
-
+		
+		public ComponentRenderer() {
+			super();
+            setHorizontalAlignment(JLabel.CENTER);
+		}
+		
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
@@ -84,7 +96,7 @@ public class TablePanel extends JPanel {
 	private class ComponentEditor extends AbstractCellEditor implements TableCellEditor {
 		private static final long serialVersionUID = 1L;
 		JComponent editorValue;
-
+		
 		@Override
 		public Object getCellEditorValue() {
 			return editorValue;

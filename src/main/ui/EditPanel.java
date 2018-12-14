@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
@@ -8,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -46,10 +48,16 @@ public class EditPanel extends BasePanel{
 		this.callback = callback;
 		facilities = new HashSet<>();
 		setMiddlePanel();
+		setBackButtonBottomPanel();
 	}
 	
 	public void setRoom(Room room) {
 		this.room = room;
+		if (room.getName().isEmpty()){
+			this.titleLabel.setText("Create a Room");
+		}else {
+			this.titleLabel.setText("Edit Room " + room.getName());
+		}
 	}
 	
 	@Override
@@ -73,16 +81,16 @@ public class EditPanel extends BasePanel{
 		for (Facility facility : room.getFacilities()) {
 			roomFacilities.add(facility.getId());
 		}
-		String[] columnNames = new String[] { "Select", "Facility" };
+		String[] columnNames = new String[] { "Facility","Select" };
 		List<Object[]> rows = new ArrayList<>();
 		for (Facility facility : allFacilities) {
 			Object[] row = new Object[3];
-			row[0] = getFacilityCheckBox(facility, roomFacilities.contains(facility.getId()));
-			row[1] = facility.getName();
+			row[0] = facility.getName();
+			row[1] = getFacilityCheckBox(facility, roomFacilities.contains(facility.getId()));
 			rows.add(row);
 		}
 		
-		facilityTable.populateList(columnNames, rows, new int[]{0});
+		facilityTable.populateList(columnNames, rows, new int[]{1});
 	}
 	
 	private JCheckBox getFacilityCheckBox(Facility facility, boolean selected) {
@@ -103,30 +111,32 @@ public class EditPanel extends BasePanel{
 		GridBagConstraints c = new GridBagConstraints();
 
 		JPanel infoPanel = getInfoPanel();
-		JPanel addFacilityPanel = getAddFacilityPanel();
-		facilityTable = new TablePanel();
+		JPanel facilityPanel = getFacilityPanel();
 
-		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
 		c.gridy = 0;
-		c.gridwidth = 3;
+		c.gridheight = 1;
+		c.gridwidth = 1;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		middlePane.add(infoPanel, c);
 		
-		c.gridx = 0;
-		c.gridy = 1;
-		middlePane.add(facilityTable, c);
-		
-		c.gridx = 0;
-		c.gridy = 2;
-		middlePane.add(addFacilityPanel, c);
-
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 3;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridheight = 1;
 		c.gridwidth = 1;
-		c.weightx = 0.0;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		middlePane.add(facilityPanel, c);
+
+		c.fill = GridBagConstraints.CENTER;
+		c.gridx = 1;
+		c.gridy = 2;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.weightx = 1.0;
 		c.weighty = 1.0;
 		JButton saveButton = GuiUtils.createButton("Save", e -> {
 			saveRoom();
@@ -135,16 +145,6 @@ public class EditPanel extends BasePanel{
 			callback.run();
 		});
 		middlePane.add(saveButton, c);
-		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 4;
-		c.gridwidth = 1;
-		c.weightx = 0.0;
-		c.weighty = 1.0;
-		
-		JButton backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "manage"));
-		middlePane.add(backButton, c);
 	}
 	
 	private void saveRoom() {
@@ -155,8 +155,14 @@ public class EditPanel extends BasePanel{
 		roomAction.saveRoom(room);	
 	}
 	
-	private JPanel getAddFacilityPanel() {
-		JPanel addFacilityPanel = new JPanel();
+	private JPanel getFacilityPanel() {
+		JPanel facilityPanel = new JPanel();
+		facilityPanel.setLayout(new BoxLayout(facilityPanel, BoxLayout.Y_AXIS));
+		
+		facilityTable = new TablePanel();
+		facilityPanel.add(facilityTable);
+		
+		JPanel addFacility = new JPanel();
 		JLabel addFacilityLabel = new JLabel("New Facility:");
 		JTextField addFacilityTextField = new JTextField(50);
 		JButton addFacilityButton = new JButton("Add");
@@ -164,10 +170,12 @@ public class EditPanel extends BasePanel{
 			facilityAction.saveFacility(new Facility().setName(addFacilityTextField.getText()));
 			this.pareparePanel();
 		});
-		addFacilityPanel.add(addFacilityLabel);
-		addFacilityPanel.add(addFacilityTextField);
-		addFacilityPanel.add(addFacilityButton);
-		return addFacilityPanel;
+		addFacility.add(addFacilityLabel,BorderLayout.LINE_START);
+		addFacility.add(addFacilityTextField,BorderLayout.CENTER);
+		addFacility.add(addFacilityButton,BorderLayout.LINE_END);
+		
+		facilityPanel.add(addFacility);
+		return facilityPanel;
 	}
 	
 	private JPanel getInfoPanel() {
