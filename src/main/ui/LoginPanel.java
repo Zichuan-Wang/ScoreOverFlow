@@ -98,6 +98,8 @@ public class LoginPanel extends BasePanel {
 			MainPanel mainPane = new MainPanel(rootPane, user, userAction, reservationAction, roomAction,
 					facilityAction);
 			rootPane.add(mainPane, "main");
+			userNameField.setText("");
+			passwordField.setText("");
 			GuiUtils.jumpToPanel(rootPane, "main");
 			
 			SearchReservationConstraint src = new SearchReservationConstraint();
@@ -135,6 +137,10 @@ public class LoginPanel extends BasePanel {
 			if (alert) {
 				JOptionPane.showMessageDialog(null, status.getMessage());
 			}
+			if (status.getMessage().equals("Unknown account")) {
+				userNameField.setText("");
+			}
+			passwordField.setText("");
 		}
 	}
 

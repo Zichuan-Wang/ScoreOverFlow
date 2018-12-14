@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: ui.MainWindowTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.088 s - in ui.MainWindowTest
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.103 s <<< FAILURE! - in ui.MainWindowTest
+sizeIsCorrect  Time elapsed: 0.047 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <294.0> but was: <588.0>
+	at ui.MainWindowTest.sizeIsCorrect(MainWindowTest.java:45)
+
