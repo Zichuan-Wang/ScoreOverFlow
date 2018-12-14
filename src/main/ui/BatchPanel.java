@@ -89,7 +89,7 @@ public class BatchPanel extends BasePanel {
 					try {
 						Reservation reservation = new Reservation().setUserId(user.getId())
 								.setRoomId(Integer.parseInt(groups[0].trim()))
-								.setEventDate(new Date(Integer.parseInt(groups[1].trim())))
+								.setEventDate(new Date(Long.parseLong(groups[1].trim())))
 								.setStartTime(new Time(Integer.parseInt(groups[2].trim())))
 								.setEndTime(new Time(Integer.parseInt(groups[3].trim())));
 						reservations.add(reservation);
