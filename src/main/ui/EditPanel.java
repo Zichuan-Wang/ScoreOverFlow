@@ -73,16 +73,17 @@ public class EditPanel extends BasePanel{
 		for (Facility facility : room.getFacilities()) {
 			roomFacilities.add(facility.getId());
 		}
-		String[] columnNames = new String[] { "Select", "Facility" };
+		String[] columnNames = new String[] { "Select", "Facility" , "Action"};
 		List<Object[]> rows = new ArrayList<>();
 		for (Facility facility : allFacilities) {
 			Object[] row = new Object[3];
 			row[0] = getFacilityCheckBox(facility, roomFacilities.contains(facility.getId()));
 			row[1] = facility.getName();
+			row[2] = getFacilityButton(facility);
 			rows.add(row);
 		}
 		
-		facilityTable.populateList(columnNames, rows, new int[]{0});
+		facilityTable.populateList(columnNames, rows, new int[]{0, 2});
 	}
 	
 	private JCheckBox getFacilityCheckBox(Facility facility, boolean selected) {
@@ -96,6 +97,16 @@ public class EditPanel extends BasePanel{
 				}
 		});
 		return checkBox;
+	}
+	
+	private JButton getFacilityButton(Facility facility) {
+		JButton button = new JButton("Delete Facility");
+		button.addActionListener(e -> {
+			facilities.remove(facility);
+			facilityAction.removeFacility(facility);
+			this.pareparePanel();
+		});
+		return button;
 	}
 	
 	private void setMiddlePanel() {
@@ -158,7 +169,7 @@ public class EditPanel extends BasePanel{
 	private JPanel getAddFacilityPanel() {
 		JPanel addFacilityPanel = new JPanel();
 		JLabel addFacilityLabel = new JLabel("New Facility:");
-		JTextField addFacilityTextField = new JTextField(50);
+		JTextField addFacilityTextField = new JTextField(20);
 		JButton addFacilityButton = new JButton("Add");
 		addFacilityButton.addActionListener(e-> {
 			facilityAction.saveFacility(new Facility().setName(addFacilityTextField.getText()));
