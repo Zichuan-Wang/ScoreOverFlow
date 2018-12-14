@@ -26,7 +26,8 @@ public class TablePanelTest {
 	}
 
 	@Test
-	protected void checkLayout() {
+	protected void fillCheckLayout() {
+		tablePane = new TablePanel(true); //fill
 		assertTrue(tablePane.getLayout() instanceof BoxLayout);
 	}
 

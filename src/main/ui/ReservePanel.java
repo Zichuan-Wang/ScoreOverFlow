@@ -1,6 +1,5 @@
 package ui;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.ParseException;
@@ -61,7 +60,7 @@ public class ReservePanel extends BasePanel {
 	private JTextField nameField;
 	private JList<Facility> facilityList;
 	private JCheckBox showBookedRooms;
-	private JButton searchButton, backButton;
+	private JButton searchButton;
 	private TablePanel roomPane;
 
 	private UserAction userAction;
@@ -78,6 +77,7 @@ public class ReservePanel extends BasePanel {
 		this.roomAction = roomAction;
 		this.facilityAction = facilityAction;
 		setMiddlePanel();
+		setBackButtonBottomPanel();
 	}
 
 	private void setMiddlePanel() {
@@ -87,32 +87,24 @@ public class ReservePanel extends BasePanel {
 		JPanel searchPane = createSearchPanel();
 
 		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 0;
 		c.gridwidth = 3;
+		c.gridheight = 1;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
 		middlePane.add(searchPane, c);
-
+		
 		c.fill = GridBagConstraints.BOTH;
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 1;
-		c.gridwidth = 3;
+		c.gridwidth = 1;
+		c.gridheight = 2;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
-		roomPane = new TablePanel();
-		roomPane.setPreferredSize(new Dimension(600, 200));
+		roomPane = new TablePanel(true);
 		middlePane.add(roomPane, c);
 
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 1;
-		c.weightx = 0.0;
-		c.weighty = 1.0;
-
-		backButton = GuiUtils.createButton("Back", e -> GuiUtils.jumpToPanel(rootPane, "main"));
-		middlePane.add(backButton, c);
 	}
 
 	private JPanel createSearchPanel() {

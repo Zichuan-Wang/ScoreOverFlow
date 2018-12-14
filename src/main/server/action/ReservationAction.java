@@ -91,8 +91,8 @@ public class ReservationAction {
 			return false;
 		}
 		for (Room room: roomDao.searchRooms(constraint)) {
-			System.out.println("room");
-			System.out.println(room.getId());
+			//System.out.println("room");
+			//System.out.println(room.getId());
 			if (target.getId() == room.getId()) { 
 				return true;
 		    }

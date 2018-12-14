@@ -11,7 +11,7 @@ ScoreOverFlow,dao,BaseDao,15,75,0,2,5,21,1,5,1,4
 ScoreOverFlow,dao,RoomDao,68,92,0,0,14,18,2,4,2,4
 ScoreOverFlow,ui,GuiUtils,5,61,1,6,2,15,2,8,1,4
 ScoreOverFlow,ui,LoginPanel,59,259,13,5,12,53,9,5,1,4
-ScoreOverFlow,ui,BatchPanel,348,121,30,4,78,33,18,6,3,4
+ScoreOverFlow,ui,BatchPanel,449,109,38,0,91,29,22,4,3,4
 ScoreOverFlow,ui,BasePanel,1,147,0,0,1,45,1,7,1,7
 ScoreOverFlow,ui,TablePanel,0,118,0,6,0,25,0,6,0,3
 ScoreOverFlow,ui,TablePanel.new DefaultTableModel() {...},24,11,4,0,4,1,3,1,1,1
@@ -33,6 +33,8 @@ ScoreOverFlow,dao.factory,FacilityDaoFactory,9,13,1,1,3,5,2,1,1,1
 ScoreOverFlow,dao.factory,RoomDaoFactory,9,13,0,2,3,5,1,2,1,1
 ScoreOverFlow,server.constraint,SearchReservationConstraint,6,14,0,0,3,6,1,3,1,3
 ScoreOverFlow,server.constraint,SearchRoomConstraint,4,75,0,0,2,24,1,12,1,12
+ScoreOverFlow,batch,BatchReservationMaker,77,0,6,0,19,0,5,0,2,0
+ScoreOverFlow,batch,BatchReservationMaker.new Comparator() {...},12,0,0,0,2,0,2,0,2,0
 ScoreOverFlow,server.action,ReservationAction,7,199,1,11,2,49,2,14,1,9
 ScoreOverFlow,server.action,UserAction,0,17,0,0,0,5,0,3,0,3
 ScoreOverFlow,server.action,FacilityAction,11,10,0,0,3,4,2,2,2,2
