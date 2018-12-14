@@ -17,9 +17,13 @@ public class FacilityAction {
 	public Facility saveFacility(Facility facility) {
 <span class="nc" id="L18">		return dao.saveOrUpdate(facility);</span>
 	}
+	
+	public void removeFacility(Facility facility) {
+<span class="nc" id="L22">		dao.remove(facility);</span>
+<span class="nc" id="L23">	}</span>
 
 	public List&lt;Facility&gt; findAllFacilities() {
-<span class="fc" id="L22">		return dao.findAllFacilities();</span>
+<span class="fc" id="L26">		return dao.findAllFacilities();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
