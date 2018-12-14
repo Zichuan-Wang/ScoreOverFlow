@@ -17,6 +17,10 @@ public class FacilityAction {
 	public Facility saveFacility(Facility facility) {
 		return dao.saveOrUpdate(facility);
 	}
+	
+	public void removeFacility(Facility facility) {
+		dao.remove(facility);
+	}
 
 	public List<Facility> findAllFacilities() {
 		return dao.findAllFacilities();

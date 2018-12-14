@@ -81,6 +81,7 @@ public class ReservationAction {
 	}
 
 	// returns all reservations that fail to process
+	@Deprecated
 	public List<Reservation> reserveMultipleRooms(List<Reservation> reservations) {
 		List<Reservation> failedItems = new ArrayList<>();
 

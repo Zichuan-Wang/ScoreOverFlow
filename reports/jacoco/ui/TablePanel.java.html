@@ -25,7 +25,7 @@ public class TablePanel extends JPanel {
 <span class="fc" id="L25">	}</span>
 
 	// Print objects (Strings and one button) in a table
-	public void populateList(String[] columnNames, List&lt;Object[]&gt; rows, int[] buttonIndex) {
+	public void populateList(String[] columnNames, List&lt;Object[]&gt; rows, int[] editableIndex) {
 <span class="fc" id="L29">		removeAll();</span>
 <span class="fc" id="L30">		int columnLength = columnNames.length;</span>
 <span class="fc" id="L31">		int rowLength = rows.size();</span>
@@ -35,7 +35,7 @@ public class TablePanel extends JPanel {
 
 			// button needs editable to be clicked
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
-<span class="nc bnc" id="L38" title="All 2 branches missed.">				for (int index : buttonIndex) {</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">				for (int index : editableIndex) {</span>
 <span class="nc bnc" id="L39" title="All 2 branches missed.">					if (columnIndex == index) {</span>
 <span class="nc" id="L40">						return true;</span>
 					}
@@ -44,10 +44,10 @@ public class TablePanel extends JPanel {
 			}
 		};
 <span class="fc" id="L46">		JTable table = new JTable(dm);</span>
-<span class="fc bfc" id="L47" title="All 2 branches covered.">		for (int index : buttonIndex) {</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">		for (int index : editableIndex) {</span>
 <span class="fc" id="L48">			String buttonName = columnNames[index];</span>
-<span class="fc" id="L49">			table.getColumn(buttonName).setCellRenderer(new ButtonRenderer());</span>
-<span class="fc" id="L50">			table.getColumn(buttonName).setCellEditor(new ButtonEditor());</span>
+<span class="fc" id="L49">			table.getColumn(buttonName).setCellRenderer(new ComponentRenderer());</span>
+<span class="fc" id="L50">			table.getColumn(buttonName).setCellEditor(new ComponentEditor());</span>
 		}
 
 <span class="fc bfc" id="L53" title="All 2 branches covered.">		for (int i = 0; i &lt; rowLength; i++) {</span>
@@ -70,7 +70,7 @@ public class TablePanel extends JPanel {
 
 <span class="fc" id="L71">	}</span>
 
-<span class="fc" id="L73">	private class ButtonRenderer extends JButton implements TableCellRenderer {</span>
+<span class="fc" id="L73">	private class ComponentRenderer extends JButton implements TableCellRenderer {</span>
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -81,23 +81,20 @@ public class TablePanel extends JPanel {
 		}
 	}
 
-	private class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
+<span class="fc" id="L84">	private class ComponentEditor extends AbstractCellEditor implements TableCellEditor {</span>
 		private static final long serialVersionUID = 1L;
 		JComponent editorValue;
 
-<span class="fc" id="L88">		public ButtonEditor() {</span>
-<span class="fc" id="L89">		}</span>
-
 		@Override
 		public Object getCellEditorValue() {
-<span class="nc" id="L93">			return editorValue;</span>
+<span class="nc" id="L90">			return editorValue;</span>
 		}
 
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 				int column) {
-<span class="nc" id="L99">			this.editorValue = (JComponent) value;</span>
-<span class="nc" id="L100">			return editorValue;</span>
+<span class="nc" id="L96">			this.editorValue = (JComponent) value;</span>
+<span class="nc" id="L97">			return editorValue;</span>
 		}
 
 	}
