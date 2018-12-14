@@ -53,7 +53,7 @@ public class EditPanel extends BasePanel{
 	
 	public void setRoom(Room room) {
 		this.room = room;
-		if (room.getName().isEmpty()){
+		if (room.getName() == null){
 			this.titleLabel.setText("Create a Room");
 		}else {
 			this.titleLabel.setText("Edit Room " + room.getName());
