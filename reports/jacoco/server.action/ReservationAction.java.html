@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationAction.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">server.action</a> &gt; <span class="el_source">ReservationAction.java</span></div><h1>ReservationAction.java</h1><pre class="source lang-java linenums">package server.action;
+
+//import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+
+import dao.ReservationDao;
+import dao.RoomDao;
+import entity.Reservation;
+import entity.Room;
+import server.constraint.SearchReservationConstraint;
+import server.constraint.SearchRoomConstraint;
+
+// Handle all actions related to Reservation
+public class ReservationAction {
+
+	private ReservationDao reservationDao;
+	private RoomDao roomDao;
+
+<span class="fc" id="L21">	public ReservationAction(ReservationDao reservationDao, RoomDao roomDao) {</span>
+<span class="fc" id="L22">		this.reservationDao = reservationDao;</span>
+<span class="fc" id="L23">		this.roomDao = roomDao;</span>
+<span class="fc" id="L24">	}</span>
+
+	public boolean reserveRoom(Reservation reservation) {
+<span class="fc" id="L27">		reservation.setCreated(new Timestamp(System.currentTimeMillis()));</span>
+<span class="fc" id="L28">		reservation.setModified(new Timestamp(System.currentTimeMillis()));</span>
+		//Time systemTime = new Time(System.currentTimeMillis());
+		//if(systemTime.after(reservation.getStartTime())) {
+		    //return false;
+		//}
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">		if (!isAvailable(reservation)) {</span>
+<span class="nc" id="L34">			return false;</span>
+		}
+		
+<span class="fc" id="L37">		reservationDao.saveOrUpdate(reservation);</span>
+
+<span class="fc" id="L39">		return true; // for a single-user system</span>
+	}
+
+	public boolean overrideRoom(Reservation reservation, Date eventDate, Date startTime, Date endTime, int userID) {
+<span class="fc" id="L43">		reservation.setOverriden(1);</span>
+<span class="fc" id="L44">		reservationDao.saveOrUpdate(reservation);</span>
+		
+<span class="fc" id="L46">		Reservation newReservation = new Reservation();</span>
+<span class="fc" id="L47">		newReservation.setEventDate(eventDate);</span>
+<span class="fc" id="L48">		newReservation.setStartTime(startTime);</span>
+<span class="fc" id="L49">		newReservation.setEndTime(endTime);</span>
+<span class="fc" id="L50">		newReservation.setUserId(userID);</span>
+<span class="fc" id="L51">		newReservation.setModified(new Timestamp(System.currentTimeMillis()));</span>
+<span class="fc" id="L52">		newReservation.setCreated(new Timestamp(System.currentTimeMillis()));</span>
+<span class="fc" id="L53">		newReservation.setOverriden(0);</span>
+<span class="fc" id="L54">		newReservation.setRoomId(reservation.getRoomId());</span>
+<span class="fc" id="L55">		reservationDao.saveOrUpdate(newReservation);</span>
+
+<span class="fc" id="L57">		return true; // for a single-user system</span>
+	}
+
+	public boolean cancelReservation(Reservation reservation) {
+<span class="fc" id="L61">		reservationDao.remove(reservation);</span>
+
+<span class="fc" id="L63">		return true; // for a single-user system</span>
+	}
+
+	public List&lt;Reservation&gt; searchReservations(SearchReservationConstraint constraint) {
+<span class="fc" id="L67">		return reservationDao.searchReservations(constraint);</span>
+	}
+	
+	public List&lt;Reservation&gt; searchOverridenReservations(SearchReservationConstraint constraint) {
+<span class="fc" id="L71">		return reservationDao.searchOverridenReservations(constraint);</span>
+	}
+
+	public Reservation getReservation(SearchRoomConstraint constraint, int id) {
+<span class="nc" id="L75">		return reservationDao.getReservation(constraint, id);</span>
+	}
+
+	public Reservation getReservationById(int id) {
+<span class="fc" id="L79">		return reservationDao.findById(id);</span>
+	}
+
+	private boolean isAvailable(Reservation reservation) { 
+<span class="fc" id="L83">		SearchRoomConstraint constraint = new SearchRoomConstraint()</span>
+<span class="fc" id="L84">		  .setStartTime(reservation.getStartTime())</span>
+<span class="fc" id="L85">		  .setEndTime(reservation.getEndTime())</span>
+<span class="fc" id="L86">		  .setEventDate(reservation.getEventDate());</span>
+		
+<span class="fc" id="L88">		Room target = roomDao.getRoomById(reservation.getRoomId());</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">		if (target == null) {</span>
+<span class="nc" id="L90">			System.out.println(&quot;null target&quot;);</span>
+<span class="nc" id="L91">			return false;</span>
+		}
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">		for (Room room: roomDao.searchRooms(constraint)) {</span>
+			//System.out.println(&quot;room&quot;);
+			//System.out.println(room.getId());
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">			if (target.getId() == room.getId()) { </span>
+<span class="fc" id="L97">				return true;</span>
+		    }
+<span class="nc" id="L99">		}</span>
+		 
+<span class="nc" id="L101">		return false; </span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
