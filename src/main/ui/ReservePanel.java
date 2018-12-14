@@ -278,8 +278,9 @@ public class ReservePanel extends BasePanel {
 				: new ArrayList<>();
 		// build table
 		if (roomList.isEmpty() && reservedRoomList.isEmpty()) {
-			if (alert)
+			if (alert) {
 				JOptionPane.showMessageDialog(null, "No rooms with your requirements found. Please Try Again.");
+			}
 		} else {
 			List<Object[]> rows = new ArrayList<>();
 			String[] rowName = new String[] { "Room Name", "Capacity", "Facilities", "Action" };
