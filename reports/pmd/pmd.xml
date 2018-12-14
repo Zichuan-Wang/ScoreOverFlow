@@ -2,19 +2,5 @@
 <pmd xmlns="http://pmd.sourceforge.net/report/2.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd"
-    version="6.8.0" timestamp="2018-12-14T06:47:32.436">
-<file name="/Users/travis/build/Zichuan-Wang/ScoreOverFlow/src/main/ui/ManagePanel.java">
-<violation beginline="29" endline="29" begincolumn="94" endcolumn="110" rule="UnusedFormalParameter" ruleset="Best Practices" package="ui" class="ManagePanel" method="ManagePanel" variable="reservationAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
-Avoid unused constructor parameters such as 'reservationAction'.
-</violation>
-<violation beginline="29" endline="29" begincolumn="47" endcolumn="50" rule="UnusedFormalParameter" ruleset="Best Practices" package="ui" class="ManagePanel" method="ManagePanel" variable="user" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
-Avoid unused constructor parameters such as 'user'.
-</violation>
-<violation beginline="29" endline="29" begincolumn="64" endcolumn="73" rule="UnusedFormalParameter" ruleset="Best Practices" package="ui" class="ManagePanel" method="ManagePanel" variable="userAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
-Avoid unused constructor parameters such as 'userAction'.
-</violation>
-<violation beginline="30" endline="30" begincolumn="63" endcolumn="76" rule="UnusedFormalParameter" ruleset="Best Practices" package="ui" class="ManagePanel" method="ManagePanel" variable="facilityAction" externalInfoUrl="https://pmd.github.io/pmd-6.8.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
-Avoid unused constructor parameters such as 'facilityAction'.
-</violation>
-</file>
+    version="6.8.0" timestamp="2018-12-14T15:04:18.312">
 </pmd>
