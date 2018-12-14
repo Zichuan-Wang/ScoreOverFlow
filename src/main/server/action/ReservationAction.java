@@ -2,7 +2,6 @@ package server.action;
 
 //import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -78,22 +77,6 @@ public class ReservationAction {
 
 	public Reservation getReservationById(int id) {
 		return reservationDao.findById(id);
-	}
-
-	// returns all reservations that fail to process
-	@Deprecated
-	public List<Reservation> reserveMultipleRooms(List<Reservation> reservations) {
-		List<Reservation> failedItems = new ArrayList<>();
-
-		for (Reservation reservation : reservations) {
-			boolean status = reserveRoom(reservation);
-			// System.out.println(status);
-			if (!status) {
-				failedItems.add(reservation);
-			}
-		}
-
-		return failedItems;
 	}
 
 	private boolean isAvailable(Reservation reservation) { 
