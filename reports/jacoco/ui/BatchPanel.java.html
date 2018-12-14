@@ -8,10 +8,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -19,8 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 
 import entity.Reservation;
+import entity.Facility;
 import entity.User;
 import server.action.ReservationAction;
+import server.action.RoomAction;
+import server.constraint.SearchRoomConstraint;
+import server.action.FacilityAction;
 
 public class BatchPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
@@ -32,143 +37,177 @@ public class BatchPanel extends BasePanel {
 
 	// private UserAction userAction;
 	private ReservationAction reservationAction;
-	// private RoomAction roomAction;
-	// private FacilityAction facilityAction;
+	private RoomAction roomAction;
+	private FacilityAction facilityAction;
 
-	public BatchPanel(JPanel cards, User user, ReservationAction reservationAction) {
-<span class="fc" id="L39">		super(cards, TITLE);</span>
-<span class="fc" id="L40">		this.user = user;</span>
-<span class="fc" id="L41">		this.reservationAction = reservationAction;</span>
-<span class="fc" id="L42">		setMiddlePanel();</span>
+	public BatchPanel(JPanel cards, User user, FacilityAction facilityAction, RoomAction roomAction, ReservationAction reservationAction) {
+<span class="fc" id="L44">		super(cards, TITLE);</span>
+<span class="fc" id="L45">		this.user = user;</span>
+<span class="fc" id="L46">		this.facilityAction = facilityAction;</span>
+<span class="fc" id="L47">		this.roomAction = roomAction;</span>
+<span class="fc" id="L48">		this.reservationAction = reservationAction;</span>
+<span class="fc" id="L49">		setMiddlePanel();</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		if (this.user == null) {</span>
+<span class="fc" id="L51">			System.out.println(&quot;&quot;);</span>
+		}
+<span class="fc bfc" id="L53" title="All 2 branches covered.">		if (this.roomAction == null) {</span>
+<span class="fc" id="L54">			System.out.println(&quot;&quot;);</span>
+		}
 		
 		
-<span class="fc" id="L45">	}</span>
+<span class="fc" id="L58">	}</span>
 
 	private void setMiddlePanel() {
-<span class="fc" id="L48">        middlePane.setLayout(new GridBagLayout()); </span>
-<span class="fc" id="L49">        GridBagConstraints gbc = new GridBagConstraints();</span>
-<span class="fc" id="L50">        gbc.fill = GridBagConstraints.HORIZONTAL;</span>
+<span class="fc" id="L61">        middlePane.setLayout(new GridBagLayout()); </span>
+<span class="fc" id="L62">        GridBagConstraints gbc = new GridBagConstraints();</span>
+<span class="fc" id="L63">        gbc.fill = GridBagConstraints.HORIZONTAL;</span>
 		
-<span class="fc" id="L52">        gbc.gridx = 0;</span>
-<span class="fc" id="L53">        gbc.gridy = 0;</span>
-<span class="fc" id="L54">		uploadFileButton = getUploadFileButton();</span>
-<span class="fc" id="L55">		middlePane.add(uploadFileButton, gbc);</span>
+<span class="fc" id="L65">        gbc.gridx = 0;</span>
+<span class="fc" id="L66">        gbc.gridy = 0;</span>
+<span class="fc" id="L67">		uploadFileButton = getUploadFileButton();</span>
+<span class="fc" id="L68">		middlePane.add(uploadFileButton, gbc);</span>
 		
-<span class="fc" id="L57">		gbc.gridx = 0;</span>
-<span class="fc" id="L58">        gbc.gridy = 1;</span>
-<span class="fc" id="L59">		downloadFileButton = getDownloadFileButton();</span>
-<span class="fc" id="L60">		middlePane.add(downloadFileButton, gbc);</span>
+<span class="fc" id="L70">		gbc.gridx = 0;</span>
+<span class="fc" id="L71">        gbc.gridy = 1;</span>
+<span class="fc" id="L72">		downloadFileButton = getDownloadFileButton();</span>
+<span class="fc" id="L73">		middlePane.add(downloadFileButton, gbc);</span>
 		
-<span class="fc" id="L62">        gbc.gridx = 0;</span>
-<span class="fc" id="L63">        gbc.gridy = 2;</span>
-<span class="pc" id="L64">		backButton = GuiUtils.createButton(&quot;Back&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;main&quot;));</span>
-<span class="fc" id="L65">		middlePane.add(backButton, gbc);</span>
-<span class="fc" id="L66">	}</span>
+<span class="fc" id="L75">        gbc.gridx = 0;</span>
+<span class="fc" id="L76">        gbc.gridy = 2;</span>
+<span class="pc" id="L77">		backButton = GuiUtils.createButton(&quot;Back&quot;, e -&gt; GuiUtils.jumpToPanel(rootPane, &quot;main&quot;));</span>
+<span class="fc" id="L78">		middlePane.add(backButton, gbc);</span>
+<span class="fc" id="L79">	}</span>
 	
 	private JButton getDownloadFileButton() {
-<span class="fc" id="L69">		JButton button = GuiUtils.createButton(&quot;Download Template&quot;);</span>
+<span class="fc" id="L82">		JButton button = GuiUtils.createButton(&quot;Download Template&quot;);</span>
 		
-<span class="fc" id="L71">		button.addActionListener(e -&gt; {</span>
-<span class="nc" id="L72">			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());</span>
-<span class="nc" id="L73">			fileChooser.setDialogTitle(&quot;Select Directory for Download&quot;);</span>
-<span class="nc" id="L74">			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);</span>
-<span class="nc" id="L75">			fileChooser.setAcceptAllFileFilterUsed(false);</span>
-<span class="nc" id="L76">			int option = fileChooser.showOpenDialog(null);</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">			if (option != JFileChooser.APPROVE_OPTION) {</span>
-<span class="nc" id="L78">				return</span>
+<span class="fc" id="L84">		button.addActionListener(e -&gt; {</span>
+<span class="nc" id="L85">			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());</span>
+<span class="nc" id="L86">			fileChooser.setDialogTitle(&quot;Select Directory for Download&quot;);</span>
+<span class="nc" id="L87">			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);</span>
+<span class="nc" id="L88">			fileChooser.setAcceptAllFileFilterUsed(false);</span>
+<span class="nc" id="L89">			int option = fileChooser.showOpenDialog(null);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">			if (option != JFileChooser.APPROVE_OPTION) {</span>
+<span class="nc" id="L91">				return</span>
 						;
 			}
 			
-<span class="nc" id="L82">			int probe = 0;</span>
-<span class="nc" id="L83">			String filename = &quot;/reservations&quot;;</span>
-<span class="nc" id="L84">			String extension = &quot;.csv&quot;;</span>
+<span class="nc" id="L95">			int probe = 0;</span>
+<span class="nc" id="L96">			String filename = &quot;/reservations&quot;;</span>
+<span class="nc" id="L97">			String extension = &quot;.csv&quot;;</span>
 			
-<span class="nc" id="L86">			File file = new File(fileChooser.getSelectedFile().getAbsolutePath() + filename + extension);</span>
+<span class="nc" id="L99">			File file = new File(fileChooser.getSelectedFile().getAbsolutePath() + filename + extension);</span>
 			
 			while (true) {
 				try {
-<span class="nc bnc" id="L90" title="All 2 branches missed.">					if (file.createNewFile()) {</span>
-<span class="nc" id="L91">						FileWriter writer = new FileWriter(file);</span>
-<span class="nc" id="L92">						writer.write(TEMPLATE);</span>
-<span class="nc" id="L93">						writer.close();</span>
-<span class="nc" id="L94">						return;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">					if (file.createNewFile()) {</span>
+<span class="nc" id="L104">						FileWriter writer = new FileWriter(file);</span>
+<span class="nc" id="L105">						writer.write(TEMPLATE);</span>
+<span class="nc" id="L106">						writer.close();</span>
+<span class="nc" id="L107">						return;</span>
 					} else {
-<span class="nc" id="L96">					    probe++;</span>
-<span class="nc" id="L97">					    file = new File(fileChooser.getSelectedFile().getAbsolutePath() + filename + &quot;(&quot; + probe + &quot;)&quot; + extension);</span>
+<span class="nc" id="L109">					    probe++;</span>
+<span class="nc" id="L110">					    file = new File(fileChooser.getSelectedFile().getAbsolutePath() + filename + &quot;(&quot; + probe + &quot;)&quot; + extension);</span>
 					}
-<span class="nc" id="L99">				} catch (IOException exception) {</span>
-<span class="nc" id="L100">					exception.printStackTrace();</span>
-<span class="nc" id="L101">					break;</span>
-<span class="nc" id="L102">				}</span>
+<span class="nc" id="L112">				} catch (IOException exception) {</span>
+<span class="nc" id="L113">					exception.printStackTrace();</span>
+<span class="nc" id="L114">					break;</span>
+<span class="nc" id="L115">				}</span>
 			}
-<span class="nc" id="L104">		});</span>
+<span class="nc" id="L117">		});</span>
 		
-<span class="fc" id="L106">		return button;</span>
+<span class="fc" id="L119">		return button;</span>
 	}
 
 	private JButton getUploadFileButton() {
-<span class="fc" id="L110">		JButton button = GuiUtils.createButton(&quot;Upload File&quot;);</span>
+<span class="fc" id="L123">		JButton button = GuiUtils.createButton(&quot;Upload File&quot;);</span>
 
-<span class="fc" id="L112">		button.addActionListener(e -&gt; {</span>
+<span class="fc" id="L125">		button.addActionListener(e -&gt; {</span>
 			// prompt the window to choose a csv file
-<span class="nc" id="L114">			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());</span>
-<span class="nc" id="L115">			fileChooser.setDialogTitle(&quot;Select File to Upload&quot;);</span>
-<span class="nc" id="L116">			int option = fileChooser.showOpenDialog(null);</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">			if (option != JFileChooser.APPROVE_OPTION) {</span>
-<span class="nc" id="L118">				return;</span>
+<span class="nc" id="L127">			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());</span>
+<span class="nc" id="L128">			fileChooser.setDialogTitle(&quot;Select File to Upload&quot;);</span>
+<span class="nc" id="L129">			int option = fileChooser.showOpenDialog(null);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">			if (option != JFileChooser.APPROVE_OPTION) {</span>
+<span class="nc" id="L131">				return;</span>
 			}
 
-<span class="nc" id="L121">			File selectedFile = fileChooser.getSelectedFile();</span>
+<span class="nc" id="L134">			File selectedFile = fileChooser.getSelectedFile();</span>
 			// System.out.println(selectedFile.getAbsolutePath());
 
 			// start parsing from the csv file
 			// Reference:
 			// https://www.mkyong.com/java/how-to-read-and-parse-csv-file-in-java/
-<span class="nc" id="L127">			String csvFile = selectedFile.getAbsolutePath();</span>
-<span class="nc" id="L128">			BufferedReader br = null;</span>
-<span class="nc" id="L129">			String line = &quot;&quot;;</span>
-<span class="nc" id="L130">			String cvsSplitBy = &quot;,&quot;;</span>
+<span class="nc" id="L140">			String csvFile = selectedFile.getAbsolutePath();</span>
+<span class="nc" id="L141">			BufferedReader br = null;</span>
+<span class="nc" id="L142">			String line = &quot;&quot;;</span>
+<span class="nc" id="L143">			String cvsSplitBy = &quot;,&quot;;</span>
 
-<span class="nc" id="L132">			List&lt;Reservation&gt; reservations = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L145">			List&lt;Reservation&gt; reservations = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L146">			List&lt;SearchRoomConstraint&gt; srcs = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L147">			List&lt;Facility&gt; facilities = facilityAction.findAllFacilities();</span>
+<span class="nc" id="L148">			int lineNum = -2;</span>
+<span class="nc" id="L149">			List&lt;Integer&gt; failedLines = new ArrayList&lt;&gt;();</span>
 
 			try {
-<span class="nc" id="L135">				br = new BufferedReader(new FileReader(csvFile));</span>
-<span class="nc bnc" id="L136" title="All 2 branches missed.">				while ((line = br.readLine()) != null) {</span>
+<span class="nc" id="L152">				br = new BufferedReader(new FileReader(csvFile));</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">				while ((line = br.readLine()) != null) {</span>
 					/*
 					 * Each line should contain: room ID, date, start time, and end time, in the
 					 * exact order.
 					 */
-<span class="nc" id="L141">					String[] groups = line.split(cvsSplitBy);</span>
+<span class="nc" id="L158">					lineNum++;</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">					if (lineNum &lt; 1) {</span>
+<span class="nc" id="L160">						continue;</span>
+					}
+<span class="nc" id="L162">					String[] groups = line.split(cvsSplitBy);</span>
 					try {
-<span class="nc" id="L143">						Reservation reservation = new Reservation().setUserId(user.getId())</span>
-<span class="nc" id="L144">								.setRoomId(Integer.parseInt(groups[0].trim()))</span>
-<span class="nc" id="L145">								.setEventDate(new Date(Long.parseLong(groups[1].trim())))</span>
-<span class="nc" id="L146">								.setStartTime(new Time(Integer.parseInt(groups[2].trim())))</span>
-<span class="nc" id="L147">								.setEndTime(new Time(Integer.parseInt(groups[3].trim())));</span>
-<span class="nc" id="L148">						reservations.add(reservation);</span>
-<span class="nc" id="L149">					} catch (NumberFormatException nfe) {</span>
-<span class="nc" id="L150">						continue;</span>
-<span class="nc" id="L151">					}</span>
-<span class="nc" id="L152">				}</span>
+<span class="nc" id="L164">						SearchRoomConstraint src = new SearchRoomConstraint();</span>
+<span class="nc" id="L165">						srcs.add(new SearchRoomConstraint());</span>
+<span class="nc" id="L166">						src.setEventDate(new SimpleDateFormat(&quot;MM/dd/yyyy&quot;).parse(groups[0].trim()));</span>
+<span class="nc" id="L167">						src.setStartTime(new SimpleDateFormat(&quot;hh:mm&quot;).parse(groups[1].trim()));</span>
+<span class="nc" id="L168">						src.setEndTime(new SimpleDateFormat(&quot;hh:mm&quot;).parse(groups[2].trim()));</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">						if(groups[3].trim().length() != 0) {</span>
+<span class="nc" id="L170">							src.setCapacity(Integer.parseInt(groups[3].trim()));</span>
+						}
+<span class="nc bnc" id="L172" title="All 2 branches missed.">						if(groups[4].trim().length() != 0) {</span>
+<span class="nc" id="L173">							src.setRoomName(groups[4].trim());</span>
+						}
+<span class="nc bnc" id="L175" title="All 2 branches missed.">						if(groups[5].trim().length() != 0) {</span>
+<span class="nc" id="L176">							String[] requestedfacilities = groups[5].trim().split(&quot;,&quot;);</span>
+<span class="nc" id="L177">							Set&lt;Facility&gt; set = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">							for (String rf : requestedfacilities) {</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">								for (Facility f : facilities) {</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">									if (f.getName().equals(rf)) {</span>
+<span class="nc" id="L181">										set.add(f);</span>
+									}
+<span class="nc" id="L183">								}			</span>
+							}
+<span class="nc" id="L185">							src.setFacilities(set);</span>
+						}
+<span class="nc" id="L187">					} catch (Exception exception) {</span>
+<span class="nc" id="L188">						failedLines.add(lineNum);</span>
+<span class="nc" id="L189">						continue;</span>
+<span class="nc" id="L190">					}</span>
+<span class="nc" id="L191">				}</span>
 
 				// make the batch reservation request
-<span class="nc" id="L155">				reservationAction.reserveMultipleRooms(reservations);</span>
-<span class="nc" id="L156">			} catch (FileNotFoundException exception) {</span>
-<span class="nc" id="L157">				exception.printStackTrace();</span>
-<span class="nc" id="L158">			} catch (IOException exception) {</span>
-<span class="nc" id="L159">				exception.printStackTrace();</span>
+<span class="nc" id="L194">				reservationAction.reserveMultipleRooms(reservations);</span>
+<span class="nc" id="L195">			} catch (FileNotFoundException exception) {</span>
+<span class="nc" id="L196">				exception.printStackTrace();</span>
+<span class="nc" id="L197">			} catch (IOException exception) {</span>
+<span class="nc" id="L198">				exception.printStackTrace();</span>
 			} finally {
-<span class="nc bnc" id="L161" title="All 8 branches missed.">				if (br != null) {</span>
+<span class="nc bnc" id="L200" title="All 8 branches missed.">				if (br != null) {</span>
 					try {
-<span class="nc" id="L163">						br.close();</span>
-<span class="nc" id="L164">					} catch (IOException exception) {</span>
-<span class="nc" id="L165">						exception.printStackTrace();</span>
-<span class="nc" id="L166">					}</span>
+<span class="nc" id="L202">						br.close();</span>
+<span class="nc" id="L203">					} catch (IOException exception) {</span>
+<span class="nc" id="L204">						exception.printStackTrace();</span>
+<span class="nc" id="L205">					}</span>
 				}
 			}
-<span class="nc" id="L169">		});</span>
+<span class="nc" id="L208">		});</span>
 
-<span class="fc" id="L171">		return button;</span>
+<span class="fc" id="L210">		return button;</span>
 	}
 
 }

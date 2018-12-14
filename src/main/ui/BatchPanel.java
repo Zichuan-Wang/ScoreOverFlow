@@ -8,10 +8,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -19,8 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
 
 import entity.Reservation;
+import entity.Facility;
 import entity.User;
 import server.action.ReservationAction;
+import server.action.RoomAction;
+import server.constraint.SearchRoomConstraint;
+import server.action.FacilityAction;
 
 public class BatchPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
@@ -32,14 +37,22 @@ public class BatchPanel extends BasePanel {
 
 	// private UserAction userAction;
 	private ReservationAction reservationAction;
-	// private RoomAction roomAction;
-	// private FacilityAction facilityAction;
+	private RoomAction roomAction;
+	private FacilityAction facilityAction;
 
-	public BatchPanel(JPanel cards, User user, ReservationAction reservationAction) {
+	public BatchPanel(JPanel cards, User user, FacilityAction facilityAction, RoomAction roomAction, ReservationAction reservationAction) {
 		super(cards, TITLE);
 		this.user = user;
+		this.facilityAction = facilityAction;
+		this.roomAction = roomAction;
 		this.reservationAction = reservationAction;
 		setMiddlePanel();
+		if (this.user == null) {
+			System.out.println("");
+		}
+		if (this.roomAction == null) {
+			System.out.println("");
+		}
 		
 		
 	}
@@ -130,6 +143,10 @@ public class BatchPanel extends BasePanel {
 			String cvsSplitBy = ",";
 
 			List<Reservation> reservations = new ArrayList<>();
+			List<SearchRoomConstraint> srcs = new ArrayList<>();
+			List<Facility> facilities = facilityAction.findAllFacilities();
+			int lineNum = -2;
+			List<Integer> failedLines = new ArrayList<>();
 
 			try {
 				br = new BufferedReader(new FileReader(csvFile));
@@ -138,15 +155,37 @@ public class BatchPanel extends BasePanel {
 					 * Each line should contain: room ID, date, start time, and end time, in the
 					 * exact order.
 					 */
+					lineNum++;
+					if (lineNum < 1) {
+						continue;
+					}
 					String[] groups = line.split(cvsSplitBy);
 					try {
-						Reservation reservation = new Reservation().setUserId(user.getId())
-								.setRoomId(Integer.parseInt(groups[0].trim()))
-								.setEventDate(new Date(Long.parseLong(groups[1].trim())))
-								.setStartTime(new Time(Integer.parseInt(groups[2].trim())))
-								.setEndTime(new Time(Integer.parseInt(groups[3].trim())));
-						reservations.add(reservation);
-					} catch (NumberFormatException nfe) {
+						SearchRoomConstraint src = new SearchRoomConstraint();
+						srcs.add(new SearchRoomConstraint());
+						src.setEventDate(new SimpleDateFormat("MM/dd/yyyy").parse(groups[0].trim()));
+						src.setStartTime(new SimpleDateFormat("hh:mm").parse(groups[1].trim()));
+						src.setEndTime(new SimpleDateFormat("hh:mm").parse(groups[2].trim()));
+						if(groups[3].trim().length() != 0) {
+							src.setCapacity(Integer.parseInt(groups[3].trim()));
+						}
+						if(groups[4].trim().length() != 0) {
+							src.setRoomName(groups[4].trim());
+						}
+						if(groups[5].trim().length() != 0) {
+							String[] requestedfacilities = groups[5].trim().split(",");
+							Set<Facility> set = new HashSet<>();
+							for (String rf : requestedfacilities) {
+								for (Facility f : facilities) {
+									if (f.getName().equals(rf)) {
+										set.add(f);
+									}
+								}			
+							}
+							src.setFacilities(set);
+						}
+					} catch (Exception exception) {
+						failedLines.add(lineNum);
 						continue;
 					}
 				}
