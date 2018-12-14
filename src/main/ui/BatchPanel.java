@@ -28,7 +28,7 @@ import server.constraint.SearchRoomConstraint;
 public class BatchPanel extends BasePanel {
 	private static final long serialVersionUID = 1L;
 	private static final String TITLE = "Reserve Rooms in Batch";
-	private static final String TEMPLATE = "Event Date,Start Time,End Time,Capacity,Room Name,Facilities\n12/20/2018,08:00,09:20,50,Mudd,projector; computer\n12/22/2018,15:00,22:10,250,,";
+	private static final String TEMPLATE = "This is the template of the batch reservation file. The third and fourth lines are examples. Fields with * are required. Please start from the fifth line.\nEvent Date*,Start Time*,End Time*,Capacity,Room Name,Facilities\n12/20/2018,08:00,09:20,50,Mudd,projector; computer\n12/22/2018,15:00,22:10,250,,";
 	private User user;
 
 	private JButton uploadFileButton, downloadFileButton;

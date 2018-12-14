@@ -35,7 +35,7 @@ public class CSVReader {
 		}
 		while ((line = br.readLine()) != null) {
 			lineNum++;
-			if (lineNum < 2) {
+			if (lineNum < 3) {
 				continue;
 			}
 			String[] groups = line.split(cvsSplitBy, -1);
