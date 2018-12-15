@@ -29,7 +29,9 @@ Java 8, Maven (JPA, Hibernate, JDBC, JUnit, Mockito, PMD), MySQL
 
 2) Install Maven and build the dependencies using ```mvn clean```
 
-3) In Eclipse, select ```MainWindow.java``` and run as a Java Application.
+3) To run the client, select ```MainWindow.java``` in Eclipse and run as Java Application.
+
+4) To run the tests, select ```src/test``` in Eclipse and run as JUnit Test.
 
 ## Pre-Commit
 
