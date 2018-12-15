@@ -1,12 +1,12 @@
 # Schedule++
 
-Schedule++ is a multi-platform desktop software that automates the scheduling of public facility usages (e.g., university classrooms). Administrators can input a list of events (e.g. class sessions) with their respective time and location requirements. The system will assign a room and time slot for each of them while optimizing for these constraints. Individual users can also view available rooms and book venues for private events on this platform. Additional features include specifying the equipments (e.g. projector) available in a classroom and prioritizing certain user groups (e.g. professors) for room booking. The software can also potentially add a voice control function for accessibility concerns. The system will be a smart and integrated tool for universities and other facility providers.
+Schedule++ is a multi-platform desktop software that automates the scheduling of public facility usages (e.g., university classrooms). Administrators can input a list of events (e.g. class sessions) with their respective time and location requirements. The system will assign a room and time slot for each of them while optimizing for these constraints. Individual users can also view available rooms and book venues for private events on this platform. Additional features include specifying the facilities (e.g. projectors, desks) available in a classroom and prioritizing certain user groups (e.g. professors) for room booking. The software can also potentially add a voice control function for accessibility concerns. The system will be a smart and integrated tool for universities and other facility providers.
 
 ## Implemented Features
 
 ### Search for rooms
 
-On the search panel, select the requirements and preferences, including desired room capacity, equipments (e.g. projectors), time slots, building/location preferences and desired room name. A list of rooms that match the preference will be shown.
+On the search panel, select the requirements and preferences, including desired room capacity, facilities (e.g. projectors), time slots, building/location preferences and desired room name. A list of rooms that match the preference will be shown.
 
 ### Book rooms
 
