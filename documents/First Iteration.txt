@@ -1,0 +1,3 @@
+1. https://github.com/Zichuan-Wang/ScoreOverFlow
+2. The script that set up the pre-commit CI is scripts/git-hooks/hook-setup.sh. The pre-commit will execute the scripts/git-hooks/pre-commit file to check for errors and run the unit tests. The post-commit CI is achieved through Travis CI. It runs the PMD code analyzer as well as all unit tests. We use the .travis.yml file to configure Travis. We have also added the push.sh shell script to automate the post-commit procedure.
+3. The post-commit reports are included in the folder reports/. reports/maven/ contains the maven building logs, reports/pmd/ contains the results for the static code analyzer PMD and reports/test/ contains the results for the unit tests based on JUnit.
