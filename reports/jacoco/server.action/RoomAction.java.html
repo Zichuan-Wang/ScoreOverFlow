@@ -2,41 +2,60 @@
 
 import java.util.List;
 
+import dao.ReservationDao;
 import dao.RoomDao;
+import dao.UserDao;
+import email.EmailSender;
+import entity.Reservation;
 import entity.Room;
+import entity.User;
 import server.constraint.SearchRoomConstraint;
 
 // Handle all actions related to Room
 public class RoomAction {
 
-	private RoomDao dao;
+	private RoomDao roomDao;
+	private ReservationDao reservationDao;
+	private UserDao userDao;
 
-<span class="fc" id="L14">	public RoomAction(RoomDao dao) {</span>
-<span class="fc" id="L15">		this.dao = dao;</span>
-<span class="fc" id="L16">	}</span>
+<span class="fc" id="L21">	public RoomAction(RoomDao roomDao, ReservationDao reservationDao, UserDao userDao) {</span>
+<span class="fc" id="L22">		this.roomDao = roomDao;</span>
+<span class="fc" id="L23">		this.reservationDao = reservationDao;</span>
+<span class="fc" id="L24">		this.userDao = userDao;</span>
+<span class="fc" id="L25">	}</span>
 
 	public List&lt;Room&gt; searchRooms(SearchRoomConstraint constraint) {
-<span class="fc" id="L19">		return dao.searchRooms(constraint);</span>
+<span class="fc" id="L28">		return roomDao.searchRooms(constraint);</span>
 	}
 
 	public List&lt;Object[]&gt; searchReservedRooms(SearchRoomConstraint constraint) {
-<span class="nc" id="L23">		return dao.searchReservedRooms(constraint);</span>
+<span class="nc" id="L32">		return roomDao.searchReservedRooms(constraint);</span>
 	}
 
 	public Room getRoomById(int id) {
-<span class="fc" id="L27">		return dao.getRoomById(id);</span>
+<span class="fc" id="L36">		return roomDao.getRoomById(id);</span>
 	}
 	
 	public List&lt;Room&gt; getAllRooms() {
-<span class="nc" id="L31">		return dao.getAllRooms();</span>
+<span class="nc" id="L40">		return roomDao.getAllRooms();</span>
 	}
 	
 	public void deleteRoom(Room room) {
-<span class="nc" id="L35">		dao.remove(room);</span>
-<span class="nc" id="L36">	}</span>
+<span class="nc" id="L44">		List&lt;Reservation&gt; reservations = reservationDao.getReservationsByRoomId(room.getId());</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">		for (Reservation reservation : reservations) {</span>
+<span class="nc" id="L46">			User user = userDao.findById(reservation.getUserId());</span>
+			try {
+<span class="nc" id="L48">				EmailSender.sendDeleteRoomEmail(user, reservation, room);</span>
+<span class="nc" id="L49">			} catch (Exception e) {</span>
+<span class="nc" id="L50">				e.printStackTrace();</span>
+<span class="nc" id="L51">			}</span>
+<span class="nc" id="L52">			reservationDao.remove(reservation);</span>
+<span class="nc" id="L53">		}</span>
+<span class="nc" id="L54">		roomDao.remove(room);</span>
+<span class="nc" id="L55">	}</span>
 	
 	public Room saveRoom(Room room) {
-<span class="nc" id="L39">		return dao.saveOrUpdate(room);</span>
+<span class="nc" id="L58">		return roomDao.saveOrUpdate(room);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -381,7 +381,7 @@ public class ReservePanel extends BasePanel {
 <span class="fc" id="L381">				overrideButton.setEnabled(false);</span>
 				// send email
 				try {
-<span class="fc" id="L384">					EmailSender.sendEmail(oldUser, reservation, roomAction);</span>
+<span class="fc" id="L384">					EmailSender.sendOverrideEmail(oldUser, reservation, roomAction);</span>
 <span class="nc" id="L385">				} catch (MessagingException e1) {</span>
 <span class="nc" id="L386">					e1.printStackTrace();</span>
 <span class="pc" id="L387">				}</span>

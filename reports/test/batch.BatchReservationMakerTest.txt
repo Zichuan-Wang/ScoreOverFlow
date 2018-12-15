@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: batch.BatchReservationMakerTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.625 s - in batch.BatchReservationMakerTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.654 s - in batch.BatchReservationMakerTest

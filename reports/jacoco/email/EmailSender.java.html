@@ -55,7 +55,7 @@ import server.action.RoomAction;
 <span class="fc" id="L55">		}</span>
 <span class="fc" id="L56">	}</span>
 	
-	public static void sendEmail(User user, Reservation reservation, RoomAction roomAction) throws AddressException, MessagingException {
+	public static void sendOverrideEmail(User user, Reservation reservation, RoomAction roomAction) throws AddressException, MessagingException {
 <span class="fc" id="L59">		Room room = roomAction.getRoomById(reservation.getRoomId());</span>
 <span class="fc" id="L60">		String date = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).format(reservation.getEventDate());</span>
 <span class="fc" id="L61">		String beginTime = new SimpleDateFormat(&quot;hh:mm:ss&quot;).format(reservation.getStartTime());</span>
@@ -69,6 +69,20 @@ import server.action.RoomAction;
 				+ &quot;Schedule++&quot;;
 <span class="fc" id="L70">		sendEmail(to, subject, body);</span>
 <span class="fc" id="L71">	}</span>
+	
+	public static void sendDeleteRoomEmail(User user, Reservation reservation, Room room) throws AddressException, MessagingException {
+<span class="nc" id="L74">		String date = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).format(reservation.getEventDate());</span>
+<span class="nc" id="L75">		String beginTime = new SimpleDateFormat(&quot;hh:mm:ss&quot;).format(reservation.getStartTime());</span>
+<span class="nc" id="L76">		String endTime = new SimpleDateFormat(&quot;hh:mm:ss&quot;).format(reservation.getEndTime());</span>
+<span class="nc" id="L77">		String to = user.getEmail();</span>
+<span class="nc" id="L78">		String subject = &quot;The room you reserved is no longer available&quot;;</span>
+<span class="nc" id="L79">		String body = &quot;Dear &quot; + user.getUni() + &quot;:\n&quot;</span>
+<span class="nc" id="L80">				+ &quot;\t Your reservation of &quot; + room.getName() +&quot; for &quot; + date </span>
+				+ &quot; from &quot; + beginTime + &quot; to &quot; + endTime
+<span class="nc" id="L82">				+ &quot; has been cancelled because the room &quot; + room.getName() + &quot; is no longer available.\n&quot;</span>
+				+ &quot;Schedule++&quot;;
+<span class="nc" id="L84">		sendEmail(to, subject, body);</span>
+<span class="nc" id="L85">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

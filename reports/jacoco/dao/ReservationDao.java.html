@@ -19,6 +19,13 @@ public class ReservationDao extends BaseDao&lt;Reservation&gt; {
 <span class="fc" id="L19">		super(Reservation.class, manager);</span>
 <span class="fc" id="L20">	}</span>
 
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public List&lt;Reservation&gt; getReservationsByRoomId(int roomId) {
+<span class="nc" id="L24">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r WHERE r.roomId = :id&quot;).setParameter(&quot;id&quot;,</span>
+<span class="nc" id="L25">				roomId);</span>
+<span class="nc" id="L26">		return query.getResultList();</span>
+	}
+
 	/**
 	 * Search the reservations by the constraint criteria provided. The result
 	 * 
@@ -27,47 +34,45 @@ public class ReservationDao extends BaseDao&lt;Reservation&gt; {
 	 */
 	@SuppressWarnings(&quot;unchecked&quot;)
 	public List&lt;Reservation&gt; searchReservations(SearchReservationConstraint constraint) {
-<span class="fc" id="L30">		Date date = new Date();</span>
-<span class="fc" id="L31">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r &quot;//</span>
+<span class="fc" id="L37">		Date date = new Date();</span>
+<span class="fc" id="L38">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r &quot;//</span>
 				+ &quot;WHERE r.userId = :id &quot;//
 				+ &quot;AND r.overriden = 0&quot; //
 				+ &quot;AND (r.eventDate &gt; :curDate &quot;//
-				+ &quot;OR (r.eventDate = :curDate &quot;
-				+ &quot;AND r.endTime &gt;= :curTime))&quot;)//
-<span class="fc" id="L37">				.setParameter(&quot;id&quot;, constraint.getUserId())//</span>
-<span class="fc" id="L38">				.setParameter(&quot;curDate&quot;, date, TemporalType.DATE)//</span>
-<span class="fc" id="L39">				.setParameter(&quot;curTime&quot;, date, TemporalType.TIME);</span>
-<span class="fc" id="L40">		return query.getResultList();</span>
+				+ &quot;OR (r.eventDate = :curDate &quot; + &quot;AND r.endTime &gt;= :curTime))&quot;)//
+<span class="fc" id="L43">				.setParameter(&quot;id&quot;, constraint.getUserId())//</span>
+<span class="fc" id="L44">				.setParameter(&quot;curDate&quot;, date, TemporalType.DATE)//</span>
+<span class="fc" id="L45">				.setParameter(&quot;curTime&quot;, date, TemporalType.TIME);</span>
+<span class="fc" id="L46">		return query.getResultList();</span>
 	}
-	
+
 	@SuppressWarnings(&quot;unchecked&quot;)
 	public List&lt;Reservation&gt; searchOverridenReservations(SearchReservationConstraint constraint) {
-<span class="fc" id="L45">		Date date = new Date();</span>
-<span class="fc" id="L46">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r &quot;//</span>
+<span class="fc" id="L51">		Date date = new Date();</span>
+<span class="fc" id="L52">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r &quot;//</span>
 				+ &quot;WHERE r.userId = :id &quot;//
 				+ &quot;AND r.overriden = 1&quot; //
 				+ &quot;AND (r.eventDate &gt; :curDate &quot;//
-				+ &quot;OR (r.eventDate = :curDate &quot;
-				+ &quot;AND r.endTime &gt;= :curTime))&quot;)//
-<span class="fc" id="L52">				.setParameter(&quot;id&quot;, constraint.getUserId())//</span>
-<span class="fc" id="L53">				.setParameter(&quot;curDate&quot;, date, TemporalType.DATE)//</span>
-<span class="fc" id="L54">				.setParameter(&quot;curTime&quot;, date, TemporalType.TIME);</span>
-<span class="fc" id="L55">		return query.getResultList();</span>
+				+ &quot;OR (r.eventDate = :curDate &quot; + &quot;AND r.endTime &gt;= :curTime))&quot;)//
+<span class="fc" id="L57">				.setParameter(&quot;id&quot;, constraint.getUserId())//</span>
+<span class="fc" id="L58">				.setParameter(&quot;curDate&quot;, date, TemporalType.DATE)//</span>
+<span class="fc" id="L59">				.setParameter(&quot;curTime&quot;, date, TemporalType.TIME);</span>
+<span class="fc" id="L60">		return query.getResultList();</span>
 	}
 
 	public Reservation getReservation(SearchRoomConstraint src, int id) {
-<span class="nc" id="L59">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r &quot;//</span>
+<span class="nc" id="L64">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r &quot;//</span>
 				+ &quot;WHERE r.roomId = :id &quot;//
 				+ &quot;AND r.eventDate = :eventDate &quot;//
 				+ &quot;AND r.startTime = :endTime &quot;//
-<span class="nc" id="L63">				+ &quot;AND r.endTime = :startTime&quot;).setParameter(&quot;id&quot;, id)</span>
-<span class="nc" id="L64">				.setParameter(&quot;eventDate&quot;, src.getEventDate(), TemporalType.DATE)</span>
-<span class="nc" id="L65">				.setParameter(&quot;startTime&quot;, src.getStartTime(), TemporalType.TIME)</span>
-<span class="nc" id="L66">				.setParameter(&quot;endTime&quot;, src.getEndTime(), TemporalType.TIME);</span>
+<span class="nc" id="L68">				+ &quot;AND r.endTime = :startTime&quot;).setParameter(&quot;id&quot;, id)</span>
+<span class="nc" id="L69">				.setParameter(&quot;eventDate&quot;, src.getEventDate(), TemporalType.DATE)</span>
+<span class="nc" id="L70">				.setParameter(&quot;startTime&quot;, src.getStartTime(), TemporalType.TIME)</span>
+<span class="nc" id="L71">				.setParameter(&quot;endTime&quot;, src.getEndTime(), TemporalType.TIME);</span>
 		try {
-<span class="nc" id="L68">			return (Reservation) query.getSingleResult();</span>
-<span class="nc" id="L69">		} catch (NoResultException exception) {</span>
-<span class="nc" id="L70">			return null;</span>
+<span class="nc" id="L73">			return (Reservation) query.getSingleResult();</span>
+<span class="nc" id="L74">		} catch (NoResultException exception) {</span>
+<span class="nc" id="L75">			return null;</span>
 		}
 	}
 }
