@@ -16,9 +16,21 @@ For the list of search results on the search panel, there is a button after each
 
 On the user panel, a list of all booked rooms will be shown.
 
+### Override reservations
+
+Higher priority users can override reservations made by other users. The users whose resevations are overriden will receive email notifications about the change.
+
 ### Cancel reservations
 
 For the list of booked rooms on the user panel, there is a button after each reservation item. Click the one that you want to cancel the reservation.
+
+### Batch Uploads
+
+Certain user groups are allowed to upload CSV files that contain reservation information and make many reservations all at once.
+
+### Manage rooms and facilities
+
+Admin can add/edit/delete rooms or facilities at a special panel. 
 
 ## Dependencies
 Java 8, Maven (JPA, Hibernate, JDBC, JUnit, Mockito, PMD), MySQL
