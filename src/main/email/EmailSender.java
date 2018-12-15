@@ -55,7 +55,7 @@ public class EmailSender {
 		}
 	}
 	
-	public static void sendEmail(User user, Reservation reservation, RoomAction roomAction) throws AddressException, MessagingException {
+	public static void sendOverrideEmail(User user, Reservation reservation, RoomAction roomAction) throws AddressException, MessagingException {
 		Room room = roomAction.getRoomById(reservation.getRoomId());
 		String date = new SimpleDateFormat("yyyy-MM-dd").format(reservation.getEventDate());
 		String beginTime = new SimpleDateFormat("hh:mm:ss").format(reservation.getStartTime());
@@ -66,6 +66,20 @@ public class EmailSender {
 				+ "\t Your reservation of " + room.getName() +" for " + date 
 				+ " from " + beginTime + " to " + endTime
 				+ " has been unfortunately replaced by another user.\n"
+				+ "Schedule++";
+		sendEmail(to, subject, body);
+	}
+	
+	public static void sendDeleteRoomEmail(User user, Reservation reservation, Room room) throws AddressException, MessagingException {
+		String date = new SimpleDateFormat("yyyy-MM-dd").format(reservation.getEventDate());
+		String beginTime = new SimpleDateFormat("hh:mm:ss").format(reservation.getStartTime());
+		String endTime = new SimpleDateFormat("hh:mm:ss").format(reservation.getEndTime());
+		String to = user.getEmail();
+		String subject = "The room you reserved is no longer available";
+		String body = "Dear " + user.getUni() + ":\n"
+				+ "\t Your reservation of " + room.getName() +" for " + date 
+				+ " from " + beginTime + " to " + endTime
+				+ " has been cancelled because the room " + room.getName() + " is no longer available.\n"
 				+ "Schedule++";
 		sendEmail(to, subject, body);
 	}

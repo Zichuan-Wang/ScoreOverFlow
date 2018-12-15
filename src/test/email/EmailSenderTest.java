@@ -53,7 +53,7 @@ public class EmailSenderTest {
 		ReservationDao reservationDao = ReservationDaoTestUtils.getReservationDao();
 		User user = userDao.findById(EntityTestUtils.DEFAULT_USER_ID);
 		Reservation reservation = reservationDao.findById(EntityTestUtils.DEFAULT_RESERVATION_ID);
-		assertAll(() -> EmailSender.sendEmail(user, reservation, RoomActionTestUtils.getRoomAction()));
+		assertAll(() -> EmailSender.sendOverrideEmail(user, reservation, RoomActionTestUtils.getRoomAction()));
 	}
 
 }

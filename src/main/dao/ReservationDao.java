@@ -19,6 +19,13 @@ public class ReservationDao extends BaseDao<Reservation> {
 		super(Reservation.class, manager);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Reservation> getReservationsByRoomId(int roomId) {
+		Query query = manager.createQuery("SELECT r FROM Reservation r WHERE r.roomId = :id").setParameter("id",
+				roomId);
+		return query.getResultList();
+	}
+
 	/**
 	 * Search the reservations by the constraint criteria provided. The result
 	 * 
@@ -32,14 +39,13 @@ public class ReservationDao extends BaseDao<Reservation> {
 				+ "WHERE r.userId = :id "//
 				+ "AND r.overriden = 0" //
 				+ "AND (r.eventDate > :curDate "//
-				+ "OR (r.eventDate = :curDate "
-				+ "AND r.endTime >= :curTime))")//
+				+ "OR (r.eventDate = :curDate " + "AND r.endTime >= :curTime))")//
 				.setParameter("id", constraint.getUserId())//
 				.setParameter("curDate", date, TemporalType.DATE)//
 				.setParameter("curTime", date, TemporalType.TIME);
 		return query.getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Reservation> searchOverridenReservations(SearchReservationConstraint constraint) {
 		Date date = new Date();
@@ -47,8 +53,7 @@ public class ReservationDao extends BaseDao<Reservation> {
 				+ "WHERE r.userId = :id "//
 				+ "AND r.overriden = 1" //
 				+ "AND (r.eventDate > :curDate "//
-				+ "OR (r.eventDate = :curDate "
-				+ "AND r.endTime >= :curTime))")//
+				+ "OR (r.eventDate = :curDate " + "AND r.endTime >= :curTime))")//
 				.setParameter("id", constraint.getUserId())//
 				.setParameter("curDate", date, TemporalType.DATE)//
 				.setParameter("curTime", date, TemporalType.TIME);

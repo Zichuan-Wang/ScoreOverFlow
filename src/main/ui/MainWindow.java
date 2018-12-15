@@ -8,6 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import dao.FacilityDao;
+import dao.ReservationDao;
+import dao.RoomDao;
+import dao.UserDao;
 import dao.factory.FacilityDaoFactory;
 import dao.factory.ReservationDaoFactory;
 import dao.factory.RoomDaoFactory;
@@ -53,10 +57,15 @@ public class MainWindow extends JFrame {
 					}
 
 					// Set up necessary parameters
-					UserAction userAction = new UserAction(UserDaoFactory.getInstance());
-					ReservationAction reservationAction = new ReservationAction(ReservationDaoFactory.getInstance(), RoomDaoFactory.getInstance());
-					RoomAction roomAction = new RoomAction(RoomDaoFactory.getInstance());
-					FacilityAction facilityAction = new FacilityAction(FacilityDaoFactory.getInstance());
+					RoomDao roomDao = RoomDaoFactory.getInstance();
+					UserDao userDao = UserDaoFactory.getInstance();
+					FacilityDao facilityDao = FacilityDaoFactory.getInstance();
+					ReservationDao reservationDao = ReservationDaoFactory.getInstance();
+					
+					UserAction userAction = new UserAction(userDao);
+					ReservationAction reservationAction = new ReservationAction(reservationDao, roomDao);
+					RoomAction roomAction = new RoomAction(roomDao, reservationDao, userDao);
+					FacilityAction facilityAction = new FacilityAction(facilityDao);
 					SecurityService.initialize(null);
 					
 					MainWindow frame = new MainWindow(userAction, reservationAction, roomAction, facilityAction);
