@@ -23,14 +23,14 @@ public class TablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 <span class="fc" id="L25">	public TablePanel() {</span>
-		
+<span class="fc" id="L26">		setLayout(new BorderLayout());</span>
 <span class="fc" id="L27">	}</span>
 	
 <span class="fc" id="L29">	public TablePanel(boolean fill) {</span>
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">		if(fill) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">		if(fill) {</span>
 <span class="fc" id="L31">			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));</span>
 		} else {
-<span class="nc" id="L33">			setLayout(new BorderLayout());</span>
+<span class="fc" id="L33">			setLayout(new BorderLayout());</span>
 		}
 <span class="fc" id="L35">	}</span>
 
@@ -45,12 +45,12 @@ public class TablePanel extends JPanel {
 
 			// button needs editable to be clicked
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
-<span class="nc bnc" id="L48" title="All 2 branches missed.">				for (int index : editableIndex) {</span>
-<span class="nc bnc" id="L49" title="All 2 branches missed.">					if (columnIndex == index) {</span>
-<span class="nc" id="L50">						return true;</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">				for (int index : editableIndex) {</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">					if (columnIndex == index) {</span>
+<span class="fc" id="L50">						return true;</span>
 					}
 				}
-<span class="nc" id="L53">				return false;</span>
+<span class="fc" id="L53">				return false;</span>
 			}
 		};
 <span class="fc" id="L56">		JTable table = new JTable(dm);</span>

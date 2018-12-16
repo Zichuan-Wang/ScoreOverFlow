@@ -150,29 +150,29 @@ public class ReservePanel extends BasePanel {
 
 		// Setting action listener for adjusting end time based on start time
 <span class="fc" id="L152">		startTimePicker.addTimeChangeListener(e -&gt; {</span>
-<span class="nc" id="L153">			LocalTime selectedTime = startTimePicker.getTime().plusMinutes(10);</span>
-<span class="nc" id="L154">			endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, selectedTime, null);</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">			if (endTimePicker.getTime().isBefore(startTimePicker.getTime())) {</span>
-<span class="nc" id="L156">				endTimePicker.setTime(selectedTime);</span>
+<span class="fc" id="L153">			LocalTime selectedTime = startTimePicker.getTime().plusMinutes(10);</span>
+<span class="fc" id="L154">			endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, selectedTime, null);</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">			if (endTimePicker.getTime().isBefore(startTimePicker.getTime())) {</span>
+<span class="fc" id="L156">				endTimePicker.setTime(selectedTime);</span>
 			}
-<span class="nc" id="L158">		});</span>
+<span class="fc" id="L158">		});</span>
 
 		// Setting action listener for adjusting start time based on date
 <span class="fc" id="L161">		datePicker.addDateChangeListener(e -&gt; {</span>
-<span class="nc bnc" id="L162" title="All 2 branches missed.">			if (datePicker.getDate().equals(today)) { // set to cur date</span>
-<span class="nc" id="L163">				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime(), null);</span>
-<span class="nc" id="L164">				startTimePicker.setTime(getCurTime());</span>
-<span class="nc" id="L165">				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes,</span>
-<span class="nc" id="L166">						startTimePicker.getTime().plusMinutes(10), null);</span>
-<span class="nc" id="L167">				endTimePicker.setTime(getCurTime().plusMinutes(10));</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">			if (datePicker.getDate().equals(today)) { // set to cur date</span>
+<span class="fc" id="L163">				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, getCurTime(), null);</span>
+<span class="fc" id="L164">				startTimePicker.setTime(getCurTime());</span>
+<span class="fc" id="L165">				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes,</span>
+<span class="fc" id="L166">						startTimePicker.getTime().plusMinutes(10), null);</span>
+<span class="fc" id="L167">				endTimePicker.setTime(getCurTime().plusMinutes(10));</span>
 			} else { // set to a new date
-<span class="nc" id="L169">				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);</span>
-<span class="nc" id="L170">				startTimePicker.setTime(LocalTime.MIDNIGHT);</span>
-<span class="nc" id="L171">				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes,</span>
-<span class="nc" id="L172">						startTimePicker.getTime().plusMinutes(10), null);</span>
-<span class="nc" id="L173">				endTimePicker.setTime(LocalTime.MIDNIGHT.plusMinutes(10));</span>
+<span class="fc" id="L169">				startTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes, null, null);</span>
+<span class="fc" id="L170">				startTimePicker.setTime(LocalTime.MIDNIGHT);</span>
+<span class="fc" id="L171">				endTimeSettings.generatePotentialMenuTimes(TimeIncrement.TenMinutes,</span>
+<span class="fc" id="L172">						startTimePicker.getTime().plusMinutes(10), null);</span>
+<span class="fc" id="L173">				endTimePicker.setTime(LocalTime.MIDNIGHT.plusMinutes(10));</span>
 			}
-<span class="nc" id="L175">		});</span>
+<span class="fc" id="L175">		});</span>
 
 		// Capacity
 <span class="fc" id="L178">		JLabel capacityLabel = new JLabel(&quot;Capacity&quot;);</span>

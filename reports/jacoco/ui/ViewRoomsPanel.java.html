@@ -74,95 +74,98 @@ public class ViewRoomsPanel extends BasePanel {
 <span class="fc" id="L74">		String[] rowName = new String[] { &quot;Room Name&quot;, &quot;Date&quot;, &quot;Start Time&quot;, &quot;End Time&quot;, &quot;Action&quot; };</span>
 <span class="fc bfc" id="L75" title="All 2 branches covered.">		for (Reservation reservation : overridenReservationList) {</span>
 <span class="fc" id="L76">			Room room = roomAction.getRoomById(reservation.getRoomId());</span>
-<span class="fc" id="L77">			Object[] row = new Object[5];</span>
-<span class="fc" id="L78">			row[0] = room.getName()+&quot;(overriden)&quot;;</span>
-<span class="fc" id="L79">			row[1] = reservation.getEventDate().toString();</span>
-<span class="fc" id="L80">			row[2] = reservation.getStartTime().toString();</span>
-<span class="fc" id="L81">			row[3] = reservation.getEndTime().toString();</span>
-<span class="fc" id="L82">			row[4] = getReplacementButton(reservation);</span>
-<span class="fc" id="L83">			rows.add(row);</span>
-<span class="fc" id="L84">		}</span>
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">			if (room == null) {</span>
+<span class="nc" id="L78">				continue;</span>
+			}
+<span class="fc" id="L80">			Object[] row = new Object[5];</span>
+<span class="fc" id="L81">			row[0] = room.getName()+&quot;(overriden)&quot;;</span>
+<span class="fc" id="L82">			row[1] = reservation.getEventDate().toString();</span>
+<span class="fc" id="L83">			row[2] = reservation.getStartTime().toString();</span>
+<span class="fc" id="L84">			row[3] = reservation.getEndTime().toString();</span>
+<span class="fc" id="L85">			row[4] = getReplacementButton(reservation);</span>
+<span class="fc" id="L86">			rows.add(row);</span>
+<span class="fc" id="L87">		}</span>
 		//reservationPane.populateList(rowName1, rows1, &quot;Cancel&quot;);
 		
 
-<span class="fc" id="L88">		List&lt;Reservation&gt; reservationList = reservationAction.searchReservations(src);</span>
-<span class="fc" id="L89">		List&lt;Object[]&gt; rows1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L91">		List&lt;Reservation&gt; reservationList = reservationAction.searchReservations(src);</span>
+<span class="fc" id="L92">		List&lt;Object[]&gt; rows1 = new ArrayList&lt;&gt;();</span>
 		// Room name, date, start time, end time, cancel button
-<span class="fc bfc" id="L91" title="All 2 branches covered.">		for (Reservation reservation : reservationList) {</span>
-<span class="fc" id="L92">			Room room = roomAction.getRoomById(reservation.getRoomId());</span>
-<span class="fc" id="L93">			Object[] row = new Object[5];</span>
-<span class="fc" id="L94">			row[0] = room.getName();</span>
-<span class="fc" id="L95">			row[1] = reservation.getEventDate().toString();</span>
-<span class="fc" id="L96">			row[2] = reservation.getStartTime().toString();</span>
-<span class="fc" id="L97">			row[3] = reservation.getEndTime().toString();</span>
-<span class="fc" id="L98">			row[4] = getCancelButton(reservation);</span>
-<span class="fc" id="L99">			rows1.add(row);</span>
-<span class="fc" id="L100">		}</span>
-<span class="fc" id="L101">		rows.addAll(rows1);</span>
-<span class="fc" id="L102">		reservationPane.populateList(rowName, rows, new int[] {4});</span>
-<span class="fc" id="L103">	}</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">		for (Reservation reservation : reservationList) {</span>
+<span class="fc" id="L95">			Room room = roomAction.getRoomById(reservation.getRoomId());</span>
+<span class="fc" id="L96">			Object[] row = new Object[5];</span>
+<span class="fc" id="L97">			row[0] = room.getName();</span>
+<span class="fc" id="L98">			row[1] = reservation.getEventDate().toString();</span>
+<span class="fc" id="L99">			row[2] = reservation.getStartTime().toString();</span>
+<span class="fc" id="L100">			row[3] = reservation.getEndTime().toString();</span>
+<span class="fc" id="L101">			row[4] = getCancelButton(reservation);</span>
+<span class="fc" id="L102">			rows1.add(row);</span>
+<span class="fc" id="L103">		}</span>
+<span class="fc" id="L104">		rows.addAll(rows1);</span>
+<span class="fc" id="L105">		reservationPane.populateList(rowName, rows, new int[] {4});</span>
+<span class="fc" id="L106">	}</span>
 
 	private JButton getCancelButton(Reservation reservation) {
-<span class="fc" id="L106">		JButton cancelButton = new JButton(&quot;Cancel&quot;);</span>
-<span class="fc" id="L107">		cancelButton.addActionListener(e -&gt; cancelReservation(reservation));</span>
-<span class="fc" id="L108">		return cancelButton;</span>
+<span class="fc" id="L109">		JButton cancelButton = new JButton(&quot;Cancel&quot;);</span>
+<span class="fc" id="L110">		cancelButton.addActionListener(e -&gt; cancelReservation(reservation));</span>
+<span class="fc" id="L111">		return cancelButton;</span>
 	}
 
 	private void cancelReservation(Reservation reservation) {
-<span class="pc bpc" id="L112" title="1 of 2 branches missed.">		if (user.getUserGroup() &gt; 3) {</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">		if (user.getUserGroup() &gt; 3) {</span>
 		//if (!SecurityService.currentUser.hasRole(&quot;Normal&quot;)) {
-<span class="nc bnc" id="L114" title="All 2 branches missed.">			if (alert)</span>
-<span class="nc" id="L115">				JOptionPane.showMessageDialog(null, &quot;You do not have the right role to perform this action.&quot;);</span>
-<span class="nc" id="L116">			return;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">			if (alert)</span>
+<span class="nc" id="L118">				JOptionPane.showMessageDialog(null, &quot;You do not have the right role to perform this action.&quot;);</span>
+<span class="nc" id="L119">			return;</span>
 		}
-<span class="fc" id="L118">		boolean success = reservationAction.cancelReservation(reservation);</span>
-<span class="pc bpc" id="L119" title="1 of 2 branches missed.">		if (success) {</span>
-<span class="pc bpc" id="L120" title="1 of 2 branches missed.">			if (alert)</span>
-<span class="nc" id="L121">				JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
-<span class="fc" id="L122">			showReservationList();</span>
+<span class="fc" id="L121">		boolean success = reservationAction.cancelReservation(reservation);</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">		if (success) {</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">			if (alert)</span>
+<span class="nc" id="L124">				JOptionPane.showMessageDialog(null, &quot;Success!&quot;);</span>
+<span class="fc" id="L125">			showReservationList();</span>
 		} else {
-<span class="nc bnc" id="L124" title="All 2 branches missed.">			if (alert)</span>
-<span class="nc" id="L125">				JOptionPane.showMessageDialog(null, &quot;There is something wrong with the reservation. Please Try Again.&quot;);</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">			if (alert)</span>
+<span class="nc" id="L128">				JOptionPane.showMessageDialog(null, &quot;There is something wrong with the reservation. Please Try Again.&quot;);</span>
 		}
-<span class="fc" id="L127">		reservationPane.revalidate();</span>
-<span class="fc" id="L128">		reservationPane.repaint();</span>
-<span class="fc" id="L129">	}</span>
+<span class="fc" id="L130">		reservationPane.revalidate();</span>
+<span class="fc" id="L131">		reservationPane.repaint();</span>
+<span class="fc" id="L132">	}</span>
 	
 	private JButton getReplacementButton(Reservation reservation) {
-<span class="fc" id="L132">		JButton replacementButton = new JButton(&quot;Find replacement&quot;);</span>
-<span class="pc" id="L133">		replacementButton.addActionListener(e -&gt; replaceReservation(reservation));</span>
-<span class="fc" id="L134">		return replacementButton;</span>
+<span class="fc" id="L135">		JButton replacementButton = new JButton(&quot;Find replacement&quot;);</span>
+<span class="pc" id="L136">		replacementButton.addActionListener(e -&gt; replaceReservation(reservation));</span>
+<span class="fc" id="L137">		return replacementButton;</span>
 	}
 
 	private void replaceReservation(Reservation reservation) {
 		// if (user.getUserGroup() &gt; 3) {
-<span class="nc bnc" id="L139" title="All 2 branches missed.">		if (!SecurityService.currentUser.hasRole(&quot;Normal&quot;)) {</span>
-<span class="nc bnc" id="L140" title="All 2 branches missed.">			if (alert)</span>
-<span class="nc" id="L141">				JOptionPane.showMessageDialog(null, &quot;You do not have the right role to perform this action.&quot;);</span>
-<span class="nc" id="L142">			return;</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">		if (!SecurityService.currentUser.hasRole(&quot;Normal&quot;)) {</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">			if (alert)</span>
+<span class="nc" id="L144">				JOptionPane.showMessageDialog(null, &quot;You do not have the right role to perform this action.&quot;);</span>
+<span class="nc" id="L145">			return;</span>
 		}
 		
-<span class="nc" id="L145">		SearchRoomConstraint src = new SearchRoomConstraint();</span>
-<span class="nc" id="L146">		src.setStartTime(reservation.getStartTime());</span>
-<span class="nc" id="L147">		src.setEndTime(reservation.getEndTime());</span>
-<span class="nc" id="L148">		Room room = roomAction.getRoomById(reservation.getRoomId());</span>
-<span class="nc" id="L149">		src.setFacilities(room.getFacilities());</span>
-<span class="nc" id="L150">		src.setCapacity(room.getCapacity());</span>
-<span class="nc" id="L151">		src.setEventDate(reservation.getEventDate());		</span>
+<span class="nc" id="L148">		SearchRoomConstraint src = new SearchRoomConstraint();</span>
+<span class="nc" id="L149">		src.setStartTime(reservation.getStartTime());</span>
+<span class="nc" id="L150">		src.setEndTime(reservation.getEndTime());</span>
+<span class="nc" id="L151">		Room room = roomAction.getRoomById(reservation.getRoomId());</span>
+<span class="nc" id="L152">		src.setFacilities(room.getFacilities());</span>
+<span class="nc" id="L153">		src.setCapacity(room.getCapacity());</span>
+<span class="nc" id="L154">		src.setEventDate(reservation.getEventDate());		</span>
 		
-<span class="nc" id="L153">		GuiUtils.jumpToPanel(rootPane, &quot;reserve&quot;);</span>
-<span class="nc" id="L154">		Component[] components = rootPane.getComponents();</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">		for (Component c : components) {</span>
-<span class="nc bnc" id="L156" title="All 2 branches missed.">			if(c instanceof ReservePanel) {</span>
-<span class="nc" id="L157">				ReservePanel panel = (ReservePanel) c;</span>
-<span class="nc" id="L158">				panel.searchRoom(src);</span>
-<span class="nc" id="L159">				break;</span>
+<span class="nc" id="L156">		GuiUtils.jumpToPanel(rootPane, &quot;reserve&quot;);</span>
+<span class="nc" id="L157">		Component[] components = rootPane.getComponents();</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">		for (Component c : components) {</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">			if(c instanceof ReservePanel) {</span>
+<span class="nc" id="L160">				ReservePanel panel = (ReservePanel) c;</span>
+<span class="nc" id="L161">				panel.searchRoom(src);</span>
+<span class="nc" id="L162">				break;</span>
 			}
 		}
 		
 		
 		
-<span class="nc" id="L165">		reservationAction.cancelReservation(reservation);</span>
+<span class="nc" id="L168">		reservationAction.cancelReservation(reservation);</span>
 		//boolean success = reservationAction.cancelReservation(reservation);
 		/*
 		if (success) {
@@ -174,9 +177,9 @@ public class ViewRoomsPanel extends BasePanel {
 				JOptionPane.showMessageDialog(null, &quot;There is something wrong with the reservation. Please Try Again.&quot;);
 		}
 		*/
-<span class="nc" id="L177">		reservationPane.revalidate();</span>
-<span class="nc" id="L178">		reservationPane.repaint();</span>
-<span class="nc" id="L179">	}</span>
+<span class="nc" id="L180">		reservationPane.revalidate();</span>
+<span class="nc" id="L181">		reservationPane.repaint();</span>
+<span class="nc" id="L182">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
