@@ -1,9 +1,11 @@
 package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
+import javax.swing.table.TableModel;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +30,7 @@ public class TablePanelTest {
 
 	@Test
 	protected void fillCheckLayout() {
+		assertTrue(tablePane.getLayout() instanceof BorderLayout);
 		tablePane = new TablePanel(true); //fill
 		assertTrue(tablePane.getLayout() instanceof BoxLayout);
 	}
@@ -47,6 +51,11 @@ public class TablePanelTest {
 		assertTrue(table.getValueAt(0, 1) instanceof String);
 		assertEquals("1,2", table.getValueAt(0, 1));
 		assertTrue(table.getValueAt(0, 2) instanceof JButton);
+		// test dm
+		TableModel model = table.getModel();
+		assertFalse(model.isCellEditable(0, 0));
+		assertFalse(model.isCellEditable(0, 1));
+		assertTrue(model.isCellEditable(0, 2));
 	}
 
 	@Test

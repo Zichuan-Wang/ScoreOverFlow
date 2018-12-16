@@ -2,12 +2,14 @@ package ui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -158,7 +160,38 @@ public class ReservePanelTest {
 		List<JTable> tables = UiTestUtils.getObjects(middlePane, JTable.class);
 		assertFalse(tables.isEmpty());
 	}
-
+	
+	@Test
+	protected void endTimeStartTimeChangesAccordingly() {
+		JPanel searchPane = (JPanel) middlePane.getComponent(0);
+		// Start Time and End Time Picker
+		TimePicker startTimePicker = (TimePicker) searchPane.getComponent(3);
+		TimePicker endTimePicker = (TimePicker) searchPane.getComponent(5);
+		// Set Start Time beyond End Time and check End Time menu
+		startTimePicker.setTime(now.plusMinutes(20));
+		ArrayList<LocalTime> menuTimes = endTimePicker.getSettings().getPotentialMenuTimes();
+		assertEquals(now.plusMinutes(30),menuTimes.get(0));
+		// Set start time back to before, end time does not change
+		startTimePicker.setTime(now.plusMinutes(10));
+		assertEquals(now.plusMinutes(30),endTimePicker.getTime());
+	}
+	
+	@Test
+	protected void datePickerStartTimerChangesAcoordingly() {
+		JPanel searchPane = (JPanel) middlePane.getComponent(0);
+		// Date and Start Time
+		TimePicker startTimePicker = (TimePicker) searchPane.getComponent(3);
+		DatePicker datePicker = (DatePicker) searchPane.getComponent(1);
+		// Set date to tomorrow, and start time should have full range
+		datePicker.setDate(LocalDate.now().plusDays(1));
+		ArrayList<LocalTime> menuTimes = startTimePicker.getSettings().getPotentialMenuTimes();
+		assertEquals(6*24,menuTimes.size());
+		// Set date back, start time should only have times from cur time
+		datePicker.setDate(LocalDate.now());
+		menuTimes = startTimePicker.getSettings().getPotentialMenuTimes();
+		assertNotEquals(6*24,menuTimes.size());
+	}
+	
 	@Test
 	void overrideButtonWorking() throws DBConnectionException {
 		// change to high user and find override

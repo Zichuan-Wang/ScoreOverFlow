@@ -48,7 +48,7 @@ public class GuiUtils {
 		class CustomDocumentFilter extends DocumentFilter {
 
 			private Pattern regexCheck = Pattern.compile("[0-9]+");
-
+			/*
 			@Override
 			public void insertString(FilterBypass fb, int offs, String str, AttributeSet a)
 					throws BadLocationException {
@@ -61,7 +61,7 @@ public class GuiUtils {
 					super.insertString(fb, offs, str, a);
 				}
 			}
-
+			*/
 			@Override
 			public void replace(FilterBypass fb, int offset, int length, String str, AttributeSet attrs)
 					throws BadLocationException {

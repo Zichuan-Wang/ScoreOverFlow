@@ -10,6 +10,7 @@ import java.awt.CardLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.BadLocationException;
 
 import org.junit.jupiter.api.Test;
 
@@ -54,10 +55,13 @@ public class GuiUtilsTest {
 		assertEquals(HIGH_USER_GROUP_STRING, GuiUtils.userGroupToString(user));
 		user.setUserGroup(EntityTestUtils.SUPERVISOR_USER_GROUP);
 		assertEquals(PS_USER_GROUP_STRING, GuiUtils.userGroupToString(user));
+		// Not existing
+		user.setUserGroup(4);
+		assertEquals("",GuiUtils.userGroupToString(user));
 	}
 
 	@Test
-	public void getNumTextFieldTest() {
+	public void getNumTextFieldTest() throws BadLocationException {
 		JTextField field = GuiUtils.getNumTextField(1);
 		field.setText("22"); // over the limit
 		assertEquals("", field.getText());// empty
@@ -65,6 +69,17 @@ public class GuiUtilsTest {
 		assertEquals("", field.getText());// empty
 		field.setText("2");
 		assertEquals("2", field.getText());
+		field.setText(null);
+		assertEquals("2", field.getText());
+		/*
+		// Testing overriden functions
+		DocumentFilter filter = ((AbstractDocument) field.getDocument()).getDocumentFilter();
+		filter.insertString(null, 0, null, null); // nothing returns
+		assertEquals("2", field.getText());
+		filter.replace(null, 0, 0, null, null); // nothing returns
+		assertEquals("2", field.getText());
+		*/
+		
 	}
 
 }
