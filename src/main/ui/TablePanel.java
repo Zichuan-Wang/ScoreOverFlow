@@ -23,7 +23,7 @@ public class TablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public TablePanel() {
-		
+		setLayout(new BorderLayout());
 	}
 	
 	public TablePanel(boolean fill) {

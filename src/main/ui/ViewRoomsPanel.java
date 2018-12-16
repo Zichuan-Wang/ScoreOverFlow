@@ -74,6 +74,9 @@ public class ViewRoomsPanel extends BasePanel {
 		String[] rowName = new String[] { "Room Name", "Date", "Start Time", "End Time", "Action" };
 		for (Reservation reservation : overridenReservationList) {
 			Room room = roomAction.getRoomById(reservation.getRoomId());
+			if (room == null) {
+				continue;
+			}
 			Object[] row = new Object[5];
 			row[0] = room.getName()+"(overriden)";
 			row[1] = reservation.getEventDate().toString();

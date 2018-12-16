@@ -29,7 +29,10 @@ public class TablePanelTest {
 	}
 
 	@Test
+	
 	protected void fillCheckLayout() {
+		assertTrue(tablePane.getLayout() instanceof BorderLayout);
+		tablePane = new TablePanel(false); //fill
 		assertTrue(tablePane.getLayout() instanceof BorderLayout);
 		tablePane = new TablePanel(true); //fill
 		assertTrue(tablePane.getLayout() instanceof BoxLayout);
