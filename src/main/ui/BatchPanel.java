@@ -1,7 +1,7 @@
 package ui;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,8 +9,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
@@ -32,6 +35,7 @@ public class BatchPanel extends BasePanel {
 	private User user;
 
 	private JButton uploadFileButton, downloadFileButton;
+	private JLabel downloadFileLabel, uploadFileLabel;
 
 	// private UserAction userAction;
 	private ReservationAction reservationAction;
@@ -51,19 +55,28 @@ public class BatchPanel extends BasePanel {
 	}
 
 	private void setMiddlePanel() {
-		middlePane.setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		uploadFileButton = getUploadFileButton();
-		middlePane.add(uploadFileButton, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 2;
+		middlePane.setLayout(new BoxLayout(middlePane, BoxLayout.Y_AXIS));
+		middlePane.add(Box.createVerticalGlue());
+		
+		downloadFileLabel = new JLabel("Step 1. Download this file and add your desired constraints. Do not modify the first 2 lines!");
+		downloadFileLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		middlePane.add(downloadFileLabel);
+		
 		downloadFileButton = getDownloadFileButton();
-		middlePane.add(downloadFileButton, gbc);
+		downloadFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		middlePane.add(downloadFileButton);
+		
+		middlePane.add(Box.createRigidArea(new Dimension(0,100)));
+		
+		uploadFileLabel = new JLabel("Step 2. Upload your file below.");
+		uploadFileLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		middlePane.add(uploadFileLabel);
+		
+		uploadFileButton = getUploadFileButton();
+		uploadFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		middlePane.add(uploadFileButton);
+		
+		middlePane.add(Box.createVerticalGlue());
 	}
 
 	private JButton getDownloadFileButton() {
