@@ -93,7 +93,8 @@ public class LoginPanel extends BasePanel {
 				String.valueOf(passwordField.getPassword()));
 		if (status.isSuccess()) {
 			User user = userAction.findUserByUni(userNameField.getText());
-			
+			rootPane.removeAll();
+			rootPane.add(this, "login");
 			// Create three panels
 			MainPanel mainPane = new MainPanel(rootPane, user, userAction, reservationAction, roomAction,
 					facilityAction);

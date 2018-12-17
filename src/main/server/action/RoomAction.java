@@ -32,6 +32,10 @@ public class RoomAction {
 		return roomDao.searchReservedRooms(constraint);
 	}
 
+	public Room findRoomByName(String name) {
+		return roomDao.findRoomByName(name);
+	}
+	
 	public Room getRoomById(int id) {
 		return roomDao.getRoomById(id);
 	}

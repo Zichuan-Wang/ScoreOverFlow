@@ -104,7 +104,12 @@ public class EditPanel extends BasePanel{
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					facilities.add(facility);
 				} else {
-					facilities.remove(facility);
+					for (Facility fa : facilities) {
+						if(fa.getId() == facility.getId()) {
+							facilities.remove(fa);
+							break;
+						}
+					}
 				}
 		});
 		return checkBox;
@@ -164,9 +169,13 @@ public class EditPanel extends BasePanel{
 	private void saveRoom() {
 		room.setName(nameField.getText());
 		room.setCapacity(capacity.getText().length() == 0 ? 0 : Integer.parseInt(capacity.getText()));
+		roomAction.saveRoom(room);
+		room = roomAction.findRoomByName(nameField.getText());
 		room.getFacilities().clear();
-		room.getFacilities().addAll(facilities);
-		roomAction.saveRoom(room);	
+		roomAction.saveRoom(room);
+		room.setFacilities(facilities);
+		roomAction.saveRoom(room);
+		
 	}
 	
 	private JPanel getFacilityPanel() {
