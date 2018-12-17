@@ -83,17 +83,17 @@ public class EditPanel extends BasePanel{
 <span class="nc" id="L83">			roomFacilities.add(facility.getId());</span>
 <span class="nc" id="L84">		}</span>
 
-<span class="fc" id="L86">		String[] columnNames = new String[] { &quot;Select&quot;, &quot;Facility&quot; , &quot;Action&quot;};</span>
+<span class="fc" id="L86">		String[] columnNames = new String[] { &quot;Facility&quot; ,&quot;Select&quot;, &quot;Remove From All Rooms&quot;};</span>
 <span class="fc" id="L87">		List&lt;Object[]&gt; rows = new ArrayList&lt;&gt;();</span>
 <span class="pc bpc" id="L88" title="1 of 2 branches missed.">		for (Facility facility : allFacilities) {</span>
 <span class="nc" id="L89">			Object[] row = new Object[3];</span>
-<span class="nc" id="L90">			row[0] = getFacilityCheckBox(facility, roomFacilities.contains(facility.getId()));</span>
-<span class="nc" id="L91">			row[1] = facility.getName();</span>
+<span class="nc" id="L90">			row[0] = facility.getName();</span>
+<span class="nc" id="L91">			row[1] = getFacilityCheckBox(facility, roomFacilities.contains(facility.getId()));</span>
 <span class="nc" id="L92">			row[2] = getFacilityButton(facility);</span>
 <span class="nc" id="L93">			rows.add(row);</span>
 <span class="nc" id="L94">		}</span>
 		
-<span class="fc" id="L96">		facilityTable.populateList(columnNames, rows, new int[]{0, 2});</span>
+<span class="fc" id="L96">		facilityTable.populateList(columnNames, rows, new int[]{1, 2});</span>
 
 <span class="fc" id="L98">	}</span>
 	
