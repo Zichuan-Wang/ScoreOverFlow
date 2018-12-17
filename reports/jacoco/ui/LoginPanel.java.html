@@ -93,57 +93,58 @@ public class LoginPanel extends BasePanel {
 <span class="fc" id="L93">				String.valueOf(passwordField.getPassword()));</span>
 <span class="fc bfc" id="L94" title="All 2 branches covered.">		if (status.isSuccess()) {</span>
 <span class="fc" id="L95">			User user = userAction.findUserByUni(userNameField.getText());</span>
-			
+<span class="fc" id="L96">			rootPane.removeAll();</span>
+<span class="fc" id="L97">			rootPane.add(this, &quot;login&quot;);</span>
 			// Create three panels
-<span class="fc" id="L98">			MainPanel mainPane = new MainPanel(rootPane, user, userAction, reservationAction, roomAction,</span>
+<span class="fc" id="L99">			MainPanel mainPane = new MainPanel(rootPane, user, userAction, reservationAction, roomAction,</span>
 					facilityAction);
-<span class="fc" id="L100">			rootPane.add(mainPane, &quot;main&quot;);</span>
-<span class="fc" id="L101">			userNameField.setText(&quot;&quot;);</span>
-<span class="fc" id="L102">			passwordField.setText(&quot;&quot;);</span>
-<span class="fc" id="L103">			GuiUtils.jumpToPanel(rootPane, &quot;main&quot;);</span>
+<span class="fc" id="L101">			rootPane.add(mainPane, &quot;main&quot;);</span>
+<span class="fc" id="L102">			userNameField.setText(&quot;&quot;);</span>
+<span class="fc" id="L103">			passwordField.setText(&quot;&quot;);</span>
+<span class="fc" id="L104">			GuiUtils.jumpToPanel(rootPane, &quot;main&quot;);</span>
 			
-<span class="fc" id="L105">			SearchReservationConstraint src = new SearchReservationConstraint();</span>
-<span class="fc" id="L106">			src.setUserId(user.getId());</span>
+<span class="fc" id="L106">			SearchReservationConstraint src = new SearchReservationConstraint();</span>
+<span class="fc" id="L107">			src.setUserId(user.getId());</span>
 			
-<span class="pc bpc" id="L108" title="1 of 2 branches missed.">			if (reservationAction != null) {</span>
-<span class="nc" id="L109">				List&lt;Reservation&gt; overridenReservationList = reservationAction.searchOverridenReservations(src);</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">			if (reservationAction != null) {</span>
+<span class="nc" id="L110">				List&lt;Reservation&gt; overridenReservationList = reservationAction.searchOverridenReservations(src);</span>
 				
 				
-<span class="nc bnc" id="L112" title="All 4 branches missed.">				if (alert &amp;&amp; overridenReservationList.size() != 0) {</span>
+<span class="nc bnc" id="L113" title="All 4 branches missed.">				if (alert &amp;&amp; overridenReservationList.size() != 0) {</span>
 					//JOptionPane.showMessageDialog(null, &quot;Welcome&quot;);
-<span class="nc" id="L114">					int response = JOptionPane.showConfirmDialog(</span>
+<span class="nc" id="L115">					int response = JOptionPane.showConfirmDialog(</span>
 						    null,
 						    &quot;Unfortunately one or more of your reservations is(are) overriden.\nDo you want to find replacement room(s) now?&quot;,
 						    &quot;Reservation overriden&quot;,
 						    JOptionPane.YES_NO_OPTION);
-<span class="nc bnc" id="L119" title="All 2 branches missed.">					if (response == 0) {</span>
-<span class="nc" id="L120">						Component[] components = rootPane.getComponents();</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">						for (Component c : components) {</span>
-<span class="nc bnc" id="L122" title="All 2 branches missed.">							if(c instanceof ViewRoomsPanel) {</span>
-<span class="nc" id="L123">								ViewRoomsPanel panel = (ViewRoomsPanel) c;</span>
-<span class="nc" id="L124">								panel.pareparePanel();</span>
-<span class="nc" id="L125">								panel.revalidate();</span>
-<span class="nc" id="L126">								panel.repaint();</span>
-<span class="nc" id="L127">								break;</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">					if (response == 0) {</span>
+<span class="nc" id="L121">						Component[] components = rootPane.getComponents();</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">						for (Component c : components) {</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">							if(c instanceof ViewRoomsPanel) {</span>
+<span class="nc" id="L124">								ViewRoomsPanel panel = (ViewRoomsPanel) c;</span>
+<span class="nc" id="L125">								panel.pareparePanel();</span>
+<span class="nc" id="L126">								panel.revalidate();</span>
+<span class="nc" id="L127">								panel.repaint();</span>
+<span class="nc" id="L128">								break;</span>
 							}
 						}
-<span class="nc" id="L130">						GuiUtils.jumpToPanel(rootPane, &quot;view rooms&quot;);</span>
+<span class="nc" id="L131">						GuiUtils.jumpToPanel(rootPane, &quot;view rooms&quot;);</span>
 					}
 					
 				}
 			}	
 			
 			
-<span class="fc" id="L137">		} else {</span>
-<span class="pc bpc" id="L138" title="1 of 2 branches missed.">			if (alert) {</span>
-<span class="nc" id="L139">				JOptionPane.showMessageDialog(null, status.getMessage());</span>
+<span class="fc" id="L138">		} else {</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">			if (alert) {</span>
+<span class="nc" id="L140">				JOptionPane.showMessageDialog(null, status.getMessage());</span>
 			}
-<span class="pc bpc" id="L141" title="1 of 2 branches missed.">			if (status.getMessage().equals(&quot;Unknown account&quot;)) {</span>
-<span class="fc" id="L142">				userNameField.setText(&quot;&quot;);</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">			if (status.getMessage().equals(&quot;Unknown account&quot;)) {</span>
+<span class="fc" id="L143">				userNameField.setText(&quot;&quot;);</span>
 			}
-<span class="fc" id="L144">			passwordField.setText(&quot;&quot;);</span>
+<span class="fc" id="L145">			passwordField.setText(&quot;&quot;);</span>
 		}
-<span class="fc" id="L146">	}</span>
+<span class="fc" id="L147">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

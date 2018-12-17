@@ -32,30 +32,34 @@ public class RoomAction {
 <span class="nc" id="L32">		return roomDao.searchReservedRooms(constraint);</span>
 	}
 
+	public Room findRoomByName(String name) {
+<span class="nc" id="L36">		return roomDao.findRoomByName(name);</span>
+	}
+	
 	public Room getRoomById(int id) {
-<span class="fc" id="L36">		return roomDao.getRoomById(id);</span>
+<span class="fc" id="L40">		return roomDao.getRoomById(id);</span>
 	}
 	
 	public List&lt;Room&gt; getAllRooms() {
-<span class="nc" id="L40">		return roomDao.getAllRooms();</span>
+<span class="nc" id="L44">		return roomDao.getAllRooms();</span>
 	}
 	
 	public void deleteRoom(Room room) {
-<span class="nc" id="L44">		List&lt;Reservation&gt; reservations = reservationDao.getReservationsByRoomId(room.getId());</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">		for (Reservation reservation : reservations) {</span>
-<span class="nc" id="L46">			User user = userDao.findById(reservation.getUserId());</span>
+<span class="nc" id="L48">		List&lt;Reservation&gt; reservations = reservationDao.getReservationsByRoomId(room.getId());</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">		for (Reservation reservation : reservations) {</span>
+<span class="nc" id="L50">			User user = userDao.findById(reservation.getUserId());</span>
 			try {
-<span class="nc" id="L48">				EmailSender.sendDeleteRoomEmail(user, reservation, room);</span>
-<span class="nc" id="L49">			} catch (Exception e) {</span>
-<span class="nc" id="L50">				e.printStackTrace();</span>
-<span class="nc" id="L51">			}</span>
-<span class="nc" id="L52">			reservationDao.remove(reservation);</span>
-<span class="nc" id="L53">		}</span>
-<span class="nc" id="L54">		roomDao.remove(room);</span>
-<span class="nc" id="L55">	}</span>
+<span class="nc" id="L52">				EmailSender.sendDeleteRoomEmail(user, reservation, room);</span>
+<span class="nc" id="L53">			} catch (Exception e) {</span>
+<span class="nc" id="L54">				e.printStackTrace();</span>
+<span class="nc" id="L55">			}</span>
+<span class="nc" id="L56">			reservationDao.remove(reservation);</span>
+<span class="nc" id="L57">		}</span>
+<span class="nc" id="L58">		roomDao.remove(room);</span>
+<span class="nc" id="L59">	}</span>
 	
 	public Room saveRoom(Room room) {
-<span class="nc" id="L58">		return roomDao.saveOrUpdate(room);</span>
+<span class="nc" id="L62">		return roomDao.saveOrUpdate(room);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
