@@ -153,16 +153,19 @@ public class ViewRoomsPanel extends BasePanel {
 		src.setCapacity(room.getCapacity());
 		src.setEventDate(reservation.getEventDate());		
 		
-		GuiUtils.jumpToPanel(rootPane, "reserve");
 		Component[] components = rootPane.getComponents();
 		for (Component c : components) {
 			if(c instanceof ReservePanel) {
 				ReservePanel panel = (ReservePanel) c;
 				panel.setConstraints(src);
 				panel.searchRoom(src);
+				panel.revalidate();
+				panel.repaint();
 				break;
 			}
 		}
+		GuiUtils.jumpToPanel(rootPane, "reserve");
+		
 		
 		
 		

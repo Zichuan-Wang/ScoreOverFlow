@@ -117,16 +117,17 @@ public class LoginPanel extends BasePanel {
 						    "Reservation overriden",
 						    JOptionPane.YES_NO_OPTION);
 					if (response == 0) {
-						GuiUtils.jumpToPanel(rootPane, "view rooms");
 						Component[] components = rootPane.getComponents();
 						for (Component c : components) {
 							if(c instanceof ViewRoomsPanel) {
 								ViewRoomsPanel panel = (ViewRoomsPanel) c;
 								panel.pareparePanel();
+								panel.revalidate();
+								panel.repaint();
 								break;
 							}
 						}
-						
+						GuiUtils.jumpToPanel(rootPane, "view rooms");
 					}
 					
 				}
