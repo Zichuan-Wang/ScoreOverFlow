@@ -7,7 +7,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.swing.DefaultListModel;
@@ -68,6 +71,8 @@ public class ReservePanel extends BasePanel {
 	private ReservationAction reservationAction;
 	private RoomAction roomAction;
 	private FacilityAction facilityAction;
+	
+	private Map<String,Integer> facilityMap;
 
 	public ReservePanel(JPanel cards, User user, UserAction userAction, ReservationAction reservationAction,
 			RoomAction roomAction, FacilityAction facilityAction) {
@@ -186,8 +191,10 @@ public class ReservePanel extends BasePanel {
 		JLabel facilityLabel = new JLabel("Facility");
 		List<Facility> facilities = facilityAction.findAllFacilities();
 		DefaultListModel<Facility> model = new DefaultListModel<>();
-		for (Facility facility : facilities) {
-			model.addElement(facility);
+		facilityMap = new HashMap<>();
+		for (int i = 0; i < facilities.size(); i++) {
+			facilityMap.put(facilities.get(i).getName(), i);
+			model.addElement(facilities.get(i));
 		}
 		facilityList = new JList<>(model);
 		// enables clicking multiple items
@@ -294,7 +301,7 @@ public class ReservePanel extends BasePanel {
 				row[1] = room.getCapacity();
 				ArrayList<String> facilities = new ArrayList<>();
 				for (Facility f : room.getFacilities()) {
-					facilities.add(f.getName());
+					facilities.add(f.getName());				
 				}
 				row[2] = String.join(", ", facilities);
 				JButton reserveButton = getReserveButton(room, src);
@@ -398,6 +405,21 @@ public class ReservePanel extends BasePanel {
 		LocalTime now = LocalTime.now();
 		int minuteDiff = now.getMinute() % 10 == 0 ? 0 : 10 - now.getMinute() % 10;
 		return now.plusMinutes(minuteDiff);
+	}
+	
+	public void setConstraints(SearchRoomConstraint src) {
+		// Based on http://blog.progs.be/542/date-to-java-time
+		datePicker.setDate(((java.sql.Date)src.getEventDate()).toLocalDate());
+		startTimePicker.setTime(((java.sql.Time)src.getStartTime()).toLocalTime());
+		endTimePicker.setTime(((java.sql.Time)src.getEndTime()).toLocalTime());
+		capacity.setText(Integer.toString(src.getCapacity()));
+		nameField.setText(src.getRoomName());
+		List<Integer> indices = new ArrayList<>();
+		Set<Facility> facilities = src.getFacilities();
+		for (Facility f : facilities) {
+			indices.add(facilityMap.get(f.getName()));
+		}
+		facilityList.setSelectedIndices(indices.stream().mapToInt(i->i).toArray());
 	}
 
 }

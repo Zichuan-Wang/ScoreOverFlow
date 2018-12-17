@@ -158,6 +158,7 @@ public class ViewRoomsPanel extends BasePanel {
 		for (Component c : components) {
 			if(c instanceof ReservePanel) {
 				ReservePanel panel = (ReservePanel) c;
+				panel.setConstraints(src);
 				panel.searchRoom(src);
 				break;
 			}
