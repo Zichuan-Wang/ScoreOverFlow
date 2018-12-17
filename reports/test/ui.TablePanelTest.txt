@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: ui.TablePanelTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.035 s <<< FAILURE! - in ui.TablePanelTest
-fillCheckLayout  Time elapsed: 0.02 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
-	at ui.TablePanelTest.fillCheckLayout(TablePanelTest.java:33)
-
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s - in ui.TablePanelTest

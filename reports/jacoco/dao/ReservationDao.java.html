@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">dao</a> &gt; <span class="el_source">ReservationDao.java</span></div><h1>ReservationDao.java</h1><pre class="source lang-java linenums">package dao;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
+
+import entity.Reservation;
+import server.constraint.SearchReservationConstraint;
+import server.constraint.SearchRoomConstraint;
+
+// DAO for Reservation
+public class ReservationDao extends BaseDao&lt;Reservation&gt; {
+
+	public ReservationDao(EntityManager manager) {
+<span class="fc" id="L19">		super(Reservation.class, manager);</span>
+<span class="fc" id="L20">	}</span>
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public List&lt;Reservation&gt; getReservationsByRoomId(int roomId) {
+<span class="nc" id="L24">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r WHERE r.roomId = :id&quot;).setParameter(&quot;id&quot;,</span>
+<span class="nc" id="L25">				roomId);</span>
+<span class="nc" id="L26">		return query.getResultList();</span>
+	}
+
+	/**
+	 * Search the reservations by the constraint criteria provided. The result
+	 * 
+	 * @param constraint
+	 * @return
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public List&lt;Reservation&gt; searchReservations(SearchReservationConstraint constraint) {
+<span class="fc" id="L37">		Date date = new Date();</span>
+<span class="fc" id="L38">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r &quot;//</span>
+				+ &quot;WHERE r.userId = :id &quot;//
+				+ &quot;AND r.overriden = 0&quot; //
+				+ &quot;AND (r.eventDate &gt; :curDate &quot;//
+				+ &quot;OR (r.eventDate = :curDate &quot; + &quot;AND r.endTime &gt;= :curTime))&quot;)//
+<span class="fc" id="L43">				.setParameter(&quot;id&quot;, constraint.getUserId())//</span>
+<span class="fc" id="L44">				.setParameter(&quot;curDate&quot;, date, TemporalType.DATE)//</span>
+<span class="fc" id="L45">				.setParameter(&quot;curTime&quot;, date, TemporalType.TIME);</span>
+<span class="fc" id="L46">		return query.getResultList();</span>
+	}
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public List&lt;Reservation&gt; searchOverridenReservations(SearchReservationConstraint constraint) {
+<span class="fc" id="L51">		Date date = new Date();</span>
+<span class="fc" id="L52">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r &quot;//</span>
+				+ &quot;WHERE r.userId = :id &quot;//
+				+ &quot;AND r.overriden = 1&quot; //
+				+ &quot;AND (r.eventDate &gt; :curDate &quot;//
+				+ &quot;OR (r.eventDate = :curDate &quot; + &quot;AND r.endTime &gt;= :curTime))&quot;)//
+<span class="fc" id="L57">				.setParameter(&quot;id&quot;, constraint.getUserId())//</span>
+<span class="fc" id="L58">				.setParameter(&quot;curDate&quot;, date, TemporalType.DATE)//</span>
+<span class="fc" id="L59">				.setParameter(&quot;curTime&quot;, date, TemporalType.TIME);</span>
+<span class="fc" id="L60">		return query.getResultList();</span>
+	}
+
+	public Reservation getReservation(SearchRoomConstraint src, int id) {
+<span class="nc" id="L64">		Query query = manager.createQuery(&quot;SELECT r FROM Reservation r &quot;//</span>
+				+ &quot;WHERE r.roomId = :id &quot;//
+				+ &quot;AND r.eventDate = :eventDate &quot;//
+				+ &quot;AND r.startTime = :endTime &quot;//
+<span class="nc" id="L68">				+ &quot;AND r.endTime = :startTime&quot;).setParameter(&quot;id&quot;, id)</span>
+<span class="nc" id="L69">				.setParameter(&quot;eventDate&quot;, src.getEventDate(), TemporalType.DATE)</span>
+<span class="nc" id="L70">				.setParameter(&quot;startTime&quot;, src.getStartTime(), TemporalType.TIME)</span>
+<span class="nc" id="L71">				.setParameter(&quot;endTime&quot;, src.getEndTime(), TemporalType.TIME);</span>
+		try {
+<span class="nc" id="L73">			return (Reservation) query.getSingleResult();</span>
+<span class="nc" id="L74">		} catch (NoResultException exception) {</span>
+<span class="nc" id="L75">			return null;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

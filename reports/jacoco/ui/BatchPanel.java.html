@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BatchPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">ui</a> &gt; <span class="el_source">BatchPanel.java</span></div><h1>BatchPanel.java</h1><pre class="source lang-java linenums">package ui;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileSystemView;
+
+import batch.BatchReservationMaker;
+import batch.CSVParseException;
+import batch.CSVReader;
+import batch.FileHandler;
+import entity.User;
+import server.action.FacilityAction;
+import server.action.ReservationAction;
+import server.action.RoomAction;
+import server.constraint.SearchRoomConstraint;
+
+public class BatchPanel extends BasePanel {
+	private static final long serialVersionUID = 1L;
+	private static final String TITLE = &quot;Reserve Rooms in Batch&quot;;
+	private static final String TEMPLATE = &quot;This is the template of the batch reservation file. The third and fourth lines are examples. Fields with * are required. Please replace them with actual requests.\nEvent Date*,Start Time*,End Time*,Capacity,Room Name,Facilities\n12/20/2018,08:00,09:20,50,Mudd,projector; computer\n12/22/2018,15:00,22:10,250,,&quot;;
+	private User user;
+
+	private JButton uploadFileButton, downloadFileButton;
+
+	// private UserAction userAction;
+	private ReservationAction reservationAction;
+	private RoomAction roomAction;
+	private FacilityAction facilityAction;
+
+	public BatchPanel(JPanel cards, User user, FacilityAction facilityAction, RoomAction roomAction,
+			ReservationAction reservationAction) {
+<span class="fc" id="L43">		super(cards, TITLE);</span>
+<span class="fc" id="L44">		this.user = user;</span>
+<span class="fc" id="L45">		this.facilityAction = facilityAction;</span>
+<span class="fc" id="L46">		this.roomAction = roomAction;</span>
+<span class="fc" id="L47">		this.reservationAction = reservationAction;</span>
+<span class="fc" id="L48">		setMiddlePanel();</span>
+<span class="fc" id="L49">		setBackButtonBottomPanel();</span>
+
+<span class="fc" id="L51">	}</span>
+
+	private void setMiddlePanel() {
+<span class="fc" id="L54">		middlePane.setLayout(new GridBagLayout());</span>
+<span class="fc" id="L55">		GridBagConstraints gbc = new GridBagConstraints();</span>
+<span class="fc" id="L56">		gbc.fill = GridBagConstraints.HORIZONTAL;</span>
+
+<span class="fc" id="L58">		gbc.gridx = 0;</span>
+<span class="fc" id="L59">		gbc.gridy = 0;</span>
+<span class="fc" id="L60">		uploadFileButton = getUploadFileButton();</span>
+<span class="fc" id="L61">		middlePane.add(uploadFileButton, gbc);</span>
+
+<span class="fc" id="L63">		gbc.gridx = 0;</span>
+<span class="fc" id="L64">		gbc.gridy = 2;</span>
+<span class="fc" id="L65">		downloadFileButton = getDownloadFileButton();</span>
+<span class="fc" id="L66">		middlePane.add(downloadFileButton, gbc);</span>
+<span class="fc" id="L67">	}</span>
+
+	private JButton getDownloadFileButton() {
+<span class="fc" id="L70">		JButton button = GuiUtils.createButton(&quot;Download Template&quot;);</span>
+
+<span class="fc" id="L72">		button.addActionListener(e -&gt; {</span>
+<span class="nc" id="L73">			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());</span>
+<span class="nc" id="L74">			fileChooser.setDialogTitle(&quot;Select Directory for Download&quot;);</span>
+<span class="nc" id="L75">			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);</span>
+<span class="nc" id="L76">			fileChooser.setAcceptAllFileFilterUsed(false);</span>
+<span class="nc" id="L77">			int option = fileChooser.showOpenDialog(null);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">			if (option != JFileChooser.APPROVE_OPTION) {</span>
+<span class="nc" id="L79">				return;</span>
+			}
+
+<span class="nc" id="L82">			FileHandler handler = new FileHandler();</span>
+<span class="nc" id="L83">			handler.downloadFile(TEMPLATE, fileChooser.getSelectedFile().getAbsolutePath(), &quot;/reservations&quot;, &quot;.csv&quot;);</span>
+<span class="nc" id="L84">		});</span>
+
+<span class="fc" id="L86">		return button;</span>
+	}
+
+	private JButton getUploadFileButton() {
+<span class="fc" id="L90">		JButton button = GuiUtils.createButton(&quot;Upload File&quot;);</span>
+
+<span class="fc" id="L92">		button.addActionListener(e -&gt; {</span>
+			// prompt the window to choose a csv file
+<span class="nc" id="L94">			JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());</span>
+<span class="nc" id="L95">			fileChooser.setDialogTitle(&quot;Select File to Upload&quot;);</span>
+<span class="nc" id="L96">			int option = fileChooser.showOpenDialog(null);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">			if (option != JFileChooser.APPROVE_OPTION) {</span>
+<span class="nc" id="L98">				return;</span>
+			}
+
+<span class="nc" id="L101">			File selectedFile = fileChooser.getSelectedFile();</span>
+<span class="nc" id="L102">			String csvFile = selectedFile.getAbsolutePath();</span>
+<span class="nc" id="L103">			BufferedReader br = null;</span>
+			try {
+<span class="nc" id="L105">				br = new BufferedReader(new FileReader(csvFile));</span>
+<span class="nc" id="L106">				CSVReader reader = new CSVReader(facilityAction);</span>
+<span class="nc" id="L107">				List&lt;SearchRoomConstraint&gt; srcs = reader.readCSV(br);</span>
+<span class="nc" id="L108">				BatchReservationMaker reservationMaker = new BatchReservationMaker(roomAction, reservationAction, user);</span>
+<span class="nc" id="L109">				List&lt;Integer&gt; unsuccessful = reservationMaker.makeReservationsGreedy(srcs);</span>
+<span class="nc" id="L110">				String unsuccessfulTest = &quot;&quot;;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">				if (unsuccessful.size() &gt; 0) {</span>
+<span class="nc" id="L112">					StringBuilder sb = new StringBuilder();</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">					for (int i = 0; i &lt; unsuccessful.size(); i++) {</span>
+<span class="nc" id="L114">						sb.append(unsuccessful.get(i) + 1);</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">						if (i != unsuccessful.size() - 1) {</span>
+<span class="nc" id="L116">							sb.append(&quot;, &quot;);</span>
+						}
+					}
+<span class="nc" id="L119">					unsuccessfulTest = &quot; Cannot satisfy the requirement for the following items: &quot; + sb.toString()</span>
+							+ &quot;.&quot;;
+				}
+
+<span class="nc" id="L123">				JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L124">						&quot;Made &quot; + (srcs.size() - unsuccessful.size()) + &quot; reservations.&quot; + unsuccessfulTest);</span>
+<span class="nc" id="L125">			} catch (CSVParseException exception) {</span>
+<span class="nc" id="L126">				JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L127">						&quot;Line &quot; + exception.getLine() + &quot; cannot be parsed, please check your format.&quot;);</span>
+<span class="nc" id="L128">			} catch (FileNotFoundException exception) {</span>
+<span class="nc" id="L129">				JOptionPane.showMessageDialog(null, &quot;Cannot read selected file.&quot;);</span>
+<span class="nc" id="L130">				exception.printStackTrace();</span>
+<span class="nc" id="L131">			} catch (IOException exception) {</span>
+<span class="nc" id="L132">				JOptionPane.showMessageDialog(null, &quot;An error occured while reading file.&quot;);</span>
+<span class="nc" id="L133">				exception.printStackTrace();</span>
+			} finally {
+<span class="nc bnc" id="L135" title="All 10 branches missed.">				if (br != null) {</span>
+					try {
+<span class="nc" id="L137">						br.close();</span>
+<span class="nc" id="L138">					} catch (IOException exception) {</span>
+<span class="nc" id="L139">						exception.printStackTrace();</span>
+<span class="nc" id="L140">					}</span>
+				}
+			}
+<span class="nc" id="L143">		});</span>
+
+<span class="fc" id="L145">		return button;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

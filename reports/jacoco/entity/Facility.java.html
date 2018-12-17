@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Facility.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">entity</a> &gt; <span class="el_source">Facility.java</span></div><h1>Facility.java</h1><pre class="source lang-java linenums">package entity;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = &quot;facility&quot;)
+<span class="fc" id="L14">public class Facility {</span>
+
+	@Id
+	@Column(name = &quot;id&quot;, unique = true)
+	private int id;
+
+	@Column(name = &quot;name&quot;, unique = true)
+	private String name;
+
+<span class="fc" id="L23">	@ManyToMany(mappedBy = &quot;facilities&quot;)</span>
+	private Set&lt;Room&gt; rooms = new HashSet&lt;&gt;();
+
+	public int getId() {
+<span class="fc" id="L27">		return id;</span>
+	}
+
+	public Facility setId(int id) {
+<span class="fc" id="L31">		this.id = id;</span>
+<span class="fc" id="L32">		return this;</span>
+	}
+
+	public String getName() {
+<span class="fc" id="L36">		return name;</span>
+	}
+
+	public Facility setName(String name) {
+<span class="fc" id="L40">		this.name = name;</span>
+<span class="fc" id="L41">		return this;</span>
+	}
+
+	public Set&lt;Room&gt; getRooms() {
+<span class="nc" id="L45">		return rooms;</span>
+	}
+
+	public Facility setRooms(Set&lt;Room&gt; rooms) {
+<span class="nc" id="L49">		this.rooms = rooms;</span>
+<span class="nc" id="L50">		return this;</span>
+	}
+
+	@Override
+	public String toString() {
+<span class="nc" id="L55">		return name;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

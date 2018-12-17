@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchRoomConstraint.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ScoreOverFlow</a> &gt; <a href="index.source.html" class="el_package">server.constraint</a> &gt; <span class="el_source">SearchRoomConstraint.java</span></div><h1>SearchRoomConstraint.java</h1><pre class="source lang-java linenums">package server.constraint;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import entity.Facility;
+
+// Java object for specify search constraint for Room
+public class SearchRoomConstraint {
+	Date eventDate;
+	Date startTime;
+	Date endTime;
+	String roomName;
+	int capacity;
+	Set&lt;Facility&gt; facilities;
+
+<span class="fc" id="L18">	public SearchRoomConstraint() {</span>
+<span class="fc" id="L19">		eventDate = new Date(0);</span>
+<span class="fc" id="L20">		startTime = new Date(0);</span>
+<span class="fc" id="L21">		endTime = new Date(0);</span>
+<span class="fc" id="L22">		this.roomName = &quot;&quot;;</span>
+<span class="fc" id="L23">		capacity = 0;</span>
+<span class="fc" id="L24">		facilities = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L25">	}</span>
+
+	public Set&lt;Facility&gt; getFacilities() {
+<span class="fc" id="L28">		return facilities;</span>
+	}
+
+	public void setFacilities(Set&lt;Facility&gt; facilities) {
+<span class="fc" id="L32">		this.facilities = facilities;</span>
+<span class="fc" id="L33">	}</span>
+
+	public Date getEventDate() {
+<span class="fc" id="L36">		return eventDate;</span>
+	}
+
+	public SearchRoomConstraint setEventDate(Date eventDate) {
+<span class="fc" id="L40">		this.eventDate = eventDate;</span>
+<span class="fc" id="L41">		return this;</span>
+	}
+
+	public Date getStartTime() {
+<span class="fc" id="L45">		return startTime;</span>
+	}
+
+	public SearchRoomConstraint setStartTime(Date startTime) {
+<span class="fc" id="L49">		this.startTime = startTime;</span>
+<span class="fc" id="L50">		return this;</span>
+	}
+
+	public Date getEndTime() {
+<span class="fc" id="L54">		return endTime;</span>
+	}
+
+	public SearchRoomConstraint setEndTime(Date endTime) {
+<span class="fc" id="L58">		this.endTime = endTime;</span>
+<span class="fc" id="L59">		return this;</span>
+	}
+
+	public String getRoomName() {
+<span class="fc" id="L63">		return this.roomName;</span>
+	}
+
+	public SearchRoomConstraint setRoomName(String roomName) {
+<span class="fc" id="L67">		this.roomName = roomName;</span>
+<span class="fc" id="L68">		return this;</span>
+	}
+
+	public int getCapacity() {
+<span class="fc" id="L72">		return this.capacity;</span>
+	}
+
+	public SearchRoomConstraint setCapacity(int capacity) {
+<span class="fc" id="L76">		this.capacity = capacity;</span>
+<span class="fc" id="L77">		return this;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
