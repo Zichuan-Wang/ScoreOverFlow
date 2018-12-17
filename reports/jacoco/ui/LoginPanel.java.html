@@ -117,32 +117,33 @@ public class LoginPanel extends BasePanel {
 						    &quot;Reservation overriden&quot;,
 						    JOptionPane.YES_NO_OPTION);
 <span class="nc bnc" id="L119" title="All 2 branches missed.">					if (response == 0) {</span>
-<span class="nc" id="L120">						GuiUtils.jumpToPanel(rootPane, &quot;view rooms&quot;);</span>
-<span class="nc" id="L121">						Component[] components = rootPane.getComponents();</span>
-<span class="nc bnc" id="L122" title="All 2 branches missed.">						for (Component c : components) {</span>
-<span class="nc bnc" id="L123" title="All 2 branches missed.">							if(c instanceof ViewRoomsPanel) {</span>
-<span class="nc" id="L124">								ViewRoomsPanel panel = (ViewRoomsPanel) c;</span>
-<span class="nc" id="L125">								panel.pareparePanel();</span>
-<span class="nc" id="L126">								break;</span>
+<span class="nc" id="L120">						Component[] components = rootPane.getComponents();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">						for (Component c : components) {</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">							if(c instanceof ViewRoomsPanel) {</span>
+<span class="nc" id="L123">								ViewRoomsPanel panel = (ViewRoomsPanel) c;</span>
+<span class="nc" id="L124">								panel.pareparePanel();</span>
+<span class="nc" id="L125">								panel.revalidate();</span>
+<span class="nc" id="L126">								panel.repaint();</span>
+<span class="nc" id="L127">								break;</span>
 							}
 						}
-						
+<span class="nc" id="L130">						GuiUtils.jumpToPanel(rootPane, &quot;view rooms&quot;);</span>
 					}
 					
 				}
 			}	
 			
 			
-<span class="fc" id="L136">		} else {</span>
-<span class="pc bpc" id="L137" title="1 of 2 branches missed.">			if (alert) {</span>
-<span class="nc" id="L138">				JOptionPane.showMessageDialog(null, status.getMessage());</span>
+<span class="fc" id="L137">		} else {</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">			if (alert) {</span>
+<span class="nc" id="L139">				JOptionPane.showMessageDialog(null, status.getMessage());</span>
 			}
-<span class="pc bpc" id="L140" title="1 of 2 branches missed.">			if (status.getMessage().equals(&quot;Unknown account&quot;)) {</span>
-<span class="fc" id="L141">				userNameField.setText(&quot;&quot;);</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">			if (status.getMessage().equals(&quot;Unknown account&quot;)) {</span>
+<span class="fc" id="L142">				userNameField.setText(&quot;&quot;);</span>
 			}
-<span class="fc" id="L143">			passwordField.setText(&quot;&quot;);</span>
+<span class="fc" id="L144">			passwordField.setText(&quot;&quot;);</span>
 		}
-<span class="fc" id="L145">	}</span>
+<span class="fc" id="L146">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
