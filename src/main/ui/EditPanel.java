@@ -83,17 +83,17 @@ public class EditPanel extends BasePanel{
 			roomFacilities.add(facility.getId());
 		}
 
-		String[] columnNames = new String[] { "Select", "Facility" , "Action"};
+		String[] columnNames = new String[] { "Facility" ,"Select", "Remove From All Rooms"};
 		List<Object[]> rows = new ArrayList<>();
 		for (Facility facility : allFacilities) {
 			Object[] row = new Object[3];
-			row[0] = getFacilityCheckBox(facility, roomFacilities.contains(facility.getId()));
-			row[1] = facility.getName();
+			row[0] = facility.getName();
+			row[1] = getFacilityCheckBox(facility, roomFacilities.contains(facility.getId()));
 			row[2] = getFacilityButton(facility);
 			rows.add(row);
 		}
 		
-		facilityTable.populateList(columnNames, rows, new int[]{0, 2});
+		facilityTable.populateList(columnNames, rows, new int[]{1, 2});
 
 	}
 	
