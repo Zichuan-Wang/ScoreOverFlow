@@ -16,7 +16,7 @@ ScoreOverFlow,ui,ManagePanel,95,154,1,1,25,36,6,4,5,4
 ScoreOverFlow,ui,ReservePanel,131,1024,20,30,28,212,17,25,2,15
 ScoreOverFlow,ui,GuiUtils.new DocumentFilter() {...},0,39,1,7,0,8,1,5,0,2
 ScoreOverFlow,ui,TablePanel.ComponentEditor,10,6,0,0,3,1,2,1,2,1
-ScoreOverFlow,ui,BatchPanel,232,88,20,0,48,26,12,4,2,4
+ScoreOverFlow,ui,BatchPanel,232,132,20,0,48,31,12,4,2,4
 ScoreOverFlow,ui,TablePanel,0,133,0,8,0,30,0,8,0,4
 ScoreOverFlow,ui,TablePanel.new DefaultTableModel() {...},0,35,0,4,0,5,0,4,0,2
 ScoreOverFlow,ui,MainWindow.new Runnable() {...},77,0,4,0,20,0,4,0,2,0
